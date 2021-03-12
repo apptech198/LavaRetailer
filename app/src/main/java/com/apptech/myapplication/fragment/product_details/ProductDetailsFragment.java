@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.apptech.myapplication.databinding.ProductDetailsFragmentBinding;
 import com.apptech.myapplication.modal.product.ProductList;
+import com.bumptech.glide.Glide;
 
 public class ProductDetailsFragment extends Fragment {
 
@@ -41,7 +42,11 @@ public class ProductDetailsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ProductDetailsViewModel.class);
         // TODO: Use the ViewModel
-        
+
+        Glide.with(binding.image)
+                .load(list.getImg())
+                .fitCenter()
+                .into(binding.image);
         binding.productName.setText(list.getName());
         binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
