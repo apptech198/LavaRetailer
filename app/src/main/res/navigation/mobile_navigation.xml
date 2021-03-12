@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/messageCentreFragment">
+    <fragment
+        android:id="@+id/messageCentreFragment"
+        android:name="com.apptech.myapplication.fragment.message_centre.MessageCentreFragment"
+        android:label="message_centre_fragment"
+        tools:layout="@layout/message_centre_fragment" >
+        <action
+            android:id="@+id/action_messageCentreFragment_to_purchaseRequestFragment"
+            app:destination="@id/purchaseRequestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseRequestFragment"
+        android:name="com.apptech.myapplication.fragment.purchase_request.PurchaseRequestFragment"
+        android:label="purchase_request_fragment"
+        tools:layout="@layout/purchase_request_fragment" />
+</navigation>

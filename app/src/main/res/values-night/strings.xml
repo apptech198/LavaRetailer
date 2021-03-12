@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="password">Password</string>
+    <string name="verify">Verify</string>
+    <string name="check_internet">Please Check Internet</string>
+    <string name="field_required">This fiels is required</string>
+    <string name="otp_four_digit">Please enter 4 digits OTP</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="psw_short">This password is too short</string>
+    <string name="submit">Submit</string>
+
+</resources>
