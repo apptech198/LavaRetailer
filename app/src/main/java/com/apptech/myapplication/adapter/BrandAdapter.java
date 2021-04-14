@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.myapplication.databinding.RowBrandBottomSheetBinding;
-import com.apptech.myapplication.modal.brand.BrandList;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -16,10 +15,10 @@ import java.util.List;
 public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewBinding> {
 
     RowBrandBottomSheetBinding binding;
-    List<BrandList> brandLists;
+    List<com.apptech.myapplication.modal.brand.List> brandLists;
     BrandItemClickInterface brandItemClick;
 
-    public BrandAdapter(List<BrandList> brandLists , BrandItemClickInterface brandItemClick) {
+    public BrandAdapter(List<com.apptech.myapplication.modal.brand.List> brandLists , BrandItemClickInterface brandItemClick) {
         this.brandLists = brandLists;
         this.brandItemClick = brandItemClick;
     }
@@ -35,7 +34,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewBinding>
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull BrandAdapter.ViewBinding holder, int position) {
-        BrandList list = brandLists.get(position);
+        com.apptech.myapplication.modal.brand.List list = brandLists.get(position);
         binding.setList(list);
         binding.executePendingBindings();
 
@@ -53,7 +52,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewBinding>
     }
 
     public interface BrandItemClickInterface{
-        void onItemClick(BrandList list);
+        void onItemClick(com.apptech.myapplication.modal.brand.List list);
     }
 
 }

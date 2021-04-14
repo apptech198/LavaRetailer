@@ -31,6 +31,15 @@
         <item name="behavior_peekHeight">@dimen/material_emphasis_high_type</item>
     </style>
 
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/popup_background</item>
+    </style>
 
+    <style name="YOURSTYLE" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:itemBackground">@android:color/black</item>
+        <item name="android:textSize">12sp</item>
+        <item name="panelMenuListWidth">20dp</item>
+    </style>-
 
 </resources>

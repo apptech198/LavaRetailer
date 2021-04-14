@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "528319506408",
+    "project_id": "lava-retailer",
+    "storage_bucket": "lava-retailer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:528319506408:android:016459aede9d0b6b4d265d",
+        "android_client_info": {
+          "package_name": "com.apptech.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "528319506408-5tuv1lb0t4vqd6fcuefo7r0k1oke7mk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apptech.myapplication",
+            "certificate_hash": "04346102772f331e2ad601500a2972ed9fa0b27c"
+          }
+        },
+        {
+          "client_id": "528319506408-kq2cdn3umo6j9vs2dk7j2867q6984n5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDx2s0hKTjtmgpjVe3OyaxvGTY5u7x6aKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "528319506408-kq2cdn3umo6j9vs2dk7j2867q6984n5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

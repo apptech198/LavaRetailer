@@ -5,70 +5,120 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_500"
-    tools:context=".fragment.price_drop.PriceDropFragment">
+    tools:context=".fragment.sellOut_PendingVerification.SellOut_PendingVerificationFragment"
+    android:background="@drawable/lava_back"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/PaymentTypeSpinnerLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:padding="2dp"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/sipnner_design"
+        app:layout_constraintEnd_toStartOf="@+id/datetimefilter"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.skydoves.powerspinner.PowerSpinnerView
+            android:id="@+id/validsipnner"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:hint="Select status"
+            android:textColorHint="@color/white"
+            android:textSize="12sp"
+            app:spinner_arrow_gravity="end"
+            app:spinner_arrow_padding="8dp"
+            app:spinner_divider_color="@color/black"
+            app:spinner_divider_show="true"
+            app:spinner_divider_size="0.4dp"
+            app:spinner_item_array="@array/valid_Invalid_imei"
+            app:spinner_popup_animation="dropdown"
+            app:spinner_popup_background="@color/black"
+            app:spinner_popup_elevation="14dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/datetimefilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/PaymentTypeSpinnerLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/PaymentTypeSpinnerLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_calendar" />
+
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ImeiRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/PaymentTypeSpinnerLayout"
+        tools:layout_editor_absoluteX="16dp" />
 
 
-        <EditText
-            android:id="@+id/ImeiEdittext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/border_color"
-            android:backgroundTint="@color/white"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:hint=""
-            android:padding="10dp"
-            android:textColor="@color/purple_500"
-            android:textColorHint="@color/purple_500"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/scan" />
+    <LinearLayout
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <Button
-            android:id="@+id/scan"
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/noStock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:backgroundTint="@color/white"
-            android:elevation="35dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Or Scan"
-            android:textAllCaps="false"
-            android:inputType="number"
-            android:textColor="@color/purple_500"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/submitBtn"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="No data found"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>
 
-        <Button
-            android:id="@+id/submitBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:elevation="35dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/purple_500"
-            app:layout_constraintBottom_toBottomOf="@+id/scan"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/scan"
-            app:layout_constraintTop_toTopOf="@+id/scan" />
+    </LinearLayout>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

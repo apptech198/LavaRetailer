@@ -19,7 +19,7 @@ import com.apptech.myapplication.fragment.purchase_request_past.PurchaseRequestP
 import com.apptech.myapplication.modal.product.ProductList;
 
 
-public class PurchaseRequestFragment extends Fragment implements PurchaseRequestNowFragment.BackInterface {
+public class PurchaseRequestFragment extends Fragment  {
 
     private PurchaseRequestViewModel mViewModel;
     PurchaseRequestFragmentBinding binding;
@@ -47,7 +47,7 @@ public class PurchaseRequestFragment extends Fragment implements PurchaseRequest
 
         binding.purchaseNow.setOnClickListener(v -> {
 
-            loadfragment(new PurchaseRequestNowFragment(this));
+//            loadfragment(new PurchaseRequestNowFragment());
 
             binding.purchaseNow.setBackground(getResources().getDrawable(R.drawable.left_corner_color));
             binding.purchaseNow.setTextColor(getResources().getColor(R.color.black));
@@ -75,7 +75,7 @@ public class PurchaseRequestFragment extends Fragment implements PurchaseRequest
     @Override
     public void onStart() {
         super.onStart();
-        loadfragment(new PurchaseRequestNowFragment(this));
+//        loadfragment(new PurchaseRequestNowFragment());
     }
 
     private void loadfragment(Fragment fragment) {
@@ -84,10 +84,7 @@ public class PurchaseRequestFragment extends Fragment implements PurchaseRequest
     }
 
 
-    @Override
-    public void onback(ProductList list) {
-        loadfragment(new ProductDetailsFragment(list));
-    }
+
 }
 
 

@@ -15,7 +15,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FB2C2C</color>
+
+    <color name="green">#8BC34A</color>
+    <color name="yellow">#FFC107</color>
+
 
     <color name="msg_back">#E5E5E5</color>
+
+    <color name="gray">#A8A5A5</color>
+    <color name="logintext">#525662</color>
+
 
 </resources>

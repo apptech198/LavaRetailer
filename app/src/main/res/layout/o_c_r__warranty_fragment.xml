@@ -1,0 +1,1038 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/purple_500"
+    tools:context=".fragment.warrantys.ocr_warranty.OCR_WarrantyFragment">
+
+    <EditText
+        android:id="@+id/ImeiScan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/border_color"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/montserrat_medium"
+        android:gravity="center"
+        android:hint=""
+        android:inputType="number"
+        android:padding="10dp"
+        android:textColor="@color/purple_500"
+        android:textColorHint="@color/purple_500"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="15dp" />
+
+    <ImageView
+        android:id="@+id/CheckIconImg"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/check_icon"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/ImeiScan"
+        app:layout_constraintEnd_toEndOf="@+id/ImeiScan"
+        app:layout_constraintTop_toTopOf="@+id/ImeiScan" />
+
+    <ImageView
+        android:id="@+id/wrongIconImg"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/cross_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/ImeiScan"
+        app:layout_constraintEnd_toEndOf="@+id/ImeiScan"
+        app:layout_constraintTop_toTopOf="@+id/ImeiScan" />
+
+    <Button
+        android:id="@+id/scanBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/white"
+        android:elevation="35dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:text="@string/or_scan"
+        android:textAllCaps="false"
+        android:textColor="@color/purple_500"
+        app:layout_constraintEnd_toEndOf="@+id/ImeiScan"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ImeiScan" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scanBtn">
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_bold"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="OCR Details"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/scrollMainLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--     Layout 1           -->
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/Layout1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart"
+                        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingBottom="8dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/WorkOrderDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:backgroundTint="@color/white"
+                            android:fontFamily="@font/lato_semi_bold"
+                            android:text="Select Workorder Date*"
+                            android:textAllCaps="false"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/DbrCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/WorkOrderDate">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="DBR Code*"
+                                android:inputType="text"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/DseName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/DbrCode">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="DSE Name*"
+                                android:inputType="text"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/RetailerCode"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/DseName">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Retailer Code Number *"
+                                android:inputType="number"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/CustomerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/RetailerCode">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Customer Name *"
+                                android:inputType="text"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/CustomerPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/CustomerName">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Customer Phone Number *"
+                                android:inputType="number"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/IMEI1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/CustomerPhoneNumber">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="IMEI1 *"
+                                android:inputType="number"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/IMEI2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/IMEI1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="IMEI2  *"
+                                android:inputType="number"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/Next"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_arrow_forward_24"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/IMEI2" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!--     Layout 2               -->
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/Layout2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart"
+                        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingBottom="8dp">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/faultCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="Fault Category*"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <RadioGroup
+                            android:id="@+id/groupId"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/faultCategory">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="LCD/الشاشة"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Network/الشبكة"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Audio/الصوت"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Charging/الشحن"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Keys/المفاتيح(الزراير"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Camera/الكاميرا"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Mic/مايك"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Power"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/pre2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_arrow_back_24"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/groupId"
+                            />
+
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/Next2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:src="@drawable/ic_baseline_arrow_forward_24"
+                            app:layout_constraintTop_toBottomOf="@+id/groupId" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!--         Layout 3        -->
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/Layout3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart"
+                        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingBottom="8dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/FaultDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Fault description /وصف العطل *"
+                                android:inputType="text"
+                                android:textSize="12sp" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/Model"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="Model"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/FaultDescription" />
+
+
+                        <RadioGroup
+                            android:id="@+id/radioButton3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/Model">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ARC108"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ARC109"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPION1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPIONA1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPIONC1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPIONN1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPIONP1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="E10"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/pre3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_arrow_back_24"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/radioButton3"
+                            />
+
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/Next3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:src="@drawable/ic_baseline_arrow_forward_24"
+                            app:layout_constraintTop_toBottomOf="@+id/radioButton3" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!--        Layout 4            -->
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/Layout4"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart"
+                        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingBottom="8dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/ModelColor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Model Color *"
+                                android:inputType="text"
+                                android:textSize="12sp" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/ImeiSticker"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="التأكد من الرقم التسلسلي للجهاز للملصق مطابق لIMEI الداخلى/ Internal  IMEI and IMEI's sticker are matching"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/ModelColor" />
+
+                        <RadioGroup
+                            android:id="@+id/radioButton4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/ImeiSticker">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/IMEIDetails"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="لون الجهاز مطابق لبيانات اللاصق/ Physical Color is the same as per IMEI Details *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radioButton4" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/IMEIDetails">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/ScrewnotMissing"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="التاكد من وجود المسامير كامله ووجود السيل ولم يتم محاولة نزعة Screw seal not broken/screw not Missing *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup5" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup6"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/ScrewnotMissing">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/Batteryconnector"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="الاطراف الموصله للباطرية لا يوجد بها كسر ولا احتراق ولا يوجد أثار سائلBattery connector Terminals not Damage, not Broken *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup6" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup7"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/Batteryconnector">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/DamageBrokenliquid"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="الاطراف الموصله للباطرية لا يوجد بها كسر ولا احتراق ولا يوجد أثار سائلBattery connector Terminals not Damage, not Broken *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup7" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/DamageBrokenliquid">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/HandfreeJackTerminal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="طرف ادخال السماعة الخارجيه لا يوجد أثار خدش او احتراق ولا يوج أثار سائل Hand free Jack Terminal there is no Damage, Broken, liquid *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup8" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup9"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/HandfreeJackTerminal">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/There_is_no_damage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="لا يوجد أثار كسر شديدة على الاطار الأمامى والخلفى ولا يوجد أثار أحتراق There is no damage at the front and back cover *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup9" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/There_is_no_damage">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/LCD_not_Broken"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="لا يوجد أثار كسرعلى الشاشه لا يوجد أثالر كسر ولايوجد التواء بالاطار الخارجىLCD not Broken or bent *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup10" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/LCD_not_Broken">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/Liquid_label_indicator_not_red"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="لا يوجد اثار سائل على لاصق تحديد السائل لابد ان يكون باللون الابيض وليس اللون الاحمرLiquid label indicator not red *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup11" />
+
+                        <RadioGroup
+                            android:id="@+id/radiogroup12"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/Liquid_label_indicator_not_red">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="YES"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NO"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/pre4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_baseline_arrow_back_24"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup12"
+                            />
+
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/Next4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:src="@drawable/ic_baseline_arrow_forward_24"
+                            app:layout_constraintTop_toBottomOf="@+id/radiogroup12" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <!--       Layout 5             -->
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/Layout5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="@+id/GuidelineStart"
+                        app:layout_constraintRight_toRightOf="@+id/GuidelineEnd"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingBottom="8dp">
+
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/ReplacementModel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/lato_bold"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="Replacement Model *"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <RadioGroup
+                            android:id="@+id/radioButton13"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:layout_constraintTop_toBottomOf="@+id/ReplacementModel">
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ARC108"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="ARC109"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPION1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CHAMPIONP1"
+                                android:textColor="@color/white" />
+
+                            <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="E10"
+                                android:textColor="@color/white" />
+
+                        </RadioGroup>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/Replacement_IMEI1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/radioButton13">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Replacement IMEI1 *"
+                                android:inputType="number"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/Replacement_IMEI2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxCornerRadiusTopStart="10dp"
+                            app:errorEnabled="true"
+                            app:layout_constraintTop_toBottomOf="@+id/Replacement_IMEI1">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:fontFamily="@font/lato_semi_bold"
+                                android:hint="Replacement IMEI2 *"
+                                android:inputType="number"
+                                android:textSize="12sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Submit"
+                            android:fontFamily="@font/lato_bold"
+                            app:cornerRadius="5dp"
+                            android:textColor="@color/black"
+                            android:backgroundTint="@color/white"
+                            android:textAllCaps="true"
+                            android:layout_marginBottom="12dp"
+                            app:layout_constraintTop_toBottomOf="@+id/Replacement_IMEI2"/>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/GuidelineStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="10dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/GuidelineEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="10dp" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

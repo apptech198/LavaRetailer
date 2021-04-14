@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.apptech.myapplication.activity.LoginActivity;
 import com.apptech.myapplication.activity.MainActivity;
-
 
 import java.util.HashMap;
 
@@ -73,104 +71,40 @@ public class SessionManage {
      *
      */
 
+    public static final String CARD_DATA = "CARD_DATA";
+    public static final String LANGUAGE = "LANGUAGE";
+    public static final String NOTIFICATION_LIST_STORE = "NOTIFICATION_LIST_STORE";
 
-    public static final String VERIFY_USER = "verify_user";
 
-    public static final String ACCESS_TOKEN = "AccessToken";
+    public static final String ID = "ID";
+    public static final String NAME = "NAME";
+    public static final String EMAIL = "EMAIL";
+    public static final String MOBILE = "MOBILE";
+    public static final String USER_TYPE = "USER_TYPE";
+    public static final String PASSWORD = "PASSWORD";
+    public static final String GOVERNATE = "GOVERNATE";
+    public static final String CITY = "CITY";
+    public static final String LOCALITY = "LOCALITY";
+    public static final String TIME = "TIME";
+    public static final String ADDRESS = "ADDRESS";
 
+    public static final String FIRST_TIME_LANGUAGE = "FIRST_TIME_LANGUAGE";
+    public static final String BRAND_ID = "BRAND_ID";
+
+    private static SessionManage ourInstance = null;
+
+    public static SessionManage getInstance(Context context) {
+        if (ourInstance == null) {
+            ourInstance = new SessionManage(context);
+        }
+        return ourInstance;
+    }
 
     // Constructor
-    public SessionManage(Context context) {
+    private SessionManage(Context context) {
         this.context = context;
         pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
-    }
-
-    public void createprofile(String email, String password, String name, String mobile, String userid, String token) {
-        // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
-
-        // Storing name in pref
-        editor.putString(KEY_NAME, name);
-
-        // Storing email in pref
-        editor.putString(KEY_EMAIL, email);
-
-
-        // Storing password in shared pref
-        editor.putString(KEY_PASSWORD, password);
-
-        //  Storing phone number in pref
-        editor.putString(KEY_MOBiLE, mobile);
-
-//         Storing image url in pref
-        editor.putString(KEYID, token);
-
-        //         Storing token in pref
-        editor.putString(USERID, userid);
-
-
-        // commit changes
-        editor.commit();
-    }
-
-
-    /**
-     * Create login session
-     */
-//    public void createLoginSession(String name, String email, String mobile, String photo){     modified due to photo not available
-    public void createLoginSession(String phone, String password, String token, String name, String mobile) {
-        // Storing login value as TRUE
-        editor.putBoolean(IS_LOGIN, true);
-
-        // Storing name in pref
-//        editor.putString(KEY_NAME, name);
-
-        // Storing email in pref
-//        editor.putString(KEY_EMAIL, email);
-
-
-        // Storing password in shared pref
-        editor.putString(KEY_PASSWORD, password);
-
-        //  Storing phone number in pref
-        editor.putString(KEY_MOBiLE, phone);
-
-        // Storing image url in pref
-        editor.putString(KEYID, token);
-
-        // commit changes
-        editor.commit();
-    }
-
-    /**
-     * Check login method wil check user login status
-     * If false it will redirect user to login page
-     * Else won't do anything
-     */
-    public void checkLogin() {
-        // Check login status
-        if (!this.isLoggedIn()) {
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(context, LoginActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            context.startActivity(i);
-        }
-
-    }
-
-    public Boolean Checkingcredential() {
-        Boolean status = false;
-        if (this.isLoggedIn()) {
-            status = true;
-        }
-        return status;
     }
 
 
@@ -192,9 +126,19 @@ public class SessionManage {
         user.put(KEYID, pref.getString(KEYID, null));
         user.put(USERID, pref.getString(USERID, null));
 
-        user.put(String.valueOf(VERIFY_USER), pref.getString(String.valueOf(VERIFY_USER), null));
+//        CARD_DATA
+        user.put(CARD_DATA, pref.getString(CARD_DATA, null));
 
-        user.put(ACCESS_TOKEN, pref.getString(ACCESS_TOKEN, null));
+        user.put(LANGUAGE, pref.getString(LANGUAGE, null));
+
+        user.put(ID, pref.getString(ID, null));
+
+        user.put(FIRST_TIME_LANGUAGE, pref.getString(FIRST_TIME_LANGUAGE, null));
+
+        user.put(BRAND_ID, pref.getString(BRAND_ID, null));
+
+        user.put(NOTIFICATION_LIST_STORE, pref.getString(NOTIFICATION_LIST_STORE, null));
+
 
         // return user
         return user;
@@ -235,6 +179,60 @@ public class SessionManage {
      * */
 
 
+    public void addcard(String json) {
+        editor.putString(CARD_DATA, json);
+        editor.commit();
+    }
+
+    public void setlanguage(String language) {
+        editor.putString(LANGUAGE, language);
+        editor.commit();
+    }
+
+
+    public void clearaddcard() {
+        editor.remove(CARD_DATA);
+        editor.commit();
+    }
+
+
+    public void UserDetail(String id, String name, String email, String mobile, String user_type, String password, String governate, String city, String locality, String time, String address) {
+        editor.putString(ID, id);
+        editor.putString(NAME, name);
+        editor.putString(EMAIL, email);
+        editor.putString(MOBILE, mobile);
+        editor.putString(USER_TYPE, user_type);
+        editor.putString(PASSWORD, password);
+        editor.putString(GOVERNATE, governate);
+        editor.putString(CITY, city);
+        editor.putString(LOCALITY, locality);
+        editor.putString(TIME, time);
+        editor.putString(ADDRESS, address);
+        editor.commit();
+    }
+
+    public void FirstTimeLanguage(String firsttime) {
+        editor.putString(FIRST_TIME_LANGUAGE, firsttime);
+        editor.commit();
+    }
+
+    public void brandSelect(String brand) {
+        editor.putString(BRAND_ID, brand);
+        editor.commit();
+    }
+
+    public void logout() {
+        editor.remove(FIRST_TIME_LANGUAGE).commit();
+        editor.remove(BRAND_ID).commit();
+    }
+
+    public void NotificationStore(String list) {
+        editor.putString(NOTIFICATION_LIST_STORE, list).commit();
+    }
+
+    public void RemoveNotificationStore() {
+        editor.remove(NOTIFICATION_LIST_STORE).commit();
+    }
 
 
 }

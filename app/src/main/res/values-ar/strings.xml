@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="message_center">مركز الرسائل</string>
+    <string name="sell_outs">بيع</string>
+    <string name="report_sell_out_entries">تقرير بيع خارج الإدخالات</string>
+    <string name="price_drop1">انخفاض أسعار</string>
+    <string name="passbook">وصل الدفع</string>
+    <string name="order">ترتيب</string>
+    <string name="trade_program">برنامج التجارة</string>
+    <string name="mobile_number">رقم الهاتف الجوال</string>
+    <string name="password">كلمة المرور</string>
+
+
+    <string name="change_language">Change Language</string>
+    <string name="logout">Logout</string>
+
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="imei_allready_exists">Imei allready exists</string>
+    <string name="remove_first_invalid_imei">Remove first invalid imei</string>
+    <string name="data_not_found">Data not found</string>
+
+    <string-array name="language">
+        <item>Select language</item>
+        <item>English</item>
+        <item>Arabic</item>
+    </string-array>
+</resources>

@@ -1,6 +1,6 @@
 package com.apptech.myapplication.modal.message;
 
-public class MessageList {
+public class MessageList  implements Comparable, Cloneable {
     String title;
     String data_time;
     String des;
@@ -46,4 +46,55 @@ public class MessageList {
     public void setExpanble(boolean expanble) {
         this.expanble = expanble;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        MessageList compare = (MessageList) o;
+        if (compare.title.equals(this.title) && compare.expanble == this.expanble) {
+            return 0;
+        }
+        return 1;
+    }
+
+    @Override
+    public MessageList clone() {
+
+        MessageList clone;
+        try {
+            clone = (MessageList) super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e); //should not happen
+        }
+        return clone;
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

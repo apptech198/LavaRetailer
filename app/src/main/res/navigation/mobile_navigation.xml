@@ -8,11 +8,7 @@
         android:id="@+id/messageCentreFragment"
         android:name="com.apptech.myapplication.fragment.message_centre.MessageCentreFragment"
         android:label="message_centre_fragment"
-        tools:layout="@layout/message_centre_fragment" >
-        <action
-            android:id="@+id/action_messageCentreFragment_to_purchaseRequestFragment"
-            app:destination="@id/purchaseRequestFragment" />
-    </fragment>
+        tools:layout="@layout/message_centre_fragment" />
     <fragment
         android:id="@+id/purchaseRequestFragment"
         android:name="com.apptech.myapplication.fragment.purchase_request.PurchaseRequestFragment"

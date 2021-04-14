@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="Short"
+                android:text="Sort"
                 android:drawablePadding="10dp"
                 android:drawableLeft="@drawable/ic_baseline_filter_list_24"
                 android:textColor="@color/black"/>

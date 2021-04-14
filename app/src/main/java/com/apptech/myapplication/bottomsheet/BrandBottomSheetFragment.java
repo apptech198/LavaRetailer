@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import com.apptech.myapplication.R;
 import com.apptech.myapplication.adapter.BrandAdapter;
 import com.apptech.myapplication.databinding.FragmentBrandBottomSheetBinding;
-import com.apptech.myapplication.modal.brand.BrandList;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -31,7 +30,7 @@ public class BrandBottomSheetFragment extends BottomSheetDialogFragment implemen
 
 
     FragmentBrandBottomSheetBinding binding;
-    List<BrandList> brandLists = new ArrayList<>();
+    List<com.apptech.myapplication.modal.brand.List> brandLists = new ArrayList<>();
     private static final String TAG = "BrandBottomSheetFragmen";
     BrandClick brandClick;
 
@@ -51,7 +50,7 @@ public class BrandBottomSheetFragment extends BottomSheetDialogFragment implemen
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        fakebrandList();
+
         binding.BrandRecyclerView.setAdapter(new BrandAdapter(brandLists, this));
 
     }
@@ -90,21 +89,18 @@ public class BrandBottomSheetFragment extends BottomSheetDialogFragment implemen
         return displayMetrics.heightPixels;
     }
 
-    private void fakebrandList() {
-        brandLists.add(new BrandList("LAVA"));
-        brandLists.add(new BrandList("XYZ"));
-    }
+
 
 
     @Override
-    public void onItemClick(BrandList list) {
+    public void onItemClick(com.apptech.myapplication.modal.brand.List list) {
         Log.e(TAG, "onItemClick: " + list.getName());
         brandClick.sendMainBrand(list);
     }
 
 
     public interface BrandClick {
-        void sendMainBrand(BrandList list);
+        void sendMainBrand(com.apptech.myapplication.modal.brand.List list);
     }
 
 

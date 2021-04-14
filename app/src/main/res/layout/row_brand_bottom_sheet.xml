@@ -5,7 +5,7 @@
     <data>
         <variable
             name="list"
-            type="com.apptech.myapplication.modal.brand.BrandList" />
+            type="com.apptech.myapplication.modal.brand.List" />
 
         <variable
             name="itemclick"

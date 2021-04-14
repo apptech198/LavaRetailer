@@ -24,6 +24,16 @@ public class ForgotActivity extends AppCompatActivity {
             startActivity(new Intent(ForgotActivity.this, OtpActivity.class));
         });
 
+        binding.NumberInputLayout.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                binding.NumberAnimation.animate().scaleX(0.8f).setDuration(600);
+                binding.NumberAnimation.animate().scaleY(0.8f).withEndAction(() -> {
+                    binding.NumberAnimation.animate().scaleX(1.0f).setDuration(600);
+                    binding.NumberAnimation.animate().scaleY(1.0f).setDuration(600);
+                }).setDuration(300);
+            }
+        });
+
     }
 
 

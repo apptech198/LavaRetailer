@@ -1,11 +1,16 @@
 package com.apptech.myapplication.fragment.passbook;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,6 +23,7 @@ import com.apptech.myapplication.databinding.PassbookFragmentBinding;
 import com.apptech.myapplication.modal.CheckEntriesSellOutImeiMonthYearsList;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 public class PassbookFragment extends Fragment {
@@ -28,6 +34,12 @@ public class PassbookFragment extends Fragment {
     ArrayList<CheckEntriesSellOutImeiMonthYearsList> month;
     ArrayList<CheckEntriesSellOutImeiMonthYearsList> yearsLists;
     private static final String TAG = "PassbookFragment";
+    LinearLayout fromDatetitle, toDatetitle;
+    View view;
+    TextView fromTextView, toTextView;
+    AlertDialog alertDialog;
+    ImageView closeImg;
+    DatePickerDialog picker;
 
     public static PassbookFragment newInstance() {
         return new PassbookFragment();
@@ -50,6 +62,64 @@ public class PassbookFragment extends Fragment {
         MonthinitList();
         YearsinitList();
         Customspinnerset();
+
+
+        binding.datetimefilter.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
+            view = LayoutInflater.from(requireContext()).inflate(R.layout.row_dialog_open, null);
+            builder.setView(view);
+            alertDialog = builder.create();
+            alertDialog.show();
+            fromDatetitle = view.findViewById(R.id.fromDatetitle);
+            toDatetitle = view.findViewById(R.id.toDatetitle);
+            dilogclick();
+        });
+
+    }
+
+
+    private void dilogclick() {
+
+
+        fromTextView = view.findViewById(R.id.fromTextView);
+        toTextView = view.findViewById(R.id.toTextView);
+        closeImg = view.findViewById(R.id.closeImg);
+
+
+        closeImg.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+
+        fromDatetitle.setOnClickListener(v -> {
+            final Calendar cldr = Calendar.getInstance();
+            int day = cldr.get(Calendar.DAY_OF_MONTH);
+            int month = cldr.get(Calendar.MONTH);
+            int year = cldr.get(Calendar.YEAR);
+            // date picker dialog
+            picker = new DatePickerDialog(requireContext(),
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+//                            eText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                        fromTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
+                    }, year, month, day);
+            picker.show();
+        });
+
+        toDatetitle.setOnClickListener(v -> {
+            final Calendar cldr = Calendar.getInstance();
+            int day = cldr.get(Calendar.DAY_OF_MONTH);
+            int month = cldr.get(Calendar.MONTH);
+            int year = cldr.get(Calendar.YEAR);
+            // date picker dialog
+            picker = new DatePickerDialog(requireContext(),
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        toTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                        Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
+                    }, year, month, day);
+            picker.show();
+        });
+
     }
 
 
@@ -93,7 +163,7 @@ public class PassbookFragment extends Fragment {
 
     private void MonthinitList() {
         month = new ArrayList<>();
-        month.add(new CheckEntriesSellOutImeiMonthYearsList("Select Payment"));
+        month.add(new CheckEntriesSellOutImeiMonthYearsList("Select Payout"));
         month.add(new CheckEntriesSellOutImeiMonthYearsList("Month Scheme"));
         month.add(new CheckEntriesSellOutImeiMonthYearsList("Price Drop"));
     }

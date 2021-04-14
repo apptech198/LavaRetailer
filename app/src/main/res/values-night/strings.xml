@@ -1,14 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Global Retailer App</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="sell_out">SELL OUT</string>
+    <string name="price_drop">PRICE DROP</string>
+    <string name="pending">PENDING</string>
+    <string name="warranty">WARRANTY</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="password">Password</string>
+    <string name="global_business_nresearch">Global Business \nResearch</string>
+    <string name="enter_otp">Enter Otp</string>
     <string name="verify">Verify</string>
+
     <string name="check_internet">Please Check Internet</string>
     <string name="field_required">This fiels is required</string>
     <string name="otp_four_digit">Please enter 4 digits OTP</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="psw_short">This password is too short</string>
     <string name="submit">Submit</string>
+    <string name="rs_symbol">\u20B9</string>
+    <string name="or_scan">Or scan</string>
+    <string name="change_language">Change Language</string>
+    <string name="logout">Logout</string>
+
+    <string name="message_center">Message Centre</string>
+    <string name="sell_outs">Sell Out</string>
+    <string name="report_sell_out_entries">Report Sell out Entries</string>
+    <string name="price_drop1">Price Drop</string>
+    <string name="passbook">Passbook</string>
+    <string name="order">Order</string>
+    <string name="trade_program">Trade Program</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="imei_allready_exists">Imei allready exists</string>
+    <string name="remove_first_invalid_imei">Remove first invalid imei</string>
+    <string name="data_not_found">Data not found</string>
+
+
+    <string-array name="qtyArray">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="language">
+        <item>Select language</item>
+        <item>English</item>
+        <item>Arabic</item>
+    </string-array>
+
+    <string-array name="valid_Invalid_imei">
+        <item>APPROVED</item>
+        <item>REJECTED</item>
+        <item>PENDING</item>
+    </string-array>
+
 
 </resources>

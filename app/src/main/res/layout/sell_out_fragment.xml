@@ -17,13 +17,39 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <LinearLayout
+            android:id="@+id/startDatetimeLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/spinner_stock"
+            android:padding="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_goneMarginRight="10dp">
+
+            <TextView
+                android:id="@+id/startDatetime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/purple_500"
+                android:fontFamily="@font/montserrat_medium"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="Start Date"
+                android:textColor="@color/white" />
+
+
+        </LinearLayout>
+
+
         <EditText
             android:id="@+id/ImeiEdittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="15dp"
             android:background="@drawable/border_color"
             android:backgroundTint="@color/white"
             android:fontFamily="@font/montserrat_medium"
@@ -31,44 +57,151 @@
             android:hint=""
             android:inputType="number"
             android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:textColor="@color/purple_500"
             android:textColorHint="@color/purple_500"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/scan" />
+            android:maxLength="15"
+            app:layout_constraintTop_toBottomOf="@+id/startDatetimeLayout"
+            tools:layout_editor_absoluteX="15dp" />
+
+        <TextView
+            android:id="@+id/addBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/btn_edit"
+            android:backgroundTint="@color/purple_500"
+            android:fontFamily="@font/lato_semi_bold"
+            android:gravity="center"
+            android:paddingStart="15dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="8dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="8dp"
+
+            android:text="Add"
+            android:textColor="@color/white"
+            android:textColorHint="@color/purple_500"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ImeiEdittext" />
+
 
         <Button
-            android:id="@+id/scan"
+            android:id="@+id/scanBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:backgroundTint="@color/white"
             android:elevation="35dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="All Scan"
+            android:layout_marginTop="10dp"
             android:textAllCaps="false"
             android:textColor="@color/purple_500"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="@string/or_scan"
             app:layout_constraintEnd_toStartOf="@+id/submitBtn"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ImeiEdittext" />
 
         <Button
             android:id="@+id/submitBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:backgroundTint="@color/white"
             android:elevation="35dp"
             android:fontFamily="@font/montserrat_medium"
             android:text="Submit"
             android:textAllCaps="false"
             android:textColor="@color/purple_500"
-            app:layout_constraintBottom_toBottomOf="@+id/scan"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/scan"
-            app:layout_constraintTop_toTopOf="@+id/scan" />
+            app:layout_constraintStart_toEndOf="@+id/scanBtn"
+            app:layout_constraintTop_toBottomOf="@+id/ImeiEdittext" />
 
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/msgShowWrongImei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/submitBtn"
+            android:text="cds"
+            android:visibility="gone"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="@color/white"/>
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/msgShowWrongImei">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/addLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <FrameLayout
+        android:id="@+id/LoadFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

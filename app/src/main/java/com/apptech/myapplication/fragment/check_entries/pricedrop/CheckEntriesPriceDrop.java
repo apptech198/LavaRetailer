@@ -48,7 +48,7 @@ public class CheckEntriesPriceDrop extends Fragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.validImei:
-                loadfragment(new CheckEntriesPriceDropValidImeiFragment());
+//                loadfragment(new CheckEntriesPriceDropValidImeiFragment());
                 // chnage white color
                 binding.validImei.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.left_corner_color, null));
                 binding.validImeiTextview.setTextColor(getResources().getColor(R.color.black));
@@ -89,7 +89,7 @@ public class CheckEntriesPriceDrop extends Fragment implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
-        loadfragment(new CheckEntriesPriceDropValidImeiFragment());
+//        loadfragment(new CheckEntriesPriceDropValidImeiFragment());
         binding.validImei.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.left_corner_color, null));
         binding.validImeiTextview.setTextColor(getResources().getColor(R.color.black));
     }

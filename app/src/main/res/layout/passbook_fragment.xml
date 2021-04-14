@@ -19,7 +19,7 @@
         android:layout_marginRight="3dp"
         android:background="@drawable/spinner_stock"
         android:padding="2dp"
-        app:layout_constraintEnd_toStartOf="@+id/DateSpinnerLayout"
+        app:layout_constraintEnd_toStartOf="@+id/datetimefilter"
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -29,9 +29,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
+
             tools:listitem="@layout/row_spinner_check_entries_valid_years" />
 
     </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/datetimefilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingTop="4dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/PaymentTypeSpinnerLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/PaymentTypeSpinnerLayout">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_filter_alt_24" />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/DateSpinnerLayout"
@@ -40,6 +65,7 @@
         android:layout_marginStart="3dp"
         android:layout_marginLeft="3dp"
         android:background="@drawable/spinner_stock"
+        android:visibility="gone"
         android:padding="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
