@@ -49,6 +49,7 @@ public interface LavaInterface {
             "Accept: application/json",
             "Content-Type: application/json"
     })
+
     @POST("sale_stock_imei")
     Call<Object> SellOut_PriceDropEntry(@Body JsonObject imei);
 
@@ -56,13 +57,17 @@ public interface LavaInterface {
     @FormUrlEncoded
     Call<SellOutPendingVerificationList> SellOut_Stock_List_DateFilter(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
 
-
     @POST("notification_list_latest")
     Call<Object> NotificationList();
 
     @POST("notification_list_brand_wise")
     @FormUrlEncoded
     Call<NotificationListBrandWise> NotificationListBrandWise(@Field("brand_id") String brand_id);
+
+
+
+
+
 
 
 }

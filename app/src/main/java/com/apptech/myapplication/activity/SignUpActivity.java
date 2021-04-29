@@ -3,17 +3,23 @@ package com.apptech.myapplication.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.PopupMenu;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.apptech.myapplication.R;
+import com.apptech.myapplication.adapter.CityAdapter;
+import com.apptech.myapplication.adapter.GovernateAdapter;
+import com.apptech.myapplication.adapter.LocalityAdapter;
 import com.apptech.myapplication.databinding.ActivitySignUpBinding;
 import com.apptech.myapplication.other.LanguageChange;
 import com.apptech.myapplication.other.NetworkCheck;
@@ -47,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
     String GovernateSelect = "", CitySelect = "", Locality = "";
     GovernateAdapter governateAdapter;
     CityAdapter cityAdapter;
-    LocalitiyAdapter localitiyAdapter;
+//    LocalitiyAdapter localitiyAdapter;
     String Languages = "EN";
 
 
@@ -68,7 +74,7 @@ public class SignUpActivity extends AppCompatActivity {
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
         sessionManage = SessionManage.getInstance(this);
-        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
         } else {
             Languages = "AR";
@@ -77,11 +83,11 @@ public class SignUpActivity extends AppCompatActivity {
 
         Log.e(TAG, "onCreate: " + Languages);
 
-        governateAdapter = new GovernateAdapter(SignUpActivity.this, R.layout.spinner_list);
+/*        governateAdapter = new GovernateAdapter(SignUpActivity.this, R.layout.spinner_list);
 
         localitiyAdapter = new LocalitiyAdapter(SignUpActivity.this, R.layout.spinner_list);
 
-        cityAdapter = new CityAdapter(SignUpActivity.this, R.layout.spinner_list);
+        cityAdapter = new CityAdapter(SignUpActivity.this, R.layout.spinner_list);*/
 
         getGovernate();
 
@@ -117,7 +123,6 @@ public class SignUpActivity extends AppCompatActivity {
             popupMenu.show();//showing popup menu
 
         });
-
 
     }
 
@@ -165,21 +170,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void getGovernate() {
 
         governatelist.clear();
-        governateAdapter.clear();
-
-        citylist.add("Select City");
-        cityAdapter.addAll(citylist);
-        cityAdapter.add("Select City");
-        binding.city.setAdapter(cityAdapter);
-        binding.city.setSelection(cityAdapter.getCount());
-
-        localityList.add("Select Locality");
-        localitiyAdapter.addAll(localityList);
-        localitiyAdapter.add("Select Locality");
-        binding.locality.setAdapter(localitiyAdapter);
-        binding.locality.setSelection(localitiyAdapter.getCount());
-
-
+        Log.e(TAG, "getGovernate: " + Languages);
         Call call = lavaInterface.Governate(Languages);
         call.enqueue(new Callback() {
             @Override
@@ -214,14 +205,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     governatelist.add(json_data.getString("governate_ar"));
                                 }
                             }
-
-                            governateAdapter.addAll(governatelist);
-                            governateAdapter.add("Select Governate");
-                            binding.governate.setAdapter(governateAdapter);
-                            binding.governate.setSelection(governateAdapter.getCount());
+                            SelectSmartSearchGovernate();
                             binding.progressbar.setVisibility(View.GONE);
-
-
                             return;
                         }
                         Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
@@ -240,7 +225,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-        binding.governate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+/*        binding.governate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (GOVERNATE) {
@@ -257,13 +242,13 @@ public class SignUpActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
+
     }
 
     private void getcity() {
 
         citylist.clear();
-        cityAdapter.clear();
 
         Call call = lavaInterface.getcity(Languages, GovernateSelect);
         call.enqueue(new Callback() {
@@ -301,10 +286,15 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
                             }
 
-                            cityAdapter.addAll(citylist);
+//                            SelectSmartSearchCity();
+
+                   /*         cityAdapter.addAll(citylist);
                             cityAdapter.add("Select City");
                             binding.city.setAdapter(cityAdapter);
                             binding.city.setSelection(cityAdapter.getCount());
+
+
+                    */
                             binding.progressbar.setVisibility(View.GONE);
 
 
@@ -313,6 +303,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        binding.progressbar.setVisibility(View.GONE);
                     }
 
                     binding.progressbar.setVisibility(View.GONE);
@@ -330,7 +321,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-
+/*
         binding.city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -348,6 +339,7 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+*/
 
 
     }
@@ -355,10 +347,9 @@ public class SignUpActivity extends AppCompatActivity {
     private void getLocality() {
 
         localityList.clear();
-        localitiyAdapter.clear();
-        Log.e(TAG, "getLocality: " + Languages);
 
-        Call call = lavaInterface.getlocality(Languages, CitySelect);
+//        Call call = lavaInterface.getlocality(Languages, CitySelect);
+        Call call = lavaInterface.getlocality(Languages, GovernateSelect);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -393,10 +384,13 @@ public class SignUpActivity extends AppCompatActivity {
                                 }
                             }
 
-                            localitiyAdapter.addAll(localityList);
+                            SelectSmartSearchLocality();
+       /*                     localitiyAdapter.addAll(localityList);
                             localitiyAdapter.add("Select Locality");
                             binding.locality.setAdapter(localitiyAdapter);
                             binding.locality.setSelection(localitiyAdapter.getCount());
+
+        */
                             binding.progressbar.setVisibility(View.GONE);
 
                             return;
@@ -404,7 +398,9 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        binding.progressbar.setVisibility(View.GONE);
                     }
+                    binding.progressbar.setVisibility(View.GONE);
                     return;
                 }
                 Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
@@ -417,7 +413,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-        binding.locality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+/*        binding.locality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (LOCALITY) {
@@ -431,9 +427,10 @@ public class SignUpActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
     }
+
 
     @Override
     protected void onDestroy() {
@@ -441,6 +438,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding = null;
     }
 
+/*
     public class GovernateAdapter extends ArrayAdapter<String> {
         public GovernateAdapter(Context context, int textViewResourceId) {
             super(context, textViewResourceId);
@@ -476,13 +474,13 @@ public class SignUpActivity extends AppCompatActivity {
             return count > 0 ? count - 1 : count;
         }
     }
+*/
 
     @Override
     protected void onStart() {
         super.onStart();
 //        binding.progressbar.setVisibility(View.VISIBLE);
     }
-
 
     boolean validation() {
         if (NameValidation(binding.name.getText().toString().trim())
@@ -500,7 +498,6 @@ public class SignUpActivity extends AppCompatActivity {
         return false;
     }
 
-
     private boolean NameValidation(String name) {
         if (name.isEmpty()) {
             binding.name.setError(getResources().getString(R.string.field_required));
@@ -509,7 +506,6 @@ public class SignUpActivity extends AppCompatActivity {
         binding.name.setError(null);
         return true;
     }
-
 
     private boolean NumberCheck(String number) {
         if (number.isEmpty()) {
@@ -545,7 +541,6 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
 
-
     private boolean PasswordCheck(String psw) {
         if (psw.isEmpty()) {
             binding.password.setError(getResources().getString(R.string.field_required));
@@ -558,7 +553,6 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
 
-
     private boolean EmailCheck(String email) {
         if (email.isEmpty()) {
             binding.email.setError(getResources().getString(R.string.field_required));
@@ -568,7 +562,6 @@ public class SignUpActivity extends AppCompatActivity {
         return true;
     }
 
-
     private boolean AddressCheck(String add) {
         if (add.isEmpty()) {
             binding.address.setError(getResources().getString(R.string.field_required));
@@ -576,6 +569,172 @@ public class SignUpActivity extends AppCompatActivity {
         }
         binding.address.setError(null);
         return true;
+    }
+
+
+
+
+    private void SelectSmartSearchGovernate(){
+
+/*        List<String> governatelist = new ArrayList<>();
+
+        governatelist.add("India");
+        governatelist.add("Afghanistan");
+        governatelist.add("Australia");
+        governatelist.add("Bahamas");
+        governatelist.add("Chile");
+        governatelist.add("Costa Rica");
+        governatelist.add("Cyprus");*/
+
+        com.apptech.myapplication.adapter.GovernateAdapter.GovernateInterface governateInterface = (text) -> {
+            binding.SelectGovernate.setText(text);
+            GovernateSelect = text;
+            binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
+            binding.progressbar.setVisibility(View.VISIBLE);
+//            getcity();
+            getLocality();
+        };
+
+        com.apptech.myapplication.adapter.GovernateAdapter governateAdapter1 = new com.apptech.myapplication.adapter.GovernateAdapter(governateInterface , governatelist);
+        binding.GovernateRecyclerView.setAdapter(governateAdapter1);
+
+        binding.SelectGovernate.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                binding.GovernateRecyclerViewLayout.setVisibility(View.VISIBLE);
+                return;
+            }
+            binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
+        });
+
+        binding.SelectGovernate.setOnClickListener(v -> {
+            binding.GovernateRecyclerViewLayout.setVisibility(View.VISIBLE);
+        });
+
+        binding.SelectGovernate.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(governateAdapter1 != null){
+                    governateAdapter1.getFilter().filter(s.toString());
+                }
+            }
+        });
+
+
+
+
+    }
+    private void SelectSmartSearchCity(){
+
+//        List<String> citylist = new ArrayList<>();
+//        citylist.add("Mumbai");
+//        citylist.add("New Delhi");
+//        citylist.add("Pune");
+//        citylist.add("Nagpur");
+//        citylist.add("Nashik");
+
+        com.apptech.myapplication.adapter.CityAdapter.CityInterface cityInterface = text -> {
+            binding.SelectCity.setText(text);
+            binding.CityRecyclerViewLayout.setVisibility(View.GONE);
+            CitySelect = text;
+//            SelectSmartSearchLocality();
+            binding.progressbar.setVisibility(View.VISIBLE);
+
+
+        };
+        com.apptech.myapplication.adapter.CityAdapter cityAdapter = new com.apptech.myapplication.adapter.CityAdapter(cityInterface , citylist);
+        binding.CityRecyclerView.setAdapter(cityAdapter);
+
+        binding.SelectCity.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                binding.CityRecyclerViewLayout.setVisibility(View.VISIBLE);
+                return;
+            }
+            binding.CityRecyclerViewLayout.setVisibility(View.GONE);
+        });
+
+        binding.SelectCity.setOnClickListener(v -> {
+            binding.CityRecyclerViewLayout.setVisibility(View.VISIBLE);
+        });
+
+        binding.SelectCity.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                    if(cityAdapter != null){
+                        cityAdapter.getFilter().filter(s.toString());
+                    }
+            }
+        });
+
+    }
+    private void SelectSmartSearchLocality(){
+
+/*        List<String> localityList = new ArrayList<>();
+        localityList.add("Hazira");
+        localityList.add("City center");*/
+
+        LocalityAdapter.LocalityInterface localityInterface = text -> {
+            binding.SelectLocality.setText(text);
+            binding.LocalityRecyclerViewLayout.setVisibility(View.GONE);
+            Locality = text;
+        };
+
+        LocalityAdapter localityAdapter = new LocalityAdapter(localityInterface , localityList);
+        binding.LocalityRecyclerView.setAdapter(localityAdapter);
+
+        binding.SelectLocality.setOnFocusChangeListener((v, hasFocus) -> {
+            if(hasFocus){
+                binding.LocalityRecyclerViewLayout.setVisibility(View.VISIBLE);
+                return;
+            }
+            binding.LocalityRecyclerViewLayout.setVisibility(View.GONE);
+        });
+
+        binding.SelectLocality.setOnClickListener(v -> {
+            binding.LocalityRecyclerViewLayout.setVisibility(View.VISIBLE);
+        });
+
+        binding.SelectLocality.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(localityAdapter != null){
+                    localityAdapter.getFilter().filter(s.toString());
+                }
+            }
+        });
+
+
+
+
     }
 
 

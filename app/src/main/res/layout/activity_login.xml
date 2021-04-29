@@ -81,6 +81,7 @@
         android:hint="@string/mobile_number"
         android:inputType="number"
         android:paddingStart="33dp"
+        android:paddingEnd="0dp"
         android:textColor="@color/white"
         android:textColorHint="#525662"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -101,8 +102,6 @@
 
 
 
-
-
     <EditText
         android:id="@+id/PasswordInputLayout"
         android:layout_width="match_parent"
@@ -111,11 +110,14 @@
         android:drawablePadding="5dp"
         android:fontFamily="@font/montserrat_medium"
         android:hint="@string/password"
-        android:inputType="number"
+        android:inputType="textPassword"
         android:paddingStart="33dp"
+        android:paddingEnd="33dp"
+
         android:layout_marginTop="16dp"
         android:textColor="@color/white"
         android:textColorHint="#525662"
+        app:layout_constraintStart_toStartOf="@+id/PasswordAnimsation"
         app:layout_constraintTop_toBottomOf="@+id/NumberInputLayout" />
 
 
@@ -126,7 +128,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/PasswordInputLayout"
         app:layout_constraintEnd_toEndOf="@+id/PasswordInputLayout"
         app:layout_constraintTop_toTopOf="@+id/PasswordInputLayout">

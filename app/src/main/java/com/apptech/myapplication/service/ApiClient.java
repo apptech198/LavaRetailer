@@ -10,8 +10,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    public static final String BASE_URL = "http://lavamobilesafrica.com/gbrretail/index.php/app/";
-    public static final String Image_URL = "http://bioticbioclasses.com/nodeapp2/";
+//    public static final String BASE_URL = "http://lavamobilesafrica.com/gbrretail/index.php/app/";
+    public static final String BASE_URL = "http://lavamobilesafrica.com/retailgbr/index.php/app/";
+    public static final String Image_URL = "";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

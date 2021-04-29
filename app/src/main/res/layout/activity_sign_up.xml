@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/lava_back"
     android:fillViewport="true"
+    android:id="@+id/scrollView"
     tools:context=".activity.SignUpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -138,6 +139,125 @@
                 app:layout_constraintTop_toBottomOf="@+id/password"
                 app:layout_constraintVertical_bias="0.163" />
 
+            <!--===========================-->
+
+            <EditText
+                android:id="@+id/SelectGovernate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#757575"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Select Governate"
+                android:includeFontPadding="true"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textColorHint="#525662"
+                app:layout_constraintTop_toBottomOf="@+id/address"
+                app:layout_constraintVertical_bias="0.163" />
+
+            <LinearLayout
+                android:id="@+id/GovernateRecyclerViewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/SelectGovernate"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:maxHeight="200dp"
+                android:elevation="10dp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/GovernateRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/row_smart_select"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/SelectCity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#757575"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Select City"
+                android:includeFontPadding="true"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                android:textColorHint="#525662"
+                app:layout_constraintTop_toBottomOf="@+id/SelectGovernate"
+                app:layout_constraintVertical_bias="0.163" />
+
+
+            <LinearLayout
+                android:id="@+id/CityRecyclerViewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/SelectCity"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:maxHeight="200dp"
+                android:elevation="10dp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/CityRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/row_smart_select"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/SelectLocality"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="#757575"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Select Locality"
+                android:includeFontPadding="true"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textColorHint="#525662"
+                app:layout_constraintTop_toBottomOf="@+id/SelectCity"
+                app:layout_constraintVertical_bias="0.163" />
+
+
+            <LinearLayout
+                android:id="@+id/LocalityRecyclerViewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/SelectLocality"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:elevation="10dp"
+                android:maxHeight="200dp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/LocalityRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/row_smart_select"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            </LinearLayout>
+
+            <!--===========================-->
 
             <Spinner
                 android:id="@+id/governate"
@@ -147,13 +267,16 @@
                 android:backgroundTint="@color/white"
                 android:dropDownWidth="match_parent"
                 android:spinnerMode="dropdown"
-                app:layout_constraintTop_toBottomOf="@+id/address" />
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/SelectLocality" />
 
             <View
                 android:id="@+id/governateline"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#757575"
+                android:visibility="gone"
+
                 app:layout_constraintTop_toBottomOf="@+id/governate" />
 
             <Spinner
@@ -163,6 +286,8 @@
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/white"
                 android:spinnerMode="dropdown"
+                android:visibility="gone"
+
                 app:layout_constraintTop_toBottomOf="@+id/governateline" />
 
             <View
@@ -170,6 +295,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#757575"
+                android:visibility="gone"
+
                 app:layout_constraintTop_toBottomOf="@+id/city" />
 
             <Spinner
@@ -178,6 +305,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="@color/white"
+                android:visibility="gone"
+
                 android:spinnerMode="dropdown"
                 app:layout_constraintTop_toBottomOf="@+id/cityline" />
 
@@ -186,6 +315,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="#757575"
+                android:visibility="gone"
+
                 app:layout_constraintTop_toBottomOf="@+id/locality" />
 
 

@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
@@ -74,6 +76,14 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
+
+
+        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+            binding.PasswordInputLayout.setGravity(Gravity.END);
+        } else {
+            binding.PasswordInputLayout.setGravity(Gravity.START);
+        }
+
         binding.Login.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(this)) {
 
@@ -124,11 +134,19 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
         binding.passwordshow.setOnClickListener(v -> {
             if (showPsw) {
-                binding.PasswordInputLayout.setTransformationMethod(PasswordTransformationMethod.getInstance());
+//                binding.PasswordInputLayout.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                binding.PasswordInputLayout.setInputType(InputType.TYPE_CLASS_TEXT);
                 showPsw = false;
             } else {
-                binding.PasswordInputLayout.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+//                binding.PasswordInputLayout.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                binding.PasswordInputLayout.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 showPsw = true;
+            }
+
+            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                binding.PasswordInputLayout.setGravity(Gravity.END);
+            } else {
+                binding.PasswordInputLayout.setGravity(Gravity.START);
             }
         });
 
@@ -209,7 +227,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                     jsonObject1.getString("user_type"),
                                     jsonObject1.getString("password"),
                                     jsonObject1.getString("governate"),
-                                    jsonObject1.getString("city"),
+                                    "",
                                     jsonObject1.getString("locality"),
                                     jsonObject1.getString("time"),
                                     jsonObject1.getString("address"));

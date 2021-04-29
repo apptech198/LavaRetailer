@@ -10,8 +10,8 @@
         android:label="message_centre_fragment"
         tools:layout="@layout/message_centre_fragment" />
     <fragment
-        android:id="@+id/purchaseRequestFragment"
-        android:name="com.apptech.myapplication.fragment.purchase_request.PurchaseRequestFragment"
-        android:label="purchase_request_fragment"
-        tools:layout="@layout/purchase_request_fragment" />
+        android:id="@+id/sellOut_PendingVerificationFragment"
+        android:name="com.apptech.myapplication.fragment.sellOut_PendingVerification.SellOut_PendingVerificationFragment"
+        android:label="sell_out__pending_verification_fragment"
+        tools:layout="@layout/sell_out__pending_verification_fragment" />
 </navigation>

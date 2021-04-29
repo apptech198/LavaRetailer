@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import com.apptech.myapplication.R;
 import com.apptech.myapplication.bottomsheet.BrandBottomSheetFragment;
 import com.apptech.myapplication.databinding.ActivityMainBinding;
-import com.apptech.myapplication.fragment.OrderStatus.OrderStatusFragment;
 import com.apptech.myapplication.fragment.check_entries.CheckEntriesFragment;
 import com.apptech.myapplication.fragment.check_entries.sellout.CheckEntriesSellOutFragment;
 import com.apptech.myapplication.fragment.check_entries_price_drop_valid_imei.CheckEntriesPriceDropValidImeiFragment;
@@ -355,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             binding.appBarMain.Actiontitle.setText("Place Order");
                             break;
                         case "ORDER_ORDER_STATUS":
-                            loadfragment(new OrderStatusFragment());
+//                            loadfragment(new OrderStatusFragment());
                             binding.appBarMain.Actiontitle.setText("Order Status");
                             break;
                         case "TRADE_PRICE_LIST":
