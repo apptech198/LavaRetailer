@@ -47,12 +47,10 @@ public class BrandActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
 
-
-
         brand();
 
-        brandInterfaces = list -> {
-            sessionManage.brandSelect(list.getId());
+        brandInterfaces = (list , text  , text_ar) -> {
+            sessionManage.brandSelect(list.getId() , text , text_ar);
             startActivity(new Intent(BrandActivity.this, MainActivity.class));
             finish();
         };

@@ -130,23 +130,17 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             }
         });
 
-        binding.SignUpBtn.setOnClickListener(v -> startActivity(new Intent(this, SignUpActivity.class)));
+        binding.SignUpBtn.setOnClickListener(v -> startActivity(new Intent(this, SocialActivity.class)));
 
         binding.passwordshow.setOnClickListener(v -> {
             if (showPsw) {
-//                binding.PasswordInputLayout.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                binding.PasswordInputLayout.setInputType(InputType.TYPE_CLASS_TEXT);
+                binding.PasswordInputLayout.setTransformationMethod(PasswordTransformationMethod.getInstance());
+//                binding.PasswordInputLayout.setInputType(InputType.TYPE_CLASS_TEXT);
                 showPsw = false;
             } else {
-//                binding.PasswordInputLayout.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                binding.PasswordInputLayout.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                binding.PasswordInputLayout.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+//                binding.PasswordInputLayout.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 showPsw = true;
-            }
-
-            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                binding.PasswordInputLayout.setGravity(Gravity.END);
-            } else {
-                binding.PasswordInputLayout.setGravity(Gravity.START);
             }
         });
 
@@ -172,6 +166,22 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         });
 
 
+        binding.NumberInputLayout.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.NumberInputLayoutError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         binding.PasswordInputLayout.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -180,12 +190,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.e(TAG, "onTextChanged: " + s.length());
-                if (s.length() > 0) {
-                    binding.passwordshow.setVisibility(View.VISIBLE);
-                    return;
-                }
-                binding.passwordshow.setVisibility(View.GONE);
+                binding.PasswordInputLayoutError.setVisibility(View.GONE);
             }
 
             @Override
@@ -205,10 +210,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             @Override
             public void onResponse(Call call, Response response) {
 
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                if (response.isSuccessful()) {
-
+                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(new Gson().toJson(response.body()));
@@ -230,7 +232,9 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                     "",
                                     jsonObject1.getString("locality"),
                                     jsonObject1.getString("time"),
-                                    jsonObject1.getString("address"));
+                                    jsonObject1.getString("address"),
+                                    jsonObject1.getString("locality_id")
+                            );
                             startActivity(new Intent(LoginActivity.this, MessageShowActivity.class));
                             sessionManage.FirstTimeLanguage("true");
                             finish();
@@ -239,16 +243,14 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                         }
                         binding.progressbar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                        return;
                     } catch (JSONException e) {
-                        binding.progressbar.setVisibility(View.GONE);
-                        Toast.makeText(LoginActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                         e.printStackTrace();
                     }
                     binding.progressbar.setVisibility(View.GONE);
-                    return;
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(LoginActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "" + getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                return;
+
             }
 
             @Override
@@ -265,11 +267,11 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         if (number.isEmpty()) {
 //            Toast.makeText(this, "number empty", Toast.LENGTH_SHORT).show();
             binding.NumberInputLayout.setError(getResources().getString(R.string.field_required));
-//            binding.NumberInputLayout.setErrorEnabled(true);
+            binding.NumberInputLayoutError.setVisibility(View.VISIBLE);
             return false;
         }
         binding.NumberInputLayout.setError(null);
-//        binding.NumberInputLayout.setErrorEnabled(false);
+        binding.NumberInputLayoutError.setVisibility(View.GONE);
         return true;
     }
 
@@ -277,16 +279,16 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         if (psw.isEmpty()) {
 //            Toast.makeText(this, "pasw empty", Toast.LENGTH_SHORT).show();
             binding.PasswordInputLayout.setError(getResources().getString(R.string.field_required));
-//            binding.PasswordInputLayout.setErrorEnabled(true);
+            binding.PasswordInputLayoutError.setVisibility(View.VISIBLE);
             return false;
         } else if (psw.length() <= 6) {
 //            Toast.makeText(this, "pasw 6 small", Toast.LENGTH_SHORT).show();
             binding.PasswordInputLayout.setError(getResources().getString(R.string.psw_short));
-//            binding.PasswordInputLayout.setErrorEnabled(true);
+            binding.PasswordInputLayoutError.setVisibility(View.VISIBLE);
             return false;
         }
         binding.PasswordInputLayout.setError(null);
-//        binding.PasswordInputLayout.setErrorEnabled(false);
+        binding.PasswordInputLayoutError.setVisibility(View.GONE);
         return true;
     }
 

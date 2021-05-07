@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/lava_back"
-    tools:context=".activity.MessageShowActivity">
+    tools:context=".activity.MessageShowActivity"
+    android:id="@+id/mainLayout">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/materialTextView"
@@ -27,9 +28,9 @@
         android:id="@+id/countLayout"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:backgroundTint="@color/msg_back"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/materialTextView"
         app:layout_constraintStart_toEndOf="@+id/materialTextView"
         app:layout_constraintTop_toTopOf="@+id/materialTextView">
@@ -70,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
-        android:text="You have ready all \nMessage"
+        android:text="You have read all \nMessage"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/white"
         android:visibility="gone"

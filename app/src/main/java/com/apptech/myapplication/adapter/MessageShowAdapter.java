@@ -1,16 +1,21 @@
 package com.apptech.myapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apptech.myapplication.R;
 import com.apptech.myapplication.Utils.MessageShowUtils;
 import com.apptech.myapplication.databinding.RowMessageShowBinding;
 import com.apptech.myapplication.modal.notification_list.NotificationListShow;
+import com.apptech.myapplication.service.ApiClient;
+import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -18,10 +23,10 @@ import java.util.List;
 
 public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.Viewholder> {
 
-    RowMessageShowBinding binding;
     List<NotificationListShow> frontMsgShowLists;
     Context context;
     MessageShowInterface messageShowInterface;
+    private static final String TAG = "MessageShowAdapter";
 
     public MessageShowAdapter(List<NotificationListShow> frontMsgShowLists, MessageShowInterface messageShowInterface) {
         this.frontMsgShowLists = frontMsgShowLists;
@@ -33,16 +38,27 @@ public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.
     @Override
     public Viewholder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        binding = RowMessageShowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        binding.setMessageinterface(messageShowInterface);
+        RowMessageShowBinding binding = RowMessageShowBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new Viewholder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
         NotificationListShow list = frontMsgShowLists.get(position);
-        binding.setList(list);
-        binding.executePendingBindings();
+
+        holder.binding.msgTitle.setText(list.getHeading());
+        holder.binding.msgfull.setText(list.getDes());
+
+        if(list.getImg() != null && !list.getImg().isEmpty()){
+            holder.binding.img.setVisibility(View.VISIBLE);
+            Log.e(TAG, "onBindViewHolder: " +  ApiClient.Image_URL + list.getImg());
+            Glide.with(context).load(ApiClient.Image_URL + list.getImg()).placeholder(R.drawable.check_icon).into(holder.binding.img);
+        }else {
+            holder.binding.img.setVisibility(View.GONE);
+        }
+
+        holder.binding.img2.setOnClickListener(v -> messageShowInterface.removeitem(position, list));
+
     }
 
     @Override
@@ -61,11 +77,12 @@ public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
+
+        RowMessageShowBinding binding;
+
         public Viewholder(@NonNull @NotNull RowMessageShowBinding itemView) {
             super(itemView.getRoot());
-            binding.img2.setOnClickListener(v -> {
-                messageShowInterface.removeitem(getAdapterPosition(), frontMsgShowLists.get(getAdapterPosition()));
-            });
+            this.binding = itemView;
         }
     }
 

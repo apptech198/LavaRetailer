@@ -8,8 +8,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.apptech.myapplication.R;
 import com.apptech.myapplication.adapter.MessageShowAdapter;
 import com.apptech.myapplication.databinding.ActivityMessageShowBinding;
+import com.apptech.myapplication.list.notificationList.NotificationModel;
 import com.apptech.myapplication.modal.notification_list.NotificationListShow;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.service.ApiClient;
@@ -50,9 +52,6 @@ public class MessageShowActivity extends AppCompatActivity {
         sessionManage = SessionManage.getInstance(this);
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
-
-//        sessionManage.RemoveNotificationStore();
-
         if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
             try {
                 JSONObject jsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
@@ -63,7 +62,7 @@ public class MessageShowActivity extends AppCompatActivity {
         }
 
 
-        MessageShow();
+        MessageShow1();
 
 
         binding.nextBtn.setOnClickListener(v -> {
@@ -85,33 +84,43 @@ public class MessageShowActivity extends AppCompatActivity {
             @Override
             public void removeitem(int pos, NotificationListShow list) {
 
-                if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
+                binding.progressbar.setVisibility(View.VISIBLE);
+                binding.mainLayout.setEnabled(false);
+
+                try {
+
+                    if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
+                            mainJsonObject = jsonObject;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    JSONObject jsonObject = new JSONObject();
                     try {
-                        JSONObject jsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
-                        mainJsonObject = jsonObject;
+                        jsonObject.put("ID", list.getId());
+                        mainJsonObject.putOpt(list.getId(), jsonObject);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
 
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("ID", list.getId());
-                    mainJsonObject.putOpt(list.getId(), jsonObject);
-                } catch (JSONException e) {
+                    sessionManage.NotificationStore(mainJsonObject.toString());
+                    List<NotificationListShow> notificationLists = new ArrayList<>(notificationListShows);
+                    notificationLists.remove(pos);
+                    messageShowAdapter.setData(notificationLists);
+                    binding.msgCount.setText(String.valueOf(notificationLists.size()));
+                    if (notificationLists.size() == 0) dialogOpen();
+
+
+                }catch (IndexOutOfBoundsException e){
                     e.printStackTrace();
+                    dialogOpen();
                 }
 
-//                Log.e(TAG, "removeitem: " + mainJsonObject.toString() );
-                sessionManage.NotificationStore(mainJsonObject.toString());
-
-
-                List<NotificationListShow> notificationLists = new ArrayList<>(notificationListShows);
-                notificationLists.remove(pos);
-                messageShowAdapter.setData(notificationLists);
-                binding.msgCount.setText(String.valueOf(notificationLists.size()));
-                if (notificationLists.size() == 0) dialogOpen();
-
+                binding.progressbar.setVisibility(View.GONE);
+                binding.mainLayout.setEnabled(true);
             }
         };
 
@@ -130,6 +139,7 @@ public class MessageShowActivity extends AppCompatActivity {
 
     private void MessageShow() {
 
+
         lavaInterface.NotificationList().enqueue(new Callback<Object>() {
 
             @Override
@@ -137,7 +147,9 @@ public class MessageShowActivity extends AppCompatActivity {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
                 try {
-                    JSONObject jsonObject1 = new JSONObject(response.body().toString());
+                    String json = String.valueOf(response.body());
+
+                    JSONObject jsonObject1 = new JSONObject(json);
                     String error = jsonObject1.getString("error");
                     String message = jsonObject1.getString("message");
                     JSONArray jsonElements = jsonObject1.getJSONArray("list");
@@ -148,7 +160,6 @@ public class MessageShowActivity extends AppCompatActivity {
 
                             for (int i = 0; i < jsonElements.length(); i++) {
                                 JSONObject object = jsonElements.getJSONObject(i);
-
                                 try {
                                     mainJsonObject.getString(object.getString("id"));
                                     NEXTACTITIVY += 1;
@@ -163,13 +174,11 @@ public class MessageShowActivity extends AppCompatActivity {
                                             object.getString("brand_id"),
                                             object.getString("brand_name")
                                     ));
-
                                 }
-
                             }
                             messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
                             binding.messageRecyclerview.setAdapter(messageShowAdapter);
-//                            Log.e(TAG, "onResponse: " + NEXTACTITIVY);
+
                             binding.msgCount.setText(String.valueOf(notificationListShows.size()));
                             if (NEXTACTITIVY == jsonElements.length()) {
                                 if (sessionManage.getUserDetails().get("BRAND_ID") != null) {
@@ -191,11 +200,11 @@ public class MessageShowActivity extends AppCompatActivity {
                                     object.getString("heading"),
                                     object.getString("des"),
                                     object.getString("img"),
-                                    object.getString("time"),
+//                                    object.getString("time"),
+                                    "",
                                     object.getString("brand_id"),
                                     object.getString("brand_name")
                             ));
-
                         }
 
                         messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
@@ -208,6 +217,7 @@ public class MessageShowActivity extends AppCompatActivity {
                     Toast.makeText(MessageShowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "onResponse: " + e.getMessage() );
                 }
 
             }
@@ -217,6 +227,90 @@ public class MessageShowActivity extends AppCompatActivity {
 
             }
         });
+    }
+    private void MessageShow1() {
+
+        lavaInterface.NotificationList1().enqueue(new Callback<NotificationModel>() {
+            @Override
+            public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
+
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+
+                if(response.isSuccessful()){
+
+                    if(!response.body().getError()){
+
+                        if (mainJsonObject.length() > 0 || sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
+
+                            for (int i = 0; i < response.body().getList().size(); i++) {
+
+                                com.apptech.myapplication.list.notificationList.List l = response.body().getList().get(i);
+                                try {
+
+                                    mainJsonObject.getString(l.getId());
+                                    NEXTACTITIVY += 1;
+                                } catch (JSONException e) {
+                                    Log.e(TAG, "onResponse: " + e.getMessage());
+                                    notificationListShows.add(new NotificationListShow(
+                                            l.getId(),
+                                            l.getHeading(),
+                                            l.getDes(),
+                                            l.getImg(),
+                                            l.getTime(),
+                                            l.getBrandId(),
+                                            l.getBrandName()
+                                    ));
+                                }
+                            }
+                            messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
+                            binding.messageRecyclerview.setAdapter(messageShowAdapter);
+
+                            binding.msgCount.setText(String.valueOf(notificationListShows.size()));
+                            if (NEXTACTITIVY == response.body().getList().size()) {
+                                if (sessionManage.getUserDetails().get("BRAND_ID") != null) {
+                                    startActivity(new Intent(MessageShowActivity.this, MainActivity.class));
+                                    finish();
+                                    return;
+                                }
+                                startActivity(new Intent(MessageShowActivity.this, BrandActivity.class));
+                                finish();
+                            }
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
+                        for (int i = 0; i < response.body().getList().size(); i++) {
+                            com.apptech.myapplication.list.notificationList.List l = response.body().getList().get(i);
+                            notificationListShows.add(new NotificationListShow(
+                                    l.getId(),
+                                    l.getHeading(),
+                                    l.getDes(),
+                                    l.getImg(),
+                                    l.getTime(),
+                                    l.getBrandId(),
+                                    l.getBrandName()
+                            ));
+                        }
+                        messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
+                        binding.messageRecyclerview.setAdapter(messageShowAdapter);
+                        binding.msgCount.setText(String.valueOf(notificationListShows.size()));
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    }
+                    Toast.makeText(MessageShowActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    binding.progressbar.setVisibility(View.GONE);
+                    return;
+                }
+
+                Toast.makeText(MessageShowActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.progressbar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<NotificationModel> call, Throwable t) {
+
+            }
+        });
+
     }
 
 

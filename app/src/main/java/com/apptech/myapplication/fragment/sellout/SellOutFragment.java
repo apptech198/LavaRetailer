@@ -293,7 +293,6 @@ public class SellOutFragment extends Fragment implements ScannerFragment.BackPre
         Wrongdatra = true;
     }
 
-
     private boolean ImeiValid(String imei) {
         if (imei.isEmpty()) {
             Toast.makeText(requireContext(), getResources().getString(R.string.field_required), Toast.LENGTH_SHORT).show();
@@ -306,14 +305,12 @@ public class SellOutFragment extends Fragment implements ScannerFragment.BackPre
         return true;
     }
 
-
     public static String getCurrentDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = df.format(c.getTime());
         return formattedDate;
     }
-
 
     @Override
     public void onDestroyView() {

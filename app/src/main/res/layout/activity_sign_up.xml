@@ -72,14 +72,26 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.163" />
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/nameError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/name"/>
 
             <EditText
                 android:id="@+id/number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat_medium"
@@ -88,14 +100,27 @@
                 android:inputType="number"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/name"
+                app:layout_constraintTop_toBottomOf="@+id/nameError"
                 app:layout_constraintVertical_bias="0.163" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/numberError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/number"/>
 
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat_medium"
@@ -104,14 +129,26 @@
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/number"
-                app:layout_constraintVertical_bias="0.163" />
+                app:layout_constraintTop_toBottomOf="@+id/numberError" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/emailError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/email"/>
 
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat_medium"
@@ -120,14 +157,83 @@
                 android:inputType="textPassword"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/email"
-                app:layout_constraintVertical_bias="0.163" />
+                app:layout_constraintTop_toBottomOf="@+id/emailError" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/passwordError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/password"/>
+
+            <EditText
+                android:id="@+id/Confirmpassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#757575"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Confirm password"
+                android:includeFontPadding="true"
+                android:inputType="textPassword"
+                android:textColor="@color/white"
+                android:textColorHint="#525662"
+                app:layout_constraintTop_toBottomOf="@+id/passwordError" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ConfirmpasswordError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/Confirmpassword"/>
+
+
+            <EditText
+                android:id="@+id/outletName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="#757575"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Outlet Name"
+                android:includeFontPadding="true"
+                android:inputType="text"
+                android:textColor="@color/white"
+                android:textColorHint="#525662"
+                app:layout_constraintTop_toBottomOf="@+id/ConfirmpasswordError" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/outletNameError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/outletName"/>
 
             <EditText
                 android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat_medium"
@@ -136,8 +242,21 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/password"
-                app:layout_constraintVertical_bias="0.163" />
+                app:layout_constraintTop_toBottomOf="@+id/outletName" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/addressError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/field_required"
+                android:textColor="@color/red"
+                android:fontFamily="@font/lato_regular"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:visibility="gone"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/address"/>
 
             <!--===========================-->
 
@@ -145,7 +264,7 @@
                 android:id="@+id/SelectGovernate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat_medium"
@@ -154,8 +273,7 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/address"
-                app:layout_constraintVertical_bias="0.163" />
+                app:layout_constraintTop_toBottomOf="@+id/addressError" />
 
             <LinearLayout
                 android:id="@+id/GovernateRecyclerViewLayout"
@@ -351,21 +469,6 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/ProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
 
 
         <LinearLayout

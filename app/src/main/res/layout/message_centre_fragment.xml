@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.message_centre.MessageCentreFragment"
+    tools:context=".ui.message_centre.MessageCentreFragment"
     android:background="@drawable/lava_back">
 
 
@@ -28,9 +28,9 @@
         android:id="@+id/countLayout"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:backgroundTint="@color/msg_back"
-        app:cardCornerRadius="50dp"
+        app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/materialTextView"
         app:layout_constraintStart_toEndOf="@+id/materialTextView"
         app:layout_constraintTop_toTopOf="@+id/materialTextView">

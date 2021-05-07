@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiClient {
 //    public static final String BASE_URL = "http://lavamobilesafrica.com/gbrretail/index.php/app/";
     public static final String BASE_URL = "http://lavamobilesafrica.com/retailgbr/index.php/app/";
-    public static final String Image_URL = "";
+    public static final String Image_URL = "http://lavamobilesafrica.com/retailgbr/";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

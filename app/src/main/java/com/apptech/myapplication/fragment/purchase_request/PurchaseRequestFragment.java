@@ -1,7 +1,6 @@
 package com.apptech.myapplication.fragment.purchase_request;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.apptech.myapplication.R;
 import com.apptech.myapplication.databinding.PurchaseRequestFragmentBinding;
-import com.apptech.myapplication.fragment.product_details.ProductDetailsFragment;
-import com.apptech.myapplication.fragment.purchase_request_now.PurchaseRequestNowFragment;
 import com.apptech.myapplication.fragment.purchase_request_past.PurchaseRequestPastFragment;
-import com.apptech.myapplication.modal.product.ProductList;
 
 
 public class PurchaseRequestFragment extends Fragment  {

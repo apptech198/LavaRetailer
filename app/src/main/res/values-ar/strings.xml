@@ -13,15 +13,29 @@
 
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
+    <string name="enter_otp">أدخل otp</string>
+    <string name="psw_not_match">Password not match</string>
+    <string name="bobile_number">رقم الهاتف الجوال</string>
+    <string name="egp">\u00a3</string>
+
 
     <string name="something_went_wrong">Something went wrong</string>
     <string name="imei_allready_exists">Imei allready exists</string>
     <string name="remove_first_invalid_imei">Remove first invalid imei</string>
     <string name="data_not_found">Data not found</string>
+    <string name="start_date">Start Date</string>
+    <string name="add">Add</string>
+    <string name="submit">Submit</string>
 
     <string-array name="language">
         <item>Select language</item>
         <item>English</item>
         <item>Arabic</item>
     </string-array>
+
+
+
+    <string name="facebook_app_id">656565</string>
+    <string name="fb_login_protocol_scheme">sacascncisjacij]</string>
+
 </resources>

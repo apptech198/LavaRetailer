@@ -36,10 +36,10 @@ public class PurchaseNow1Adapter extends RecyclerView.Adapter<PurchaseNow1Adapte
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewBinding holder, int position) {
-        ProductList list = productLists.get(position);
-        binding.setList(list);
-        binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        binding.executePendingBindings();
+//        ProductList list = productLists.get(position);
+//        binding.setList(list);
+//        binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//        binding.executePendingBindings();
     }
 
     @Override

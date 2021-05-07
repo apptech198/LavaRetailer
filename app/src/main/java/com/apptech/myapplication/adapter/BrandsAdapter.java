@@ -17,7 +17,6 @@ import java.util.List;
 public class BrandsAdapter extends RecyclerView.Adapter<BrandsAdapter.Viewholder> {
 
 
-    RowBrandsBinding binding;
     List<com.apptech.myapplication.modal.brand.List> brandLists;
     BrandInterfaces brandInterfaces;
     SessionManage sessionManage;
@@ -35,17 +34,18 @@ public class BrandsAdapter extends RecyclerView.Adapter<BrandsAdapter.Viewholder
     public Viewholder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         sessionManage = SessionManage.getInstance(context);
-        binding = RowBrandsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        binding.setItemclick(brandInterfaces);
-        return new Viewholder(binding);
+        return new Viewholder(RowBrandsBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
         com.apptech.myapplication.modal.brand.List list = brandLists.get(position);
-        binding.setLang(sessionManage.getUserDetails().get("LANGUAGE"));
-        binding.setList(list);
-        binding.executePendingBindings();
+        holder.binding.setLang(sessionManage.getUserDetails().get("LANGUAGE"));
+        holder.binding.setList(list);
+        holder.binding.market1.setOnClickListener(v -> {
+            brandInterfaces.brandItemClick(list , list.getName() , list.getNameAr());
+        });
+        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -54,13 +54,16 @@ public class BrandsAdapter extends RecyclerView.Adapter<BrandsAdapter.Viewholder
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
+
+        RowBrandsBinding binding;
         public Viewholder(@NonNull @NotNull RowBrandsBinding itemView) {
             super(itemView.getRoot());
+            this.binding = itemView;
         }
     }
 
     public interface BrandInterfaces {
-        void brandItemClick(com.apptech.myapplication.modal.brand.List list);
+        void brandItemClick(com.apptech.myapplication.modal.brand.List list ,  String text , String text_ar );
     }
 
 

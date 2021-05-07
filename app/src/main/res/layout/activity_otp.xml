@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#26292E"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context=".activity.OtpActivity">
 
     <ImageView
@@ -48,14 +48,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="#757575"
-            android:drawableLeft="@drawable/ic_baseline_message_24"
+            android:drawableStart="@drawable/ic_baseline_message_24"
             android:drawablePadding="5dp"
             android:fontFamily="@font/montserrat_medium"
-            android:hint="Otp"
+            android:hint="@string/enter_otp"
             android:includeFontPadding="true"
             android:inputType="number"
             android:textColor="@color/white"
             android:textColorHint="#525662"
+            android:maxLength="4"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -72,7 +73,6 @@
             android:paddingLeft="15dp"
             android:paddingEnd="15dp"
             android:paddingRight="15dp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/OtpInputLayout">
 
@@ -96,147 +96,13 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
+                android:layout_marginStart="4dp"
                 android:text="0"
                 android:textColor="@color/white" />
 
         </LinearLayout>
 
 
-        <EditText
-            android:id="@+id/PswLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#757575"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:drawablePadding="5dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:hint="Password"
-            android:includeFontPadding="true"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textColorHint="#525662"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/ConfirmPswLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#757575"
-            android:drawableLeft="@drawable/ic_baseline_lock_24"
-            android:drawablePadding="5dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:hint="Confirm Password"
-            android:includeFontPadding="true"
-            android:inputType="textPassword"
-            android:textColor="@color/white"
-            android:textColorHint="#525662"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/PswLayout" />
-
-
-        <!--        <com.google.android.material.textfield.TextInputLayout-->
-        <!--            android:id="@+id/OtpInputLayout"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            app:errorEnabled="true"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent">-->
-
-        <!--            <com.google.android.material.textfield.TextInputEditText-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:hint="@string/enter_otp"-->
-        <!--                android:inputType="number"-->
-        <!--                android:maxLines="1" />-->
-
-        <!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-        <!--        <LinearLayout-->
-        <!--            android:id="@+id/resend_otpCount"-->
-        <!--            android:layout_width="0dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginBottom="10dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:paddingStart="15dp"-->
-        <!--            android:paddingEnd="15dp"-->
-        <!--            android:paddingLeft="15dp"-->
-        <!--            android:paddingRight="15dp"-->
-        <!--            android:background="@drawable/resend_stock"-->
-        <!--            android:orientation="horizontal"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/OtpInputLayout">-->
-
-        <!--            <TextView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:fontFamily="@font/montserrat_medium"-->
-        <!--                android:gravity="center"-->
-        <!--                android:paddingTop="10dp"-->
-        <!--                android:paddingBottom="10dp"-->
-        <!--                android:text="Resend Otp "-->
-        <!--                android:textColor="@color/purple_500" />-->
-
-        <!--            <TextView-->
-        <!--                android:id="@+id/countdown"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:fontFamily="@font/montserrat_medium"-->
-        <!--                android:gravity="center"-->
-        <!--                android:paddingTop="10dp"-->
-        <!--                android:paddingBottom="10dp"-->
-        <!--                android:text="0"-->
-        <!--                android:textColor="@color/purple_500" />-->
-
-        <!--        </LinearLayout>-->
-
-
-        <!--        <com.google.android.material.textfield.TextInputLayout-->
-        <!--            android:id="@+id/PswLayout"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:visibility="gone"-->
-        <!--            app:errorEnabled="true"-->
-        <!--            app:passwordToggleEnabled="true"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/OtpInputLayout">-->
-
-        <!--            <com.google.android.material.textfield.TextInputEditText-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:hint="@string/password"-->
-        <!--                android:inputType="textPassword"-->
-        <!--                android:maxLines="1" />-->
-
-        <!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-        <!--        <com.google.android.material.textfield.TextInputLayout-->
-        <!--            android:id="@+id/ConfirmPswLayout"-->
-        <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:visibility="gone"-->
-        <!--            app:errorEnabled="true"-->
-        <!--            app:passwordToggleEnabled="true"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@+id/PswLayout">-->
-
-        <!--            <com.google.android.material.textfield.TextInputEditText-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:hint="@string/confirm_password"-->
-        <!--                android:inputType="textPassword"-->
-        <!--                android:maxLines="1" />-->
-
-        <!--        </com.google.android.material.textfield.TextInputLayout>-->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -268,33 +134,25 @@
             android:textColor="@color/white" />
 
     </LinearLayout>
-    <!--    password cinfirm btn     -->
+
+
     <LinearLayout
-        android:id="@+id/ConfirmPsw"
+        android:id="@+id/progressbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:background="@drawable/login_btn_design"
-        android:gravity="center"
-        android:paddingLeft="60dp"
-        android:paddingRight="60dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
 
-        <TextView
+        <ProgressBar
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:text="@string/submit"
-            android:textColor="@color/white" />
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

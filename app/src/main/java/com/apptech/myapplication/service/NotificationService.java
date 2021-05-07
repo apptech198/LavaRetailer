@@ -63,7 +63,7 @@ public class NotificationService extends FirebaseMessagingService {
                     Shownotification(title, message);
                     return;
                 }
-                new LongTask(getApplicationContext(), title, message, image).execute();
+//                new LongTask(getApplicationContext(), title, message, image).execute();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

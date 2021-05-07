@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ExpandableListAdapter;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.apptech.myapplication.R;
 import com.apptech.myapplication.bottomsheet.BrandBottomSheetFragment;
@@ -19,10 +22,9 @@ import com.apptech.myapplication.fragment.check_entries.CheckEntriesFragment;
 import com.apptech.myapplication.fragment.check_entries.sellout.CheckEntriesSellOutFragment;
 import com.apptech.myapplication.fragment.check_entries_price_drop_valid_imei.CheckEntriesPriceDropValidImeiFragment;
 import com.apptech.myapplication.fragment.language.LanguageChangeFragment;
-import com.apptech.myapplication.fragment.message_centre.MessageCentreFragment;
-import com.apptech.myapplication.fragment.passbook.PassbookFragment;
+import com.apptech.myapplication.ui.message_centre.MessageCentreFragment;
+import com.apptech.myapplication.ui.passbook.PassbookFragment;
 import com.apptech.myapplication.fragment.price_drop.PriceDropFragment;
-import com.apptech.myapplication.fragment.product_details.ProductDetailsFragment;
 import com.apptech.myapplication.fragment.purchase_request_now.PurchaseRequestNowFragment;
 import com.apptech.myapplication.fragment.sellOut_PendingVerification.SellOut_PendingVerificationFragment;
 import com.apptech.myapplication.fragment.sellout.SellOutFragment;
@@ -31,10 +33,9 @@ import com.apptech.myapplication.fragment.trade.priceList.PriceListTradeFragment
 import com.apptech.myapplication.fragment.trade.selling_program.SellingProgramTradeFragment;
 import com.apptech.myapplication.fragment.trade.sellout_program.SelloutProgramTradeFragment;
 import com.apptech.myapplication.fragment.warranty.ReportsSellOutReportFragment;
-import com.apptech.myapplication.fragment.warrantys.ocr_warranty.OCR_WarrantyFragment;
+import com.apptech.myapplication.ui.warranty.ocr_warranty.OCR_WarrantyFragment;
 import com.apptech.myapplication.fragment.warrantys.warranty2.Warranty2Fragment;
 import com.apptech.myapplication.modal.MenuModel;
-import com.apptech.myapplication.modal.product.ProductList;
 import com.apptech.myapplication.other.LanguageChange;
 import com.apptech.myapplication.other.SessionManage;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -44,8 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BrandBottomSheetFragment.BrandClick,
-        PurchaseRequestNowFragment.onbackFragmentLoad {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BrandBottomSheetFragment.BrandClick{
 
 
     private ActivityMainBinding binding;
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     CheckEntriesPriceDropValidImeiFragment checkEntriesPriceDropValidImeiFragment;
     SessionManage sessionManage;
+    NavController navController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        navController = Navigation.findNavController(this, R.id.nav_controller);
+
+
+        TextView brand_name = findViewById(R.id.brand_name);
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+            brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
+        } else {
+            brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME_AR"));
+        }
+
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -85,8 +97,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        prepareMenuData();
-        populateExpandableList();
+        prepareMenuData1();
+        populateExpandableList1();
 
         navigationView.setNavigationItemSelectedListener(this);
         binding.appBarMain.brandName.setOnClickListener(v -> {
@@ -102,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.drawerLayout.openDrawer(GravityCompat.START);
     }
 
+/*
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -136,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }
     }
+*/
 
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -268,6 +282,147 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             childList.put(menuModel, null);
         }
 
+
+
+    }
+
+    private void prepareMenuData1() {
+
+
+        /*
+        *
+        *   New att Start
+        *
+        * */
+
+//        Message Centre
+
+        MenuModel menuModel = new MenuModel(getResources().getString(R.string.message_center), true, false, "MESSAGE_CENTRE");
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+//      Sell Out
+        menuModel = new MenuModel(getResources().getString(R.string.sell_outs), true, true, "SELL_OUT"); //Menu of Java Tutorials
+        headerList.add(menuModel);
+
+        List<MenuModel> childModelsList = new ArrayList<>();
+        MenuModel childModel = new MenuModel(getResources().getString(R.string.report_sell_out_entries), false, false, "SELL_OUT_REPORT_SELL_OUT_ENTRIES");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Pending Verification", false, false, "SELL_OUT_PENDING_VERIFICATION");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Reports sell out report", false, false, "SELL_OUT_REPORT_SELL_OUT_REPORT");
+        childModelsList.add(childModel);
+
+
+        if (menuModel.hasChildren) {
+            childList.put(menuModel, childModelsList);
+        }
+
+        menuModel = new MenuModel(getResources().getString(R.string.price_drop1), true, true, "");  // CHECK_ENTRIES
+        headerList.add(menuModel);
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("Price Drop Entry", false, false, "PRICE_DROP_PRICE_DROP_ENTRY");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Entery pending verification", false, false, "PRICE_DROP_ENTERY_PENDING_VERIFICATION");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Reports", false, false, "PRICE_DROP_REPORTS");
+        childModelsList.add(childModel);
+
+        if (menuModel.hasChildren) {
+            childList.put(menuModel, childModelsList);
+        }
+
+//       Passbook
+        menuModel = new MenuModel(getResources().getString(R.string.passbook), true, false, "PASSBOOK_PASSBOOK");
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+
+//       Order
+        menuModel = new MenuModel(getResources().getString(R.string.order), true, true, "");  // PURCHASE_REQUEST
+        headerList.add(menuModel);
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("Place Order", false, false, "ORDER_PLACE_ORDER");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Order status", false, false, "ORDER_ORDER_STATUS");
+        childModelsList.add(childModel);
+
+        if (menuModel.hasChildren) {
+            childList.put(menuModel, childModelsList);
+        }
+
+
+//       Trade  Schemes
+        menuModel = new MenuModel(getResources().getString(R.string.trade_program), true, true, "");  //SCHEMES
+        headerList.add(menuModel);
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("Price List", false, false, "TRADE_PROGRAM_PRICE_LIST");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Selling Program", false, false, "TRADE_PROGRAM_SEELING_PROGRAM");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Sellout Program", false, false, "TRADE_PROGRAM_SELLOUT_PROGRAM");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Loyalty Scheme", false, false, "TRADE_PROGRAM_LOYALTY_SCHEME");
+        childModelsList.add(childModel);
+
+        if (menuModel.hasChildren) {
+            childList.put(menuModel, childModelsList);
+        }
+
+ //        Warranty
+        menuModel = new MenuModel("Warranty", true, true, "WARRANTY");  //SCHEMES
+        headerList.add(menuModel);
+
+        childModelsList = new ArrayList<>();
+        childModel = new MenuModel("OCR", false, false, "OCR_WARRANTY");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel("Warranty 2", false, false, "WARRANTY_2");
+        childModelsList.add(childModel);
+
+        if (menuModel.hasChildren) {
+            childList.put(menuModel, childModelsList);
+        }
+
+
+//       Language
+        menuModel = new MenuModel(getResources().getString(R.string.change_language), true, false, "CHANGE_LANGUAGE");
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+//       LOGOUT
+        menuModel = new MenuModel(getResources().getString(R.string.logout), true, false, "LOGOUT");
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
+
+        /*
+        *
+        *   New att end
+        *
+        * */
+
+
+
+
     }
 
 
@@ -350,7 +505,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                         case "PURCHASE_REQUEST":
 //                            loadfragment(new PurchaseRequestFragment());
-                            loadfragment(new PurchaseRequestNowFragment(this));
+                            loadfragment(new PurchaseRequestNowFragment());
                             binding.appBarMain.Actiontitle.setText("Place Order");
                             break;
                         case "ORDER_ORDER_STATUS":
@@ -401,10 +556,111 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+    private void populateExpandableList1() {
+
+        expandableListAdapter = new com.apptech.myapplication.adapter.ExpandableListAdapter(this, headerList, childList);
+        binding.expandableListView.setAdapter(expandableListAdapter);
+
+        binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
+
+            if (headerList.get(groupPosition).isGroup) {
+
+                Log.e("aa1", headerList.get(groupPosition).fragmentname);
+
+                if (!headerList.get(groupPosition).hasChildren) {
+
+                    switch (headerList.get(groupPosition).fragmentname) {
+                        case "CHECK_ENTRIES":
+                            loadfragment(new CheckEntriesFragment());
+                            binding.appBarMain.Actiontitle.setText("Check Entry");
+                            break;
+                        case "MESSAGE_CENTRE":
+                            navController.navigate(R.id.messageCentreFragment);
+                            break;
+                        case "PASSBOOK_PASSBOOK":
+                            navController.navigate(R.id.passbookFragment);
+                            break;
+                        case "CHANGE_LANGUAGE":
+                            navController.navigate(R.id.languageChangeFragment);
+                            break;
+                        case "LOGOUT":
+                            sessionManage.logout();
+                            Intent intent = new Intent(this, LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(intent);
+                            finish();
+                            break;
+                    }
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+                }
+            }
+
+            return false;
+        });
+
+        binding.expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
+
+            if (childList.get(headerList.get(groupPosition)) != null) {
+                MenuModel model = childList.get(headerList.get(groupPosition)).get(childPosition);
+
+                if (!model.fragmentname.isEmpty()) {
+                    switch (model.fragmentname) {
+                        case "SELL_OUT_REPORT_SELL_OUT_ENTRIES":
+                            navController.navigate(R.id.reportSellOutEntriesFragment);
+                            break;
+                        case "SELL_OUT_PENDING_VERIFICATION":
+                            navController.navigate(R.id.pendingVerificationFragment);
+                            break;
+                        case "SELL_OUT_REPORT_SELL_OUT_REPORT":
+                            navController.navigate(R.id.reportSellOutReportFragment);
+                            break;
+                        case "PRICE_DROP_PRICE_DROP_ENTRY":
+                            navController.navigate(R.id.priceDropEntryFragment);
+                            break;
+                        case "PRICE_DROP_ENTERY_PENDING_VERIFICATION":
+                            navController.navigate(R.id.entryPendingVerificationFragment);
+                            break;
+                        case "PRICE_DROP_REPORTS":
+                            navController.navigate(R.id.reportsFragment);
+                            break;
+                        case "PASSBOOK_PASSBOOK":
+                            navController.navigate(R.id.passbookFragment);
+                            break;
+                        case "ORDER_PLACE_ORDER":
+                            navController.navigate(R.id.placeOrderFragment);
+                            break;
+                        case "ORDER_ORDER_STATUS":
+                            navController.navigate(R.id.orderStatusFragment);
+                            break;
+                        case "TRADE_PROGRAM_PRICE_LIST":
+                            navController.navigate(R.id.pricelistFragment);
+                            break;
+                        case "TRADE_PROGRAM_SEELING_PROGRAM":
+                            navController.navigate(R.id.sellingProgramFragment);
+                            break;
+                        case "TRADE_PROGRAM_SELLOUT_PROGRAM":
+                            navController.navigate(R.id.sellOutProgramFragment);
+                            break;
+                        case "TRADE_PROGRAM_LOYALTY_SCHEME":
+                            navController.navigate(R.id.loyaltySchemeFragment);
+                            break;
+                        case "OCR_WARRANTY":
+                            navController.navigate(R.id.OCR_WarrantyFragment);
+                            break;
+                    }
+                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+                }
+            }
+
+            return false;
+        });
+    }
+
 
     private void loadfragment(Fragment fragment) {
-        if (fragment != null)
-            fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).addToBackStack(null).commit();
+//        if (fragment != null)
+//            fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -423,10 +679,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public void onBack(ProductList list) {
-        loadfragment(new ProductDetailsFragment(list));
-    }
+
 
 
 }

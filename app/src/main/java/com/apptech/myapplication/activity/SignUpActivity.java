@@ -2,6 +2,7 @@ package com.apptech.myapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,11 +22,14 @@ import com.apptech.myapplication.adapter.CityAdapter;
 import com.apptech.myapplication.adapter.GovernateAdapter;
 import com.apptech.myapplication.adapter.LocalityAdapter;
 import com.apptech.myapplication.databinding.ActivitySignUpBinding;
+import com.apptech.myapplication.list.LocalityList;
 import com.apptech.myapplication.other.LanguageChange;
 import com.apptech.myapplication.other.NetworkCheck;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.service.ApiClient;
 import com.apptech.myapplication.service.LavaInterface;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -40,7 +44,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
     ActivitySignUpBinding binding;
     LavaInterface lavaInterface;
@@ -48,13 +52,14 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
     List<String> governatelist = new ArrayList<>();
     List<String> citylist = new ArrayList<>();
-    List<String> localityList = new ArrayList<>();
+    List<LocalityList> localityList = new ArrayList<>();
     boolean GOVERNATE = false, CITY = false, LOCALITY = false;
-    String GovernateSelect = "", CitySelect = "", Locality = "";
+    String GovernateSelect = "", CitySelect = "", Locality = "" , Locality_id ="" , Locality_ar = "";
     GovernateAdapter governateAdapter;
     CityAdapter cityAdapter;
 //    LocalitiyAdapter localitiyAdapter;
     String Languages = "EN";
+    String signup_type ="" , social_auth_token = "" , MOB = "";
 
 
     @Override
@@ -73,7 +78,6 @@ public class SignUpActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
-        sessionManage = SessionManage.getInstance(this);
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
         } else {
@@ -81,13 +85,47 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
 
-        Log.e(TAG, "onCreate: " + Languages);
+        MOB = getIntent().getStringExtra("MOB");
+        signup_type = getIntent().getStringExtra("SIGNUP_TYPE");
 
-/*        governateAdapter = new GovernateAdapter(SignUpActivity.this, R.layout.spinner_list);
+        try {
+            Intent intent = getIntent();
+            if(intent != null){
+                signup_type = intent.getStringExtra("TYPE");
+                 MOB = intent.getStringExtra("MOB");
+               binding.number.setText(MOB);
 
-        localitiyAdapter = new LocalitiyAdapter(SignUpActivity.this, R.layout.spinner_list);
+               switch (signup_type){
+                   case "OTP":
+                       binding.number.setEnabled(false);
+                       break;
+               }
+               Toast.makeText(this, ""+ signup_type, Toast.LENGTH_SHORT).show();
+            }
+        }catch (NullPointerException e){
+            Log.e(TAG, "onCreate: " + e.getMessage() );
+        }
 
-        cityAdapter = new CityAdapter(SignUpActivity.this, R.layout.spinner_list);*/
+
+
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if (acct != null) {
+            String personName = acct.getDisplayName();
+            String personGivenName = acct.getGivenName();
+            String personFamilyName = acct.getFamilyName();
+            String personEmail = acct.getEmail();
+            String personId = acct.getId();
+            Uri personPhoto = acct.getPhotoUrl();
+
+
+            binding.name.setText(personGivenName);
+            binding.email.setText(personEmail);
+            binding.email.setEnabled(false);
+            social_auth_token = personId;
+        }
+
+
 
         getGovernate();
 
@@ -115,7 +153,10 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     sessionManage.setlanguage("ar");
                 }
-                startActivity(new Intent(this, SignUpActivity.class));
+                Intent intent = new Intent(new Intent(this, SignUpActivity.class));
+                intent.putExtra("MOB" , MOB);
+                intent.putExtra("SIGNUP_TYPE" , signup_type);
+                startActivity(intent);
                 finish();
                 return true;
             });
@@ -124,17 +165,159 @@ public class SignUpActivity extends AppCompatActivity {
 
         });
 
+
+
+        Hideerror();
+
+
+    }
+
+    private void Hideerror(){
+        binding.name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.nameError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        binding.number.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.numberError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        binding.email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.emailError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        binding.password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.passwordError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        binding.Confirmpassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                ConfirmPasswordCheck(binding.password.getText().toString().trim() , binding.Confirmpassword.getText().toString().trim());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        binding.outletName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.outletNameError.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        binding.address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.addressError.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
     }
 
     private void SignUp() {
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        Call call = lavaInterface.Signup(binding.name.getText().toString().trim(), binding.number.getText().toString().trim(), binding.password.getText().toString().trim(), binding.email.getText().toString().trim(), Locality, CitySelect, GovernateSelect, binding.address.getText().toString().trim());
+
+        Call call = lavaInterface.Signup(
+                binding.name.getText().toString().trim()
+                ,binding.number.getText().toString().trim()
+                ,binding.password.getText().toString().trim()
+                ,binding.email.getText().toString().trim()
+                ,Locality
+                ,GovernateSelect
+                ,binding.address.getText().toString().trim()
+                ,signup_type
+                ,social_auth_token
+                ,binding.outletName.getText().toString().trim()
+                ,Locality_id
+                ,Locality_ar
+        );
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
                     Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
                     JSONObject jsonObject = null;
@@ -142,22 +325,39 @@ public class SignUpActivity extends AppCompatActivity {
                         jsonObject = new JSONObject(new Gson().toJson(response.body()));
                         String error = jsonObject.getString("error");
                         String message = jsonObject.getString("message");
+
                         if (error.equalsIgnoreCase("false")) {
-                            Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+
+                            JSONObject user_data = jsonObject.getJSONObject("user_detail");
+
+                            sessionManage.UserDetail(user_data.getString("id"),
+                                    user_data.getString("name"),
+                                    user_data.getString("email"),
+                                    user_data.getString("mobile"),
+                                    user_data.getString("user_type"),
+                                    user_data.getString("password"),
+                                    user_data.getString("governate"),
+                                    "",
+                                    user_data.getString("locality"),
+                                    user_data.getString("time"),
+                                    user_data.getString("address"),
+                                    user_data.getString("locality_id")
+                            );
+                            startActivity(new Intent(SignUpActivity.this, MessageShowActivity.class));
+                            sessionManage.FirstTimeLanguage("true");
                             finish();
                             binding.progressbar.setVisibility(View.GONE);
                             return;
                         }
                         Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         binding.progressbar.setVisibility(View.GONE);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        binding.progressbar.setVisibility(View.GONE);
                         Toast.makeText(SignUpActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(SignUpActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
@@ -165,6 +365,11 @@ public class SignUpActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+
+
+
+
+
     }
 
     private void getGovernate() {
@@ -363,34 +568,44 @@ public class SignUpActivity extends AppCompatActivity {
                         String message = jsonObject.getString("message");
                         if (error.equalsIgnoreCase("false")) {
                             JSONArray jsonArray = jsonObject.getJSONArray("locality_list");
-                            JSONObject objec = jsonArray.getJSONObject(0);
-                            Iterator iterator = objec.keys();
-                            String key = "";
-                            while (iterator.hasNext()) {
-                                key = (String) iterator.next();
-                                Log.e(TAG, "onResponse: " + key);
-                                break;
+
+
+                            for (int i=0; i< jsonArray.length(); i++){
+
+                                JSONObject jo = jsonArray.getJSONObject(i);
+
+                                localityList.add(new LocalityList(
+                                        jo.getString("id")
+                                        ,jo.getString("governate_en")
+                                        ,jo.getString("locality_en")
+                                        ,jo.getString("time")
+                                        ,jo.getString("governate_ar")
+                                        ,jo.getString("locality_ar")
+                                ));
                             }
 
-                            if (key.equals("locality_en")) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject json_data = jsonArray.getJSONObject(i);
-                                    localityList.add(json_data.getString("locality_en"));
-                                }
-                            } else {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject json_data = jsonArray.getJSONObject(i);
-                                    localityList.add(json_data.getString("locality_ar"));
-                                }
-                            }
+//                            JSONObject objec = jsonArray.getJSONObject(0);
+//                            Iterator iterator = objec.keys();
+//                            String key = "";
+//                            while (iterator.hasNext()) {
+//                                key = (String) iterator.next();
+//                                Log.e(TAG, "onResponse: " + key);
+//                                break;
+//                            }
+//
+//                            if (key.equals("locality_en")) {
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject json_data = jsonArray.getJSONObject(i);
+//                                    localityList.add(json_data.getString("locality_en"));
+//                                }
+//                            } else {
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject json_data = jsonArray.getJSONObject(i);
+//                                    localityList.add(json_data.getString("locality_ar"));
+//                                }
+//                            }
 
                             SelectSmartSearchLocality();
-       /*                     localitiyAdapter.addAll(localityList);
-                            localitiyAdapter.add("Select Locality");
-                            binding.locality.setAdapter(localitiyAdapter);
-                            binding.locality.setSelection(localitiyAdapter.getCount());
-
-        */
                             binding.progressbar.setVisibility(View.GONE);
 
                             return;
@@ -438,43 +653,7 @@ public class SignUpActivity extends AppCompatActivity {
         binding = null;
     }
 
-/*
-    public class GovernateAdapter extends ArrayAdapter<String> {
-        public GovernateAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
 
-        @Override
-        public int getCount() {
-            int count = super.getCount();
-            return count > 0 ? count - 1 : count;
-        }
-    }
-
-    public static class CityAdapter extends ArrayAdapter<String> {
-        public CityAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public int getCount() {
-            int count = super.getCount();
-            return count > 0 ? count - 1 : count;
-        }
-    }
-
-    public static class LocalitiyAdapter extends ArrayAdapter<String> {
-        public LocalitiyAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public int getCount() {
-            int count = super.getCount();
-            return count > 0 ? count - 1 : count;
-        }
-    }
-*/
 
     @Override
     protected void onStart() {
@@ -487,6 +666,8 @@ public class SignUpActivity extends AppCompatActivity {
                 && NumberCheck(binding.number.getText().toString().trim())
                 && EmailCheck(binding.email.getText().toString())
                 && PasswordCheck(binding.password.getText().toString().trim())
+                && ConfirmPasswordCheck(binding.password.getText().toString().trim() , binding.Confirmpassword.getText().toString().trim())
+                && OutletNameValidation(binding.outletName.getText().toString().trim())
                 && AddressCheck(binding.address.getText().toString().trim())
                 && GovernateValid()
                 && cityValid()
@@ -501,17 +682,32 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean NameValidation(String name) {
         if (name.isEmpty()) {
             binding.name.setError(getResources().getString(R.string.field_required));
+            binding.nameError.setVisibility(View.VISIBLE);
             return false;
         }
         binding.name.setError(null);
+        binding.nameError.setVisibility(View.GONE);
+        return true;
+    }
+
+    private boolean OutletNameValidation(String name) {
+        if (name.isEmpty()) {
+            binding.outletName.setError(getResources().getString(R.string.field_required));
+            binding.outletName.setVisibility(View.VISIBLE);
+            return false;
+        }
+        binding.outletName.setError(null);
+        binding.outletName.setVisibility(View.GONE);
         return true;
     }
 
     private boolean NumberCheck(String number) {
         if (number.isEmpty()) {
             binding.number.setError(getResources().getString(R.string.field_required));
+            binding.numberError.setVisibility(View.VISIBLE);
             return false;
         }
+        binding.numberError.setVisibility(View.GONE);
         binding.number.setError(null);
         return true;
     }
@@ -544,30 +740,61 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean PasswordCheck(String psw) {
         if (psw.isEmpty()) {
             binding.password.setError(getResources().getString(R.string.field_required));
+            binding.passwordError.setVisibility(View.VISIBLE);
+            binding.passwordError.setText(getResources().getString(R.string.field_required));
             return false;
         } else if (psw.length() <= 6) {
             binding.password.setError(getResources().getString(R.string.psw_short));
+            binding.passwordError.setVisibility(View.VISIBLE);
+            binding.passwordError.setText(getResources().getString(R.string.psw_short));
             return false;
         }
         binding.password.setError(null);
+        binding.passwordError.setVisibility(View.GONE);
+        return true;
+    }
+
+    private boolean ConfirmPasswordCheck(String psw , String confirmpass) {
+        if (confirmpass.isEmpty()) {
+            binding.Confirmpassword.setError(getResources().getString(R.string.field_required));
+            binding.ConfirmpasswordError.setVisibility(View.VISIBLE);
+            binding.ConfirmpasswordError.setText(getResources().getString(R.string.field_required));
+            return false;
+        } else if (confirmpass.length() != psw.length()) {
+            binding.Confirmpassword.setError(getResources().getString(R.string.psw_not_match));
+            binding.ConfirmpasswordError.setVisibility(View.VISIBLE);
+            binding.ConfirmpasswordError.setText(getResources().getString(R.string.psw_not_match));
+            return false;
+        } else if (!psw.equalsIgnoreCase(confirmpass)) {
+            binding.Confirmpassword.setError(getResources().getString(R.string.psw_not_match));
+            binding.ConfirmpasswordError.setVisibility(View.VISIBLE);
+            binding.ConfirmpasswordError.setText(getResources().getString(R.string.psw_not_match));
+            return false;
+        }
+        binding.Confirmpassword.setError(null);
+        binding.ConfirmpasswordError.setVisibility(View.GONE);
         return true;
     }
 
     private boolean EmailCheck(String email) {
         if (email.isEmpty()) {
             binding.email.setError(getResources().getString(R.string.field_required));
+            binding.emailError.setVisibility(View.VISIBLE);
             return false;
         }
         binding.email.setError(null);
+        binding.emailError.setVisibility(View.GONE);
         return true;
     }
 
     private boolean AddressCheck(String add) {
         if (add.isEmpty()) {
             binding.address.setError(getResources().getString(R.string.field_required));
+            binding.addressError.setVisibility(View.VISIBLE);
             return false;
         }
         binding.address.setError(null);
+        binding.addressError.setVisibility(View.GONE);
         return true;
     }
 
@@ -576,22 +803,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void SelectSmartSearchGovernate(){
 
-/*        List<String> governatelist = new ArrayList<>();
-
-        governatelist.add("India");
-        governatelist.add("Afghanistan");
-        governatelist.add("Australia");
-        governatelist.add("Bahamas");
-        governatelist.add("Chile");
-        governatelist.add("Costa Rica");
-        governatelist.add("Cyprus");*/
-
         com.apptech.myapplication.adapter.GovernateAdapter.GovernateInterface governateInterface = (text) -> {
             binding.SelectGovernate.setText(text);
             GovernateSelect = text;
             binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
             binding.progressbar.setVisibility(View.VISIBLE);
-//            getcity();
             getLocality();
         };
 
@@ -692,10 +908,18 @@ public class SignUpActivity extends AppCompatActivity {
         localityList.add("Hazira");
         localityList.add("City center");*/
 
-        LocalityAdapter.LocalityInterface localityInterface = text -> {
-            binding.SelectLocality.setText(text);
+        LocalityAdapter.LocalityInterface localityInterface = list -> {
+
+            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                binding.SelectLocality.setText(list.getLocality_ar());
+                Locality = list.getLocality_ar();
+            } else {
+                binding.SelectLocality.setText(list.getLocality_en());
+                Locality = list.getLocality_en();
+            }
+            Locality_id = list.getId();
+            Locality_ar = list.getLocality_ar();
             binding.LocalityRecyclerViewLayout.setVisibility(View.GONE);
-            Locality = text;
         };
 
         LocalityAdapter localityAdapter = new LocalityAdapter(localityInterface , localityList);
@@ -738,6 +962,22 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        switch (binding.getRoot().getId()){
+
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
 }
 
 

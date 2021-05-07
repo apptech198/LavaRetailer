@@ -17,7 +17,6 @@ import java.util.List;
 public class ExpansisAdapter extends RecyclerView.Adapter<ExpansisAdapter.Viewholder> {
 
 
-    RowExpanbleBinding binding;
     List<com.apptech.myapplication.modal.message.List> messageLists;
     private static final String TAG = "ExpansisAdapter";
 
@@ -31,15 +30,15 @@ public class ExpansisAdapter extends RecyclerView.Adapter<ExpansisAdapter.Viewho
     @NotNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        binding = RowExpanbleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        RowExpanbleBinding binding = RowExpanbleBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new Viewholder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
         com.apptech.myapplication.modal.message.List messageList = messageLists.get(position);
-        binding.setList(messageList);
-        binding.expansionLayout.addListener((expansionLayout, expanded) -> {
+        holder.binding.setList(messageList);
+        holder.binding.expansionLayout.addListener((expansionLayout, expanded) -> {
             Log.e(TAG, "onBindViewHolder: " + expanded);
 //            if (expanded) {
 //                binding.msg.setVisibility(View.GONE);
@@ -47,7 +46,7 @@ public class ExpansisAdapter extends RecyclerView.Adapter<ExpansisAdapter.Viewho
 //                binding.msg.setVisibility(View.VISIBLE);
 //            }
         });
-        binding.executePendingBindings();
+        holder.binding.executePendingBindings();
     }
 
     @Override
@@ -56,8 +55,12 @@ public class ExpansisAdapter extends RecyclerView.Adapter<ExpansisAdapter.Viewho
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
+
+        RowExpanbleBinding binding;
+
         public Viewholder(@NonNull @NotNull RowExpanbleBinding itemView) {
             super(itemView.getRoot());
+            this.binding = itemView;
         }
     }
 }

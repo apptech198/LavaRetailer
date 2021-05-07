@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.apptech.myapplication.R;
 import com.apptech.myapplication.activity.LoginActivity;
 import com.apptech.myapplication.activity.MainActivity;
 import com.apptech.myapplication.databinding.FragmentLanguageChangeBinding;
@@ -58,4 +60,14 @@ public class LanguageChangeFragment extends Fragment {
         });
 
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        TextView title = getActivity().findViewById(R.id.Actiontitle);
+        title.setText("Language");
+    }
+
+
 }

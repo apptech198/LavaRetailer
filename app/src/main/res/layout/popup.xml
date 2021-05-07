@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/last_7_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last 7 day"
+        android:fontFamily="@font/lato_semi_bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/last_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last month"
+        android:fontFamily="@font/lato_semi_bold"
+        android:paddingTop="16dp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_7_day"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/CustomDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Custome day"
+        android:paddingTop="16dp"
+        android:fontFamily="@font/lato_semi_bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_month"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

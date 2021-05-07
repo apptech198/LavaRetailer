@@ -87,9 +87,12 @@ public class SessionManage {
     public static final String LOCALITY = "LOCALITY";
     public static final String TIME = "TIME";
     public static final String ADDRESS = "ADDRESS";
+    public static final String LOCALITY_ID = "LOCALITY_ID";
 
     public static final String FIRST_TIME_LANGUAGE = "FIRST_TIME_LANGUAGE";
     public static final String BRAND_ID = "BRAND_ID";
+    public static final String BRAND_NAME = "BRAND_NAME";
+    public static final String BRAND_NAME_AR = "BRAND_NAME_AR";
 
     private static SessionManage ourInstance = null;
 
@@ -136,8 +139,16 @@ public class SessionManage {
         user.put(FIRST_TIME_LANGUAGE, pref.getString(FIRST_TIME_LANGUAGE, null));
 
         user.put(BRAND_ID, pref.getString(BRAND_ID, null));
+        user.put(BRAND_NAME, pref.getString(BRAND_NAME, null));
+        user.put(BRAND_NAME_AR, pref.getString(BRAND_NAME_AR, null));
+        user.put(LOCALITY_ID, pref.getString(LOCALITY_ID, null));
 
         user.put(NOTIFICATION_LIST_STORE, pref.getString(NOTIFICATION_LIST_STORE, null));
+
+        user.put(LOCALITY, pref.getString(LOCALITY, null));
+        user.put(NAME, pref.getString(NAME, null));
+        user.put(MOBILE, pref.getString(MOBILE, null));
+        user.put(ADDRESS, pref.getString(ADDRESS, null));
 
 
         // return user
@@ -196,7 +207,7 @@ public class SessionManage {
     }
 
 
-    public void UserDetail(String id, String name, String email, String mobile, String user_type, String password, String governate, String city, String locality, String time, String address) {
+    public void UserDetail(String id, String name, String email, String mobile, String user_type, String password, String governate, String city, String locality, String time, String address , String locality_id) {
         editor.putString(ID, id);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
@@ -208,6 +219,7 @@ public class SessionManage {
         editor.putString(LOCALITY, locality);
         editor.putString(TIME, time);
         editor.putString(ADDRESS, address);
+        editor.putString(LOCALITY_ID, locality_id);
         editor.commit();
     }
 
@@ -216,8 +228,10 @@ public class SessionManage {
         editor.commit();
     }
 
-    public void brandSelect(String brand) {
-        editor.putString(BRAND_ID, brand);
+    public void brandSelect(String brandid , String brand_name , String brand_name_ar ) {
+        editor.putString(BRAND_ID, brandid);
+        editor.putString(BRAND_NAME, brand_name);
+        editor.putString(BRAND_NAME_AR, brand_name_ar);
         editor.commit();
     }
 

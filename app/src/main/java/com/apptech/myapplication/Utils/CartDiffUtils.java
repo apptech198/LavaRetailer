@@ -39,7 +39,7 @@ public class CartDiffUtils extends DiffUtil.Callback {
 
         final CardList oldPostingDetail = oldList.get(oldItemPosition);
         final CardList newPostingDetail = newList.get(newItemPosition);
-        return oldPostingDetail.getName().equals(newPostingDetail.getName());
+        return oldPostingDetail.getMarketing_name().equals(newPostingDetail.getMarketing_name());
 //        return oldPostingDetail.getName().equals(newEmployee.getName()) && newPostingDetail.getAddress().equals(newEmployee.getAddress());
 
     }
@@ -55,8 +55,8 @@ public class CartDiffUtils extends DiffUtil.Callback {
 
 
         Bundle diff = new Bundle();
-        if (!newItem.getName().equals(oldItem.getName())) {
-            diff.putString("name", newItem.getName());
+        if (!newItem.getMarketing_name().equals(oldItem.getMarketing_name())) {
+            diff.putString("name", newItem.getMarketing_name());
         }
 //        if (!newItem.getAddress().equals(oldItem.getAddress())) {
 //            diff.putString("address", newItem.getAddress());

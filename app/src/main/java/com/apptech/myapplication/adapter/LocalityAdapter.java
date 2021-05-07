@@ -1,5 +1,6 @@
 package com.apptech.myapplication.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.myapplication.R;
+import com.apptech.myapplication.list.LocalityList;
+import com.apptech.myapplication.other.LanguageChange;
+import com.apptech.myapplication.other.SessionManage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,27 +24,37 @@ import java.util.List;
 public class LocalityAdapter extends RecyclerView.Adapter<LocalityAdapter.Viewholder> implements Filterable {
 
     LocalityInterface localityInterface;
-    List<String> localityList;
-    List<String>ListAll = new ArrayList<>();
+    List<LocalityList> localityList;
+    List<LocalityList>ListAll = new ArrayList<>();
+    SessionManage sessionManage;
+    Context context;
 
 
-    public LocalityAdapter(LocalityInterface localityInterface, List<String> localityList) {
+    public LocalityAdapter(LocalityInterface localityInterface, List<LocalityList> localityList) {
         this.localityInterface = localityInterface;
         this.localityList = localityList;
         ListAll.addAll(localityList);
-
     }
 
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        sessionManage = SessionManage.getInstance(context);
         return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_smart_select , parent , false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        holder.textView.setText(localityList.get(position));
-        holder.mainLayout.setOnClickListener(v -> localityInterface.OnItemClick( holder.textView.getText().toString()));
+        LocalityList list = localityList.get(position);
+
+        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+            holder.textView.setText(list.getLocality_ar());
+        } else {
+            holder.textView.setText(list.getLocality_en());
+        }
+
+        holder.mainLayout.setOnClickListener(v -> localityInterface.OnItemClick(list));
     }
 
     @Override
@@ -56,13 +70,13 @@ public class LocalityAdapter extends RecyclerView.Adapter<LocalityAdapter.Viewho
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
-            List<String> filteredList = new ArrayList<>();
+            List<LocalityList> filteredList = new ArrayList<>();
 
             if (charSequence == null || charSequence.length() == 0) {
                 filteredList.addAll(ListAll);
             } else {
-                for (String movie: ListAll) {
-                    if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                for (LocalityList movie: ListAll) {
+                    if (movie.getLocality_en().toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
                 }
@@ -76,7 +90,7 @@ public class LocalityAdapter extends RecyclerView.Adapter<LocalityAdapter.Viewho
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             localityList.clear();
-            localityList.addAll((Collection<? extends String>) results.values);
+            localityList.addAll((Collection<? extends LocalityList>) results.values);
             notifyDataSetChanged();
         }
     };
@@ -94,7 +108,7 @@ public class LocalityAdapter extends RecyclerView.Adapter<LocalityAdapter.Viewho
     }
 
     public interface  LocalityInterface {
-        void OnItemClick(String text);
+        void OnItemClick(LocalityList list);
     }
 
 

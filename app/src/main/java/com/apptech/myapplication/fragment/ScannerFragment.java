@@ -110,6 +110,7 @@ public class ScannerFragment extends Fragment {
                             intentData = barcodes.valueAt(0).displayValue;
                             binding.txtBarcodeValue.setText(intentData);
                             backPress.Onbackpress(intentData);
+                            cameraSource.release();
                         }
                     });
                 }
