@@ -4,9 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -14,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.apptech.myapplication.R;
 import com.apptech.myapplication.bottomsheet.BrandBottomSheetFragment;
@@ -22,6 +27,7 @@ import com.apptech.myapplication.fragment.check_entries.CheckEntriesFragment;
 import com.apptech.myapplication.fragment.check_entries.sellout.CheckEntriesSellOutFragment;
 import com.apptech.myapplication.fragment.check_entries_price_drop_valid_imei.CheckEntriesPriceDropValidImeiFragment;
 import com.apptech.myapplication.fragment.language.LanguageChangeFragment;
+import com.apptech.myapplication.service.ApiClient;
 import com.apptech.myapplication.ui.message_centre.MessageCentreFragment;
 import com.apptech.myapplication.ui.passbook.PassbookFragment;
 import com.apptech.myapplication.fragment.price_drop.PriceDropFragment;
@@ -38,12 +44,19 @@ import com.apptech.myapplication.fragment.warrantys.warranty2.Warranty2Fragment;
 import com.apptech.myapplication.modal.MenuModel;
 import com.apptech.myapplication.other.LanguageChange;
 import com.apptech.myapplication.other.SessionManage;
+import com.bumptech.glide.Glide;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, BrandBottomSheetFragment.BrandClick{
 
@@ -78,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navController = Navigation.findNavController(this, R.id.nav_controller);
 
 
+
         TextView brand_name = findViewById(R.id.brand_name);
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
@@ -88,6 +102,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+        View headerView = navigationView.getHeaderView(0);
+
+        TextView name = headerView.findViewById(R.id.name);
+        TextView mobile = headerView.findViewById(R.id.mobile);
+        TextView Email = headerView.findViewById(R.id.Email);
+        ImageView profile_image = headerView.findViewById(R.id.profile_image);
+
+        name.setText(sessionManage.getUserDetails().get("NAME"));
+        mobile.setText(sessionManage.getUserDetails().get("MOBILE"));
+        Email.setText(sessionManage.getUserDetails().get("EMAIL"));
+
+        Glide.with(this).load(ApiClient.Image_URL + sessionManage.getUserDetails().get("USER_IMG")).placeholder(R.drawable.ic_user__1_).into(profile_image);
 
         fragmentManager = getSupportFragmentManager();
 
@@ -129,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                Log.e(TAG, "onBackPressed: " +  checkEntriesPriceDropValidImeiFragment.getChildFragmentManager().getBackStackEntryCount());
                 try {
 
-
                     if (checkEntriesPriceDropValidImeiFragment != null) {
                         if (checkEntriesPriceDropValidImeiFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
                             checkEntriesPriceDropValidImeiFragment.getChildFragmentManager().popBackStackImmediate();
@@ -155,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -295,13 +319,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         *
         * */
 
-//        Message Centre
 
-        MenuModel menuModel = new MenuModel(getResources().getString(R.string.message_center), true, false, "MESSAGE_CENTRE");
+
+
+//        profile
+
+        MenuModel menuModel = new MenuModel("Profile", true, false, "PROFILE_UPDATE");
         headerList.add(menuModel);
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
         }
+
+
+//        Message Centre
+        menuModel = new MenuModel(getResources().getString(R.string.message_center), true, false, "MESSAGE_CENTRE");
+        headerList.add(menuModel);
+        if (!menuModel.hasChildren) {
+            childList.put(menuModel, null);
+        }
+
 
 //      Sell Out
         menuModel = new MenuModel(getResources().getString(R.string.sell_outs), true, true, "SELL_OUT"); //Menu of Java Tutorials
@@ -389,16 +425,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("OCR", false, false, "OCR_WARRANTY");
+        childModel = new MenuModel("Serialize", false, false, "SERIALIZE");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Warranty 2", false, false, "WARRANTY_2");
+        childModel = new MenuModel("UnSerialize", false, false, "UN_SERIALIZE");
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
             childList.put(menuModel, childModelsList);
         }
-
 
 //       Language
         menuModel = new MenuModel(getResources().getString(R.string.change_language), true, false, "CHANGE_LANGUAGE");
@@ -406,6 +441,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
         }
+
+
+
 //       LOGOUT
         menuModel = new MenuModel(getResources().getString(R.string.logout), true, false, "LOGOUT");
         headerList.add(menuModel);
@@ -414,17 +452,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-        /*
-        *
-        *   New att end
-        *
-        * */
-
-
-
-
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
+        Fragment loginFragment = fragmentManager.getPrimaryNavigationFragment();
+        loginFragment.onActivityResult(requestCode, resultCode, data);
+
+//        if (resultCode == getActivity().RESULT_OK) {
+//            fileUri = data.getData();
+//            binding.profileImage.setImageURI(fileUri);
+//            File file =  ImagePicker.Companion.getFile(data);
+//            filePart = MultipartBody.Part.createFormData("file", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+//
+//
+//        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+//            Toast.makeText(getContext(), ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
+//        } else {
+//            Toast.makeText(getContext(), "Task Cancelled", Toast.LENGTH_SHORT).show();
+//        }
+    }
 
     private void populateExpandableList() {
 
@@ -465,10 +516,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                     }
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
-
                 }
             }
-
             return false;
         });
 
@@ -540,18 +589,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             loadfragment(new SellOut_PendingVerificationFragment());
                             binding.appBarMain.Actiontitle.setText("Entery pending verification");
                             break;
-
                     }
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                 }
-
-//                    if (model.url.length() > 0) {
-//                        WebView webView = findViewById(R.id.webView);
-//                        webView.loadUrl(model.url);
-//                        onBackPressed();
-//                    }
             }
-
             return false;
         });
     }
@@ -582,8 +623,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                         case "CHANGE_LANGUAGE":
                             navController.navigate(R.id.languageChangeFragment);
+                        case "PROFILE_UPDATE":
+                            navController.navigate(R.id.profileFragment);
                             break;
                         case "LOGOUT":
+                            sessionManage.clearaddcard();;
+                            sessionManage.BrandClear();
+                            sessionManage.RemoveNotificationStore();
                             sessionManage.logout();
                             Intent intent = new Intent(this, LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -645,8 +691,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         case "TRADE_PROGRAM_LOYALTY_SCHEME":
                             navController.navigate(R.id.loyaltySchemeFragment);
                             break;
-                        case "OCR_WARRANTY":
-                            navController.navigate(R.id.OCR_WarrantyFragment);
+                        case "SERIALIZE":
+                            navController.navigate(R.id.serializeFragment);
+                            break;
+                        case "UN_SERIALIZE":
+                            navController.navigate(R.id.unSerializeFragment);
                             break;
                     }
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -656,7 +705,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return false;
         });
     }
-
 
     private void loadfragment(Fragment fragment) {
 //        if (fragment != null)
@@ -683,6 +731,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

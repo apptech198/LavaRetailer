@@ -88,11 +88,7 @@
         android:name="com.apptech.myapplication.ui.trade_program.loyalty_scheme.LoyaltySchemeFragment"
         android:label="loyalty_scheme_fragment"
         tools:layout="@layout/loyalty_scheme_fragment" />
-    <fragment
-        android:id="@+id/OCR_WarrantyFragment"
-        android:name="com.apptech.myapplication.ui.warranty.ocr_warranty.OCR_WarrantyFragment"
-        android:label="o_c_r__warranty_fragment"
-        tools:layout="@layout/o_c_r__warranty_fragment" />
+
     <fragment
         android:id="@+id/languageChangeFragment"
         android:name="com.apptech.myapplication.fragment.language.LanguageChangeFragment"
@@ -125,7 +121,33 @@
         android:id="@+id/cartFragment"
         android:name="com.apptech.myapplication.ui.cart.CartFragment"
         android:label="cart_fragment"
-        tools:layout="@layout/cart_fragment" /><action android:id="@+id/action_global_cartFragment" app:destination="@id/cartFragment"/>
+        tools:layout="@layout/cart_fragment" />
+    <action android:id="@+id/action_global_cartFragment" app:destination="@id/cartFragment" />
+    <fragment
+        android:id="@+id/videoFragment"
+        android:name="com.apptech.myapplication.ui.order.video.VideoFragment"
+        android:label="video_fragment"
+        tools:layout="@layout/video_fragment" >
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment><action android:id="@+id/action_global_videoFragment" app:destination="@id/videoFragment"/>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.apptech.myapplication.ui.profile.profileFragment"
+        android:label="profile_fragment"
+        tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/serializeFragment"
+        android:name="com.apptech.myapplication.ui.warranty.serialize.SerializeFragment"
+        android:label="serialize_fragment"
+        tools:layout="@layout/serialize_fragment" />
+    <fragment
+        android:id="@+id/unSerializeFragment"
+        android:name="com.apptech.myapplication.ui.warranty.unserialize.UnSerializeFragment"
+        android:label="un_serialize_fragment"
+        tools:layout="@layout/un_serialize_fragment" />
 
 
 </navigation>

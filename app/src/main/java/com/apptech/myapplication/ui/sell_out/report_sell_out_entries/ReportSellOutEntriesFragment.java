@@ -102,6 +102,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         });
 
         binding.startDatetime.setOnClickListener(v -> {
+
             final Calendar cldr = Calendar.getInstance();
             int day = cldr.get(Calendar.DAY_OF_MONTH);
             int month = cldr.get(Calendar.MONTH);
@@ -114,6 +115,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                         Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
                     }, year, month, day);
             picker.show();
+
         });
 
         binding.scanBtn.setOnClickListener(v -> {
@@ -174,7 +176,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         Log.e(TAG, "submitImei: " + mainJsonObject);
 
-        Call call = lavaInterface.SellOut_PriceDropEntry(mainJsonObject);
+        Call call = lavaInterface.SELL_OUT_IMEI(mainJsonObject);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {

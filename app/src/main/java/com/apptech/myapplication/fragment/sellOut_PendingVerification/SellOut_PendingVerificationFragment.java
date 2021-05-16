@@ -111,6 +111,7 @@ public class SellOut_PendingVerificationFragment extends Fragment {
     private void StockList(String startdate, String enddate) {
         Log.e(TAG, "onActivityCreated: " + USER_ID);
 
+/*
         lavaInterface.SellOut_Stock_List_DateFilter(USER_ID, startdate, enddate).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
@@ -144,6 +145,7 @@ public class SellOut_PendingVerificationFragment extends Fragment {
 
             }
         });
+*/
 
     }
 
@@ -221,7 +223,7 @@ public class SellOut_PendingVerificationFragment extends Fragment {
         binding.progressbar.setVisibility(View.VISIBLE);
         binding.noStock.setVisibility(View.GONE);
 
-
+/*
         lavaInterface.SellOut_Stock_List_DateFilter(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
@@ -250,6 +252,7 @@ public class SellOut_PendingVerificationFragment extends Fragment {
 
             }
         });
+        */
     }
 
     private void filtervalid(String valid) {

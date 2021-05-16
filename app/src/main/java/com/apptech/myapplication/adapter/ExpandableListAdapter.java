@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apptech.myapplication.modal.MenuModel;
@@ -64,8 +65,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (this.listDataChild.get(this.listDataHeader.get(groupPosition)) == null)
             return 0;
         else
-            return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                    .size();
+            return this.listDataChild.get(this.listDataHeader.get(groupPosition)).size();
     }
 
     @Override
@@ -85,8 +85,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
-                             View convertView, ViewGroup parent) {
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
         String headerTitle = getGroup(groupPosition).menuName;
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
@@ -95,8 +95,36 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         TextView lblListHeader = convertView.findViewById(R.id.lblListHeader);
+        ImageView imageView = convertView.findViewById(R.id.icon);
+
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+
+
+        switch (groupPosition){
+            case 0:
+                imageView.setImageResource(R.drawable.ic_user__2_);
+                break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 6:
+                imageView.setImageResource(R.drawable.ic_envelope);
+                break;
+            case 5:
+                imageView.setImageResource(R.drawable.ic_shopping_bags);
+                break;
+            case 7:
+                imageView.setImageResource(R.drawable.ic_secure);
+                break;
+            case 8:
+                imageView.setImageResource(R.drawable.ic_language);
+                break;
+            case 9:
+                imageView.setImageResource(R.drawable.ic_logout);
+                break;
+        }
 
         return convertView;
     }

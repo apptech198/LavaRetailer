@@ -19,15 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.myapplication.R;
-import com.apptech.myapplication.activity.CartActivity;
 import com.apptech.myapplication.activity.SuccessActivity;
 import com.apptech.myapplication.adapter.CardAdapter;
-import com.apptech.myapplication.databinding.ActivityCartBinding;
 import com.apptech.myapplication.databinding.CartFragmentBinding;
 import com.apptech.myapplication.modal.card.CardList;
+import com.apptech.myapplication.other.NetworkCheck;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.service.ApiClient;
 import com.apptech.myapplication.service.LavaInterface;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -54,7 +54,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     CardAdapter cardAdapter;
     JSONObject MainjsonObject = new JSONObject();
     int TotalproductAmt = 0 , DisAmt = 0 , item = 0 , DeliveryTotalAmt = 0;
-    AlertDialog alertDialog;
+    AlertDialog alertDialog  , alertDialog1;
     JsonObject orderPlace = new JsonObject();
     JsonArray OPjsonArray = new JsonArray() ;
     LavaInterface lavaInterface;
@@ -177,10 +177,41 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
+            binding.addressLayout.setVisibility(View.GONE);
         }
 
         binding.PlaceOrder.setOnClickListener(v -> {
             PlaceOrder();
+        });
+
+        binding.AddressTextView.setText(sessionManage.getUserDetails().get("ADDRESS").toString());
+
+        binding.ChangeAddress.setOnClickListener(v1 -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_address_change_dialog , null);
+            LinearLayout close = view.findViewById(R.id.close);
+            LinearLayout submit = view.findViewById(R.id.submit);
+
+            TextInputLayout addressEdittext = view.findViewById(R.id.addressEdittext);
+            close.setOnClickListener(v -> {alertDialog1.dismiss();});
+            submit.setOnClickListener(v -> {
+                if(addressEdittext.getEditText().getText().toString().trim().isEmpty()){
+                    addressEdittext.setError(getResources().getString(R.string.field_required));
+                    addressEdittext.setErrorEnabled(true);
+                    return;
+                }
+                addressEdittext.setError(null);
+                addressEdittext.setErrorEnabled(false);
+
+                String add = addressEdittext.getEditText().getText().toString().trim();
+                sessionManage.AddressChange(add);
+                binding.AddressTextView.setText(add);
+                alertDialog1.dismiss();
+            });
+
+            builder.setView(view);
+            alertDialog1 = builder.create();
+            alertDialog1.show();
         });
 
     }
@@ -202,6 +233,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 binding.PriceDetailsLayout.setVisibility(View.GONE);
                 binding.NoItem.setVisibility(View.VISIBLE);
                 binding.CardDetails.setVisibility(View.GONE);
+                binding.addressLayout.setVisibility(View.GONE);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -214,6 +246,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
             binding.CardDetails.setVisibility(View.GONE);
+            binding.addressLayout.setVisibility(View.GONE);
         }
         cardAdapter.notifyDataSetChanged();
         CalCart();
@@ -226,7 +259,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             int qty = Integer.parseInt(cartQty.getText().toString().trim());
             addQty = qty += 1;
             cartQty.setText(String.valueOf(addQty));
-            Toast.makeText(getContext(), ""+addQty, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), ""+addQty, Toast.LENGTH_SHORT).show();
         }catch (NumberFormatException e){
             e.printStackTrace();
         }
@@ -253,7 +286,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         }else {
             addQty = qty -= 1;
             cartQty.setText(String.valueOf(addQty));
-            Toast.makeText(getContext(), ""+addQty, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), ""+addQty, Toast.LENGTH_SHORT).show();
             try {
                 MainjsonObject.getJSONObject(BRAND_ID).getJSONObject(list.getId()).put("qty", String.valueOf(addQty));
                 sessionManage.addcard(MainjsonObject.toString());
@@ -321,6 +354,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
+            binding.addressLayout.setVisibility(View.GONE);
         }
 
 
@@ -339,7 +373,27 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.row_place_order , null);
         LinearLayout submit = view.findViewById(R.id.submit);
         LinearLayout no = view.findViewById(R.id.no);
-        submit.setOnClickListener( v -> orderPlace());
+        LinearLayout addressLayout = view.findViewById(R.id.addressLayout);
+        TextView address = view.findViewById(R.id.address);
+
+        address.setText(sessionManage.getUserDetails().get("ADDRESS"));
+
+        submit.setOnClickListener( v -> {
+
+            if(new NetworkCheck().haveNetworkConnection(getActivity())){
+                submit.setClickable(false);
+                submit.setEnabled(false);
+                orderPlace();
+                return;
+            }
+            Toast.makeText(getContext(), "" + getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+
+        });
+
+        addressLayout.setOnClickListener(v -> {
+            alertDialog.dismiss();
+            AddressChange();
+        });
 
         builder.setView(view);
         alertDialog = builder.create();
@@ -347,13 +401,38 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         no.setOnClickListener( v -> alertDialog.dismiss());
     }
 
+    private void AddressChange(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.row_address_change_dialog , null);
+        LinearLayout close = view.findViewById(R.id.close);
+        LinearLayout submit = view.findViewById(R.id.submit);
+
+        TextInputLayout addressEdittext = view.findViewById(R.id.addressEdittext);
+        close.setOnClickListener(v -> {alertDialog1.dismiss();});
+        submit.setOnClickListener(v -> {
+            if(addressEdittext.getEditText().getText().toString().trim().isEmpty()){
+                addressEdittext.setError(getResources().getString(R.string.field_required));
+                addressEdittext.setErrorEnabled(true);
+                return;
+            }
+            addressEdittext.setError(null);
+            addressEdittext.setErrorEnabled(false);
+
+            String add = addressEdittext.getEditText().getText().toString().trim();
+            sessionManage.AddressChange(add);
+            binding.AddressTextView.setText(add);
+            alertDialog1.dismiss();
+        });
+
+        builder.setView(view);
+        alertDialog1 = builder.create();
+        alertDialog1.show();
+    };
 
     private void orderPlace(){
 
         String ret_id = sessionManage.getUserDetails().get("ID");
         String ret_name = sessionManage.getUserDetails().get("NAME");
-//        String dis_id = sessionManage.getUserDetails().get("");
-//        String dis_name = sessionManage.getUserDetails().get("");
         String ret_mobile = sessionManage.getUserDetails().get("MOBILE");
         String address = sessionManage.getUserDetails().get("ADDRESS");
         String pretotal = binding.totalPrice.getText().toString().trim();
@@ -364,8 +443,6 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
         orderPlace.addProperty("ret_id" , ret_id);
         orderPlace.addProperty("ret_name" , ret_name);
-//        orderPlace.addProperty("dis_id" , "");
-//        orderPlace.addProperty("dis_name" , "");
         orderPlace.addProperty("ret_mobile" , ret_mobile);
         orderPlace.addProperty("address" , address);
         orderPlace.addProperty("pretotal" , pretotal.substring(1));
@@ -397,18 +474,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     getActivity().finish();;
                 }
 
-//                try {
-//                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
-//                    String error = jsonObject.getString("error");
-//                    String message = jsonObject.getString("message");
-//                    if(error.equalsIgnoreCase("false")){
-//                        sessionManage.clearaddcard();
-//                        return;
-//                    }
-//                    Toast.makeText(CartActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+
 
             }
 
@@ -471,6 +537,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
+            binding.addressLayout.setVisibility(View.GONE);
         }
 
 

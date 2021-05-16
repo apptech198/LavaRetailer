@@ -81,6 +81,7 @@ public class SocialActivity extends AppCompatActivity {
             requestHint();
         } catch (IntentSender.SendIntentException e) {
             e.printStackTrace();
+            binding.EditEmail.setEnabled(true);
         }
 
         findViewById(R.id.sign_in_button).setOnClickListener(v -> {

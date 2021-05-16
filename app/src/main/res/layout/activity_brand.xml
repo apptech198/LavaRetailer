@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.BrandActivity"
-    android:background="@drawable/lava_back">
+    android:background="@color/back_all">
 
 
     <com.google.android.material.textview.MaterialTextView

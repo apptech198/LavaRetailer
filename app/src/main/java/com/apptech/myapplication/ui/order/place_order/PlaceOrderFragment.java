@@ -2,14 +2,12 @@ package com.apptech.myapplication.ui.order.place_order;
 
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.text.Editable;
@@ -21,17 +19,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.apptech.myapplication.MobileNavigationDirections;
 import com.apptech.myapplication.R;
-import com.apptech.myapplication.activity.CartActivity;
-import com.apptech.myapplication.activity.MainActivity;
 import com.apptech.myapplication.adapter.PurchaseNowAdapter;
 import com.apptech.myapplication.bottomsheet.category_filter.CategoryFilterBottomSheetFragment;
 import com.apptech.myapplication.bottomsheet.short_filter.ShortFilterBottomSheetFragment;
 import com.apptech.myapplication.databinding.PlaceOrderFragmentBinding;
-import com.apptech.myapplication.databinding.PurchaseRequestNowFragmentBinding;
 import com.apptech.myapplication.fragment.purchase_request_now.PurchaseRequestNowFragment;
-import com.apptech.myapplication.fragment.purchase_request_now.PurchaseRequestNowViewModel;
 import com.apptech.myapplication.modal.product.ProductList;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.other.SpacesItemDecoration;

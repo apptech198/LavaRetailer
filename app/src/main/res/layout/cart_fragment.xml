@@ -166,6 +166,67 @@
     </androidx.core.widget.NestedScrollView>
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/addressLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/CardDetails"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/addressTitlte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:text="Address :"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            android:fontFamily="@font/lato_semi_bold" />
+
+    <LinearLayout
+        android:id="@+id/address"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/addressTitlte"
+        app:layout_constraintBottom_toBottomOf="@+id/addressTitlte"
+        app:layout_constraintEnd_toStartOf="@+id/ChangeAddress"
+        app:layout_constraintStart_toEndOf="@+id/addressTitlte"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/AddressTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:text="Address : Address : Address : AddressAddressAddress : Address : Address : Address : Address : Address : "
+            app:layout_constraintStart_toEndOf="@+id/addressTitlte"
+            android:fontFamily="@font/lato_regular" />
+
+    </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ChangeAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/address"
+            app:layout_constraintBottom_toBottomOf="@+id/address"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:padding="6dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_edit_24"/>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/CardDetails"

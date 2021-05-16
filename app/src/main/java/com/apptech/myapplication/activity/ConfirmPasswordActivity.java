@@ -3,6 +3,7 @@ package com.apptech.myapplication.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -41,6 +42,24 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
+
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_focused}, // focused
+                new int[] { android.R.attr.state_hovered}, // hovered
+                new int[] { android.R.attr.state_enabled}, // enabled
+                new int[] {}  //
+        };
+
+        int[] colors = new int[] {
+                getResources().getColor(R.color.login_tint_color),
+                getResources().getColor(R.color.login_tint_color),
+                getResources().getColor(R.color.login_tint_color),
+                getResources().getColor(R.color.login_tint_color)
+        };
+
+        ColorStateList myColorList = new ColorStateList(states, colors);
+        binding.password.setBoxStrokeColorStateList(myColorList);
+        binding.Confirmpassword.setBoxStrokeColorStateList(myColorList);
 
         try {
             Intent intent = getIntent();
@@ -85,7 +104,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         });
 
 
-        binding.password.addTextChangedListener(new TextWatcher() {
+        binding.Password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -93,7 +112,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.passwordError.setVisibility(View.GONE);
+                binding.password.setError(null);
             }
 
             @Override
@@ -103,7 +122,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         });
 
 
-        binding.Confirmpassword.addTextChangedListener(new TextWatcher() {
+        binding.ConPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -111,7 +130,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ConfirmPasswordCheck(binding.password.getText().toString().trim() , binding.Confirmpassword.getText().toString().trim());
+                ConfirmPasswordCheck(binding.password.getEditText().getText().toString().trim() , binding.Confirmpassword.getEditText().getText().toString().trim());
             }
 
             @Override
@@ -125,7 +144,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
 
     private void Changepassword() {
         binding.progressbar.setVisibility(View.VISIBLE);
-        lavaInterface.FORGOT_PASS_OTP_SEND(mob , binding.OtpInputLayout.getText().toString().trim(),binding.password.getText().toString().trim()).enqueue(new Callback<Object>() {
+        lavaInterface.FORGOT_PASS_OTP_SEND(mob , binding.OtpInputLayout.getText().toString().trim(),binding.password.getEditText().getText().toString().trim()).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -169,8 +188,8 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
 
     private boolean validation(){
         return  otpValidation(binding.OtpInputLayout.getText().toString().trim())
-                && PasswordCheck(binding.password.getText().toString().trim())
-                && ConfirmPasswordCheck(binding.password.getText().toString().trim() , binding.Confirmpassword.getText().toString().trim());
+                && PasswordCheck(binding.password.getEditText().getText().toString().trim())
+                && ConfirmPasswordCheck(binding.password.getEditText().getText().toString().trim() , binding.Confirmpassword.getEditText().getText().toString().trim());
     }
 
 
@@ -194,17 +213,12 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
     private boolean PasswordCheck(String psw) {
         if (psw.isEmpty()) {
             binding.password.setError(getResources().getString(R.string.field_required));
-            binding.passwordError.setVisibility(View.VISIBLE);
-            binding.passwordError.setText(getResources().getString(R.string.field_required));
             return false;
         } else if (psw.length() <= 6) {
             binding.password.setError(getResources().getString(R.string.psw_short));
-            binding.passwordError.setVisibility(View.VISIBLE);
-            binding.passwordError.setText(getResources().getString(R.string.psw_short));
             return false;
         }
         binding.password.setError(null);
-        binding.passwordError.setVisibility(View.GONE);
         return true;
     }
 

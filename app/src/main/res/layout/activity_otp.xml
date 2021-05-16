@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#26292E"
+    android:background="@color/back_all"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     tools:context=".activity.OtpActivity">

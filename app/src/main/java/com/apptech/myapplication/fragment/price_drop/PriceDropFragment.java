@@ -105,7 +105,7 @@ public class PriceDropFragment extends Fragment {
     private void StockList(String startdate, String enddate) {
         Log.e(TAG, "onActivityCreated: " + USER_ID);
 
-        lavaInterface.SellOut_Stock_List_DateFilter(USER_ID, startdate, enddate).enqueue(new Callback<SellOutPendingVerificationList>() {
+        lavaInterface.PRICE_DROP_IMEI_LIST(USER_ID, startdate, enddate).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
 
@@ -216,7 +216,7 @@ public class PriceDropFragment extends Fragment {
         binding.noStock.setVisibility(View.GONE);
 
 
-        lavaInterface.SellOut_Stock_List_DateFilter(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
+        lavaInterface.PRICE_DROP_IMEI_LIST(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));

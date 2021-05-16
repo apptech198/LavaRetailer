@@ -50,6 +50,15 @@
     <string name="psw_not_match">Password not match</string>
     <string name="bobile_number">Mobile number</string>
     <string name="egp">\u00a3</string>
+    <string name="name_fiels_missing">Name field is missing</string>
+    <string name="email_fiels_missing">Email field is missing</string>
+    <string name="phone_number_fiels_missing">Phone Number field is missing</string>
+    <string name="governate__fiels_missing">Governate field is missing</string>
+    <string name="locality_fiels_missing">Locality field is missing</string>
+    <string name="locality_ar_fiels_missing">Locality Arabic is missing</string>
+    <string name="address_fiels_missing">Address is missing</string>
+    <string name="locality_id_fiels_missing">Locality id is missing</string>
+    <string name="outline_fiels_missing">Outlet Name is missing</string>
 
     <string-array name="qtyArray">
         <item>1</item>

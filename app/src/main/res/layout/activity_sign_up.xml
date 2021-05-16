@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lava_back"
+    android:background="@color/back_all"
     android:fillViewport="true"
     android:id="@+id/scrollView"
     tools:context=".activity.SignUpActivity">
@@ -144,61 +144,57 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/email"/>
 
-            <EditText
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="#757575"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/montserrat_medium"
+                app:layout_constraintTop_toBottomOf="@+id/emailError"
+                app:passwordToggleEnabled="true"
                 android:hint="Password"
-                android:includeFontPadding="true"
-                android:inputType="textPassword"
-                android:textColor="@color/white"
-                android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/emailError" />
+                android:textColorHint="#757575"
+                app:hintTextColor="#757575"
+                app:boxBackgroundColor="@color/back_all"
+                app:passwordToggleTint="#FFF"
+                android:layout_marginTop="16dp">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/passwordError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/field_required"
-                android:textColor="@color/red"
-                android:fontFamily="@font/lato_regular"
-                android:textSize="12sp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/password"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/white" />
 
-            <EditText
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/Confirmpassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:backgroundTint="#757575"
-                android:drawablePadding="5dp"
-                android:fontFamily="@font/montserrat_medium"
+                app:layout_constraintTop_toBottomOf="@+id/password"
+                app:passwordToggleEnabled="true"
                 android:hint="Confirm password"
-                android:includeFontPadding="true"
-                android:inputType="textPassword"
-                android:textColor="@color/white"
-                android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/passwordError" />
+                android:textColorHint="#757575"
+                app:hintTextColor="#757575"
+                app:boxBackgroundColor="@color/back_all"
+                app:passwordToggleTint="#FFF"
+                android:layout_marginTop="16dp">
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/ConfirmpasswordError"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/field_required"
-                android:textColor="@color/red"
-                android:fontFamily="@font/lato_regular"
-                android:textSize="12sp"
-                android:visibility="gone"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/Confirmpassword"/>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ConPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
 
 
             <EditText
@@ -214,7 +210,7 @@
                 android:inputType="text"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/ConfirmpasswordError" />
+                app:layout_constraintTop_toBottomOf="@+id/Confirmpassword" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/outletNameError"

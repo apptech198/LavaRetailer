@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -15,10 +18,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true">
         <activity android:name=".activity.Signup1activity"></activity>
         <activity android:name=".activity.SuccessActivity" />
-        <activity android:name=".activity.Checkoutactivity" />
         <activity android:name=".activity.ConfirmPasswordActivity" />
         <activity android:name=".activity.SocialActivity" />
         <activity android:name=".activity.SplashActivity">
@@ -31,10 +34,6 @@
         <activity android:name=".activity.MessageShowActivity" />
         <activity android:name=".activity.SignUpActivity" />
         <activity android:name=".activity.LanguageActivity" />
-        <activity android:name=".activity.PaymentActivity" />
-        <activity android:name=".activity.AddressShowActivity" />
-        <activity android:name=".activity.AddressActivity" />
-        <activity android:name=".activity.CartActivity" />
         <activity android:name=".activity.BrandActivity" />
         <activity android:name=".activity.OtpActivity" />
         <activity android:name=".activity.ForgotActivity" />

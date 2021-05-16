@@ -1,9 +1,11 @@
 package com.apptech.myapplication.ui.sell_out.pending_verification;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +36,14 @@ import com.apptech.myapplication.other.NetworkCheck;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.service.ApiClient;
 import com.apptech.myapplication.service.LavaInterface;
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,11 +63,14 @@ public class PendingVerificationFragment extends Fragment {
     LavaInterface lavaInterface;
     SessionManage sessionManage;
     String USER_ID;
-    String StartDate = null, EndDate = null;
+//    String StartDate = null, EndDate = null;
     Button searchBtn;
     java.util.List<List> lists;
     SellOutPendingVerificationAdapter sellOutPendingVerificationAdapter;
-
+    PopupWindow mypopupWindow;
+    String StartDate ="" , End_Date = "" , TYPE = "";
+    MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
+    MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
 
     public static PendingVerificationFragment newInstance() {
         return new PendingVerificationFragment();
@@ -85,6 +95,7 @@ public class PendingVerificationFragment extends Fragment {
         USER_ID = sessionManage.getUserDetails().get("ID");
 
 
+/*
         binding.datetimefilter.setOnClickListener(v -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
             view = LayoutInflater.from(requireContext()).inflate(R.layout.row_dialog_open, null);
@@ -95,9 +106,19 @@ public class PendingVerificationFragment extends Fragment {
             toDatetitle = view.findViewById(R.id.toDatetitle);
             dilogclick();
         });
+*/
+
+        setPopUpWindow();
+        binding.datetimefilter.setOnClickListener(v -> {
+            mypopupWindow.showAsDropDown(v,-153,0);
+        });
 
 
-        StockList(getCurrentDate(), getCurrentDate());
+        String[] date = TodayDate().split("#");
+        StartDate = date[0];
+        End_Date = date[1];
+        TYPE = "PENDING";
+        StockList();
 
         binding.validsipnner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
             Log.e(TAG, "onActivityCreated: " + t1.toString().trim());
@@ -108,12 +129,155 @@ public class PendingVerificationFragment extends Fragment {
 
     }
 
+    private void setPopUpWindow() {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.popup, null);
+        TextView last_7_day = (TextView) view.findViewById(R.id.last_7_day);
+        TextView this_month = (TextView) view.findViewById(R.id.this_month);
+        TextView last_month = (TextView) view.findViewById(R.id.last_month);
+        TextView CustomDate = (TextView) view.findViewById(R.id.CustomDate);
+        mypopupWindow = new PopupWindow(view, 300, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+
+        last_7_day.setOnClickListener(v -> {
+            mypopupWindow.dismiss();
+            String[] last_7 = ThisWeekDate().split("#");
+            StartDate = last_7[1];
+            End_Date = last_7[0];
+            StockList();
+        });
+        last_month.setOnClickListener(v -> {
+            mypopupWindow.dismiss();
+            String[] lastMonth = LastMonthdate().split("#");
+            StartDate = lastMonth[0];
+            End_Date = lastMonth[1];
+            StockList();
+        });
+
+        this_month.setOnClickListener(v -> {
+            mypopupWindow.dismiss();
+            String[] thisMonth = ThisMonthdate().split("#");
+            StartDate = thisMonth[0];
+            End_Date = thisMonth[1];
+            StockList();
+        });
+
+        CustomDate.setOnClickListener(v -> {
+            mypopupWindow.dismiss();
+            datePicker();
+        });
+
+    }
+
+    private String TodayDate(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String startDateStr = df.format(calendar.getTime());
+        Calendar calendar1 = Calendar.getInstance();
+        String endDateStr = df.format(calendar1.getTime());
+        return  startDateStr + "#" + endDateStr;
+    }
 
 
-    private void StockList(String startdate, String enddate) {
-        Log.e(TAG, "onActivityCreated: " + USER_ID);
 
-        lavaInterface.SellOut_Stock_List_DateFilter(USER_ID, startdate, enddate).enqueue(new Callback<SellOutPendingVerificationList>() {
+    private String ThisWeekDate(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String startDateStr = df.format(calendar.getTime());
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.add(Calendar.DAY_OF_WEEK , -7);
+        String endDateStr = df.format(calendar1.getTime());
+        return  startDateStr + "#" + endDateStr;
+    }
+
+
+    public String FirstAndLastDate() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 0);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        Date monthFirstDay = calendar.getTime();
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date monthLastDay = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String startDateStr = df.format(monthFirstDay);
+        String endDateStr = df.format(monthLastDay);
+        Log.e("DateFirstLast",startDateStr+" "+endDateStr);
+        return  startDateStr + "#" + endDateStr;
+    }
+
+    public String LastMonthdate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        Date monthFirstDay = calendar.getTime();
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date monthLastDay = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String startDateStr = df.format(monthFirstDay);
+        String endDateStr = df.format(monthLastDay);
+        Log.e("DateFirstLast",startDateStr+" "+endDateStr);
+        return  startDateStr + "#" + endDateStr;
+    }
+
+    public String ThisMonthdate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 0);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        Date monthFirstDay = calendar.getTime();
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date monthLastDay = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String startDateStr = df.format(monthFirstDay);
+        String endDateStr = df.format(monthLastDay);
+        Log.e("DateFirstLast",startDateStr+" "+endDateStr);
+        return  startDateStr + "#" + endDateStr;
+    }
+
+
+
+
+    private void datePicker() {
+        builder.setTitleText("Select date");
+        binding.datetimefilter.setClickable(false);
+        materialDatePicker.show(getChildFragmentManager(), "");
+
+        materialDatePicker.addOnCancelListener(dialog -> {
+            binding.datetimefilter.setClickable(true);
+        });
+
+
+        materialDatePicker.addOnDismissListener(dialog -> {
+            binding.datetimefilter.setClickable(true);
+        });
+
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            Log.e(TAG, "datePicker: " + selection.first );
+            Log.e(TAG, "datePicker: " + selection.second );
+            binding.datetimefilter.setClickable(true);
+            StartDate = getTimeStamp(selection.first) ;
+            End_Date = getTimeStamp(selection.second);
+            StockList();
+        });
+
+
+    }
+
+    public String getTimeStamp(long timeinMillies) {
+        String date = null;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // modify format
+        date = formatter.format(new Date(timeinMillies));
+        System.out.println("Today is " + date);
+        return date;
+    }
+
+
+
+    private void StockList() {
+
+//        Toast.makeText(getContext(), "start date :" + StartDate , Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "start END :" + End_Date , Toast.LENGTH_SHORT).show();
+
+        lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
 
@@ -210,7 +374,7 @@ public class PendingVerificationFragment extends Fragment {
                     (view, year1, monthOfYear, dayOfMonth) -> {
                         toTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                         Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
-                        EndDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                        End_Date = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                     }, year, month, day);
             picker.show();
         });
@@ -223,7 +387,7 @@ public class PendingVerificationFragment extends Fragment {
         binding.noStock.setVisibility(View.GONE);
 
 
-        lavaInterface.SellOut_Stock_List_DateFilter(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
+        lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
@@ -245,9 +409,13 @@ public class PendingVerificationFragment extends Fragment {
                         return;
                     }
                     binding.noStock.setVisibility(View.VISIBLE);
+                    binding.progressbar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 binding.progressbar.setVisibility(View.GONE);
-
+                binding.noStock.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
 
             @Override

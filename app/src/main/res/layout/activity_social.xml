@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.SocialActivity"
-    android:background="@drawable/lava_back"
+    android:background="@color/back_all"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 

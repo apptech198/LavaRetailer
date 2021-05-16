@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="list"
-            type="com.apptech.myapplication.modal.message.List" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:padding="5dp">
+        android:padding="5dp"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,6 +19,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.github.florent37.expansionpanel.ExpansionHeader
+                android:id="@+id/ExpansionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:expansion_layout="@id/expansionLayout"
@@ -64,7 +57,6 @@
                             android:ellipsize="end"
                             android:fontFamily="@font/lato_bold"
                             android:maxLines="1"
-                            android:text="@{list.heading}"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                             android:textColor="@color/black"
                             android:textStyle="bold"
@@ -88,11 +80,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:layout_marginEnd="8dp"
-                            android:layout_marginRight="8dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/lato_regular"
                             android:maxLines="2"
-                            android:text="@{list.des}"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                             android:textColor="#c8c9cb"
                        />
@@ -125,22 +115,37 @@
                 android:background="@color/white"
                 android:layout_marginTop="4dp">
 
-                <com.google.android.material.textview.MaterialTextView
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:paddingEnd="15dp"
-                    android:fontFamily="@font/montserrat_regular"
+                    android:orientation="vertical">
 
-                    android:text="@{list.des}"
-                    android:textSize="12sp"
-                    android:textColor="#c8c9cb"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/msgfull"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:paddingEnd="15dp"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:textSize="12sp"
+                        android:textColor="#c8c9cb"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/img"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintTop_toBottomOf="@+id/msgfull"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </com.github.florent37.expansionpanel.ExpansionLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

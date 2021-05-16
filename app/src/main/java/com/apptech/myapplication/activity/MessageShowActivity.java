@@ -84,15 +84,11 @@ public class MessageShowActivity extends AppCompatActivity {
             @Override
             public void removeitem(int pos, NotificationListShow list) {
 
-                binding.progressbar.setVisibility(View.VISIBLE);
-                binding.mainLayout.setEnabled(false);
-
                 try {
 
                     if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
                         try {
-                            JSONObject jsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
-                            mainJsonObject = jsonObject;
+                            mainJsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -116,11 +112,11 @@ public class MessageShowActivity extends AppCompatActivity {
 
                 }catch (IndexOutOfBoundsException e){
                     e.printStackTrace();
+                    Log.e(TAG, "removeitem: " + e.getMessage() );
                     dialogOpen();
                 }
 
-                binding.progressbar.setVisibility(View.GONE);
-                binding.mainLayout.setEnabled(true);
+
             }
         };
 

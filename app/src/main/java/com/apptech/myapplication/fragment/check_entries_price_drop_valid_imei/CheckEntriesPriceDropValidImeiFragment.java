@@ -155,7 +155,7 @@ public class CheckEntriesPriceDropValidImeiFragment extends Fragment implements 
 
         Log.e(TAG, "submitImei: " + mainJsonObject);
 
-        Call call = lavaInterface.SellOut_PriceDropEntry(mainJsonObject);
+        /*Call call = lavaInterface.SellOut_PriceDropEntry(mainJsonObject);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -215,6 +215,7 @@ public class CheckEntriesPriceDropValidImeiFragment extends Fragment implements 
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+        */
     }
 
     private void removeView() {

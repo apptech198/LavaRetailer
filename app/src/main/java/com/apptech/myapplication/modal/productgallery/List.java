@@ -16,7 +16,7 @@ public class List {
     private String proId;
     @SerializedName("pro_name")
     @Expose
-    private Object proName;
+    private String proName;
     @SerializedName("img_url")
     @Expose
     private String imgUrl;
@@ -25,7 +25,7 @@ public class List {
     private String imgUrlAr;
     @SerializedName("time")
     @Expose
-    private Object time;
+    private String time;
 
     public String getId() {
         return id;
@@ -43,11 +43,11 @@ public class List {
         this.proId = proId;
     }
 
-    public Object getProName() {
+    public String getProName() {
         return proName;
     }
 
-    public void setProName(Object proName) {
+    public void setProName(String proName) {
         this.proName = proName;
     }
 
@@ -67,11 +67,11 @@ public class List {
         this.imgUrlAr = imgUrlAr;
     }
 
-    public Object getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Object time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

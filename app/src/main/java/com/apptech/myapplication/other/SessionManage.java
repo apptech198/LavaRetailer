@@ -93,6 +93,12 @@ public class SessionManage {
     public static final String BRAND_ID = "BRAND_ID";
     public static final String BRAND_NAME = "BRAND_NAME";
     public static final String BRAND_NAME_AR = "BRAND_NAME_AR";
+    public static final String LOCALITY_AR = "LOCALITY_AR";
+
+    public static final String REMEMBER_MOB = "REMEMBER_MOB";
+    public static final String REMEMBER_PSW = "REMEMBER_PSW";
+    public static final String OUTLET_NAME = "OUTLET_NAME";
+    public static final String USER_IMG = "USER_IMG";
 
     private static SessionManage ourInstance = null;
 
@@ -143,12 +149,20 @@ public class SessionManage {
         user.put(BRAND_NAME_AR, pref.getString(BRAND_NAME_AR, null));
         user.put(LOCALITY_ID, pref.getString(LOCALITY_ID, null));
 
+
         user.put(NOTIFICATION_LIST_STORE, pref.getString(NOTIFICATION_LIST_STORE, null));
 
         user.put(LOCALITY, pref.getString(LOCALITY, null));
         user.put(NAME, pref.getString(NAME, null));
         user.put(MOBILE, pref.getString(MOBILE, null));
+        user.put(EMAIL, pref.getString(EMAIL, null));
         user.put(ADDRESS, pref.getString(ADDRESS, null));
+        user.put(LOCALITY_AR, pref.getString(LOCALITY_AR, null));
+        user.put(REMEMBER_MOB, pref.getString(REMEMBER_MOB, null));
+        user.put(REMEMBER_PSW, pref.getString(REMEMBER_PSW, null));
+        user.put(GOVERNATE, pref.getString(GOVERNATE, null));
+        user.put(OUTLET_NAME, pref.getString(OUTLET_NAME, null));
+        user.put(USER_IMG, pref.getString(USER_IMG, null));
 
 
         // return user
@@ -207,7 +221,7 @@ public class SessionManage {
     }
 
 
-    public void UserDetail(String id, String name, String email, String mobile, String user_type, String password, String governate, String city, String locality, String time, String address , String locality_id) {
+    public void UserDetail(String id, String name, String email, String mobile, String user_type, String password, String governate, String locality_ar, String locality, String time, String address , String locality_id , String outlet_name , String img) {
         editor.putString(ID, id);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
@@ -215,11 +229,13 @@ public class SessionManage {
         editor.putString(USER_TYPE, user_type);
         editor.putString(PASSWORD, password);
         editor.putString(GOVERNATE, governate);
-        editor.putString(CITY, city);
+        editor.putString(LOCALITY_AR, locality_ar);
         editor.putString(LOCALITY, locality);
         editor.putString(TIME, time);
         editor.putString(ADDRESS, address);
         editor.putString(LOCALITY_ID, locality_id);
+        editor.putString(OUTLET_NAME, outlet_name);
+        editor.putString(USER_IMG, img);
         editor.commit();
     }
 
@@ -246,6 +262,23 @@ public class SessionManage {
 
     public void RemoveNotificationStore() {
         editor.remove(NOTIFICATION_LIST_STORE).commit();
+    }
+
+    public void RememberMe(String mob , String psw){
+        editor.putString(REMEMBER_MOB , mob);
+        editor.putString(REMEMBER_PSW , psw);
+        editor.commit();
+    }
+
+    public void BrandClear(){
+        editor.remove(BRAND_ID).commit();
+        editor.remove(BRAND_NAME).commit();
+        editor.remove(BRAND_NAME_AR).commit();
+    }
+
+    public void AddressChange(String address){
+        editor.putString(ADDRESS, address);
+        editor.commit();
     }
 
 

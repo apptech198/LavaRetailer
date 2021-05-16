@@ -2,6 +2,7 @@ package com.apptech.myapplication.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.apptech.myapplication.R;
 import com.apptech.myapplication.adapter.CityAdapter;
@@ -106,6 +108,24 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             Log.e(TAG, "onCreate: " + e.getMessage() );
         }
 
+
+        int[][] states = new int[][] {
+                new int[] { android.R.attr.state_focused}, // focused
+                new int[] { android.R.attr.state_hovered}, // hovered
+                new int[] { android.R.attr.state_enabled}, // enabled
+                new int[] {}  //
+        };
+
+        int[] colors = new int[] {
+                getResources().getColor(R.color.login_tint_color),
+                getResources().getColor(R.color.login_tint_color),
+                getResources().getColor(R.color.login_tint_color),
+                getResources().getColor(R.color.login_tint_color)
+        };
+
+        ColorStateList myColorList = new ColorStateList(states, colors);
+        binding.password.setBoxStrokeColorStateList(myColorList);
+        binding.Confirmpassword.setBoxStrokeColorStateList(myColorList);
 
 
 
@@ -224,7 +244,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             }
         });
 
-        binding.password.addTextChangedListener(new TextWatcher() {
+        binding.Password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -232,7 +252,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.passwordError.setVisibility(View.GONE);
+                binding.password.setError(null);
+                binding.password.setErrorEnabled(false);
             }
 
             @Override
@@ -241,7 +262,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             }
         });
 
-        binding.Confirmpassword.addTextChangedListener(new TextWatcher() {
+        binding.ConPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -249,7 +270,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                ConfirmPasswordCheck(binding.password.getText().toString().trim() , binding.Confirmpassword.getText().toString().trim());
+                ConfirmPasswordCheck(binding.password.getEditText().getText().toString().trim() , binding.Confirmpassword.getEditText().getText().toString().trim());
             }
 
             @Override
@@ -304,7 +325,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         Call call = lavaInterface.Signup(
                 binding.name.getText().toString().trim()
                 ,binding.number.getText().toString().trim()
-                ,binding.password.getText().toString().trim()
+                ,binding.password.getEditText().getText().toString().trim()
                 ,binding.email.getText().toString().trim()
                 ,Locality
                 ,GovernateSelect
@@ -341,7 +362,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                     user_data.getString("locality"),
                                     user_data.getString("time"),
                                     user_data.getString("address"),
-                                    user_data.getString("locality_id")
+                                    user_data.getString("locality_id"),
+                                    user_data.getString("outlet_name"),
+                                    ""
                             );
                             startActivity(new Intent(SignUpActivity.this, MessageShowActivity.class));
                             sessionManage.FirstTimeLanguage("true");
@@ -351,12 +374,13 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                         }
                         Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         binding.progressbar.setVisibility(View.GONE);
-
+                        return;
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        binding.progressbar.setVisibility(View.GONE);
-                        Toast.makeText(SignUpActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     }
+
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(SignUpActivity.this, getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -665,8 +689,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         if (NameValidation(binding.name.getText().toString().trim())
                 && NumberCheck(binding.number.getText().toString().trim())
                 && EmailCheck(binding.email.getText().toString())
-                && PasswordCheck(binding.password.getText().toString().trim())
-                && ConfirmPasswordCheck(binding.password.getText().toString().trim() , binding.Confirmpassword.getText().toString().trim())
+                && PasswordCheck(binding.password.getEditText().getText().toString().trim())
+                && ConfirmPasswordCheck(binding.password.getEditText().getText().toString().trim() , binding.Confirmpassword.getEditText().getText().toString().trim())
                 && OutletNameValidation(binding.outletName.getText().toString().trim())
                 && AddressCheck(binding.address.getText().toString().trim())
                 && GovernateValid()
@@ -740,39 +764,27 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     private boolean PasswordCheck(String psw) {
         if (psw.isEmpty()) {
             binding.password.setError(getResources().getString(R.string.field_required));
-            binding.passwordError.setVisibility(View.VISIBLE);
-            binding.passwordError.setText(getResources().getString(R.string.field_required));
             return false;
         } else if (psw.length() <= 6) {
             binding.password.setError(getResources().getString(R.string.psw_short));
-            binding.passwordError.setVisibility(View.VISIBLE);
-            binding.passwordError.setText(getResources().getString(R.string.psw_short));
             return false;
         }
         binding.password.setError(null);
-        binding.passwordError.setVisibility(View.GONE);
         return true;
     }
 
     private boolean ConfirmPasswordCheck(String psw , String confirmpass) {
         if (confirmpass.isEmpty()) {
             binding.Confirmpassword.setError(getResources().getString(R.string.field_required));
-            binding.ConfirmpasswordError.setVisibility(View.VISIBLE);
-            binding.ConfirmpasswordError.setText(getResources().getString(R.string.field_required));
             return false;
         } else if (confirmpass.length() != psw.length()) {
             binding.Confirmpassword.setError(getResources().getString(R.string.psw_not_match));
-            binding.ConfirmpasswordError.setVisibility(View.VISIBLE);
-            binding.ConfirmpasswordError.setText(getResources().getString(R.string.psw_not_match));
             return false;
         } else if (!psw.equalsIgnoreCase(confirmpass)) {
             binding.Confirmpassword.setError(getResources().getString(R.string.psw_not_match));
-            binding.ConfirmpasswordError.setVisibility(View.VISIBLE);
-            binding.ConfirmpasswordError.setText(getResources().getString(R.string.psw_not_match));
             return false;
         }
         binding.Confirmpassword.setError(null);
-        binding.ConfirmpasswordError.setVisibility(View.GONE);
         return true;
     }
 

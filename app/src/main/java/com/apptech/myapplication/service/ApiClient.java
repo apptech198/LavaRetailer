@@ -13,6 +13,8 @@ public class ApiClient {
 //    public static final String BASE_URL = "http://lavamobilesafrica.com/gbrretail/index.php/app/";
     public static final String BASE_URL = "http://lavamobilesafrica.com/retailgbr/index.php/app/";
     public static final String Image_URL = "http://lavamobilesafrica.com/retailgbr/";
+    public static final String YOUTUBE_API_KEY = "AIzaSyAJjnImxDQ3D-gb0lkKeqPsuzMLtx2RW3I";
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {

@@ -78,10 +78,10 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
         sessionManage = SessionManage.getInstance(getContext());
 
 
-        String[] date = ThisWeekDate().split("#");
+        String[] date = TodayDate().split("#");
         StartDate = date[0];
         End_Date = date[1];
-        TYPE = "DELIVERED";
+        TYPE = "PENDING";
 
         getOrderStatus(StartDate , End_Date , TYPE);
 
@@ -104,12 +104,16 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
         LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.popup, null);
         TextView last_7_day = (TextView) view.findViewById(R.id.last_7_day);
+        TextView this_month = (TextView) view.findViewById(R.id.this_month);
         TextView last_month = (TextView) view.findViewById(R.id.last_month);
         TextView CustomDate = (TextView) view.findViewById(R.id.CustomDate);
         mypopupWindow = new PopupWindow(view, 300, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
 
         last_7_day.setOnClickListener(v -> {
             mypopupWindow.dismiss();
+            String[] last_7 = ThisWeekDate().split("#");
+            StartDate = last_7[0];
+            End_Date = last_7[1];
             getOrderStatus(StartDate , End_Date , TYPE);
         });
         last_month.setOnClickListener(v -> {
@@ -117,6 +121,14 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
             String[] lastMonth = LastMonthdate().split("#");
             StartDate = lastMonth[0];
             End_Date = lastMonth[1];
+            getOrderStatus(StartDate , End_Date , TYPE);
+        });
+
+        this_month.setOnClickListener(v -> {
+            mypopupWindow.dismiss();
+            String[] thisMonth = ThisMonthdate().split("#");
+            StartDate = thisMonth[1];
+            End_Date = thisMonth[0];
             getOrderStatus(StartDate , End_Date , TYPE);
         });
 
@@ -128,12 +140,23 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     }
 
 
-    private String ThisWeekDate(){
+    private String TodayDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String startDateStr = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
-        calendar1.add(Calendar.DAY_OF_WEEK , -14);
+        String endDateStr = df.format(calendar1.getTime());
+        return  startDateStr + "#" + endDateStr;
+    }
+
+
+
+    private String ThisWeekDate(){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String startDateStr = df.format(calendar.getTime());
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.add(Calendar.DAY_OF_WEEK , -7);
         String endDateStr = df.format(calendar1.getTime());
         return  startDateStr + "#" + endDateStr;
     }
@@ -156,6 +179,20 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     public String LastMonthdate(){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
+        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
+        Date monthFirstDay = calendar.getTime();
+        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+        Date monthLastDay = calendar.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        String startDateStr = df.format(monthFirstDay);
+        String endDateStr = df.format(monthLastDay);
+        Log.e("DateFirstLast",startDateStr+" "+endDateStr);
+        return  startDateStr + "#" + endDateStr;
+    }
+
+    public String ThisMonthdate(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, 0);
         calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
@@ -204,7 +241,6 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
         });
 
 
-
     }
 
     public String getTimeStamp(long timeinMillies) {
@@ -225,6 +261,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
         binding.progressbar.setVisibility(View.VISIBLE);
 
         String RetId = sessionManage.getUserDetails().get("ID");
+        Log.e(TAG, "getOrderStatus: " + RetId );
 
         lavaInterface.ORDER_STATUS_LIST_CALL(RetId ,endDate , strDate).enqueue(new Callback<OrderStatusList>() {
             @Override

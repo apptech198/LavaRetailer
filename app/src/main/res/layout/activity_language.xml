@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lava_back"
+    android:background="@color/back_all"
     tools:context=".activity.LanguageActivity">
 
     <com.google.android.material.textview.MaterialTextView

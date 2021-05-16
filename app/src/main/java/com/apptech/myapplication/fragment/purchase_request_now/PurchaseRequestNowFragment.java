@@ -17,27 +17,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.apptech.myapplication.R;
-import com.apptech.myapplication.activity.CartActivity;
 import com.apptech.myapplication.adapter.PurchaseNowAdapter;
 import com.apptech.myapplication.bottomsheet.category_filter.CategoryFilterBottomSheetFragment;
 import com.apptech.myapplication.bottomsheet.short_filter.ShortFilterBottomSheetFragment;
 import com.apptech.myapplication.databinding.PurchaseRequestNowFragmentBinding;
-import com.apptech.myapplication.modal.locality.Locality;
 import com.apptech.myapplication.modal.product.ProductList;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.other.SpacesItemDecoration;
 import com.apptech.myapplication.service.ApiClient;
 import com.apptech.myapplication.service.LavaInterface;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -98,7 +93,7 @@ public class PurchaseRequestNowFragment extends Fragment implements ShortFilterB
         getProduct();
 
         binding.viewCardFloat.setOnClickListener(v -> {
-            startActivity(new Intent(requireContext(), CartActivity.class));
+//            startActivity(new Intent(requireContext(), CartActivity.class));
         });
 
         binding.noproduct.setVisibility(View.GONE);

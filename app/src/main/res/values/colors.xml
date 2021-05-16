@@ -26,6 +26,12 @@
     <color name="gray">#A8A5A5</color>
     <color name="logintext">#525662</color>
     <color name="login_edit_text_back">#f2f2f2</color>
+    <color name="login_tint_color">#757575</color>
+    <color name="login_icon_color">#545864</color>
+    <color name="back_all">#1f1f29</color>
+    <color name="blackColor">#707070</color>
+    <color name="blacklight">#989898</color>
+
 
 
 </resources>

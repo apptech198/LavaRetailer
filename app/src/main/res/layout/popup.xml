@@ -20,6 +20,17 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/this_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This month"
+        android:paddingTop="16dp"
+        android:fontFamily="@font/lato_semi_bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_7_day"/>
+
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/last_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +39,7 @@
         android:paddingTop="16dp"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/last_7_day"/>
+        app:layout_constraintTop_toBottomOf="@+id/this_month"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/CustomDate"

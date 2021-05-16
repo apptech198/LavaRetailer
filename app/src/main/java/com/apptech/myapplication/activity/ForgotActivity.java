@@ -41,6 +41,8 @@ public class ForgotActivity extends AppCompatActivity {
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
 
+
+
         binding.forgotBtn.setOnClickListener(v -> {
             if(new NetworkCheck().haveNetworkConnection(this)){
                 if(validation()){
@@ -94,9 +96,10 @@ public class ForgotActivity extends AppCompatActivity {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
                     String error = jsonObject.getString("error");
                     String message = jsonObject.getString("message");
+
                     if (error.equalsIgnoreCase("false")) {
                         JSONObject userinfo = jsonObject.getJSONObject("user_info");
-                        String otp = userinfo.getString("login_otp");
+                        String otp = jsonObject.optString("otp");
                         startActivity(new Intent(ForgotActivity.this  , ConfirmPasswordActivity.class).putExtra("mob" , binding.NumberInputLayout.getText().toString().trim()).putExtra("otp" , otp));
                         binding.progressbar.setVisibility(View.GONE);
                         return;

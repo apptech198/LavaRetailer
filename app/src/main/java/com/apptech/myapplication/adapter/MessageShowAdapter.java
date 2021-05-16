@@ -16,6 +16,7 @@ import com.apptech.myapplication.databinding.RowMessageShowBinding;
 import com.apptech.myapplication.modal.notification_list.NotificationListShow;
 import com.apptech.myapplication.service.ApiClient;
 import com.bumptech.glide.Glide;
+import com.github.florent37.expansionpanel.viewgroup.ExpansionLayoutCollection;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -27,6 +28,8 @@ public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.
     Context context;
     MessageShowInterface messageShowInterface;
     private static final String TAG = "MessageShowAdapter";
+    final ExpansionLayoutCollection expansionLayoutCollection = new ExpansionLayoutCollection();
+
 
     public MessageShowAdapter(List<NotificationListShow> frontMsgShowLists, MessageShowInterface messageShowInterface) {
         this.frontMsgShowLists = frontMsgShowLists;
@@ -48,6 +51,9 @@ public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.
 
         holder.binding.msgTitle.setText(list.getHeading());
         holder.binding.msgfull.setText(list.getDes());
+
+        expansionLayoutCollection.add(holder.binding.expansionLayout);
+        expansionLayoutCollection.openOnlyOne(true);
 
         if(list.getImg() != null && !list.getImg().isEmpty()){
             holder.binding.img.setVisibility(View.VISIBLE);

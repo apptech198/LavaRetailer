@@ -1,6 +1,5 @@
 package com.apptech.myapplication.ui.order.product_details;
 
-import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,22 +16,22 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.apptech.myapplication.R;
-import com.apptech.myapplication.activity.CartActivity;
 import com.apptech.myapplication.adapter.ProductGalleryAdapter;
 import com.apptech.myapplication.databinding.ProductDetailsFragmentBinding;
+import com.apptech.myapplication.list.product_gallery.ProductGalleryLists;
 import com.apptech.myapplication.modal.product.ProductList;
 import com.apptech.myapplication.modal.productgallery.ProductGalleryList;
-import com.apptech.myapplication.other.LanguageChange;
 import com.apptech.myapplication.other.SessionManage;
 import com.apptech.myapplication.service.ApiClient;
 import com.apptech.myapplication.service.LavaInterface;
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,6 +49,8 @@ public class ProductDetailsFragment extends Fragment {
     JSONObject ProductJsonObject = new JSONObject();
     String BRAND_ID = "";
     NavController navController;
+    List<ProductGalleryLists> galleryLists = new ArrayList<>();
+
     public static ProductDetailsFragment newInstance() {
         return new ProductDetailsFragment();
     }
@@ -81,7 +82,7 @@ public class ProductDetailsFragment extends Fragment {
         list = ProductDetailsFragmentArgs.fromBundle(getArguments()).getProductList();
 
 
-        getGallary(list.getId());
+        getGallary(list.getProduct_id());
 
         qtyset1();
         cardQuntyUpdate();
@@ -223,7 +224,37 @@ public class ProductDetailsFragment extends Fragment {
                 if(response.isSuccessful()){
                     if (!response.body().getError()){
                         if(response.body().getList().size() > 0){
-                            binding.viewpager.setAdapter(new ProductGalleryAdapter(response.body().getList() , getContext()));
+
+                            for (int i=0 ; i < response.body().getList().size(); i++){
+                                com.apptech.myapplication.modal.productgallery.List l = response.body().getList().get(i);
+                                galleryLists.add(new ProductGalleryLists(
+                                        l.getId()
+                                        ,l.getProId()
+                                        ,l.getProName()
+                                        ,l.getImgUrl()
+                                        ,l.getImgUrlAr()
+                                        ,l.getTime()
+                                        ,""
+                                        ,""
+                                        ,"IMAGE"
+                                ));
+                            }
+
+                            galleryLists.add(new ProductGalleryLists(
+                                  ""
+                                    ,""
+                                    ,""
+                                    ,""
+                                    ,""
+                                    ,""
+                                    ,list.getVideo()
+                                    ,list.getVideo_ar()
+                                    ,"VIDEO"
+                            ));
+
+
+                            binding.viewpager.setAdapter(new ProductGalleryAdapter(galleryLists , getContext()));
+
                         }
                         binding.progressbar.setVisibility(View.GONE);
                         return;
@@ -324,6 +355,8 @@ public class ProductDetailsFragment extends Fragment {
             }
         }
     }
+
+
 
 
 }

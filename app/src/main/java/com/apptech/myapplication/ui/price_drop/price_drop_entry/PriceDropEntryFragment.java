@@ -162,7 +162,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
         Log.e(TAG, "submitImei: " + mainJsonObject);
 
-        Call call = lavaInterface.SellOut_PriceDropEntry(mainJsonObject);
+        Call call = lavaInterface.PRICE_DROP_IMEI(mainJsonObject);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
