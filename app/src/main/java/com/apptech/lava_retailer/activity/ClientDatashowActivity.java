@@ -404,10 +404,21 @@ public class ClientDatashowActivity extends AppCompatActivity {
     private void SelectSmartSearchGovernate(){
 
         com.apptech.lava_retailer.adapter.GovernateAdapter.GovernateInterface governateInterface = (list) -> {
-            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                binding.SelectGovernate.setText(list.getName());
-            } else {
-                binding.SelectGovernate.setText(list.getName_ar());
+
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                    binding.SelectGovernate.setText(list.getName());
+                    break;
+                case "fr":
+                    if(list.getName_fr().isEmpty()){
+                        binding.SelectGovernate.setText(list.getName());
+                    }else {
+                        binding.SelectGovernate.setText(list.getName_fr());
+                    }
+                    break;
+                case "ar":
+                    binding.SelectGovernate.setText(list.getName_ar());
+                    break;
             }
 
             GovernateSelect = list.getId();
@@ -687,7 +698,9 @@ public class ClientDatashowActivity extends AppCompatActivity {
                             return;
                         }
 
-                        sessionManage.UserDetail(jsonObject1.getString("id"),
+                        sessionManage.UserDetail(
+                                jsonObject1.getString("id"),
+                                jsonObject1.getString("user_unique_id"),
                                 jsonObject1.getString("name"),
                                 jsonObject1.getString("email"),
                                 jsonObject1.getString("mobile"),
@@ -780,11 +793,13 @@ public class ClientDatashowActivity extends AppCompatActivity {
         binding.progressbar.setVisibility(View.GONE);
 
         CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
+
             binding.SelectCountry.setText(text);
-            CountryID = list.getId();
+            CountryID = list.getName();
             binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
             binding.progressbar.setVisibility(View.VISIBLE);
             getGovernate();
+
         };
 
         CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);

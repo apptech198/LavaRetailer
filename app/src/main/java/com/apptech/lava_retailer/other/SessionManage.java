@@ -77,6 +77,7 @@ public class SessionManage {
 
 
     public static final String ID = "ID";
+    public static final String USER_UNIQUE_ID = "USER_UNIQUE_ID";
     public static final String NAME = "NAME";
     public static final String EMAIL = "EMAIL";
     public static final String MOBILE = "MOBILE";
@@ -153,6 +154,7 @@ public class SessionManage {
         user.put(FIRST_TIME_LANGUAGE, pref.getString(FIRST_TIME_LANGUAGE, null));
 
         user.put(BRAND_ID, pref.getString(BRAND_ID, null));
+        user.put(USER_UNIQUE_ID, pref.getString(USER_UNIQUE_ID, null));
         user.put(BRAND_NAME, pref.getString(BRAND_NAME, null));
         user.put(BRAND_NAME_AR, pref.getString(BRAND_NAME_AR, null));
         user.put(LOCALITY_ID, pref.getString(LOCALITY_ID, null));
@@ -236,10 +238,11 @@ public class SessionManage {
     }
 
 
-    public void UserDetail(String id, String name, String email, String mobile, String user_type, String password
+    public void UserDetail(String id , String user_unique_id, String name, String email, String mobile, String user_type, String password
             , String governate, String locality_ar, String locality, String time, String address
             , String locality_id , String outlet_name , String img , String country_name , String country_id) {
         editor.putString(ID, id);
+        editor.putString(USER_UNIQUE_ID, user_unique_id);
         editor.putString(NAME, name);
         editor.putString(EMAIL, email);
         editor.putString(MOBILE, mobile);

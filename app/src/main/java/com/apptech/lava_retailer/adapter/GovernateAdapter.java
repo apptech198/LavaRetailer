@@ -47,11 +47,30 @@ public class GovernateAdapter extends RecyclerView.Adapter<GovernateAdapter.View
     public void onBindViewHolder(@NonNull GovernateAdapter.Viewholder holder, int position) {
         GovernateList l = governatelist.get(position);
 
-        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-            holder.textView.setText(l.getName());
-        } else {
-            holder.textView.setText(l.getName_ar());
+//        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//            holder.textView.setText(l.getName());
+//        } else {
+//            holder.textView.setText(l.getName_ar());
+//        }
+
+        switch (sessionManage.getUserDetails().get("LANGUAGE")){
+            case "en":
+                holder.textView.setText(l.getName());
+                break;
+            case "fr":
+                if(l.getName_fr().isEmpty()){
+                    holder.textView.setText(l.getName());
+                }else {
+                    holder.textView.setText(l.getName_fr());
+                }
+                break;
+            case "ar":
+                holder.textView.setText(l.getName_ar());
+                break;
         }
+
+
+
         holder.mainLayout.setOnClickListener(v -> governateInterface.OnItemClick(l));
     }
 
@@ -75,15 +94,36 @@ public class GovernateAdapter extends RecyclerView.Adapter<GovernateAdapter.View
             } else {
                 for (GovernateList movie: ListAll) {
 
-                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                        if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            filteredList.add(movie);
-                        }
-                    } else {
-                        if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                            filteredList.add(movie);
-                        }
+                    switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                        case "en":
+                        case "fr":
+                            if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                filteredList.add(movie);
+                            }
+                            break;
+//                        case "fr":
+//                            if(l.getName_fr().isEmpty()){
+//                                holder.textView.setText(l.getName());
+//                            }else {
+//                                holder.textView.setText(l.getName_fr());
+//                            }
+//                            break;
+                        case "ar":
+                            if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                filteredList.add(movie);
+                            }
+                            break;
                     }
+
+//                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//                        if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+//                            filteredList.add(movie);
+//                        }
+//                    } else {
+//                        if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+//                            filteredList.add(movie);
+//                        }
+//                    }
                 }
             }
 

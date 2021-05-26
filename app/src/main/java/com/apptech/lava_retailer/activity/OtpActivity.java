@@ -124,8 +124,7 @@ public class OtpActivity extends AppCompatActivity   {
     private void ResendOtp() {
 
         binding.progressbar.setVisibility(View.VISIBLE);
-
-        lavaInterface.RESEND_OTP(mob).enqueue(new Callback<Object>() {
+        lavaInterface.RESEND_OTP(mob , sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME")).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

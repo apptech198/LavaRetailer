@@ -330,7 +330,9 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                             }
 
 
-                            sessionManage.UserDetail(jsonObject1.getString("id"),
+                            sessionManage.UserDetail(
+                                    jsonObject1.getString("id"),
+                                    jsonObject1.getString("user_unique_id"),
                                     jsonObject1.getString("name"),
                                     jsonObject1.optString("email"),
                                     jsonObject1.getString("mobile"),

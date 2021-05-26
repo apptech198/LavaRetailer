@@ -49,10 +49,26 @@ public class LocalityAdapter extends RecyclerView.Adapter<LocalityAdapter.Viewho
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         LocalityList list = localityList.get(position);
 
-        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-            holder.textView.setText(list.getName_ar());
-        } else {
-            holder.textView.setText(list.getName());
+//        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//            holder.textView.setText(list.getName_ar());
+//        } else {
+//            holder.textView.setText(list.getName());
+//        }
+
+        switch (sessionManage.getUserDetails().get("LANGUAGE")){
+            case "en":
+                holder.textView.setText(list.getName());
+                break;
+            case "fr":
+                if(list.getName_fr().isEmpty()){
+                    holder.textView.setText(list.getName());
+                }else {
+                    holder.textView.setText(list.getName_fr());
+                }
+                break;
+            case "ar":
+                holder.textView.setText(list.getName_ar());
+                break;
         }
 
         holder.mainLayout.setOnClickListener(v -> localityInterface.OnItemClick(list));
@@ -80,15 +96,40 @@ public class LocalityAdapter extends RecyclerView.Adapter<LocalityAdapter.Viewho
                 try {
 
                     for (LocalityList movie: ListAll) {
-                        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                            if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                                filteredList.add(movie);
-                            }
-                        } else {
-                            if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                                filteredList.add(movie);
-                            }
+//                        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//                            if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+//                                filteredList.add(movie);
+//                            }
+//                        } else {
+//                            if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+//                                filteredList.add(movie);
+//                            }
+//                        }
+
+                        switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                            case "en":
+                            case "fr":
+                                if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                    filteredList.add(movie);
+                                }
+                                break;
+//                            case "fr":
+//                                if(list.getName_fr().isEmpty()){
+//                                    if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+//                                        filteredList.add(movie);
+//                                    }
+//                                }else {
+//                                    holder.textView.setText(list.getName_fr());
+//                                }
+//                                break;
+                            case "ar":
+                                if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                    filteredList.add(movie);
+                                }
+                                break;
                         }
+
+
                     }
 
                 }catch (NullPointerException e){

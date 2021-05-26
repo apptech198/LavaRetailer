@@ -84,14 +84,14 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
-            new LanguageChange(this, "FR");
+            Languages = "FR";
         }  else {
             Languages = "AR";
         }
 
 
         MOB = getIntent().getStringExtra("MOB");
-        signup_type = getIntent().getStringExtra("SIGNUP_TYPE");
+        signup_type = getIntent().getStringExtra("TYPE");
 
         try {
             Intent intent = getIntent();
@@ -148,10 +148,11 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             social_auth_token = personId;
         }
 
-
-        if(getIntent().getStringExtra("TYPE").equalsIgnoreCase("FACEBOOK")){
-            social_auth_token = getIntent().getStringExtra("UserId");
-        }
+//        if(getIntent() != null){
+//            if(getIntent().getStringExtra("TYPE").equalsIgnoreCase("FACEBOOK")){
+//                social_auth_token = getIntent().getStringExtra("UserId");
+//            }
+//        }
 
 
 
@@ -181,12 +182,14 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             popupMenu.setOnMenuItemClickListener(item -> {
                 if (item.getTitle().equals("English")) {
                     sessionManage.setlanguage("en");
-                } else {
+                } else if (item.getTitle().equals("French")){
+                    sessionManage.setlanguage("fr");
+                }else {
                     sessionManage.setlanguage("ar");
                 }
                 Intent intent = new Intent(new Intent(this, SignUpActivity.class));
                 intent.putExtra("MOB" , MOB);
-                intent.putExtra("SIGNUP_TYPE" , signup_type);
+                intent.putExtra("TYPE" , getIntent().getStringExtra("TYPE"));
                 startActivity(intent);
                 finish();
                 return true;
@@ -195,6 +198,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         });
         Hideerror();
 
+        Toast.makeText(this, "sign" + signup_type, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -332,6 +336,23 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         binding.progressbar.setVisibility(View.VISIBLE);
         Log.e(TAG, "SignUp: " + social_auth_token );
 
+
+        Log.e(TAG, "SignUp: " + binding.name.getText().toString().trim()  );
+        Log.e(TAG, "SignUp: " + binding.number.getText().toString().trim()  );
+        Log.e(TAG, "SignUp: " + binding.password.getEditText().getText().toString().trim()  );
+        Log.e(TAG, "SignUp: " + binding.email.getText().toString().trim()  );
+        Log.e(TAG, "SignUp: " + Locality  );
+        Log.e(TAG, "SignUp: " + GovernateSelect  );
+        Log.e(TAG, "SignUp: " + binding.address.getText().toString().trim()  );
+        Log.e(TAG, "SignUp: " + binding.outletName.getText().toString().trim()  );
+        Log.e(TAG, "SignUp: " + Locality_id  );
+        Log.e(TAG, "SignUp: " + Locality_ar  );
+        Log.e(TAG, "SignUp: " + signup_type  );
+        Log.e(TAG, "SignUp: " + social_auth_token  );
+
+
+
+
         Call call = lavaInterface.Signup(
                 binding.name.getText().toString().trim()
                 ,binding.number.getText().toString().trim()
@@ -345,7 +366,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                 ,binding.outletName.getText().toString().trim()
                 ,Locality_id
                 ,Locality_ar
-                ,GovernateSelect
         );
         call.enqueue(new Callback() {
             @Override
@@ -446,7 +466,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                             }
 
 
-                            sessionManage.UserDetail(jsonObject1.getString("id"),
+                            sessionManage.UserDetail(
+                                    jsonObject1.getString("id"),
+                                    jsonObject1.getString("user_unique_id"),
                                     jsonObject1.getString("name"),
                                     jsonObject1.optString("email"),
                                     jsonObject1.getString("mobile"),
@@ -540,6 +562,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
 
             }
         });
@@ -552,7 +575,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
+
+
                     Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
                     JSONObject jsonObject = null;
@@ -587,9 +611,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    binding.progressbar.setVisibility(View.GONE);
+                    Toast.makeText(SignUpActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                     return;
-                }
-                Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -979,21 +1003,23 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
             binding.SelectCountry.setText(text);
 
-            switch (sessionManage.getUserDetails().get("LANGUAGE")){
-                case "en":
-                    CountryName = list.getName();
-                    break;
-                case "fr":
-                    if(list.getName_fr().isEmpty()){
-                        CountryName = list.getName();
-                    }else {
-                        CountryName = list.getName_fr();
-                    }
-                    break;
-                case "ar":
-                    CountryName = list.getName_ar();
-                    break;
-            }
+            CountryName = list.getName();
+
+//            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+//                case "en":
+//                    CountryName = list.getName();
+//                    break;
+//                case "fr":
+//                    if(list.getName_fr().isEmpty()){
+//                        CountryName = list.getName();
+//                    }else {
+//                        CountryName = list.getName_fr();
+//                    }
+//                    break;
+//                case "ar":
+//                    CountryName = list.getName_ar();
+//                    break;
+//            }
 
             binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
             binding.progressbar.setVisibility(View.VISIBLE);
@@ -1044,6 +1070,22 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 //            } else {
 //                binding.SelectGovernate.setText(list.getName_ar());
 //            }
+
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                    binding.SelectGovernate.setText(list.getName());
+                    break;
+                case "fr":
+                    if(list.getName_fr().isEmpty()){
+                        binding.SelectGovernate.setText(list.getName());
+                    }else {
+                        binding.SelectGovernate.setText(list.getName_fr());
+                    }
+                    break;
+                case "ar":
+                    binding.SelectGovernate.setText(list.getName_ar());
+                    break;
+            }
 
             GovernateSelect = list.getId();
             binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
@@ -1157,13 +1199,37 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
         LocalityAdapter.LocalityInterface localityInterface = list -> {
 
-            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                binding.SelectLocality.setText(list.getName_ar());
-                Locality = list.getName_ar();
-            } else {
-                binding.SelectLocality.setText(list.getName());
-                Locality = list.getName();
+//            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//                binding.SelectLocality.setText(list.getName_ar());
+//                Locality = list.getName_ar();
+//            } else {
+//                binding.SelectLocality.setText(list.getName());
+//                Locality = list.getName();
+//            }
+
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                    binding.SelectLocality.setText(list.getName());
+                    Locality = list.getName();
+                    break;
+                case "fr":
+                    if(list.getName_fr().isEmpty()){
+                        binding.SelectLocality.setText(list.getName());
+                        Locality = list.getName();
+                    }else {
+                        binding.SelectLocality.setText(list.getName_fr());
+                        Locality = list.getName_fr();
+                    }
+                    break;
+                case "ar":
+                    binding.SelectLocality.setText(list.getName_ar());
+                    Locality = list.getName_ar();
+                    break;
             }
+
+
+
+
             Locality_id = list.getId();
             Locality_ar = list.getName_ar();
             binding.LocalityRecyclerViewLayout.setVisibility(View.GONE);

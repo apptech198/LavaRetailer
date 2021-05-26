@@ -29,6 +29,7 @@ import com.apptech.lava_retailer.databinding.ProfileFragmentBinding;
 import com.apptech.lava_retailer.list.LocalityList;
 import com.apptech.lava_retailer.list.country.Country_list;
 import com.apptech.lava_retailer.list.governate.GovernateList;
+import com.apptech.lava_retailer.other.LanguageChange;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -103,9 +104,17 @@ public class ProfileFragment extends Fragment {
         }
 
 
+//        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//            Languages = "EN";
+//        } else {
+//            Languages = "AR";
+//        }
+
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
-        } else {
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            Languages = "FR";
+        }  else {
             Languages = "AR";
         }
 
@@ -782,7 +791,9 @@ public class ProfileFragment extends Fragment {
                         }
 
 
-                        sessionManage.UserDetail(jsonObject1.getString("id"),
+                        sessionManage.UserDetail(
+                                jsonObject1.getString("id"),
+                                jsonObject1.getString("user_unique_id"),
                                 jsonObject1.getString("name"),
                                 jsonObject1.optString("email"),
                                 jsonObject1.getString("mobile"),

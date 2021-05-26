@@ -56,7 +56,7 @@ public class CountryAdapter  extends RecyclerView.Adapter<CountryAdapter.Viewhol
                 holder.textView.setText(l.getName());
                 break;
             case "fr":
-                if(countryLists.get(0).getName_fr().isEmpty()){
+                if(l.getName_fr().isEmpty()){
                     holder.textView.setText(l.getName());
                 }else {
                     holder.textView.setText(l.getName_fr());
@@ -100,19 +100,43 @@ public class CountryAdapter  extends RecyclerView.Adapter<CountryAdapter.Viewhol
             } else {
 
                 try {
-                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                        for (Country_list movie: AllcountryLists) {
-                            if (movie.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                                filteredList.add(movie);
+                    switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                        case "en":
+                        case "fr":
+                            for (Country_list movie: AllcountryLists) {
+                                if (movie.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                                    filteredList.add(movie);
+                                }
+                             }
+                            break;
+//                        case "fr":
+//                            if(l.getName_fr().isEmpty()){
+//                                holder.textView.setText(l.getName());
+//                            }else {
+//                                holder.textView.setText(l.getName_fr());
+//                            }
+//                            break;
+                        case "ar":
+                            for (Country_list movie: AllcountryLists) {
+                                if (movie.getName_ar().toLowerCase().contains(constraint.toString().toLowerCase())) {
+                                    filteredList.add(movie);
+                                }
                             }
-                        }
-                    } else {
-                        for (Country_list movie: AllcountryLists) {
-                            if (movie.getName_ar().toLowerCase().contains(constraint.toString().toLowerCase())) {
-                                filteredList.add(movie);
-                            }
-                        }
+                            break;
                     }
+//                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//                        for (Country_list movie: AllcountryLists) {
+//                            if (movie.getName().toLowerCase().contains(constraint.toString().toLowerCase())) {
+//                                filteredList.add(movie);
+//                            }
+//                        }
+//                    } else {
+//                        for (Country_list movie: AllcountryLists) {
+//                            if (movie.getName_ar().toLowerCase().contains(constraint.toString().toLowerCase())) {
+//                                filteredList.add(movie);
+//                            }
+//                        }
+//                    }
                 }catch (NullPointerException e){
                     e.printStackTrace();
                     Log.e(TAG, "performFiltering: " + e.getMessage() );
