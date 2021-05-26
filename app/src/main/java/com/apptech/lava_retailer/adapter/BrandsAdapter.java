@@ -51,8 +51,31 @@ public class BrandsAdapter extends RecyclerView.Adapter<BrandsAdapter.Viewholder
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
         Brandlist list = brandLists.get(position);
-        holder.binding.setLang(sessionManage.getUserDetails().get("LANGUAGE"));
-        holder.binding.setList(list);
+//        holder.binding.setLang(sessionManage.getUserDetails().get("LANGUAGE"));
+//        holder.binding.setList(list);
+
+
+
+        switch (sessionManage.getUserDetails().get("LANGUAGE")){
+            case "en":
+                holder.binding.name.setText(list.getName());
+                break;
+            case "fr":
+                if(list.getName_fr().isEmpty()){
+                    holder.binding.name.setText(list.getName());
+                }else {
+                    holder.binding.name.setText(list.getName_fr());
+                }
+                break;
+            case "ar":
+                holder.binding.name.setText(list.getName_ar());
+                break;
+        }
+
+
+
+
+
 
         Glide.with(context).load(ApiClient.Image_URL + list.getImg()).listener(new RequestListener<Drawable>() {
             @Override
@@ -71,7 +94,7 @@ public class BrandsAdapter extends RecyclerView.Adapter<BrandsAdapter.Viewholder
         holder.binding.market1.setOnClickListener(v -> {
             brandInterfaces.brandItemClick(list , list.getName() , list.getName_ar());
         });
-        holder.binding.executePendingBindings();
+//        holder.binding.executePendingBindings();
     }
 
     @Override

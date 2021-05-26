@@ -45,16 +45,31 @@ public class BrandsTopAdapter extends RecyclerView.Adapter<BrandsTopAdapter.View
 
         Brandlist list = brandLists.get(position);
 
-        holder.binding.setLang(sessionManage.getUserDetails().get("LANGUAGE"));
-        holder.binding.setList(list);
+//        holder.binding.setLang(sessionManage.getUserDetails().get("LANGUAGE"));
+//        holder.binding.setList(list);
         holder.binding.market1.setOnClickListener(v -> {
             brandInterfaces.brandItemClick(list , list.getName() , list.getName_ar());
         });
 
         Glide.with(context).load(ApiClient.Image_URL + list.getImg()).into(holder.binding.img);
 
-        holder.binding.executePendingBindings();
+//        holder.binding.executePendingBindings();
 
+        switch (sessionManage.getUserDetails().get("LANGUAGE")){
+            case "en":
+                holder.binding.name.setText(list.getName());
+                break;
+            case "fr":
+                if(list.getName_fr().isEmpty()){
+                    holder.binding.name.setText(list.getName());
+                }else {
+                    holder.binding.name.setText(list.getName_fr());
+                }
+                break;
+            case "ar":
+                holder.binding.name.setText(list.getName_ar());
+                break;
+        }
 
     }
 

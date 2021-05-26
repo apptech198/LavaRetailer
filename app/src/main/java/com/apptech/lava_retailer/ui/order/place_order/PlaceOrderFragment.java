@@ -273,7 +273,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
         binding.progressbar.setVisibility(View.VISIBLE);
 
         String brandid = sessionManage.getUserDetails().get("BRAND_ID");
-        String retailer_id = sessionManage.getUserDetails().get("ID");
+        String retailer_id = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         String locality_id = sessionManage.getUserDetails().get("LOCALITY_ID");
         if(sessionManage.getUserDetails().get("LOGIN_COUNTRY_ID") != null){
             Country_id =  sessionManage.getUserDetails().get("LOGIN_COUNTRY_ID");
@@ -323,8 +323,10 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                                         object.getString("id")
                                         ,object.getString("marketing_name")
                                         ,object.getString("marketing_name_ar")
+                                        ,object.optString("marketing_name_fr")
                                         ,object.getString("des")
                                         ,object.getString("des_ar")
+                                        ,object.optString("des_fr")
                                         ,object.getString("actual_price")
                                         ,object.getString("dis_price")
                                         ,object.getString("thumb")
@@ -502,6 +504,8 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                     jsonObject.put("seller_name", list.getSeller_name());
                     jsonObject.put("time", list.getTime());
                     jsonObject.put("qty", "1");
+                    jsonObject.put("marketing_name_fr", list.getMarketing_name_fr());
+                    jsonObject.put("des_fr", list.getDes_fr());
 
                     ProductJsonObject.put(list.getId() , jsonObject);
                     Log.e(TAG, "addItem ProductJsonObject: " + ProductJsonObject.toString() );

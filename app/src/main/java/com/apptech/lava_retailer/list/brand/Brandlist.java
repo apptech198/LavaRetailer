@@ -6,13 +6,23 @@ public class Brandlist {
     String time;
     String name_ar;
     String img;
+    String name_fr;
 
-    public Brandlist(String id, String name, String time, String name_ar, String img) {
+    public Brandlist(String id, String name, String time, String name_ar, String img,String name_fr) {
         this.id = id;
         this.name = name;
         this.time = time;
         this.name_ar = name_ar;
         this.img = img;
+        this.name_fr=name_fr;
+    }
+
+    public String getName_fr() {
+        return name_fr;
+    }
+
+    public void setName_fr(String name_fr) {
+        this.name_fr = name_fr;
     }
 
     public String getId() {

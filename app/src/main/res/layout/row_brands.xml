@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="list"
-            type="com.apptech.lava_retailer.list.brand.Brandlist" />
-
-        <variable
-            name="lang"
-            type="String" />
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
 
         <androidx.cardview.widget.CardView
@@ -73,7 +60,6 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/lato_bold"
                     android:gravity="center"
-                    android:text="@{lang.equalsIgnoreCase(`en`) ? list.name : list.name_ar}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                     android:textColor="@color/black"
                     android:textSize="18sp"
@@ -113,4 +99,3 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

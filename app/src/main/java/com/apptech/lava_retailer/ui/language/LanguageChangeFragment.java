@@ -52,9 +52,15 @@ public class LanguageChangeFragment extends Fragment {
                 sessionManage.setlanguage("en");
                 startActivity(new Intent(requireContext(), MainActivity.class));
                 return;
+            }else if(radioButton.getTag().equals("FRENCH")){
+                sessionManage.setlanguage("fr");
+                startActivity(new Intent(requireContext(), MainActivity.class));
+                return;
+            }else {
+                sessionManage.setlanguage("ar");
+                startActivity(new Intent(requireContext(), MainActivity.class));
             }
-            sessionManage.setlanguage("ar");
-            startActivity(new Intent(requireContext(), MainActivity.class));
+
 
         });
 

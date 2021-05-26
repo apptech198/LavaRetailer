@@ -42,7 +42,8 @@ public interface LavaInterface {
     Call<Object> Login(@Field("mobile") String mobile, @Field("password") String password);
 
     @POST("brand_list")
-    Call<Object> Brand();
+    @FormUrlEncoded
+    Call<Object> Brand(@Field("mobile") String mobile);
 
     @POST("country")
     Call<Object> Country();

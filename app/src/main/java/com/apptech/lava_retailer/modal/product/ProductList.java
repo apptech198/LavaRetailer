@@ -47,8 +47,10 @@ public class ProductList implements Comparable<ProductList> , Parcelable {
     String seller_id;
     String seller_name;
     String time;
+    String marketing_name_fr;
+    String des_fr;
 
-    public ProductList(String id, String marketing_name, String marketing_name_ar, String des, String des_ar, String actual_price, String dis_price, String thumb, String thumb_ar, String sku, String commodity_id, String format, String commodity, String commodity_ar, String brand_id, String brand, String brand_ar, String model, String model_ar, String category, String serialized, String video, String video_ar, String prowar, String pro_war_days, String battery_war, String battery_war_days, String charging_adapter_war, String charging_adapter_war_days, String charger_war, String charger_war_days, String usb_war, String usb_war_days, String wired_earphone_war, String wired_earphone_war_days, String available_qty, String hide, String total_sale, String seller_id, String seller_name, String time) {
+    public ProductList(String id, String marketing_name, String marketing_name_ar,String marketing_name_fr, String des, String des_ar, String des_fr, String actual_price, String dis_price, String thumb, String thumb_ar, String sku, String commodity_id, String format, String commodity, String commodity_ar, String brand_id, String brand, String brand_ar, String model, String model_ar, String category, String serialized, String video, String video_ar, String prowar, String pro_war_days, String battery_war, String battery_war_days, String charging_adapter_war, String charging_adapter_war_days, String charger_war, String charger_war_days, String usb_war, String usb_war_days, String wired_earphone_war, String wired_earphone_war_days, String available_qty, String hide, String total_sale, String seller_id, String seller_name, String time) {
         this.id = id;
         this.marketing_name = marketing_name;
         this.marketing_name_ar = marketing_name_ar;
@@ -90,9 +92,13 @@ public class ProductList implements Comparable<ProductList> , Parcelable {
         this.seller_id = seller_id;
         this.seller_name = seller_name;
         this.time = time;
+        this.des_fr=des_fr;
+        this.marketing_name_fr=marketing_name_fr;
     }
 
     protected ProductList(Parcel in) {
+        marketing_name_fr= in.readString();
+        des_fr= in.readString();
         id = in.readString();
         marketing_name = in.readString();
         marketing_name_ar = in.readString();
@@ -134,6 +140,7 @@ public class ProductList implements Comparable<ProductList> , Parcelable {
         seller_id = in.readString();
         seller_name = in.readString();
         time = in.readString();
+
     }
 
     public static final Creator<ProductList> CREATOR = new Creator<ProductList>() {
@@ -147,6 +154,14 @@ public class ProductList implements Comparable<ProductList> , Parcelable {
             return new ProductList[size];
         }
     };
+
+    public String getMarketing_name_fr() {
+        return marketing_name_fr;
+    }
+
+    public String getDes_fr() {
+        return des_fr;
+    }
 
     public String getId() {
         return id;

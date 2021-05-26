@@ -1,5 +1,6 @@
 package com.apptech.lava_retailer.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -121,10 +122,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
 
         sessionManage = SessionManage.getInstance(this);
-        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-            new LanguageChange(this, "ar");
-        } else {
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             new LanguageChange(this, "en");
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            new LanguageChange(this, "fr");
+        } else {
+            new LanguageChange(this, "ar");
         }
 
 
@@ -138,6 +141,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView brand_name = findViewById(R.id.brand_name);
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR)!=null){
+                if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR).isEmpty()){
+                    brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
+                }else {
+                    brand_name.setText(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR));
+                }
+            }else {
+                brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
+            }
+
+
         } else {
             brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME_AR"));
         }
@@ -172,13 +187,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
         brandInterfaces = (list , text  , text_ar) -> {
-            sessionManage.brandSelect(list.getId() , text , text_ar);
+            sessionManage.brandSelect(list.getId() , text , text_ar,list.getName_fr());
+
+//            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//               binding.appBarMain.brandName.setText(list.getName());
+//            } else {
+//                binding.appBarMain.brandName.setText(list.getName_ar());
+//            }
 
             if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-               binding.appBarMain.brandName.setText(list.getName());
+                binding.appBarMain.brandName.setText(list.getName());
+            }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+                if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR)!=null){
+                    if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR).isEmpty()){
+                        binding.appBarMain.brandName.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
+                    }else {
+                        binding.appBarMain.brandName.setText(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR));
+                    }
+                }else {
+                    binding.appBarMain.brandName.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
+                }
+//                binding.appBarMain.brandName.setText(list.getName_fr());
             } else {
                 binding.appBarMain.brandName.setText(list.getName_ar());
             }
+
+
+
+
+
             getCurrentVisibleFragment();
 
         };
@@ -334,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 BrandRecyclerView.setAdapter(brandsTopAdapter);
                 dialog.show();
             }   else {
-                lavaInterface.Brand().enqueue(new Callback<Object>() {
+                lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)).enqueue(new Callback<Object>() {
 
                     @Override
                     public void onResponse(Call<Object> call, Response<Object> response) {
@@ -357,6 +395,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             ,object.optString("time")
                                             ,object.optString("name_ar")
                                             , object.optString("img")
+                                            , object.optString("name_fr")
                                     ));
 
                                     try {
@@ -1009,6 +1048,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();

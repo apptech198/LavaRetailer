@@ -47,11 +47,20 @@ public class BrandActivity extends AppCompatActivity {
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
 
-        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-            new LanguageChange(this, "ar");
-        } else {
+//        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//            new LanguageChange(this, "ar");
+//        } else {
+//            new LanguageChange(this, "en");
+//        }
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             new LanguageChange(this, "en");
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            new LanguageChange(this, "fr");
+        } else {
+            new LanguageChange(this, "ar");
         }
+
 
         binding = ActivityBrandBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -61,7 +70,7 @@ public class BrandActivity extends AppCompatActivity {
         brand();
 
         brandInterfaces = (list , text  , text_ar) -> {
-            sessionManage.brandSelect(list.getId() , text , text_ar);
+            sessionManage.brandSelect(list.getId() , text , text_ar,list.getName_fr());
             startActivity(new Intent(BrandActivity.this, MainActivity.class));
             finish();
         };
@@ -78,7 +87,7 @@ public class BrandActivity extends AppCompatActivity {
 
     void brand() {
 
-        lavaInterface.Brand().enqueue(new Callback<Object>() {
+        lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 JSONObject jsonObject = null;
@@ -99,6 +108,7 @@ public class BrandActivity extends AppCompatActivity {
                                         ,object.optString("time")
                                         ,object.optString("name_ar")
                                         , object.optString("img")
+                                        , object.optString("name_fr")
                                 ));
 
                                 try {

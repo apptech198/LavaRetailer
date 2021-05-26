@@ -94,6 +94,8 @@ public class SessionManage {
     public static final String BRAND_ID = "BRAND_ID";
     public static final String BRAND_NAME = "BRAND_NAME";
     public static final String BRAND_NAME_AR = "BRAND_NAME_AR";
+    public static final String BRAND_NAME_FR = "BRAND_NAME_FR";
+
     public static final String LOCALITY_AR = "LOCALITY_AR";
 
     public static final String REMEMBER_MOB = "REMEMBER_MOB";
@@ -266,10 +268,11 @@ public class SessionManage {
         editor.commit();
     }
 
-    public void brandSelect(String brandid , String brand_name , String brand_name_ar ) {
+    public void brandSelect(String brandid , String brand_name , String brand_name_ar ,String brand_name_fr ) {
         editor.putString(BRAND_ID, brandid);
         editor.putString(BRAND_NAME, brand_name);
         editor.putString(BRAND_NAME_AR, brand_name_ar);
+        editor.putString(BRAND_NAME_FR, brand_name_fr);
         editor.commit();
     }
 

@@ -74,6 +74,17 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:textColor="@color/white" />
 
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_bold"
+                    android:text="French"
+                    android:tag="FRENCH"
+                    android:layout_marginTop="8dp"
+                    android:buttonTint="@color/white"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white" />
+
             </RadioGroup>
 
 

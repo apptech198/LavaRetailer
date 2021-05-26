@@ -116,7 +116,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
 
 
-        } else {
+        } else if(sessionManage.getUserDetails().get("LANGUAGE").equals("ar")) {
 
             holder.productName.setText(list.getMarketing_name_ar());
             holder.brandName.setText("Brand : " + list.getBrand_ar());
@@ -142,6 +142,41 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                 holder.productAmt.setText(string);
 
             }
+
+
+
+        }else {
+            if(list.getMarketing_name_fr().isEmpty()){
+                holder.productName.setText(list.getMarketing_name());
+            }else {
+                holder.productName.setText(list.getMarketing_name_fr());
+            }
+
+
+            holder.brandName.setText("Brand : " + list.getBrand());
+            holder.modalName.setText("Modal : " +  list.getModel());
+
+//            String Dis_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
+//            String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
+
+            holder.productAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
+            holder.productAmtDic.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+
+
+            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+                SpannableString string = new SpannableString(list.getActual_price());
+                MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.productAmtDic.setText(string);
+
+                SpannableString string1 = new SpannableString(list.getDis_price());
+                MaskFilter blurMask1 = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                string1.setSpan(new MaskFilterSpan(blurMask1), 0, list.getDis_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                holder.productAmt.setText(string);
+
+            }
+
 
 
 
