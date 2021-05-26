@@ -169,7 +169,7 @@ public class ProfileFragment extends Fragment {
     void Profile_details(){
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get("ID")).enqueue(new Callback<Object>() {
+        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get("USER_UNIQUE_ID")).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
