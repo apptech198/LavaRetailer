@@ -13,28 +13,39 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:src="@drawable/logo"
-        android:translationY="-20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.06999999" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Global Business Retail Partner"
+        app:layout_constraintTop_toBottomOf="@+id/image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/lato_semi_bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signup by otp"
+        android:text="Signup with otp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/image"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/Title"
+        app:layout_constraintVertical_bias="0.06999999" />
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,6 +66,17 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/login_edittext_back">
 
+            <ImageView
+                android:id="@+id/emailIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/ic_baseline_phone_iphone_24"
+                android:layout_marginEnd="16dp"/>
+
+
             <EditText
                 android:id="@+id/EditEmail"
                 android:layout_width="0dp"
@@ -68,19 +90,11 @@
                 android:layout_marginEnd="8dp"
                 android:fontFamily="@font/lato_regular"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/emailIcon"/>
-
-            <ImageView
-                android:id="@+id/emailIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_baseline_phone_iphone_24"
-                android:layout_marginRight="16dp"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/emailIcon"/>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -107,7 +121,8 @@
             app:layout_constraintTop_toBottomOf="@+id/MobLayout"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:visibility="gone">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
@@ -142,50 +157,111 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fbBtn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/fb_design"
             app:layout_constraintTop_toBottomOf="@+id/SendotpBtn"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="32dp">
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:elevation="1dp"
+            android:visibility="gone">
+
 
             <LinearLayout
-                android:id="@+id/fbBtn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/fb_design"
-                android:padding="16dp"
-                android:layout_marginEnd="16dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
 
                 <ImageView
+                    android:id="@+id/fbIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_facebook"/>
+                    android:src="@drawable/ic_facebook"
+                    android:layout_marginEnd="16dp"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/fbText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Signup with facebook"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/lato_semi_bold" />
 
             </LinearLayout>
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/sign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gmail_design_btn"
+            app:layout_constraintTop_toBottomOf="@+id/fbBtn"
+            android:layout_marginTop="24dp"
+            android:padding="16dp">
 
 
             <LinearLayout
-                android:id="@+id/sign_in_button"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/gmail_design_btn"
-                android:padding="16dp"
-                android:layout_marginStart="16dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+
 
                 <ImageView
+                    android:id="@+id/GIcon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_google_plus"/>
+                    android:src="@drawable/ic_google_plus"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginEnd="16dp"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Signup with Gmail"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/lato_semi_bold" />
 
             </LinearLayout>
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintTop_toTopOf="@+id/fbBtn"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/fbBtn"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

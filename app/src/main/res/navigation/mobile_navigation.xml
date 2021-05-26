@@ -6,12 +6,12 @@
     app:startDestination="@id/messageCentreFragment">
     <fragment
         android:id="@+id/messageCentreFragment"
-        android:name="com.apptech.myapplication.ui.message_centre.MessageCentreFragment"
+        android:name="com.apptech.lava_retailer.ui.message_centre.MessageCentreFragment"
         android:label="message_centre_fragment"
         tools:layout="@layout/message_centre_fragment" />
     <fragment
         android:id="@+id/reportSellOutEntriesFragment"
-        android:name="com.apptech.myapplication.ui.sell_out.report_sell_out_entries.ReportSellOutEntriesFragment"
+        android:name="com.apptech.lava_retailer.ui.sell_out.report_sell_out_entries.ReportSellOutEntriesFragment"
         android:label="report_sell_out_entries_fragment"
         tools:layout="@layout/report_sell_out_entries_fragment" >
         <argument
@@ -26,37 +26,37 @@
     </fragment>
     <fragment
         android:id="@+id/pendingVerificationFragment"
-        android:name="com.apptech.myapplication.ui.sell_out.pending_verification.PendingVerificationFragment"
+        android:name="com.apptech.lava_retailer.ui.sell_out.pending_verification.PendingVerificationFragment"
         android:label="pending_verification_fragment"
         tools:layout="@layout/pending_verification_fragment" />
     <fragment
         android:id="@+id/reportSellOutReportFragment"
-        android:name="com.apptech.myapplication.ui.sell_out.report_sell_out_report.ReportSellOutReportFragment"
+        android:name="com.apptech.lava_retailer.ui.sell_out.report_sell_out_report.ReportSellOutReportFragment"
         android:label="report_sell_out_report_fragment"
         tools:layout="@layout/report_sell_out_report_fragment" />
     <fragment
         android:id="@+id/priceDropEntryFragment"
-        android:name="com.apptech.myapplication.ui.price_drop.price_drop_entry.PriceDropEntryFragment"
+        android:name="com.apptech.lava_retailer.ui.price_drop.price_drop_entry.PriceDropEntryFragment"
         android:label="price_drop_entry_fragment"
         tools:layout="@layout/price_drop_entry_fragment" />
     <fragment
         android:id="@+id/entryPendingVerificationFragment"
-        android:name="com.apptech.myapplication.ui.price_drop.entry_pending_verification.EntryPendingVerificationFragment"
+        android:name="com.apptech.lava_retailer.ui.price_drop.entry_pending_verification.EntryPendingVerificationFragment"
         android:label="entry_pending_verification_fragment"
         tools:layout="@layout/entry_pending_verification_fragment" />
     <fragment
         android:id="@+id/reportsFragment"
-        android:name="com.apptech.myapplication.ui.price_drop.reports.ReportsFragment"
+        android:name="com.apptech.lava_retailer.ui.price_drop.reports.ReportsFragment"
         android:label="reports_fragment"
         tools:layout="@layout/reports_fragment" />
     <fragment
         android:id="@+id/passbookFragment"
-        android:name="com.apptech.myapplication.ui.passbook.PassbookFragment"
+        android:name="com.apptech.lava_retailer.ui.passbook.PassbookFragment"
         android:label="passbook_fragment"
         tools:layout="@layout/passbook_fragment" />
     <fragment
         android:id="@+id/placeOrderFragment"
-        android:name="com.apptech.myapplication.ui.order.place_order.PlaceOrderFragment"
+        android:name="com.apptech.lava_retailer.ui.order.place_order.PlaceOrderFragment"
         android:label="place_order_fragment"
         tools:layout="@layout/place_order_fragment" >
         <action
@@ -65,47 +65,47 @@
     </fragment>
     <fragment
         android:id="@+id/orderStatusFragment"
-        android:name="com.apptech.myapplication.ui.order.order_status.OrderStatusFragment"
+        android:name="com.apptech.lava_retailer.ui.order.order_status.OrderStatusFragment"
         android:label="order_status_fragment"
         tools:layout="@layout/order_status_fragment" />
     <fragment
         android:id="@+id/pricelistFragment"
-        android:name="com.apptech.myapplication.ui.trade_program.price_list.PricelistFragment"
+        android:name="com.apptech.lava_retailer.ui.trade_program.price_list.PricelistFragment"
         android:label="pricelist_fragment"
         tools:layout="@layout/pricelist_fragment" />
     <fragment
         android:id="@+id/sellingProgramFragment"
-        android:name="com.apptech.myapplication.ui.trade_program.selling_program.SellingProgramFragment"
+        android:name="com.apptech.lava_retailer.ui.trade_program.selling_program.SellingProgramFragment"
         android:label="selling_program_fragment"
         tools:layout="@layout/selling_program_fragment" />
     <fragment
         android:id="@+id/sellOutProgramFragment"
-        android:name="com.apptech.myapplication.ui.trade_program.sellout_program.SellOutProgramFragment"
+        android:name="com.apptech.lava_retailer.ui.trade_program.sellout_program.SellOutProgramFragment"
         android:label="sell_out_program_fragment"
         tools:layout="@layout/sell_out_program_fragment" />
     <fragment
         android:id="@+id/loyaltySchemeFragment"
-        android:name="com.apptech.myapplication.ui.trade_program.loyalty_scheme.LoyaltySchemeFragment"
+        android:name="com.apptech.lava_retailer.ui.trade_program.loyalty_scheme.LoyaltySchemeFragment"
         android:label="loyalty_scheme_fragment"
         tools:layout="@layout/loyalty_scheme_fragment" />
 
     <fragment
         android:id="@+id/languageChangeFragment"
-        android:name="com.apptech.myapplication.fragment.language.LanguageChangeFragment"
+        android:name="com.apptech.lava_retailer.ui.language.LanguageChangeFragment"
         android:label="fragment_language_change"
         tools:layout="@layout/fragment_language_change" />
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="com.apptech.myapplication.ui.order.product_details.ProductDetailsFragment"
+        android:name="com.apptech.lava_retailer.ui.order.product_details.ProductDetailsFragment"
         android:label="product_details_fragment"
         tools:layout="@layout/product_details_fragment" >
         <argument
             android:name="ProductList"
-            app:argType="com.apptech.myapplication.modal.product.ProductList" />
+            app:argType="com.apptech.lava_retailer.modal.product.ProductList" />
     </fragment>
     <fragment
         android:id="@+id/qrFragment"
-        android:name="com.apptech.myapplication.ui.qr.QrFragment"
+        android:name="com.apptech.lava_retailer.ui.qr.QrFragment"
         android:label="qr_fragment"
         tools:layout="@layout/qr_fragment" >
         <argument android:name="TAG"
@@ -114,18 +114,18 @@
     </fragment><action android:id="@+id/action_global_reportSellOutEntriesFragment" app:destination="@id/reportSellOutEntriesFragment"/>
     <fragment
         android:id="@+id/orderPlaceSuccessFragment"
-        android:name="com.apptech.myapplication.ui.order_place_success.OrderPlaceSuccessFragment"
+        android:name="com.apptech.lava_retailer.ui.order_place_success.OrderPlaceSuccessFragment"
         android:label="order_place_success_fragment"
         tools:layout="@layout/order_place_success_fragment" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.apptech.myapplication.ui.cart.CartFragment"
+        android:name="com.apptech.lava_retailer.ui.cart.CartFragment"
         android:label="cart_fragment"
         tools:layout="@layout/cart_fragment" />
     <action android:id="@+id/action_global_cartFragment" app:destination="@id/cartFragment" />
     <fragment
         android:id="@+id/videoFragment"
-        android:name="com.apptech.myapplication.ui.order.video.VideoFragment"
+        android:name="com.apptech.lava_retailer.ui.order.video.VideoFragment"
         android:label="video_fragment"
         tools:layout="@layout/video_fragment" >
         <argument
@@ -135,19 +135,29 @@
     </fragment><action android:id="@+id/action_global_videoFragment" app:destination="@id/videoFragment"/>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.apptech.myapplication.ui.profile.profileFragment"
+        android:name="com.apptech.lava_retailer.ui.profile.ProfileFragment"
         android:label="profile_fragment"
         tools:layout="@layout/profile_fragment" />
     <fragment
         android:id="@+id/serializeFragment"
-        android:name="com.apptech.myapplication.ui.warranty.serialize.SerializeFragment"
+        android:name="com.apptech.lava_retailer.ui.warranty.serialize.SerializeFragment"
         android:label="serialize_fragment"
         tools:layout="@layout/serialize_fragment" />
     <fragment
         android:id="@+id/unSerializeFragment"
-        android:name="com.apptech.myapplication.ui.warranty.unserialize.UnSerializeFragment"
+        android:name="com.apptech.lava_retailer.ui.warranty.unserialize.UnSerializeFragment"
         android:label="un_serialize_fragment"
         tools:layout="@layout/un_serialize_fragment" />
+    <fragment
+        android:id="@+id/tradeProgramFragment"
+        android:name="com.apptech.lava_retailer.ui.trade_program.TradeProgramFragment"
+        android:label="trade_program_fragment"
+        tools:layout="@layout/trade_program_fragment" />
+    <fragment
+        android:id="@+id/tradeProgramImgOpenFragment"
+        android:name="com.apptech.lava_retailer.ui.trade_program.trade_program_img.TradeProgramImgOpenFragment"
+        android:label="trade_program_img_open_fragment"
+        tools:layout="@layout/trade_program_img_open_fragment" />
 
 
 </navigation>

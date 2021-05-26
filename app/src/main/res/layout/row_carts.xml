@@ -16,16 +16,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="12dp">
 
-            <com.joooonho.SelectableRoundedImageView
+            <ImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/ProductImg"
                 android:layout_width="100dp"
                 android:layout_height="120dp"
-                android:scaleType="centerCrop"
-                app:sriv_left_top_corner_radius="16dip"
-                app:sriv_right_top_corner_radius="0dip"
-                app:sriv_left_bottom_corner_radius="16dip"
-                app:sriv_right_bottom_corner_radius="16dip"
+                android:src="@drawable/a1"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
 
@@ -42,14 +38,14 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/ProductName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                     android:text="svdvdsvdsvdv"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:maxLines="2"
+                    android:maxLines="1"
                     android:ellipsize="end"/>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -80,7 +76,7 @@
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/ModalName"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="svdvdsvdsvdv"
                     android:textColor="@color/black"

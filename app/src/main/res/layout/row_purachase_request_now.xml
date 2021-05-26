@@ -20,11 +20,28 @@
             android:id="@+id/image"
             android:layout_width="120dp"
             android:layout_height="130dp"
-            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+        <LinearLayout
+            android:id="@+id/GipLoader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/image"
+            app:layout_constraintEnd_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image"
+            app:layout_constraintBottom_toBottomOf="@+id/image">
+
+            <com.apptech.lava_retailer.other.CustomGifView
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="@drawable/product_text_back"
@@ -56,10 +73,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/lato_black"
-                    android:text="251}"
+                    android:text="2534343431"
                     android:layout_marginTop="4dp"
                     android:textColor="@color/white"
                     android:maxLines="2"
+                    android:layout_marginEnd="4dp"
                     android:ellipsize="end"
                     app:layout_constraintEnd_toStartOf="@+id/productAmtDic"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"

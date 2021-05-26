@@ -7,6 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -59,6 +60,13 @@
     <string name="address_fiels_missing">Address is missing</string>
     <string name="locality_id_fiels_missing">Locality id is missing</string>
     <string name="outline_fiels_missing">Outlet Name is missing</string>
+    <string name="imei_fiels_missing">Imei Name is missing</string>
+    <string name="backend_register_fiels_missing">Backend Register is missing</string>
+    <string name="backend_verify_fiels_missing">Backend Verify is missing</string>
+    <string name="country_name_fiels_missing">Country Name is missing</string>
+    <string name="country_id_fiels_missing">Country Id is missing</string>
+
+
 
     <string-array name="qtyArray">
         <item>1</item>
@@ -81,8 +89,9 @@
 
 
 
-    <string name="facebook_app_id">656565</string>
-    <string name="fb_login_protocol_scheme">sacascncisjacij]</string>
+    <string name="facebook_app_id">4482161495132131</string>
+    <string name="fb_login_protocol_scheme">fb4482161495132131</string>
+
 
 
 </resources>

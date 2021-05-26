@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/back_all"
-    tools:context=".ui.price_drop.price_drop_entry.PriceDropEntryFragment">
+    tools:context=".ui.sell_out.report_sell_out_entries.ReportSellOutEntriesFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,8 +40,6 @@
                 android:paddingBottom="8dp"
                 android:text="Start Date"
                 android:textColor="@color/white" />
-
-
         </LinearLayout>
 
 
@@ -49,32 +47,49 @@
             android:id="@+id/ImeiEdittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:background="@drawable/border_color"
             android:backgroundTint="@color/white"
+            android:fontFamily="@font/montserrat_medium"
+            android:inputType="number"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/border_color"
-            android:fontFamily="@font/montserrat_medium"
-            android:gravity="center"
-            android:hint=""
-            android:inputType="number"
-            android:maxLength="15"
-            android:padding="10dp"
             android:textColor="@color/purple_500"
             android:textColorHint="@color/purple_500"
             android:textSize="14sp"
+            android:maxLength="15"
             app:layout_constraintTop_toBottomOf="@+id/startDatetimeLayout"
             tools:layout_editor_absoluteX="15dp" />
+
+        <LinearLayout
+            android:id="@+id/scanBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/addBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/addBtn"
+            android:background="@drawable/btn_edit"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_barcode"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/addBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_marginEnd="4dp"
             android:background="@drawable/btn_edit"
-            android:backgroundTint="@color/purple_500"
             android:fontFamily="@font/lato_semi_bold"
             android:gravity="center"
             android:paddingStart="15dp"
@@ -86,38 +101,21 @@
             android:textColor="@color/white"
             android:textColorHint="@color/purple_500"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/scanBtn"
             app:layout_constraintTop_toTopOf="@+id/ImeiEdittext" />
 
 
         <Button
-            android:id="@+id/scanBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/white"
-            android:elevation="35dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/or_scan"
+            android:layout_marginTop="10dp"
             android:textAllCaps="false"
             android:textColor="@color/purple_500"
+            android:text="@string/or_scan"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@+id/submitBtn"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ImeiEdittext" />
-
-        <Button
-            android:id="@+id/submitBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/white"
-            android:elevation="35dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/purple_500"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/scanBtn"
             app:layout_constraintTop_toBottomOf="@+id/ImeiEdittext" />
 
 
@@ -127,32 +125,33 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/submitBtn"
-            android:text="cds"
+            app:layout_constraintTop_toBottomOf="@+id/scanBtn"
             android:visibility="gone"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="@color/white"/>
 
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/msgShowWrongImei">
+            app:layout_constraintBottom_toTopOf="@+id/submitBtn"
+            app:layout_constraintTop_toBottomOf="@+id/msgShowWrongImei"
+            android:padding="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:id="@+id/addLayout"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="vertical"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent">
+                    app:layout_constraintTop_toTopOf="parent">
 
 
                 </LinearLayout>
@@ -162,8 +161,35 @@
         </ScrollView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/submitBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_btn_design"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="Submit"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/LoadFragment"
@@ -187,6 +213,5 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

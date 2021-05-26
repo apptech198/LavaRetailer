@@ -64,7 +64,7 @@
                     android:id="@+id/ScanImei"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/qr_code_icon"
+                    android:src="@drawable/ic_barcode"
                     app:layout_constraintTop_toTopOf="@id/Imei"
                     app:layout_constraintBottom_toBottomOf="@id/Imei"
                     app:layout_constraintEnd_toEndOf="@id/Imei"

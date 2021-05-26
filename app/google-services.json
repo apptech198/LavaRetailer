@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:528319506408:android:016459aede9d0b6b4d265d",
+        "mobilesdk_app_id": "1:528319506408:android:bfef63988be711264d265d",
         "android_client_info": {
-          "package_name": "com.apptech.myapplication"
+          "package_name": "com.apptech.lava_retailer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "528319506408-5tuv1lb0t4vqd6fcuefo7r0k1oke7mk6.apps.googleusercontent.com",
+          "client_id": "528319506408-p3antobaqgagvta6u1cbjpr8p6em3v24.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.apptech.myapplication",
-            "certificate_hash": "04346102772f331e2ad601500a2972ed9fa0b27c"
+            "package_name": "com.apptech.lava_retailer",
+            "certificate_hash": "299c8aa36222d643ddff18e96e07ec9ee2d2727e"
           }
         },
         {

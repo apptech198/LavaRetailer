@@ -33,7 +33,6 @@
         android:paddingTop="4dp"
         android:paddingRight="10dp"
         android:paddingBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/PaymentTypeSpinnerLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/headtitle">
 

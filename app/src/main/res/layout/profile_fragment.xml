@@ -5,15 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.profileFragment"
-    android:background="#1f1f29"
+    tools:context=".ui.profile.ProfileFragment"
+    android:background="@color/back_all"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="24dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -64,7 +65,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:textAlignment="viewStart"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:textAlignment="viewStart"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -106,7 +109,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:textAlignment="viewStart"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -127,9 +131,47 @@
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:textAlignment="viewStart"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <EditText
+            android:id="@+id/SelectCountry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#757575"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:hint="Select Country"
+            android:includeFontPadding="true"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="#525662"
+            android:textCursorDrawable="@drawable/color_cursor"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+
+        <LinearLayout
+            android:id="@+id/CountryRecyclerViewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/SelectCountry"
+            android:background="@color/white"
+            android:padding="16dp"
+            android:maxHeight="200dp"
+            android:elevation="10dp"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/CountryRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:listitem="@layout/row_smart_select"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+        </LinearLayout>
 
         <EditText
             android:id="@+id/SelectGovernate"
@@ -142,9 +184,10 @@
             android:hint="Select Governate"
             android:includeFontPadding="true"
             android:inputType="text"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:textColor="@color/white"
             android:textColorHint="#525662"
-            app:layout_constraintTop_toBottomOf="@+id/address" />
+            app:layout_constraintTop_toBottomOf="@+id/CountryRecyclerViewLayout" />
 
         <LinearLayout
             android:id="@+id/GovernateRecyclerViewLayout"
@@ -176,6 +219,7 @@
             android:drawablePadding="5dp"
             android:fontFamily="@font/montserrat_medium"
             android:hint="Select Locality"
+            android:textCursorDrawable="@drawable/color_cursor"
             android:includeFontPadding="true"
             android:inputType="text"
             android:textColor="@color/white"
@@ -233,7 +277,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/SelectLocality"
-            android:layout_marginBottom="16dp">
+         >
 
             <TextView
                 android:layout_width="wrap_content"

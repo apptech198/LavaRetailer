@@ -6,5 +6,8 @@
     <item
         android:id="@+id/two"
         android:title="Arabic"/>
+    <item
+        android:id="@+id/three"
+        android:title="French"/>
 
 </menu>

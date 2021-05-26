@@ -19,9 +19,6 @@
         app:navGraph="@navigation/mobile_navigation" />
 
 
-<!--    <FrameLayout-->
-<!--        android:id="@+id/framelayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"/>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

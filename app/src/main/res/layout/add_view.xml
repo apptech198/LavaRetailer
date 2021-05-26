@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/back_all"
     tools:context=".fragment.sellout.SellOutFragment">
 
     <LinearLayout
@@ -19,26 +20,73 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:padding="10dp">
 
-            <TextView
-                android:id="@+id/imei"
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/imeiTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Model 1"
+                android:text="IMEI"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/remove"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                app:layout_constraintTop_toTopOf="@+id/ImeiTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/ImeiTitle"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="4dp"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/imei"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Imei"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toStartOf="@+id/remove"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imeiTitle"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ModalTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Model : "
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imei"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/Modal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="RGMsnc"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/remove"
+                app:layout_constraintStart_toEndOf="@+id/ModalTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/ModalTitle"/>
+
 
             <LinearLayout
                 android:id="@+id/remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imei"
+                app:layout_constraintBottom_toBottomOf="@+id/Modal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imei">
 

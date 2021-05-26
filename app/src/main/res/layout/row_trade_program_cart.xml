@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/order_status_design"
+    android:layout_marginBottom="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="12dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05-06-202"
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="@+id/orderNumber"
+            app:layout_constraintBottom_toBottomOf="@+id/orderNumber"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order"
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toBottomOf="@+id/orderNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/modalNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modal : "
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toBottomOf="@+id/productName"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/modalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Modal"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toTopOf="@+id/modalNameTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/modalNameTitle"
+            app:layout_constraintStart_toEndOf="@+id/modalNameTitle"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ImeiTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="IMEI : "
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toBottomOf="@+id/modalNameTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/Imei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11651"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toTopOf="@+id/ImeiTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/ImeiTitle"
+            app:layout_constraintStart_toEndOf="@+id/ImeiTitle"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productQtyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity :"
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toBottomOf="@+id/ImeiTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productQty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="@+id/productQtyTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/productQtyTitle"
+            app:layout_constraintStart_toEndOf="@+id/productQtyTitle"/>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productamtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total amount : "
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="@+id/productamt"
+            app:layout_constraintBottom_toBottomOf="@+id/productamt"
+            app:layout_constraintEnd_toStartOf="@+id/productamt"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productamt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3120"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="@+id/productQtyTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/productQtyTitle"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivered"
+            android:layout_marginStart="4dp"
+            android:textColor="#4db452"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toBottomOf="@+id/productamtTitle"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

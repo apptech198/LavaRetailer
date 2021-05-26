@@ -16,21 +16,21 @@
     <string name="warranty">WARRANTY</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="mobile_number">Mobile Number</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="password">Password</string>
     <string name="global_business_nresearch">Global Business \nResearch</string>
-    <string name="enter_otp">Enter Otp</string>
-    <string name="verify">Verify</string>
 
     <string name="check_internet">Please Check Internet</string>
     <string name="field_required">This fiels is required</string>
     <string name="otp_four_digit">Please enter 4 digits OTP</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="psw_short">This password is too short</string>
-    <string name="submit">Submit</string>
     <string name="rs_symbol">\u20B9</string>
     <string name="or_scan">Or scan</string>
+    <string name="verify">Verify</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="enter_otp">Enter Otp</string>
+    <string name="submit">Submit</string>
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
 
@@ -59,6 +59,13 @@
     <string name="address_fiels_missing">Address is missing</string>
     <string name="locality_id_fiels_missing">Locality id is missing</string>
     <string name="outline_fiels_missing">Outlet Name is missing</string>
+    <string name="imei_fiels_missing">Imei Name is missing</string>
+    <string name="backend_register_fiels_missing">Backend Register is missing</string>
+    <string name="backend_verify_fiels_missing">Backend Verify is missing</string>
+    <string name="country_name_fiels_missing">Country Name is missing</string>
+    <string name="country_id_fiels_missing">Country Id is missing</string>
+
+
 
     <string-array name="qtyArray">
         <item>1</item>
@@ -79,8 +86,10 @@
         <item>PENDING</item>
     </string-array>
 
+    <string name="facebook_app_id">4482161495132131</string>
+    <string name="fb_login_protocol_scheme">fb4482161495132131</string>
 
-    <string name="facebook_app_id">656565</string>
-    <string name="fb_login_protocol_scheme">sacascncisjacij]</string>
+
+
 
 </resources>

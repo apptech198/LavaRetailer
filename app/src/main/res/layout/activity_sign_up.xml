@@ -70,6 +70,7 @@
                 android:hint="Full Name"
                 android:includeFontPadding="true"
                 android:inputType="text"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -98,6 +99,7 @@
                 android:hint="@string/mobile_number"
                 android:includeFontPadding="true"
                 android:inputType="number"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
                 app:layout_constraintTop_toBottomOf="@+id/nameError"
@@ -128,6 +130,7 @@
                 android:includeFontPadding="true"
                 android:inputType="textEmailAddress"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColorHint="#525662"
                 app:layout_constraintTop_toBottomOf="@+id/numberError" />
 
@@ -165,12 +168,10 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:textAlignment="viewStart"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
-
-
-
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/Confirmpassword"
@@ -181,6 +182,7 @@
                 android:hint="Confirm password"
                 android:textColorHint="#757575"
                 app:hintTextColor="#757575"
+                app:errorIconDrawable="@null"
                 app:boxBackgroundColor="@color/back_all"
                 app:passwordToggleTint="#FFF"
                 android:layout_marginTop="16dp">
@@ -191,6 +193,7 @@
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:textAlignment="viewStart"
+                    android:textCursorDrawable="@drawable/color_cursor"
                     android:textColor="@color/white" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -205,6 +208,7 @@
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/montserrat_medium"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:hint="Outlet Name"
                 android:includeFontPadding="true"
                 android:inputType="text"
@@ -232,6 +236,7 @@
                 android:layout_marginTop="12dp"
                 android:backgroundTint="#757575"
                 android:drawablePadding="5dp"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="Full Address"
                 android:includeFontPadding="true"
@@ -257,6 +262,46 @@
             <!--===========================-->
 
             <EditText
+                android:id="@+id/SelectCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="Select Country"
+                android:includeFontPadding="true"
+                android:inputType="text"
+                android:backgroundTint="#757575"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textColor="@color/white"
+                android:textColorHint="#525662"
+                app:layout_constraintTop_toBottomOf="@+id/addressError" />
+
+            <LinearLayout
+                android:id="@+id/CountryRecyclerViewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/SelectCountry"
+                android:background="@color/white"
+                android:padding="16dp"
+                android:maxHeight="200dp"
+                android:elevation="10dp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/CountryRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    tools:listitem="@layout/row_smart_select"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
+            </LinearLayout>
+
+
+
+
+            <EditText
                 android:id="@+id/SelectGovernate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -267,9 +312,10 @@
                 android:hint="Select Governate"
                 android:includeFontPadding="true"
                 android:inputType="text"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColor="@color/white"
                 android:textColorHint="#525662"
-                app:layout_constraintTop_toBottomOf="@+id/addressError" />
+                app:layout_constraintTop_toBottomOf="@+id/CountryRecyclerViewLayout" />
 
             <LinearLayout
                 android:id="@+id/GovernateRecyclerViewLayout"
@@ -345,6 +391,7 @@
                 android:includeFontPadding="true"
                 android:inputType="text"
                 android:textColor="@color/white"
+                android:textCursorDrawable="@drawable/color_cursor"
                 android:textColorHint="#525662"
                 app:layout_constraintTop_toBottomOf="@+id/SelectCity"
                 app:layout_constraintVertical_bias="0.163" />
@@ -451,7 +498,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/CenterLayout"
-            app:layout_constraintVertical_bias="0.68">
+            app:layout_constraintVertical_bias="0.68"
+            android:layout_marginBottom="24dp">
 
             <TextView
                 android:layout_width="wrap_content"

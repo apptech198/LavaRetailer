@@ -10,40 +10,18 @@
     android:paddingTop="16dp"
     android:paddingEnd="16dp">
 
-    <LinearLayout
-        android:id="@+id/PaymentTypeSpinnerLayout"
-        android:layout_width="0dp"
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/headtitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="100dp"
-        android:layout_marginRight="100dp"
-        android:padding="2dp"
-        app:layout_constraintHorizontal_weight="1"
+        android:text="Pending Verification"
+        android:fontFamily="@font/lato_black"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@drawable/sipnner_design"
-        app:layout_constraintEnd_toStartOf="@+id/datetimefilter"
-        app:layout_constraintTop_toTopOf="parent">
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        android:textColor="@color/white"/>
 
-        <com.skydoves.powerspinner.PowerSpinnerView
-            android:id="@+id/validsipnner"
-            android:layout_width="match_parent"
-            android:layout_height="33dp"
-            android:gravity="center"
-            android:padding="10dp"
-            android:textColor="@color/white"
-            android:hint="Select status"
-            android:textColorHint="@color/white"
-            android:textSize="12sp"
-            app:spinner_arrow_gravity="end"
-            app:spinner_arrow_padding="8dp"
-            app:spinner_divider_color="@color/black"
-            app:spinner_divider_show="true"
-            app:spinner_divider_size="0.4dp"
-            app:spinner_item_array="@array/valid_Invalid_imei"
-            app:spinner_popup_animation="dropdown"
-            app:spinner_popup_background="@color/black"
-            app:spinner_popup_elevation="14dp" />
-
-    </LinearLayout>
 
 
     <LinearLayout
@@ -69,6 +47,81 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/PendingLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headtitle"
+        app:layout_constraintEnd_toStartOf="@+id/ApprovedLayout"
+        android:background="@drawable/red_order_status"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="16dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pending"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ApprovedLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintEnd_toStartOf="@+id/RejectedLayout"
+        app:layout_constraintTop_toTopOf="@+id/PendingLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/PendingLayout"
+        app:layout_constraintStart_toEndOf="@+id/PendingLayout"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Approved"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/RejectedLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/ApprovedLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/ApprovedLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rejected"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ImeiRecyclerView"
         android:layout_width="match_parent"
@@ -77,7 +130,7 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PaymentTypeSpinnerLayout"
+        app:layout_constraintTop_toBottomOf="@+id/PendingLayout"
         tools:layout_editor_absoluteX="16dp" />
 
 

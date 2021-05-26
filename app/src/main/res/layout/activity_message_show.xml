@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
-        android:text="Message"
+        android:text="Latest news"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -62,8 +62,35 @@
         app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
         app:layout_constraintStart_toStartOf="@+id/guidelineStart"
         app:layout_constraintTop_toBottomOf="@+id/materialTextView"
-        tools:listitem="@layout/row_message_show"
-       />
+        app:stackFromEnd="false"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"/>
+
+
+    <LinearLayout
+        android:id="@+id/nextScreenbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/news_button_design">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next screen"
+            android:fontFamily="@font/lato_regular"
+            android:textColor="@color/back_all"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+
+    </LinearLayout>
+
+
+
 
 
     <com.google.android.material.textview.MaterialTextView

@@ -15,9 +15,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/topMainLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="#535355"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -33,14 +34,29 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/img1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_baseline_info_24"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@drawable/ic_baseline_notifications_24"
                             app:layout_constraintBottom_toBottomOf="@+id/desLayout"
                             app:layout_constraintStart_toStartOf="parent"
+                            app:civ_border_width="1dp"
+                            app:civ_border_color="#FF000000"
                             app:layout_constraintTop_toTopOf="@+id/titleLayout" />
+
+
+                        <ImageView
+                            android:id="@+id/dotImg"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:src="@drawable/ic_baseline_brightness_1_24"
+                            app:layout_constraintCircle="@+id/img1"
+                            app:layout_constraintCircleAngle="0"
+                            app:layout_constraintCircleRadius="70dp"
+                            app:layout_constraintStart_toStartOf="@+id/imei"/>
+
+
 
                         <LinearLayout
                             android:id="@+id/titleLayout"
@@ -48,7 +64,8 @@
                             android:layout_height="wrap_content"
                             app:layout_constraintStart_toEndOf="@+id/img1"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toStartOf="@+id/img2">
+                            app:layout_constraintEnd_toStartOf="@+id/img2"
+                            android:padding="8dp">
 
                             <com.google.android.material.textview.MaterialTextView
                                 android:id="@+id/msgTitle"
@@ -60,7 +77,7 @@
                                 android:fontFamily="@font/lato_bold"
                                 android:maxLines="1"
                                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                                android:textColor="@color/black"
+                                android:textColor="@color/white"
                                 android:textStyle="bold"
                                 tools:text="Message Title" />
 
@@ -92,14 +109,12 @@
 
                         </LinearLayout>
 
-
-
-
                         <LinearLayout
                             android:id="@+id/img2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
+                            android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@+id/desLayout"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
@@ -119,12 +134,14 @@
                     android:id="@+id/expansionLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white">
+                    android:background="@color/white"
+                    android:layout_marginTop="4dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="8dp">
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/msgfull"
