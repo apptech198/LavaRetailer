@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -95,6 +97,12 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
+
+
+        binding.addressEdittext.setText(sessionManage.getUserDetails().get(SessionManage.ADDRESS));
+        binding.up.setOnClickListener(v -> {
+            AddressChange();
+        });
 
 
         // TODO: Use the ViewModel
@@ -272,6 +280,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
     }
 
     @Override
@@ -548,6 +557,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             String add = addressEdittext.getEditText().getText().toString().trim();
             sessionManage.AddressChange(add);
             binding.AddressTextView.setText(add);
+            binding.addressEdittext.setText(sessionManage.getUserDetails().get(SessionManage.ADDRESS));
             alertDialog1.dismiss();
         });
 
@@ -636,11 +646,13 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                                 }else {
                                     sessionManage.addcard(MainjsonObject.toString());
                                 }
-                                startActivity(new Intent(getContext() , SuccessActivity.class)
-                                        .putExtra("amt" , binding.totalAmt.getText().toString())
-                                );
-                                getActivity().finish();;
+//                                startActivity(new Intent(getContext() , SuccessActivity.class)
+//                                        .putExtra("amt" , binding.totalAmt.getText().toString())
+//                                );
+//                                getActivity().finish();;
+
                                 progressDialog.dismiss();
+                                OrderSuccess();
                             return;
                         }
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
@@ -667,6 +679,37 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         });
 
 
+    }
+
+
+
+
+    void OrderSuccess(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.order_success_dailog , null);
+        LinearLayout buymore = view.findViewById(R.id.buymore);
+        LinearLayout no = view.findViewById(R.id.no);
+        LinearLayout myorder = view.findViewById(R.id.Myorder);
+
+
+        buymore.setOnClickListener( v -> {
+            NavController navController = Navigation.findNavController(v);
+            navController.popBackStack();
+            navController.navigate(R.id.placeOrderFragment);
+        });
+
+        myorder.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(v);
+            navController.popBackStack();
+            navController.navigate(R.id.orderStatusFragment);
+        });
+
+
+        builder.setView(view);
+        alertDialog = builder.create();
+        alertDialog.show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        no.setOnClickListener( v -> alertDialog.dismiss());
     }
 
 

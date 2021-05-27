@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/dialog_back"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="24dp">
 
@@ -14,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
+        android:textColor="@color/dialog_heading"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
 
@@ -38,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="12dp"
-        android:background="@color/gray"
+        android:background="@color/dialog_heading"
         app:layout_constraintTop_toBottomOf="@+id/Title"/>
 
 
@@ -50,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/lato_regular"
-        android:textColor="@color/back_all"
+        android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         app:boxBackgroundColor="@color/white"
         android:textSize="18sp"
