@@ -57,6 +57,42 @@
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/modelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lato_semi_bold"
+                android:text="vdvdvds"
+                android:textColor="#6b6b6b"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@id/productName"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+               />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/brandName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lato_semi_bold"
+                android:text="vdvdvds"
+                android:textColor="#6b6b6b"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@id/modelName"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                />
+
+
+
+
+
+
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/DisName"
                 android:layout_width="wrap_content"
@@ -68,7 +104,7 @@
                 android:textColor="#6b6b6b"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-                app:layout_constraintTop_toBottomOf="@+id/productName" />
+                app:layout_constraintTop_toBottomOf="@+id/brandName" />
 
 
 
@@ -98,29 +134,77 @@
                 app:layout_constraintStart_toEndOf="@+id/productAmt"
                 app:layout_constraintTop_toTopOf="@+id/productAmt"
                 app:layout_constraintBottom_toBottomOf="@+id/productAmt"/>
+            
+            
+            
+            
 
-
-            <WebView
-                android:id="@+id/productDic"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:fontFamily="@font/lato_bold"
-                android:textColor="#878787"
-                android:textSize="14sp"
-                android:background="@color/back_all"
-                android:layout_marginTop="12dp"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:id="@+id/disview"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:elevation="5dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@color/back_all"
                 app:layout_constraintTop_toBottomOf="@+id/productAmt"
-                tools:ignore="WebViewLayout" />
+                android:layout_height="wrap_content">
+                
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/desheading"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/lato_bold"
+                        android:text="Product Description"
+                        android:layout_marginTop="10dp"
+                        android:textColor="#c4c4c4"
+                        android:textSize="16sp"
+                        android:layout_marginLeft="10dp"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+
+                    <WebView
+                        android:id="@+id/productDic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/lato_bold"
+                        android:textSize="14sp"
+                        android:elevation="2dp"
+                        android:background="@color/back_all"
+                        android:layout_marginTop="12dp"
+                        app:layout_constraintTop_toBottomOf="@+id/desheading"
+                        tools:ignore="WebViewLayout" />
+
+                </LinearLayout>
+
+
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+
+
+
 
 
             <LinearLayout
                 android:id="@+id/QtyTitle"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/productDic"
+                app:layout_constraintTop_toBottomOf="@+id/disview"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="12dp"
                 android:layout_marginStart="12dp"
@@ -145,9 +229,10 @@
                 android:id="@+id/QtyLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/QtyTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/productAmt"
                 app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
-                app:layout_constraintTop_toTopOf="@+id/QtyTitle">
+                app:layout_constraintTop_toBottomOf="@id/productAmt"
+                app:layout_constraintTop_toTopOf="@+id/productAmt">
 
 
                 <com.google.android.material.card.MaterialCardView
@@ -173,7 +258,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Add"
+                            android:text="Add to Cart"
                             android:textColor="#878787"
                             android:fontFamily="@font/lato_semi_bold"
                             android:textSize="14sp" />

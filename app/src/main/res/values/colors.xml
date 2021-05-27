@@ -30,6 +30,7 @@
     <color name="login_tint_color">#757575</color>
     <color name="login_icon_color">#545864</color>
     <color name="back_all">#1f1f29</color>
+    <color name="webblack">#1f1f30</color>
     <color name="blackColor">#707070</color>
     <color name="blacklight">#989898</color>
     <color name="blue_dark">#3b3e60</color>

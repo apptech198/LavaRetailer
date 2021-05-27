@@ -154,12 +154,12 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                             ,object.optString("available_qty")
                             ,object.optString("hide")
                             ,object.getString("total_sale")
-                            ,object.getString("seller_id")
-                            ,object.getString("seller_name")
-                            ,object.getString("time")
-                            ,object.getString("qty")
-                            ,object.getString("marketing_name_fr")
-                            ,object.getString("des_fr")
+                            ,object.optString("seller_id")
+                            ,object.optString("seller_name")
+                            ,object.optString("time")
+                            ,object.optString("qty")
+                            ,object.optString("marketing_name_fr")
+                            ,object.optString("des_fr")
                     ));
 
                     try {

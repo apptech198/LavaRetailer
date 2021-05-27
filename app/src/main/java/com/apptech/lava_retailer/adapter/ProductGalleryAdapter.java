@@ -75,7 +75,7 @@ public class ProductGalleryAdapter extends PagerAdapter {
 
             play.setVisibility(View.GONE);
 
-            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+            if (sessionManage.getUserDetails().get("LANGUAGE").equals("ar")) {
                 Glide.with(context).load(ApiClient.Image_URL + list.get_img_url_ar()).listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
