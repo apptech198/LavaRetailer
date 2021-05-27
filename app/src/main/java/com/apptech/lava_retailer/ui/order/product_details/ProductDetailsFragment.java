@@ -1,6 +1,7 @@
 package com.apptech.lava_retailer.ui.order.product_details;
 
 import android.graphics.BlurMaskFilter;
+import android.graphics.Color;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -60,6 +61,7 @@ public class ProductDetailsFragment extends Fragment {
     NavController navController;
     List<ProductGalleryLists> galleryLists = new ArrayList<>();
 
+
     public static ProductDetailsFragment newInstance() {
         return new ProductDetailsFragment();
     }
@@ -106,7 +108,15 @@ public class ProductDetailsFragment extends Fragment {
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
 
             binding.productName.setText(list.getMarketing_name());
-            binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
+            binding.modelName.setText("Model - "+list.getModel());
+            binding.brandName.setText("Brand - "+list.getBrand());
+
+
+//            binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
+
+            String htmlData = "<font color='#c4c4c4'>" + list.getDes() + "</font>";
+            binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
+//            binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
 
             binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
             binding.productAmtDic.setText(getResources().getString(R.string.egp) + list.getActual_price());
@@ -133,15 +143,24 @@ public class ProductDetailsFragment extends Fragment {
 
 
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            binding.modelName.setText("Model - "+list.getModel());
+
+            binding.brandName.setText("Brand - "+list.getBrand());
+
+
             if(list.getMarketing_name_fr().isEmpty()){
                 binding.productName.setText(list.getMarketing_name());
             }else {
                 binding.productName.setText(list.getMarketing_name_fr());
             }
             if(list.getDes_fr().isEmpty()){
-                binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
+                String htmlData = "<font color='#c4c4c4'>" + list.getDes() + "</font>";
+                binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
+//                binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
             }else {
-                binding.productDic.loadData(list.getDes_fr(), "text/html", "UTF-8");
+                String htmlData = "<font color='#c4c4c4'>" + list.getDes_fr() + "</font>";
+                binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
+//                binding.productDic.loadData(list.getDes_fr(), "text/html", "UTF-8");
             }
 
             binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
@@ -166,8 +185,12 @@ public class ProductDetailsFragment extends Fragment {
 
 
         } else {
+            binding.brandName.setText("Brand - "+list.getBrand_ar());
+            binding.modelName.setText("Model - "+list.getModel_ar());
             binding.productName.setText(list.getMarketing_name_ar());
-            binding.productDic.loadData(list.getDes_ar(), "text/html", "UTF-8");
+//            binding.productDic.loadData(list.getDes_ar(), "text/html", "UTF-8");
+            String htmlData = "<font color='#c4c4c4'>" + list.getDes_ar() + "</font>";
+            binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
 
             String Dis_price =  new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
@@ -198,9 +221,12 @@ public class ProductDetailsFragment extends Fragment {
         binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         binding.productDic.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
-
+                view.loadUrl("javascript:document.body.style.color=\"#ffffff\";");
             }
         });
+
+        binding.productDic.setBackgroundColor(getActivity().getResources().getColor(R.color.webblack));
+
 
 //        binding.DisName.setText("Distributor Name : " + list.getDistributor_name());
 

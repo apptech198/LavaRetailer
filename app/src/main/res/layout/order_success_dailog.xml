@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="24dp">
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order Confirmation"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:fontFamily="@font/lato_bold"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
+
+
+    <LinearLayout
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/Title"
+        app:layout_constraintBottom_toBottomOf="@+id/Title"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="4dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_close_24"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@+id/Title"/>
+
+
+
+    <TextView
+        android:id="@+id/addressEdittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/line"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/lato_regular"
+        android:textColor="@color/back_all"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        app:boxBackgroundColor="@color/white"
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:text="Your Order Has been Successfully Placed! "/>
+
+
+
+
+
+    <!--    <View-->
+    <!--        android:id="@+id/line1"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:background="@color/gray"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/addressEdittext"/>-->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/addressEdittext"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp">
+
+
+        <LinearLayout
+            android:id="@+id/buymore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/order_place_btn">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Buy More"
+                android:paddingTop="4dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:fontFamily="@font/lato_semi_bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/Myorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/order_place_btn">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="My Order"
+                android:paddingTop="4dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:fontFamily="@font/lato_semi_bold" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
