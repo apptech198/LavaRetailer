@@ -148,11 +148,13 @@ public interface LavaInterface {
 
     @POST("profile_update_first_time")
     @Multipart
-    Call<Object> PROFILE_UPDATE_FIRST_TIME (@Part MultipartBody.Part img_url , @Part("id") RequestBody id , @Part("name") RequestBody name , @Part("email") RequestBody email, @Part("locality") RequestBody locality
+    Call<Object> PROFILE_UPDATE_FIRST_TIME (
+            @Part MultipartBody.Part img_url , @Part("id") RequestBody id , @Part("name") RequestBody name , @Part("email") RequestBody email, @Part("locality") RequestBody locality
             , @Part("governate") RequestBody governate, @Part("address") RequestBody address, @Part("outlet_name") RequestBody outlet_name, @Part("locality_id") RequestBody locality_id
             , @Part("locality_ar") RequestBody locality_ar
             , @Part("country_id") RequestBody country_id
             , @Part("password") RequestBody password
+            , @Part("number") RequestBody number
     );
 
 
@@ -178,11 +180,13 @@ public interface LavaInterface {
 
     @POST("send_otp_auth")
     @FormUrlEncoded
-    Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile);
-
+    Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile , @Field("country") String country );
 
     @POST("brand_list")
     Call<Object> TAB();
+
+    @POST("comodity_list")
+    Call<Object> GRT_COMODITY();
 
 
 

@@ -212,26 +212,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
                         imeiCount = 0;
                         binding.addLayout.removeAllViews();
-/*
-                        try {
-                            if (error_code == 401) {
-                                String jsonArraySrtring = jsonObject.getString("dl");
-                                JSONArray jsonArray = new JSONArray(jsonArraySrtring);
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    wrongimei(jsonArray.getJSONObject(i).getString("imei"));
-                                }
-                                binding.msgShowWrongImei.setText(getResources().getString(R.string.imei_allready_exists));
-                                binding.msgShowWrongImei.setVisibility(View.VISIBLE);
-                                NoData = false;
-                            } else {
-                                binding.msgShowWrongImei.setVisibility(View.GONE);
-                            }
 
-
-                        } catch (Exception e) {
-                            Log.e(TAG, "onResponse: " + e.getMessage());
-                        }
-*/
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         binding.submitBtn.setClickable(true);
                         binding.submitBtn.setEnabled(true);
@@ -395,7 +376,6 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
-//        lavaInterface.IMEI_CHECK("123456789123456" , "14").enqueue(new Callback<Object>() {
         lavaInterface.IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -412,6 +392,27 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
                     if(error.equalsIgnoreCase("FALSE")){
 
+
+                        switch (error_code){
+                            case 200:
+                                JSONObject object = jsonObject.getJSONObject("list");
+                                addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_name"));
+                                binding.progressbar.setVisibility(View.GONE);
+                                break;
+                            case 301:
+                                addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"");
+                                binding.progressbar.setVisibility(View.GONE);
+                                break;
+                            case 401:
+                                addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"N/A");
+                                binding.progressbar.setVisibility(View.GONE);
+                                break;
+                            case 500:
+//                               dialog open
+                                ImeiDialogOpen();
+                                break;
+                        }
+
                         if(error_code == 200){
                             JSONObject object = jsonObject.getJSONObject("list");
                             addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_name"));
@@ -419,11 +420,23 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                             return;
                         }
 
+/*
                         if(error_code == 301){
                             addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"");
                             binding.progressbar.setVisibility(View.GONE);
                             return;
                         }
+
+                        if (error_code == 401){
+                            addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"N/A");
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
+
+                        if (error_code == 500){
+                            return;
+                        }
+*/
 
                     }
                     binding.ImeiEdittext.setText("");
@@ -440,6 +453,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
             }
 
+
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
@@ -448,20 +462,33 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         });
     }
 
-    private void MessageDilaog(String errormsg){
+
+    private void ImeiDialogOpen() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Error Message");
-        builder.setMessage(errormsg);
-//        builder.setNegativeButton("" , (dialog, which) -> {
-//            dialog.dismiss();
-//        });
-        builder.setPositiveButton("Close" , (dialog, which) -> {
-            dialog.dismiss();
-        });
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.sell_out_imei_dialog , null);
+        builder.setView(view);
+
+        LinearLayout closeDialog = view.findViewById(R.id.closeDialog);
+
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+        closeDialog.setOnClickListener(v -> {alertDialog.dismiss();});
+
+
+    }
+
+
+    private void MessageDilaog(String errormsg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Error Message");
+        builder.setMessage(errormsg);
+        builder.setPositiveButton("Close" , (dialog, which) -> {
+            dialog.dismiss();
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 

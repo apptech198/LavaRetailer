@@ -36,7 +36,7 @@
 
     <string name="message_center">Message Centre</string>
     <string name="sell_outs">Sell Out</string>
-    <string name="report_sell_out_entries">Report Sell out Entries</string>
+    <string name="report_sell_out_entries">Report Sell Through</string>
     <string name="price_drop1">Price Drop</string>
     <string name="passbook">Passbook</string>
     <string name="order">Order</string>

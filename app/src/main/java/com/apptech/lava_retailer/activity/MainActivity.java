@@ -40,6 +40,7 @@ import com.apptech.lava_retailer.fragment.check_entries.CheckEntriesFragment;
 import com.apptech.lava_retailer.fragment.check_entries.sellout.CheckEntriesSellOutFragment;
 import com.apptech.lava_retailer.fragment.check_entries_price_drop_valid_imei.CheckEntriesPriceDropValidImeiFragment;
 import com.apptech.lava_retailer.list.brand.Brandlist;
+import com.apptech.lava_retailer.ui.cart.CartFragment;
 import com.apptech.lava_retailer.ui.language.LanguageChangeFragment;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -64,6 +65,7 @@ import com.apptech.lava_retailer.ui.profile.ProfileFragment;
 import com.apptech.lava_retailer.ui.sell_out.pending_verification.PendingVerificationFragment;
 import com.apptech.lava_retailer.ui.sell_out.report_sell_out_entries.ReportSellOutEntriesFragment;
 import com.apptech.lava_retailer.ui.sell_out.report_sell_out_report.ReportSellOutReportFragment;
+import com.apptech.lava_retailer.ui.trade_program.TradeProgramFragment;
 import com.apptech.lava_retailer.ui.trade_program.loyalty_scheme.LoyaltySchemeFragment;
 import com.apptech.lava_retailer.ui.trade_program.price_list.PricelistFragment;
 import com.apptech.lava_retailer.ui.trade_program.selling_program.SellingProgramFragment;
@@ -339,6 +341,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navController.navigate(R.id.productDetailsFragment);
         }
 
+        if(loadFragment instanceof TradeProgramFragment){
+            navController.navigate(R.id.tradeProgramFragment);
+        }
+
+        if(loadFragment instanceof CartFragment){
+            navController.navigate(R.id.cartFragment);
+        }
+
 
         Log.e(TAG, "getCurrentVisibleFragment: " + loadFragment.toString() );
         dialog.dismiss();
@@ -408,7 +418,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     }
 
                                 }
-
                                 return;
 
                             }
@@ -419,7 +428,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Log.e(TAG, "onResponse: " + e.getMessage());
                         }
                         Toast.makeText(MainActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
 
                     }
 
@@ -618,7 +626,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         childModel = new MenuModel("Pending Verification", false, false, "SELL_OUT_PENDING_VERIFICATION");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Reports sell out report", false, false, "SELL_OUT_REPORT_SELL_OUT_REPORT");
+        childModel = new MenuModel("Dashboard", false, false, "SELL_OUT_REPORT_SELL_OUT_REPORT");
         childModelsList.add(childModel);
 
 

@@ -97,6 +97,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 binding.OtpInputLayoutError.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -114,7 +115,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                binding.password.setError(null);
+                PasswordCheck(binding.password.getEditText().getText().toString().trim());
             }
 
             @Override

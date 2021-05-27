@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.activity.MainActivity;
+import com.apptech.lava_retailer.activity.SignUpActivity;
 import com.apptech.lava_retailer.adapter.CountryAdapter;
 import com.apptech.lava_retailer.adapter.LocalityAdapter;
 import com.apptech.lava_retailer.databinding.ProfileFragmentBinding;
@@ -62,7 +63,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "profileFragment";
     LavaInterface lavaInterface;
     SessionManage sessionManage;
-    String CountryID ="" , GovernateSelect = "", CitySelect = "", Locality = "" , Locality_id ="" , Locality_ar = "";
+    String CountryName ="" , GovernateSelect = "", CitySelect = "", Locality = "" , Locality_id ="" , Locality_ar = "";
     String Languages = "EN";
     List<LocalityList> localityList = new ArrayList<>();
     private Uri fileUri;
@@ -140,7 +141,9 @@ public class ProfileFragment extends Fragment {
         binding.address.setBoxStrokeColorStateList(myColorList);
 
         Profile_details();
+
         getCountry();
+        getGovernate();
 
         binding.UpdateProfile.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
@@ -291,7 +294,7 @@ public class ProfileFragment extends Fragment {
                             Locality = jsonObject1.getString("locality");
                             Locality_id = jsonObject1.getString("locality_id");
                             Locality_ar = jsonObject1.getString("locality_ar");
-                            CountryID = jsonObject1.getString("country_id");
+                            CountryName = jsonObject1.getString("country_id");
 
                             binding.progressbar.setVisibility(View.GONE);
                             return;
@@ -322,6 +325,7 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+/*
     private void getCountry(){
         countryLists.clear();
         lavaInterface.Country().enqueue(new Callback<Object>() {
@@ -381,6 +385,60 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+*/
+
+
+    private void getCountry(){
+        countryLists.clear();
+        lavaInterface.Country().enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String message = jsonObject.getString("message");
+                    if (error.equalsIgnoreCase("false")) {
+
+                        JSONArray array = jsonObject.getJSONArray("country_list");
+
+                        for (int i=0; i < array.length(); i++){
+
+                            JSONObject object = array.getJSONObject(i);
+                            countryLists.add(new Country_list(
+                                    object.getString("id")
+                                    ,object.getString("name")
+                                    ,object.getString("name_ar")
+                                    ,object.optString("name_fr")
+                                    ,object.getString("time")
+                            ));
+                        }
+                        SelectSmaertCountry();
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    }
+                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    binding.progressbar.setVisibility(View.GONE);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.progressbar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+
+            }
+        });
+    }
+
 
     private void SelectSmaertCountry(){
 
@@ -388,7 +446,9 @@ public class ProfileFragment extends Fragment {
 
         CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
             binding.SelectCountry.setText(text);
-            CountryID = list.getId();
+            CountryName = list.getName();
+            binding.SelectGovernate.setText("");
+            binding.SelectLocality.setText("");
             binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
             binding.progressbar.setVisibility(View.VISIBLE);
             getGovernate();
@@ -398,7 +458,7 @@ public class ProfileFragment extends Fragment {
         CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);
         binding.CountryRecyclerView.setAdapter(countryAdapter);
 
-        getGovernate();
+
 
         binding.SelectCountry.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus){
@@ -435,12 +495,89 @@ public class ProfileFragment extends Fragment {
     }
 
     private void getGovernate() {
+        governatelist.clear();
+        Log.e(TAG, "getGovernate: " + Languages);
+        Call call = lavaInterface.Governate(Languages , CountryName);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
 
-        Log.e(TAG, "getGovernate: " + CountryID );
+
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String message = jsonObject.getString("message");
+                    if (error.equalsIgnoreCase("false")) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("governate_list");
+                        governatelist.clear();
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject json_data = jsonArray.getJSONObject(i);
+                            governatelist.add(new GovernateList(
+                                    json_data.getString("id")
+                                    ,json_data.getString("country_id")
+                                    ,json_data.getString("country_name")
+                                    ,json_data.getString("name")
+                                    ,json_data.getString("name_ar")
+                                    ,json_data.optString("name_fr")
+                                    ,json_data.getString("time")
+                            ));
+                        }
+
+                        SelectSmartSearchGovernate();
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    }
+                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    binding.progressbar.setVisibility(View.GONE);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+
+            }
+        });
+
+
+/*        binding.governate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (GOVERNATE) {
+                    binding.progressbar.setVisibility(View.VISIBLE);
+                    Object item = parent.getItemAtPosition(position);
+                    GovernateSelect = item.toString();
+                    getcity();
+
+                }
+                GOVERNATE = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
+
+    }
+
+/*
+    private void getGovernate() {
+
+        Log.e(TAG, "getGovernate: " + CountryName );
         Log.e(TAG, "getGovernate: " + Languages );
 
         governatelist.clear();
-        Call call = lavaInterface.Governate(Languages , CountryID);
+        Call call = lavaInterface.Governate(Languages , CountryName);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -488,15 +625,34 @@ public class ProfileFragment extends Fragment {
         });
 
     }
+*/
+
 
     private void SelectSmartSearchGovernate(){
 
 
         com.apptech.lava_retailer.adapter.GovernateAdapter.GovernateInterface governateInterface = (list) -> {
-            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-                binding.SelectGovernate.setText(list.getName());
-            } else {
-                binding.SelectGovernate.setText(list.getName_ar());
+//            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//                binding.SelectGovernate.setText(list.getName());
+//            } else {
+//                binding.SelectGovernate.setText(list.getName_ar());
+//            }
+
+
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                    binding.SelectGovernate.setText(list.getName());
+                    break;
+                case "fr":
+                    if(list.getName_fr().isEmpty()){
+                        binding.SelectGovernate.setText(list.getName());
+                    }else {
+                        binding.SelectGovernate.setText(list.getName_fr());
+                    }
+                    break;
+                case "ar":
+                    binding.SelectGovernate.setText(list.getName_ar());
+                    break;
             }
 
             GovernateSelect = list.getId();
@@ -565,6 +721,87 @@ public class ProfileFragment extends Fragment {
                         String message = jsonObject.getString("message");
                         if (error.equalsIgnoreCase("false")) {
                             JSONArray jsonArray = jsonObject.getJSONArray("locality_list");
+
+                            localityList.clear();
+
+                            for (int i=0; i< jsonArray.length(); i++){
+
+                                JSONObject jo = jsonArray.getJSONObject(i);
+
+                                localityList.add(new LocalityList(
+                                        jo.getString("id")
+                                        ,jo.getString("governate_id")
+                                        ,jo.getString("governate_name")
+                                        ,jo.getString("name")
+                                        ,jo.getString("name_ar")
+                                        ,jo.optString("name_fr")
+                                        ,jo.getString("time")
+                                ));
+                            }
+
+
+                            SelectSmartSearchLocality();
+                            binding.progressbar.setVisibility(View.GONE);
+
+                            return;
+                        }
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        binding.progressbar.setVisibility(View.GONE);
+                    }
+                    binding.progressbar.setVisibility(View.GONE);
+                    return;
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+            }
+        });
+
+
+/*        binding.locality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (LOCALITY) {
+                    Object item = parent.getItemAtPosition(position);
+                    Locality = item.toString().trim();
+                }
+                LOCALITY = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
+
+    }
+
+/*
+    private void getLocality() {
+
+        localityList.clear();
+
+//        Call call = lavaInterface.getlocality(Languages, CitySelect);
+        Call call = lavaInterface.getlocality(Languages, GovernateSelect);
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                if (response.isSuccessful()) {
+                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        if (error.equalsIgnoreCase("false")) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("locality_list");
                             for (int i=0; i< jsonArray.length(); i++){
                                 JSONObject jo = jsonArray.getJSONObject(i);
                                 localityList.add(new LocalityList(
@@ -602,14 +839,22 @@ public class ProfileFragment extends Fragment {
 
 
     }
+*/
 
     private void SelectSmartSearchLocality(){
 
         LocalityAdapter.LocalityInterface localityInterface = list -> {
 
-            if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+            if (sessionManage.getUserDetails().get("LANGUAGE").equals("ar")) {
                 binding.SelectLocality.setText(list.getName_ar());
                 Locality = list.getName_ar();
+            }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+                if(list.getName_fr().isEmpty()){
+                    binding.SelectLocality.setText(list.getName());
+                }else {
+                    binding.SelectLocality.setText(list.getName_fr());
+                }
+                Locality = list.getName();
             } else {
                 binding.SelectLocality.setText(list.getName());
                 Locality = list.getName();
@@ -668,8 +913,8 @@ public class ProfileFragment extends Fragment {
         RequestBody locality = RequestBody.create(MediaType.parse("multipart/form-data"),Locality);
         RequestBody locality_id = RequestBody.create(MediaType.parse("multipart/form-data"),Locality_id);
         RequestBody locality_ar = RequestBody.create(MediaType.parse("multipart/form-data"),Locality_ar);
-        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),CountryID);
-        RequestBody id = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(sessionManage.getUserDetails().get("ID")));
+        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),CountryName);
+        RequestBody id = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)));
 
 //        Log.e(TAG, "getProfileUpdate id : " + id );
 //        Log.e(TAG, "getProfileUpdate name : " + name );
@@ -894,7 +1139,11 @@ public class ProfileFragment extends Fragment {
     }
 
     private boolean CountryValid() {
-        if (CountryID.isEmpty()) {
+        if (CountryName.isEmpty()) {
+            Toast.makeText(getContext(), "Country field is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.SelectCountry.getText().toString().isEmpty()){
+            binding.SelectCountry.setText("");
             Toast.makeText(getContext(), "Country field is required", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -904,12 +1153,20 @@ public class ProfileFragment extends Fragment {
         if (GovernateSelect.isEmpty()) {
             Toast.makeText(getContext(), "Governate field is required", Toast.LENGTH_SHORT).show();
             return false;
+        }else if (binding.SelectGovernate.getText().toString().isEmpty()){
+            binding.SelectGovernate.setText("");
+            Toast.makeText(getContext(), "Governate field is required", Toast.LENGTH_SHORT).show();
+            return false;
         }
         return true;
     }
 
     private boolean LocalityValid() {
         if (GovernateSelect.isEmpty()) {
+            Toast.makeText(getContext(), "Locality field is required", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if (binding.SelectLocality.getText().toString().isEmpty()){
+            binding.SelectLocality.setText("");
             Toast.makeText(getContext(), "Locality field is required", Toast.LENGTH_SHORT).show();
             return false;
         }

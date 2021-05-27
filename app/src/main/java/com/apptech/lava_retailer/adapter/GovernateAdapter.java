@@ -25,7 +25,7 @@ public class GovernateAdapter extends RecyclerView.Adapter<GovernateAdapter.View
 
     GovernateInterface governateInterface;
     List<GovernateList> governatelist;
-    List<GovernateList>ListAll = new ArrayList<>();
+    List<GovernateList> ListAll = new ArrayList<>();
     SessionManage sessionManage;
     Context context;
 
@@ -89,16 +89,17 @@ public class GovernateAdapter extends RecyclerView.Adapter<GovernateAdapter.View
         protected FilterResults performFiltering(CharSequence charSequence) {
             List<GovernateList> filteredList = new ArrayList<>();
 
-            if (charSequence == null || charSequence.length() == 0) {
+            if(charSequence.toString().isEmpty()){
                 filteredList.addAll(ListAll);
             } else {
-                for (GovernateList movie: ListAll) {
 
                     switch (sessionManage.getUserDetails().get("LANGUAGE")){
                         case "en":
                         case "fr":
-                            if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                                filteredList.add(movie);
+                            for (GovernateList movie: ListAll) {
+                                if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                    filteredList.add(movie);
+                                }
                             }
                             break;
 //                        case "fr":
@@ -109,11 +110,13 @@ public class GovernateAdapter extends RecyclerView.Adapter<GovernateAdapter.View
 //                            }
 //                            break;
                         case "ar":
-                            if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                                filteredList.add(movie);
+                            for (GovernateList movie: ListAll) {
+                                if (movie.getName_ar().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                                    filteredList.add(movie);
+                                }
                             }
                             break;
-                    }
+
 
 //                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
 //                        if (movie.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
@@ -134,9 +137,13 @@ public class GovernateAdapter extends RecyclerView.Adapter<GovernateAdapter.View
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            governatelist.clear();
-            governatelist.addAll((Collection<? extends GovernateList>) results.values);
-            notifyDataSetChanged();
+            try {
+                governatelist.clear();
+                governatelist.addAll((Collection<? extends GovernateList>) results.values);
+                notifyDataSetChanged();
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
         }
     };
 

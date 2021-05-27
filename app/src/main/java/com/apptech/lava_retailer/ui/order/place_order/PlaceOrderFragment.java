@@ -48,7 +48,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderFragment extends Fragment implements ShortFilterBottomSheetFragment.ShortItemClck {
+public class PlaceOrderFragment extends Fragment implements ShortFilterBottomSheetFragment.ShortItemClck , CategoryFilterBottomSheetFragment.CategoryInterface {
 
     private PlaceOrderViewModel mViewModel;
     SessionManage sessionManage;
@@ -67,6 +67,8 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
     NavController navController;
     List<ComodityLists>  comodityLists = new ArrayList<>();
     String Country_id = "";
+    CategoryFilterBottomSheetFragment categoryFilterBottomSheetFragment;
+
 
     public static PlaceOrderFragment newInstance() {
         return new PlaceOrderFragment();
@@ -129,7 +131,8 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
             shortFilterBottomSheetFragment.show(getChildFragmentManager(), "short bottom sheet");
         });
         binding.filterPrice.setOnClickListener(v -> {
-            new CategoryFilterBottomSheetFragment(comodityLists).show(getChildFragmentManager(), "category filter");
+             categoryFilterBottomSheetFragment = new CategoryFilterBottomSheetFragment(this);
+            categoryFilterBottomSheetFragment.show(getChildFragmentManager(), "category filter");
         });
 
         binding.search.addTextChangedListener(new TextWatcher() {
@@ -297,24 +300,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                         String message = jsonObject.getString("message");
                         if (error.equalsIgnoreCase("false")) {
 
-
                             JSONArray jsonArray = jsonObject.getJSONArray("list");
-                            JSONArray comodity_list = jsonObject.getJSONArray("comodity_list");
-
-
-                            for (int i=0; i<comodity_list.length(); i++){
-                                JSONObject op = comodity_list.getJSONObject(i);
-                                comodityLists.add(new ComodityLists(
-                                        op.optString("id")
-                                        ,op.optString("name")
-                                        ,op.optString("name_ar")
-                                        ,op.optString("brand_id")
-                                        ,op.optString("brand_name")
-                                        ,op.optString("form_type")
-                                        ,op.optString("time")
-                                ));
-                            }
-
 
                             productLists.clear();
                             for (int i=0 ; i< jsonArray.length(); i++) {
@@ -330,7 +316,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                                         ,object.getString("actual_price")
                                         ,object.getString("dis_price")
                                         ,object.getString("thumb")
-                                        ,object.getString("thumb_ar")
+                                        ,object.optString("thumb_ar")
                                         ,object.getString("sku")
                                         ,object.optString("commodity_id")
                                         ,object.getString("format")
@@ -384,11 +370,10 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                         binding.noproduct.setVisibility(View.VISIBLE);
                         binding.progressbar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "" + message , Toast.LENGTH_SHORT).show();
-
+                        return;
                     }catch (JSONException e){
                         e.printStackTrace();
                         Log.e(TAG, "onResponse: " + e.getMessage() );
-                        binding.progressbar.setVisibility(View.GONE);
                     }
                     binding.noproduct.setVisibility(View.VISIBLE);
                     binding.progressbar.setVisibility(View.GONE);
@@ -506,6 +491,8 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                     jsonObject.put("qty", "1");
                     jsonObject.put("marketing_name_fr", list.getMarketing_name_fr());
                     jsonObject.put("des_fr", list.getDes_fr());
+                    jsonObject.put("marketing_name_fr", list.getMarketing_name_fr());
+                    jsonObject.put("des_fr", list.getDes_fr());
 
                     ProductJsonObject.put(list.getId() , jsonObject);
                     Log.e(TAG, "addItem ProductJsonObject: " + ProductJsonObject.toString() );
@@ -526,7 +513,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
                 try {
 
-                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
                         int add = Integer.parseInt(county.getText().toString().trim()) - 1;
                         county.setText(String.valueOf(add));
                         try {
@@ -583,12 +570,11 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
             public void QtyAdd(ProductList list, int position, TextView countqty) {
 
 
-                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
                     int add = Integer.parseInt(countqty.getText().toString().trim()) + 1;
                     countqty.setText(String.valueOf(add));
                     try {
-//                    MainjsonObject.getJSONObject(list.getId()).put("qty", String.valueOf(add));
                         MainjsonObject.getJSONObject(BRAND_ID).getJSONObject(list.getId()).put("qty", String.valueOf(add));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -622,6 +608,59 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
             }
         };
+    }
+
+    @Override
+    public void OnItemCategoryClick(ComodityLists comodityLists) {
+
+        binding.progressbar.setVisibility(View.VISIBLE);
+
+        List<ProductList> productFilter = new ArrayList<>();
+
+        categoryFilterBottomSheetFragment.dismiss();
+
+        try {
+            if((purchaseNowAdapter != null) && (!productLists.isEmpty())){
+
+//                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+//                    case "en":
+//                        holder.binding.categoryName.setText(list.getName());
+//                        break;
+//                    case "fr":
+//                        if(list.getName_fr().isEmpty()){
+//                            holder.binding.categoryName.setText(list.getName());
+//                        }else {
+//                            holder.binding.categoryName.setText(list.getName_fr());
+//                        }
+//                        break;
+//                    case "ar":
+//                        holder.binding.categoryName.setText(list.getName_ar());
+//                        break;
+//                }
+//
+                for (ProductList list : productLists){
+                    if(comodityLists.getName().trim().equalsIgnoreCase(list.getCommodity().trim())){
+                        productFilter.add(list);
+                    }
+                }
+
+                if(productFilter.size() > 0){
+                    purchaseNowAdapter = new PurchaseNowAdapter(productFilter , purchaseNowIterface);
+                    binding.PurchaseNowRecyclerView.setAdapter(purchaseNowAdapter);
+                    purchaseNowAdapter.notifyDataSetChanged();
+                    binding.progressbar.setVisibility(View.GONE);
+                    binding.noproduct.setVisibility(View.GONE);
+                    binding.PurchaseNowRecyclerView.setVisibility(View.VISIBLE);
+                    return;
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                binding.noproduct.setVisibility(View.VISIBLE);
+                binding.PurchaseNowRecyclerView.setVisibility(View.GONE);
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e(TAG, "POPULARITY: " + e.getMessage() );
+        }
     }
 
     private static class PriceshortLowToHight implements Comparator<ProductList> {

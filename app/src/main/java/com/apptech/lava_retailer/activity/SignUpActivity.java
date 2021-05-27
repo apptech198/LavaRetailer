@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -59,6 +60,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     String Languages = "EN";
     String signup_type ="" , social_auth_token = "" , MOB = "";
     List<Country_list> countryLists = new ArrayList<>();
+    boolean doubleBackToExitPressedOnce = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,11 +158,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 //        }
 
 
-
-
-
-
-//        getGovernate();
         getCountry();
 
         binding.Signup.setOnClickListener(v -> {
@@ -198,7 +196,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         });
         Hideerror();
 
-        Toast.makeText(this, "sign" + signup_type, Toast.LENGTH_SHORT).show();
 
     }
 
@@ -266,7 +263,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 //                binding.password.setError(null);
 //                binding.password.setErrorEnabled(false);
-                ConfirmPasswordCheck(binding.password.getEditText().getText().toString().trim() , binding.Confirmpassword.getEditText().getText().toString().trim());
+//                ConfirmPasswordCheck(binding.password.getEditText().getText().toString().trim() , binding.Confirmpassword.getEditText().getText().toString().trim());
+                   PasswordCheck(binding.password.getEditText().getText().toString().trim());
 
             }
 
@@ -563,7 +561,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
-
+                Toast.makeText(SignUpActivity.this, "Time out", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -613,12 +611,12 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                     }
                     binding.progressbar.setVisibility(View.GONE);
                     Toast.makeText(SignUpActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    return;
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(SignUpActivity.this, "Time out", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -779,26 +777,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                 ));
                             }
 
-//                            JSONObject objec = jsonArray.getJSONObject(0);
-//                            Iterator iterator = objec.keys();
-//                            String key = "";
-//                            while (iterator.hasNext()) {
-//                                key = (String) iterator.next();
-//                                Log.e(TAG, "onResponse: " + key);
-//                                break;
-//                            }
-//
-//                            if (key.equals("locality_en")) {
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject json_data = jsonArray.getJSONObject(i);
-//                                    localityList.add(json_data.getString("locality_en"));
-//                                }
-//                            } else {
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject json_data = jsonArray.getJSONObject(i);
-//                                    localityList.add(json_data.getString("locality_ar"));
-//                                }
-//                            }
 
                             SelectSmartSearchLocality();
                             binding.progressbar.setVisibility(View.GONE);
@@ -813,12 +791,13 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                     binding.progressbar.setVisibility(View.GONE);
                     return;
                 }
+                binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-
+                binding.progressbar.setVisibility(View.GONE);
             }
         });
 
@@ -1025,6 +1004,12 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             binding.progressbar.setVisibility(View.VISIBLE);
             binding.SelectGovernate.setText("");
             binding.SelectLocality.setText("");
+            GovernateSelect = "";
+            Locality = "";
+            Locality_id = "";
+            Locality_ar = "";
+            governatelist.clear();
+            localityList.clear();
             getGovernate();
         };
 
@@ -1039,6 +1024,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
         });
 
+        binding.SelectCountry.setOnClickListener(v -> {
+            binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
+        });
 
         binding.SelectCountry.addTextChangedListener(new TextWatcher() {
             @Override
@@ -1091,6 +1079,10 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
             binding.progressbar.setVisibility(View.VISIBLE);
             binding.SelectLocality.setText("");
+            Locality = "";
+            Locality_id = "";
+            Locality_ar = "";
+            localityList.clear();
             getLocality();
 
         };
@@ -1138,59 +1130,21 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
 
     }
-    private void SelectSmartSearchCity(){
-
-//        List<String> citylist = new ArrayList<>();
-//        citylist.add("Mumbai");
-//        citylist.add("New Delhi");
-//        citylist.add("Pune");
-//        citylist.add("Nagpur");
-//        citylist.add("Nashik");
-
-        com.apptech.lava_retailer.adapter.CityAdapter.CityInterface cityInterface = text -> {
-            binding.SelectCity.setText(text);
-            binding.CityRecyclerViewLayout.setVisibility(View.GONE);
-            CitySelect = text;
-//            SelectSmartSearchLocality();
-            binding.progressbar.setVisibility(View.VISIBLE);
 
 
-        };
-        com.apptech.lava_retailer.adapter.CityAdapter cityAdapter = new com.apptech.lava_retailer.adapter.CityAdapter(cityInterface , citylist);
-        binding.CityRecyclerView.setAdapter(cityAdapter);
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
 
-        binding.SelectCity.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
-                binding.CityRecyclerViewLayout.setVisibility(View.VISIBLE);
-                return;
-            }
-            binding.CityRecyclerViewLayout.setVisibility(View.GONE);
-        });
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-        binding.SelectCity.setOnClickListener(v -> {
-            binding.CityRecyclerViewLayout.setVisibility(View.VISIBLE);
-        });
-
-        binding.SelectCity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                    if(cityAdapter != null){
-                        cityAdapter.getFilter().filter(s.toString());
-                    }
-            }
-        });
-
+        new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
     }
+
     private void SelectSmartSearchLocality(){
 
 /*        List<String> localityList = new ArrayList<>();
@@ -1226,8 +1180,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                     Locality = list.getName_ar();
                     break;
             }
-
-
 
 
             Locality_id = list.getId();

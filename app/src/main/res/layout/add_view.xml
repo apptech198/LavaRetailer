@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="Imei"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/lato_semi_bold"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toStartOf="@+id/remove"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,6 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Model : "
+                android:fontFamily="@font/lato_semi_bold"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
@@ -75,10 +77,26 @@
                 android:text="RGMsnc"
                 android:layout_marginTop="4dp"
                 android:textColor="@color/white"
+                android:fontFamily="@font/lato_semi_bold"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/remove"
                 app:layout_constraintStart_toEndOf="@+id/ModalTitle"
                 app:layout_constraintBottom_toBottomOf="@+id/ModalTitle"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/msg"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="msg user not availver"
+                android:fontFamily="@font/lato_semi_bold"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/white"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ModalTitle"/>
 
 
             <LinearLayout

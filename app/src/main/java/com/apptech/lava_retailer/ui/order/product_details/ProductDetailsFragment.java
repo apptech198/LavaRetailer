@@ -99,6 +99,10 @@ public class ProductDetailsFragment extends Fragment {
         qtyset1();
         cardQuntyUpdate();
 
+        binding.ProductAdd.setClickable(true);
+        binding.ProductAdd.setEnabled(true);
+
+
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
 
             binding.productName.setText(list.getMarketing_name());
@@ -109,6 +113,9 @@ public class ProductDetailsFragment extends Fragment {
 
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+                binding.ProductAdd.setClickable(false);
+                binding.ProductAdd.setEnabled(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -125,6 +132,39 @@ public class ProductDetailsFragment extends Fragment {
 
 
 
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            if(list.getMarketing_name_fr().isEmpty()){
+                binding.productName.setText(list.getMarketing_name());
+            }else {
+                binding.productName.setText(list.getMarketing_name_fr());
+            }
+            if(list.getDes_fr().isEmpty()){
+                binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
+            }else {
+                binding.productDic.loadData(list.getDes_fr(), "text/html", "UTF-8");
+            }
+
+            binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
+            binding.productAmtDic.setText(getResources().getString(R.string.egp) + list.getActual_price());
+
+
+            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+                binding.ProductAdd.setClickable(false);
+                binding.ProductAdd.setEnabled(false);
+
+                SpannableString string = new SpannableString(list.getActual_price());
+                MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                binding.productAmtDic.setText(string);
+
+                SpannableString string1 = new SpannableString(list.getDis_price());
+                MaskFilter blurMask1 = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                string1.setSpan(new MaskFilterSpan(blurMask1), 0, list.getDis_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                binding.productAmt.setText(string);
+            }
+
+
         } else {
             binding.productName.setText(list.getMarketing_name_ar());
             binding.productDic.loadData(list.getDes_ar(), "text/html", "UTF-8");
@@ -136,6 +176,9 @@ public class ProductDetailsFragment extends Fragment {
             binding.productAmtDic.setText(getResources().getString(R.string.egp)  + Actual_price);
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+                binding.ProductAdd.setClickable(false);
+                binding.ProductAdd.setEnabled(false);
 
                 SpannableString string = new SpannableString(Actual_price);
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -166,7 +209,7 @@ public class ProductDetailsFragment extends Fragment {
 
 
         binding.plus.setOnClickListener(v -> {
-            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
                 int add = Integer.parseInt(binding.qtyCount.getText().toString().trim()) + 1;
                 binding.qtyCount.setText(String.valueOf(add));
                 try {
@@ -207,7 +250,7 @@ public class ProductDetailsFragment extends Fragment {
                 binding.ProductAdd.setVisibility(View.GONE);
                 binding.PlusMinusLayout.setVisibility(View.VISIBLE);
 
-                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
                     int add = Integer.parseInt(binding.qtyCount.getText().toString().trim()) - 1;
                     binding.qtyCount.setText(String.valueOf(add));
@@ -433,7 +476,7 @@ public class ProductDetailsFragment extends Fragment {
 
                 try {
 
-                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                    if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
                         binding.qtyCount.setText(ProductJsonObject.getJSONObject(list.getId()).get("qty").toString());
                     }else {
                         int qty = Integer.parseInt(ProductJsonObject.getJSONObject(list.getId()).get("qty").toString());

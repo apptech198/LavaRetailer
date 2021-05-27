@@ -97,9 +97,13 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             holder.modalName.setText("Modal : " +  list.getModel());
             holder.productAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
             holder.productAmtDic.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
-
+            holder.addBtnLayout1.setEnabled(true);
+            holder.addBtnLayout1.setClickable(true);
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+                holder.addBtnLayout1.setEnabled(false);
+                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -127,9 +131,14 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
             holder.productAmt.setText(context.getResources().getString(R.string.egp) + Dis_price);
             holder.productAmtDic.setText(context.getResources().getString(R.string.egp) +  Actual_price);
-
+            holder.addBtnLayout1.setEnabled(true);
+            holder.addBtnLayout1.setClickable(true);
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+
+                holder.addBtnLayout1.setEnabled(false);
+                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(Actual_price);
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -146,6 +155,10 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
 
         }else {
+
+            holder.addBtnLayout1.setEnabled(true);
+            holder.addBtnLayout1.setClickable(true);
+
             if(list.getMarketing_name_fr().isEmpty()){
                 holder.productName.setText(list.getMarketing_name());
             }else {
@@ -164,6 +177,10 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+
+
+                holder.addBtnLayout1.setEnabled(false);
+                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -209,7 +226,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             }else {
 
                 String filterPattern = constraint.toString().toLowerCase().trim();
-                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
                     for (ProductList list : AllProductList){
                         if(list.getMarketing_name().toLowerCase().trim().contains(filterPattern)
@@ -339,7 +356,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                     String _pubKey = issue.optString("id");
                     if (list.getId().equals(_pubKey)) {
 
-                        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
                             count.setText(issueObj.getJSONObject(_pubKey).getString("qty"));
                         }else {
                             try {

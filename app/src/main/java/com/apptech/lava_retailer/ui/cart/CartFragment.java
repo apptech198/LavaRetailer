@@ -74,6 +74,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        TextView brand_name = getActivity().findViewById(R.id.brand_name);
+        brand_name.setVisibility(View.GONE);
+
         binding = CartFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
     }
@@ -154,6 +158,8 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                             ,object.getString("seller_name")
                             ,object.getString("time")
                             ,object.getString("qty")
+                            ,object.getString("marketing_name_fr")
+                            ,object.getString("des_fr")
                     ));
 
                     try {
@@ -176,7 +182,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 DeliveryTotalAmt = TotalproductAmt - DisAmt;
                 PRODUCT_ACTUCAL_AMT = DeliveryTotalAmt;
 
-                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
                     binding.totalPrice.setText(String.valueOf(getResources().getString(R.string.egp) +  TotalproductAmt));
                     binding.disamt.setText(String.valueOf(getResources().getString(R.string.egp) +  DisAmt));
@@ -298,7 +304,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     public void addQty(int postion, CardList list, TextView cartQty) {
 
         int addQty = 0;
-        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
             try {
                 int qty = Integer.parseInt(cartQty.getText().toString().trim());
                 addQty = qty += 1;
@@ -338,7 +344,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         int addQty = 0;
         int qty = 0;
 
-        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
             qty = Integer.parseInt(cartQty.getText().toString().trim());
             if(qty == 1){
                 Toast.makeText(getContext(), "minimum quantity one is required", Toast.LENGTH_SHORT).show();
@@ -424,7 +430,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 DeliveryTotalAmt = TotalproductAmt - DisAmt;
                 PRODUCT_ACTUCAL_AMT = DeliveryTotalAmt;
 
-                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+                if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
                     binding.totalPrice.setText(String.valueOf(getResources().getString(R.string.egp) +  TotalproductAmt));
                     binding.disamt.setText(String.valueOf(getResources().getString(R.string.egp) +  DisAmt));
@@ -480,6 +486,8 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
         title.setText("Cart");
     }
+
+
 
 
     private void PlaceOrder(){

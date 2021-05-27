@@ -57,12 +57,12 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
                 return;
             }
-            if (sessionManage.getUserDetails().get("PROFILE_VERIFICATION") != null) {
-                Intent i = new Intent(SplashActivity.this, ClientDatashowActivity.class);
-                startActivity(i);
-                finish();
-                return;
-            }
+//            if (sessionManage.getUserDetails().get("PROFILE_VERIFICATION") != null) {
+//                Intent i = new Intent(SplashActivity.this, ClientDatashowActivity.class);
+//                startActivity(i);
+//                finish();
+//                return;
+//            }
             Intent i = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(i);
             finish();

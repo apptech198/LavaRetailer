@@ -87,6 +87,7 @@ public class ForgotActivity extends AppCompatActivity {
     }
 
     private void ForgotPassword() {
+
         lavaInterface.FORGOT_PASSWORD(binding.NumberInputLayout.getText().toString().trim()).enqueue(new Callback<Object>() {
 
             @Override

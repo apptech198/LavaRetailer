@@ -57,7 +57,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         CardList list = cardLists.get(position);
 
-        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("ar")) {
             holder.ProductName.setText(list.getMarketing_name_ar());
             holder.ModalName.setText("Model : " + list.getModel_ar());
             Glide.with(context).load(ApiClient.Image_URL + list.getThumb_ar()).centerCrop().into(holder.img);
@@ -72,8 +72,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 e.printStackTrace();
             }
 
-        } else {
+        } else if(sessionManage.getUserDetails().get("LANGUAGE").equals("en")){
             holder.ProductName.setText(list.getMarketing_name());
+            holder.ModalName.setText("Model : " + list.getModel());
+            Glide.with(context).load(ApiClient.Image_URL + list.getThumb()).centerCrop().into(holder.img);
+            holder.ProductAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
+            holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+            holder.cartQty.setText(list.getQty());
+
+        }else {
+            if(list.getMarketing_name_fr().isEmpty()){
+                holder.ProductName.setText(list.getMarketing_name());
+            }else {
+                holder.ProductName.setText(list.getMarketing_name_fr());
+            }
             holder.ModalName.setText("Model : " + list.getModel());
             Glide.with(context).load(ApiClient.Image_URL + list.getThumb()).centerCrop().into(holder.img);
             holder.ProductAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());

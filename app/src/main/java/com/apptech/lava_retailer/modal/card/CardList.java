@@ -44,52 +44,8 @@ public class CardList {
     String seller_name;
     String time;
     String qty;
-
-
-    public CardList(String id, String marketing_name, String marketing_name_ar, String des, String des_ar, String actual_price, String dis_price, String thumb, String thumb_ar, String sku, String commodity_id, String format, String commodity, String commodity_ar, String brand_id, String brand, String brand_ar, String model, String model_ar, String category, String serialized, String video, String video_ar, String prowar, String pro_war_days, String battery_war, String battery_war_days, String charging_adapter_war, String charging_adapter_war_days, String charger_war, String charger_war_days, String usb_war, String usb_war_days, String wired_earphone_war, String wired_earphone_war_days, String available_qty, String hide, String total_sale, String seller_id, String seller_name, String time, String qty) {
-        this.id = id;
-        this.marketing_name = marketing_name;
-        this.marketing_name_ar = marketing_name_ar;
-        this.des = des;
-        this.des_ar = des_ar;
-        this.actual_price = actual_price;
-        this.dis_price = dis_price;
-        this.thumb = thumb;
-        this.thumb_ar = thumb_ar;
-        this.sku = sku;
-        this.commodity_id = commodity_id;
-        this.format = format;
-        this.commodity = commodity;
-        this.commodity_ar = commodity_ar;
-        this.brand_id = brand_id;
-        this.brand = brand;
-        this.brand_ar = brand_ar;
-        this.model = model;
-        this.model_ar = model_ar;
-        this.category = category;
-        this.serialized = serialized;
-        this.video = video;
-        this.video_ar = video_ar;
-        this.prowar = prowar;
-        this.pro_war_days = pro_war_days;
-        this.battery_war = battery_war;
-        this.battery_war_days = battery_war_days;
-        this.charging_adapter_war = charging_adapter_war;
-        this.charging_adapter_war_days = charging_adapter_war_days;
-        this.charger_war = charger_war;
-        this.charger_war_days = charger_war_days;
-        this.usb_war = usb_war;
-        this.usb_war_days = usb_war_days;
-        this.wired_earphone_war = wired_earphone_war;
-        this.wired_earphone_war_days = wired_earphone_war_days;
-        this.available_qty = available_qty;
-        this.hide = hide;
-        this.total_sale = total_sale;
-        this.seller_id = seller_id;
-        this.seller_name = seller_name;
-        this.time = time;
-        this.qty = qty;
-    }
+    String marketing_name_fr;
+    String des_fr;
 
     public String getId() {
         return id;
@@ -257,5 +213,60 @@ public class CardList {
 
     public String getQty() {
         return qty;
+    }
+
+    public String getMarketing_name_fr() {
+        return marketing_name_fr;
+    }
+
+    public String getDes_fr() {
+        return des_fr;
+    }
+
+    public CardList(String id, String marketing_name, String marketing_name_ar, String des, String des_ar, String actual_price, String dis_price, String thumb, String thumb_ar, String sku, String commodity_id, String format, String commodity, String commodity_ar, String brand_id, String brand, String brand_ar, String model, String model_ar, String category, String serialized, String video, String video_ar, String prowar, String pro_war_days, String battery_war, String battery_war_days, String charging_adapter_war, String charging_adapter_war_days, String charger_war, String charger_war_days, String usb_war, String usb_war_days, String wired_earphone_war, String wired_earphone_war_days, String available_qty, String hide, String total_sale, String seller_id, String seller_name, String time, String qty, String marketing_name_fr, String des_fr) {
+        this.id = id;
+        this.marketing_name = marketing_name;
+        this.marketing_name_ar = marketing_name_ar;
+        this.des = des;
+        this.des_ar = des_ar;
+        this.actual_price = actual_price;
+        this.dis_price = dis_price;
+        this.thumb = thumb;
+        this.thumb_ar = thumb_ar;
+        this.sku = sku;
+        this.commodity_id = commodity_id;
+        this.format = format;
+        this.commodity = commodity;
+        this.commodity_ar = commodity_ar;
+        this.brand_id = brand_id;
+        this.brand = brand;
+        this.brand_ar = brand_ar;
+        this.model = model;
+        this.model_ar = model_ar;
+        this.category = category;
+        this.serialized = serialized;
+        this.video = video;
+        this.video_ar = video_ar;
+        this.prowar = prowar;
+        this.pro_war_days = pro_war_days;
+        this.battery_war = battery_war;
+        this.battery_war_days = battery_war_days;
+        this.charging_adapter_war = charging_adapter_war;
+        this.charging_adapter_war_days = charging_adapter_war_days;
+        this.charger_war = charger_war;
+        this.charger_war_days = charger_war_days;
+        this.usb_war = usb_war;
+        this.usb_war_days = usb_war_days;
+        this.wired_earphone_war = wired_earphone_war;
+        this.wired_earphone_war_days = wired_earphone_war_days;
+        this.available_qty = available_qty;
+        this.hide = hide;
+        this.total_sale = total_sale;
+        this.seller_id = seller_id;
+        this.seller_name = seller_name;
+        this.time = time;
+        this.qty = qty;
+        this.marketing_name_fr = marketing_name_fr;
+        this.des_fr = des_fr;
     }
 }

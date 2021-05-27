@@ -128,7 +128,9 @@
             app:hintTextColor="#757575"
             app:boxBackgroundColor="@color/back_all"
             app:passwordToggleTint="#FFF"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:errorIconDrawable="@null"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/Password"
@@ -137,7 +139,9 @@
                 android:inputType="textPassword"
                 android:textAlignment="viewStart"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                app:errorIconDrawable="@null"
+                />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,7 +156,9 @@
             app:hintTextColor="#757575"
             app:boxBackgroundColor="@color/back_all"
             app:passwordToggleTint="#FFF"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            app:errorIconDrawable="@null"
+            >
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/ConPassword"
