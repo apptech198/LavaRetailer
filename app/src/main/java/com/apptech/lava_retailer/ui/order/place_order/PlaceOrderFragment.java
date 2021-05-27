@@ -225,7 +225,11 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
     private void NEWES_FIRST() {
         try {
             if(purchaseNowAdapter != null){
-                Collections.sort(productLists , new PriceshortHightoLow());
+                Collections.sort(productLists, (o1, o2) -> {
+                    int a = Integer.parseInt(o1.getTotal_sale());
+                    int b = Integer.parseInt(o2.getTotal_sale());
+                    return  b-a;
+                });
                 purchaseNowAdapter.notifyDataSetChanged();
             }
         }catch (NullPointerException e){

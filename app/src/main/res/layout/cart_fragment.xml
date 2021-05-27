@@ -236,7 +236,8 @@
         app:cardElevation="8dp"
         app:layout_constraintBottom_toTopOf="@id/CardDetails"
         app:cardMaxElevation="10dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        android:visibility="gone">
 
 
         <RelativeLayout
