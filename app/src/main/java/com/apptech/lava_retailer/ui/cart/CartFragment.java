@@ -39,6 +39,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -176,6 +177,9 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 Log.e(TAG, "onCreate: " + cardData.size());
                 cardAdapter = new CardAdapter(cardData, this);
                 binding.CardRecyclerView.setAdapter(cardAdapter);
+
+
+                ((CardList)getActivity().getApplicationContext()).setCardLists(cardData);
 
                 PRODUCT_TOTAL_AMT = TotalproductAmt;
                 PRODUCT_DISCOUNT_AMT = DisAmt;
@@ -503,9 +507,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         submit.setOnClickListener( v -> {
 
             if(new NetworkCheck().haveNetworkConnection(getActivity())){
-                submit.setClickable(false);
-                submit.setEnabled(false);
-                orderPlace();
+//                submit.setClickable(false);
+//                submit.setEnabled(false);
+                alertDialog.dismiss();
+                AlertDialog();
                 return;
             }
             Toast.makeText(getContext(), "" + getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -551,11 +556,35 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         alertDialog1.show();
     };
 
+    private void AlertDialog(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.row_custom_alert_dialog , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.no);
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+            orderPlace();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+
+
+    }
+
     private void orderPlace(){
 
         progressDialog.show();
 
-        String ret_id = sessionManage.getUserDetails().get("ID");
+        String ret_id = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         String ret_name = sessionManage.getUserDetails().get("NAME");
         String ret_mobile = sessionManage.getUserDetails().get("MOBILE");
         String address = sessionManage.getUserDetails().get("ADDRESS");
@@ -571,7 +600,6 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         Log.e(TAG, "orderPlace: " + pretotal);
         Log.e(TAG, "orderPlace: " + order_total);
         Log.e(TAG, "orderPlace: " + discount);
-
 
 
         orderPlace.addProperty("ret_id" , ret_id);
@@ -608,7 +636,9 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                                 }else {
                                     sessionManage.addcard(MainjsonObject.toString());
                                 }
-                                startActivity(new Intent(getContext() , SuccessActivity.class).putExtra("amt" , binding.totalAmt.getText().toString()));
+                                startActivity(new Intent(getContext() , SuccessActivity.class)
+                                        .putExtra("amt" , binding.totalAmt.getText().toString())
+                                );
                                 getActivity().finish();;
                                 progressDialog.dismiss();
                             return;

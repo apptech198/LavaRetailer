@@ -73,6 +73,12 @@
         <item name="android:layout_margin">5dp</item>
     </style>
 
+
+    <style name="CustomDialogstyple" parent="Theme.AppCompat.Light.Dialog.Alert">
+            <item name="background">@color/dialog_back</item>
+              <item name="android:textColor">@color/dialog_heading</item>
+    </style>
+
 </resources>
 
 

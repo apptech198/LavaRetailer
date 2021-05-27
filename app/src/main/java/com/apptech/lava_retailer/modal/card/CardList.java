@@ -1,6 +1,21 @@
 package com.apptech.lava_retailer.modal.card;
 
-public class CardList {
+import android.app.Application;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CardList extends Application {
+
+    List<CardList>  cardLists = new ArrayList<>();
+
+    public List<CardList> getCardLists() {
+        return cardLists;
+    }
+
+    public void setCardLists(List<CardList> cardLists) {
+        this.cardLists = cardLists;
+    }
 
     String id;
     String marketing_name;
@@ -46,6 +61,10 @@ public class CardList {
     String qty;
     String marketing_name_fr;
     String des_fr;
+
+    public CardList(){
+
+    }
 
     public String getId() {
         return id;

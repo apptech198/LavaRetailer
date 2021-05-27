@@ -55,6 +55,7 @@
     <string name="add">Add</string>
     <string name="submit">Submit</string>
     <string name="name_fiels_missing">name field is missing</string>
+    <string name="user_unique_id_fiels_missing">User unique id field is missing</string>
     <string name="email_fiels_missing">Email field is missing</string>
     <string name="phone_number_fiels_missing">Phone Number field is missing</string>
     <string name="governate__fiels_missing">Governate field is missing</string>

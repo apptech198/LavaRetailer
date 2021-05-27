@@ -10,51 +10,40 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.Utils.CartDiffUtils;
-import com.apptech.lava_retailer.modal.QtyList;
 import com.apptech.lava_retailer.modal.card.CardList;
 import com.apptech.lava_retailer.other.NumberConvertArabic;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.bumptech.glide.Glide;
+import com.google.android.material.card.MaterialCardView;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+public class SuccessAdapter extends RecyclerView.Adapter<SuccessAdapter.Viewholder> {
 
     List<CardList> cardLists;
-    private static final String TAG = "CardAdapter";
-    Context context;
-    CardInterface cardInterface;
-    ArrayList<QtyList> qtyLists = new ArrayList<>();
-    boolean openQty = false;
     SessionManage sessionManage;
+    Context context;
 
 
-    public CardAdapter(List<CardList> cardData, CardInterface cardInterface) {
-        this.cardLists = cardData;
-        this.cardInterface = cardInterface;
+    public SuccessAdapter(List<CardList> cartlist) {
+        this.cardLists = cartlist;
     }
 
     @NonNull
-    @NotNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         sessionManage = SessionManage.getInstance(context);
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_carts, parent, false));
+        return new Viewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_carts, parent, false));
     }
 
-
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Viewholder holder, int position) {
+
         CardList list = cardLists.get(position);
 
         try {
@@ -108,12 +97,19 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             holder.cartQty.setText(list.getQty());
 
         }
-
-
         holder.ProductAmtDis.setPaintFlags(holder.ProductAmtDis.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        holder.Productremove.setOnClickListener(v -> cardInterface.removeItem(position, list));
-        holder.plusQty.setOnClickListener(v ->  cardInterface.addQty(position , list , holder.cartQty));
-        holder.minQty.setOnClickListener(v ->  cardInterface.minQty(position , list , holder.cartQty));
+
+
+        holder.Carfaty.setVisibility(View.GONE);
+        holder.Productremove.setVisibility(View.GONE);
+        holder.plusQty.setVisibility(View.GONE);
+        holder.minQty.setVisibility(View.GONE);
+        holder.Productremove.setVisibility(View.GONE);
+
+
+//        holder.Productremove.setOnClickListener(v -> cardInterface.removeItem(position, list));
+//        holder.plusQty.setOnClickListener(v ->  cardInterface.addQty(position , list , holder.cartQty));
+//        holder.minQty.setOnClickListener(v ->  cardInterface.minQty(position , list , holder.cartQty));
 
     }
 
@@ -122,22 +118,16 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         return cardLists.size();
     }
 
-    public void setData(List<CardList> newData) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CartDiffUtils(newData, cardLists));
-        diffResult.dispatchUpdatesTo(this);
-        cardLists.clear();
-        this.cardLists.addAll(newData);
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class Viewholder extends RecyclerView.ViewHolder {
 
         ImageView img ;
         TextView ProductName, ProductAmt, ProductAmtDis , cartQty  , ModalName;
         LinearLayout Productremove , plusQty , minQty;
+        MaterialCardView Carfaty;
 
-
-        public ViewHolder(@NonNull @NotNull View itemView) {
+        public Viewholder(@NonNull View itemView) {
             super(itemView);
+
 
             img = itemView.findViewById(R.id.ProductImg);
             ProductName = itemView.findViewById(R.id.ProductName);
@@ -148,48 +138,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             plusQty = itemView.findViewById(R.id.plusQty);
             minQty = itemView.findViewById(R.id.minQty);
             ModalName = itemView.findViewById(R.id.ModalName);
-
+            Carfaty = itemView.findViewById(R.id.Carfaty);
         }
-
-
     }
-
-    public interface CardInterface {
-        void removeItem(int postion, CardList list);
-        void addQty(int postion, CardList list , TextView cartQty);
-        void minQty(int postion, CardList list , TextView cartQty);
-    }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

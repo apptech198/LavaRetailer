@@ -39,9 +39,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -220,7 +223,14 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
     }
 
     private void NEWES_FIRST() {
-        Toast.makeText(getContext(), "NEWES_FIRST", Toast.LENGTH_SHORT).show();
+        try {
+            if(purchaseNowAdapter != null){
+                Collections.sort(productLists , new PriceshortHightoLow());
+                purchaseNowAdapter.notifyDataSetChanged();
+            }
+        }catch (NullPointerException e){
+            Log.e(TAG, "POPULARITY: " + e.getMessage() );
+        }
     }
 
     private void HIGH_TO_LOW() {
@@ -248,9 +258,11 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
     private void POPULARITY() {
         Toast.makeText(getContext(), "POPULARITY", Toast.LENGTH_SHORT).show();
+        StringConvertDate("2021-05-21 13:19:13");
+
         try {
             if(purchaseNowAdapter != null){
-                Collections.sort(productLists , new Popularity());
+                Collections.sort(productLists , new PriceshortDate());
                 purchaseNowAdapter.notifyDataSetChanged();
             }
         }catch (NullPointerException e){
@@ -350,6 +362,8 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                                         ,object.getString("seller_name")
                                         ,object.getString("time")
                                 ));
+                                Log.e(TAG, "onResponse time : " + object.getString("marketing_name"));
+                                Log.e(TAG, "onResponse time : " + object.getString("time"));
                             }
 
                             if(productLists.size() > 0){
@@ -678,6 +692,27 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
             return   a - b ;
         }
     }
+
+    private static class PriceshortDate implements Comparator<ProductList>{
+
+        @Override
+        public int compare(ProductList o1, ProductList o2) {
+            return o2.getTime().compareTo(o1.getTime());
+        }
+    }
+
+    private static Date StringConvertDate(String date){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = null;
+        try {
+             d = sdf.parse(date);
+            return d;
+        } catch (ParseException ex) {
+            Log.v("Exception", ex.getLocalizedMessage());
+        }
+        return  d;
+    }
+
 
     private static class PriceshortHightoLow implements Comparator<ProductList>{
 

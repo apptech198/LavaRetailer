@@ -33,6 +33,8 @@
     <color name="blackColor">#707070</color>
     <color name="blacklight">#989898</color>
     <color name="blue_dark">#3b3e60</color>
+    <color name="dialog_back">#282828</color>
+    <color name="dialog_heading">#3094b9</color>
 
 
 

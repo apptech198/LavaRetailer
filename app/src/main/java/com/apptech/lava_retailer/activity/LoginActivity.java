@@ -250,6 +250,11 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                 binding.progressbar.setVisibility(View.GONE);
                                 return;
                             }
+                            if(jsonObject1.optString("user_unique_id").isEmpty()){
+                                ErrorDilaog(getResources().getString(R.string.user_unique_id_fiels_missing));
+                                binding.progressbar.setVisibility(View.GONE);
+                                return;
+                            }
 
 //                            if(jsonObject1.optString("email").isEmpty()){
 //                                ErrorDilaog(getResources().getString(R.string.email_fiels_missing));
