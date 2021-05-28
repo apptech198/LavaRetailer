@@ -267,12 +267,34 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                 if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
                     for (ProductList list : AllProductList){
+
+                        Log.e(TAG, "performFiltering: " + filterPattern );
+                        Log.e(TAG, "performFiltering: " +  list.getMarketing_name().toLowerCase().trim());
+
+
                         if(list.getMarketing_name().toLowerCase().trim().contains(filterPattern)
-                                || list.getModel().toLowerCase().trim().contains(filterPattern)
-                        ){
+                                || list.getModel().toLowerCase().trim().contains(filterPattern)){
                             filterlist.add(list);
+                        }else {
+
+                            String[] breackProd = list.getMarketing_name().split(" ");
+                            String[] filterPattern1 = constraint.toString().toLowerCase().trim().split(" ");
+                            String filterPattern2 = filterPattern1[filterPattern1.length - 1];
+                            Log.e(TAG, "performFiltering   aaaaaaaaaa: " + filterPattern2 );
+
+                            for (String s : breackProd) {
+                                Log.e(TAG, "performFiltering: " + s);
+                                Log.e(TAG, "performFiltering: " + filterPattern );
+                                if (s.toLowerCase().trim().contains(filterPattern2)) {
+                                    filterlist.add(list);
+                                }
+                            }
+
                         }
+
                     }
+
+
 
                 } else {
 

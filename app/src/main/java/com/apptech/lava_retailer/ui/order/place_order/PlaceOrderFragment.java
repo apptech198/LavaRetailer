@@ -175,34 +175,32 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
         SessionManage sessionManage1 = SessionManage.getInstance(getContext());
         String json1 = sessionManage1.getUserDetails().get("CARD_DATA");
-        Log.e(TAG, "cardQuntyUpdate: " +json1.toString());
 
-        JSONObject object = null;
-        try {
-            object = new JSONObject(json1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        if(json != null){
+        if(sessionManage1.getUserDetails().get("CARD_DATA") != null){
+            JSONObject object = null;
             try {
+                object = new JSONObject(json1);
+                Log.e(TAG, "cardQuntyUpdate: " + object.toString() );
+                JSONObject productObjct = new JSONObject(object.getJSONObject(BRAND_ID).toString());
 
-
-
-                Log.e(TAG, "cardQuntyUpdate: " + object.toString());
-                JSONObject projectObject = new JSONObject(object.getJSONObject(BRAND_ID).toString());
-
-
-//                if (projectObject.length() > 0){
-//
-//                }else {
-//
-//                }
+                if (object.length() > 0){
+                    if (productObjct.length() > 0){
+                        binding.card.cardRound.setVisibility(View.VISIBLE);
+                        binding.card.countCard.setText(String.valueOf(productObjct.length()));
+                    }else {
+                        binding.card.cardRound.setVisibility(View.GONE);
+                    }
+                }else {
+                    binding.card.cardRound.setVisibility(View.GONE);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
+                binding.card.cardRound.setVisibility(View.GONE);
             }
-
+        }else {
+            Log.e(TAG, "cardQuntyUpdate: " + "empty cart" );
+            binding.card.cardRound.setVisibility(View.GONE);
         }
 
 /*

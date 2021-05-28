@@ -235,8 +235,7 @@ public class SessionManage {
 
 
     public void clearaddcard() {
-        editor.remove(CARD_DATA);
-        editor.commit();
+        editor.remove(CARD_DATA).commit();
     }
 
 

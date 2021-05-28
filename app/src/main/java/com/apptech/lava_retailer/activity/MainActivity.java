@@ -234,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         printHashKey(this);
 
+
+//        sessionManage.clearaddcard();
+
     }
 
 
