@@ -8,11 +8,14 @@ import com.apptech.lava_retailer.modal.productlist.ProductList;
 import com.apptech.lava_retailer.modal.sellOutPendingVerification.SellOutPendingVerificationList;
 import com.google.gson.JsonObject;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
@@ -184,6 +187,10 @@ public interface LavaInterface {
 
     @POST("trading_scheme_category")
     Call<Object> TAB();
+
+    @POST("trading_scheme_list")
+    @FormUrlEncoded
+    Call<Object> GETTRADEDATALIST(@FieldMap Map<String,String> params);
 
     @POST("comodity_list")
     Call<Object> GRT_COMODITY();

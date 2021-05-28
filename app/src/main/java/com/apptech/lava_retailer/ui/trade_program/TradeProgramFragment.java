@@ -26,18 +26,26 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.TradeProgramCartAdapter;
 import com.apptech.lava_retailer.adapter.TradeProgramTabAdapter;
 import com.apptech.lava_retailer.databinding.TradeProgramFragmentBinding;
+import com.apptech.lava_retailer.list.tradecatlist.TradingMenuList;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,7 +59,7 @@ public class TradeProgramFragment extends Fragment {
     private MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     private MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
     private static final String TAG = "TradeProgramFragment";
-    private String StartDate ="" , End_Date = "" , TYPE = "";
+    public String StartDate ="" , End_Date = "" , TYPE = "", ID="";
     private LavaInterface lavaInterface;
     private SessionManage sessionManage;
     private ProgressDialog progressDialog;
@@ -60,6 +68,9 @@ public class TradeProgramFragment extends Fragment {
     private TradeProgramTabAdapter.TradeProgramInterface tradeProgramInterface;
     private TradeProgramCartAdapter.TradeProgramCartInterface tradeProgramCartInterface;
     private NavController navController;
+    Boolean firest= false;
+    List<com.apptech.lava_retailer.list.tradecatlist.List> lists= new ArrayList<>();
+    List<TradingMenuList> menuLists= new ArrayList<>();
 
     public static TradeProgramFragment newInstance() {
         return new TradeProgramFragment();
@@ -99,7 +110,7 @@ public class TradeProgramFragment extends Fragment {
 
         tradeProgramInterface = this::SetCart;
         tradeProgramCartInterface = () -> navController.navigate(R.id.tradeProgramImgOpenFragment);
-
+        ThisWeekDate();
     }
 
     private void GetTab() throws NullPointerException{
@@ -116,9 +127,23 @@ public class TradeProgramFragment extends Fragment {
                              jsonObject = new JSONObject(new Gson().toJson(response.body()));
                              String error = jsonObject.getString("error");
                              String message = jsonObject.getString("message");
-
+                             menuLists.clear();
                              if(error.equalsIgnoreCase("FALSE")){
-                                 tradeProgramFragment = new TradeProgramTabAdapter(tradeProgramInterface);
+
+                                 JSONArray elements = jsonObject.optJSONArray("list");
+
+                                 for (int i=0; i<elements.length(); i++){
+                                     JSONObject object= elements.optJSONObject(i);
+                                   menuLists.add(new TradingMenuList(
+                                           object.optString("id")
+                                           ,object.optString("name")
+                                           ,object.optString("name_ar")
+                                           ,object.optString("name_fr")
+                                           ,object.optString("time")
+
+                                   ));
+                                 }
+                                 tradeProgramFragment = new TradeProgramTabAdapter(tradeProgramInterface, menuLists);
                                  binding.TabRecyclerView.setAdapter(tradeProgramFragment);
                                  progressDialog.dismiss();
                                  return;
@@ -143,10 +168,22 @@ public class TradeProgramFragment extends Fragment {
             });
     }
 
-    private void SetCart(int pos){
+    public void SetCart(String pos){
+        ID = pos;
+//        progressDialog.show();
 
-        progressDialog.show();
-        lavaInterface.TAB().enqueue(new Callback<Object>() {
+        JsonObject jsonObject= new JsonObject();
+        jsonObject.addProperty("trading_cat",pos);
+        jsonObject.addProperty("start_date",StartDate);
+        jsonObject.addProperty("end_date",End_Date);
+
+        Map<String , String>map= new HashMap<>();
+        map.put("trading_cat",pos);
+        map.put("start_date",StartDate);
+        map.put("end_date",End_Date);
+
+
+        lavaInterface.GETTRADEDATALIST(map).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
@@ -158,8 +195,38 @@ public class TradeProgramFragment extends Fragment {
                         String message = jsonObject.getString("message");
 
                         if(error.equalsIgnoreCase("FALSE")){
-                            tradeProgramCartAdapter = new TradeProgramCartAdapter(pos , tradeProgramCartInterface);
-                            binding.CartRecyclerView.setAdapter(tradeProgramCartAdapter);
+                            lists.clear();
+                            JSONArray elements = jsonObject.optJSONArray("list");
+
+                            for (int i=0; i<elements.length(); i++){
+                                JSONObject object= elements.optJSONObject(i);
+                                lists.add(new com.apptech.lava_retailer.list.tradecatlist.List(
+                                        object.optString("id")
+                                        ,object.optString("trading_cat")
+                                        ,object.optString("trading_cat_name")
+                                        ,object.optString("name")
+                                        ,object.optString("name_ar")
+                                        ,object.optString("name_fr")
+                                        ,object.optString("img_en")
+                                        ,object.optString("img_ar")
+                                        ,object.optString("img_fr")
+                                        ,object.optString("time")
+                                        ,object.optString("date")
+
+                                ));
+                            }
+
+                            if(lists.isEmpty()){
+                                binding.mainview.setVisibility(View.GONE);
+                                binding.msg.setVisibility(View.VISIBLE);
+                            }else {
+                                binding.mainview.setVisibility(View.VISIBLE);
+                                binding.msg.setVisibility(View.GONE);
+                                tradeProgramCartAdapter = new TradeProgramCartAdapter(pos , tradeProgramCartInterface, lists);
+                                binding.CartRecyclerView.setAdapter(tradeProgramCartAdapter);
+                            }
+
+
                             progressDialog.dismiss();
                             return;
                         }
@@ -240,6 +307,7 @@ public class TradeProgramFragment extends Fragment {
             binding.DatpickerRange.setClickable(true);
             StartDate = getTimeStamp(selection.first) ;
             End_Date = getTimeStamp(selection.second);
+            SetCart(ID);
 
         });
 
@@ -264,14 +332,23 @@ public class TradeProgramFragment extends Fragment {
     }
 
 
-    private String ThisWeekDate(){
+    public String ThisWeekDate(){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String endDateStr  = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         calendar1.add(Calendar.DAY_OF_WEEK , -7);
         String startDateStr = df.format(calendar1.getTime());
+        StartDate = startDateStr;
+        End_Date = endDateStr;
+        if(firest){
+            SetCart(ID);
+        }else {
+            firest= true;
+        }
+
         return  startDateStr + "#" + endDateStr;
+
     }
 
     public String FirstAndLastDate() {
@@ -299,6 +376,9 @@ public class TradeProgramFragment extends Fragment {
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
+        StartDate = startDateStr;
+        End_Date = endDateStr;
+        SetCart(ID);
         return  startDateStr + "#" + endDateStr;
     }
 
@@ -313,6 +393,9 @@ public class TradeProgramFragment extends Fragment {
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
+        StartDate = startDateStr;
+        End_Date = endDateStr;
+        SetCart(ID);
         return  startDateStr + "#" + endDateStr;
     }
 

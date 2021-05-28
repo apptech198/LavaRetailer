@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,12 +19,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.widget.TextView;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.TradeProgramImgOpenFragmentBinding;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -34,6 +43,7 @@ public class TradeProgramImgOpenFragment extends Fragment {
     private TradeProgramImgOpenViewModel mViewModel;
     TradeProgramImgOpenFragmentBinding binding;
     private static final String TAG = "TradeProgramImgOpenFrag";
+    PhotoViewAttacher pAttacher;
 
     public static TradeProgramImgOpenFragment newInstance() {
         return new TradeProgramImgOpenFragment();
@@ -53,11 +63,38 @@ public class TradeProgramImgOpenFragment extends Fragment {
         // TODO: Use the ViewModel
 
 
-        Log.e(TAG, "onActivityCreated: "  + ApiClient.Image_URL + "/uploads/1051e8590a9bb77577396b58292bce3a.jpg"  );
+        Log.e(TAG, "onActivityCreated: "  + ApiClient.Image_URL +getArguments().getString("image") );
 //        Bitmap bitmap = getBitmapfromUrl(ApiClient.Image_URL + "uploads/1051e8590a9bb77577396b58292bce3a.jpg");
 //        Uri uri = getImageUri(getContext() , bitmap);
-        binding.imageView.setImageResource(R.drawable.a1);
+//        binding.imageView.setImageResource(R.drawable.a1);
 //        binding.imageView.setImageURI(uri);
+
+        String mStringUrl = "https://images.pexels.com/photos/53141/rose-red-blossom-bloom-53141.jpeg";
+//
+//        binding.imageView.loadUrl(mStringUrl);
+//        binding.imageView.getSettings().setBuiltInZoomControls(true);
+//        binding.imageView.setBackgroundColor(Color.TRANSPARENT);
+        if(getArguments()!=null){
+            binding.materialTextView.setText(getArguments().getString("name"));
+            Glide.with(getActivity()).load(ApiClient.Image_URL +getArguments().getString("image").trim()).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                holder.binding.GipLoader.setVisibility(View.GONE);
+                    return false;
+                }
+            }).into(binding.imageView);
+
+        }
+
+
+//        pAttacher = new PhotoViewAttacher(binding.imageView);
+//        pAttacher.update();
 
     }
 

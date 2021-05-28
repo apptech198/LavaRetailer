@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/back_all"
-    tools:context=".ui.trade_program.trade_program_img.TradeProgramImgOpenFragment">
+    android:background="@drawable/lava_back"
+   >
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -44,14 +44,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            tools:ignore="WebViewLayout">
 
 
             <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

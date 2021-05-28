@@ -100,5 +100,7 @@ dependencies {
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
 
+    implementation 'com.commit451:PhotoView:1.2.4'
+
 
 }
