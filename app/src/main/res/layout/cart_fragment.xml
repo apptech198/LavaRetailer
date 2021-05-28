@@ -88,6 +88,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="Discount"
+                        android:visibility="gone"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/ItemQty" />
 
@@ -98,6 +99,7 @@
                         android:layout_height="wrap_content"
                         android:padding="8dp"
                         android:text="0"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@+id/discountTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/discountTitle" />
@@ -229,6 +231,8 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -239,6 +243,15 @@
         tools:ignore="MissingConstraints"
         android:visibility="visible">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="Address-"
+            android:textColor="@color/black"
+            android:fontFamily="@font/lato_bold"
+            android:textStyle="bold"
+            android:textSize="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -246,6 +259,8 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_height="match_parent">
+
+
 
             <TextView
                 android:id="@+id/addressEdittext"
@@ -255,19 +270,19 @@
                 android:textColor="@color/back_all"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:boxBackgroundColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAlignment="center"
                 android:layout_marginRight="50dp"
-                android:text="Your Order Has been Successfully PlacscxcxcXCCzed! "/>
+                android:text=""/>
 
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="10dp"
-                android:src="@drawable/ic_up"
+                android:src="@drawable/ic_edit"
                 android:id="@+id/up"
                 android:layout_height="wrap_content"/>
 

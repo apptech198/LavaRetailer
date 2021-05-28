@@ -32,6 +32,7 @@ import com.apptech.lava_retailer.other.NumberConvertArabic;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -241,7 +242,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         }
 
         binding.PlaceOrder.setOnClickListener(v -> {
-            PlaceOrder();
+           AlertDialog();
         });
 
         binding.AddressTextView.setText(sessionManage.getUserDetails().get("ADDRESS").toString());
@@ -543,8 +544,9 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.row_address_change_dialog , null);
         LinearLayout close = view.findViewById(R.id.close);
         LinearLayout submit = view.findViewById(R.id.submit);
-
+        TextInputEditText text = view.findViewById(R.id.editAdd);
         TextInputLayout addressEdittext = view.findViewById(R.id.addressEdittext);
+        text.setText(sessionManage.getUserDetails().get(SessionManage.ADDRESS));
         close.setOnClickListener(v -> {alertDialog1.dismiss();});
         submit.setOnClickListener(v -> {
             if(addressEdittext.getEditText().getText().toString().trim().isEmpty()){
@@ -693,24 +695,30 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         LinearLayout myorder = view.findViewById(R.id.Myorder);
 
 
-        buymore.setOnClickListener( v -> {
 
-            navController.popBackStack();
-            navController.navigate(R.id.placeOrderFragment);
-        });
-
-        myorder.setOnClickListener(v -> {
-
-            navController.popBackStack();
-            navController.navigate(R.id.orderStatusFragment);
-        });
 
 
         builder.setView(view);
         alertDialog = builder.create();
         alertDialog.show();
+        alertDialog.setCancelable(false);
         alertDialog.setCanceledOnTouchOutside(false);
-        no.setOnClickListener( v -> alertDialog.dismiss());
+        no.setOnClickListener( v -> {
+            alertDialog.cancel();
+            navController.popBackStack();
+            navController.navigate(R.id.placeOrderFragment);
+        });
+        buymore.setOnClickListener( v -> {
+            alertDialog.cancel();
+            navController.popBackStack();
+            navController.navigate(R.id.placeOrderFragment);
+        });
+
+        myorder.setOnClickListener(v -> {
+            alertDialog.cancel();
+            navController.popBackStack();
+            navController.navigate(R.id.orderStatusFragment);
+        });
     }
 
 

@@ -182,7 +182,7 @@ public interface LavaInterface {
     @FormUrlEncoded
     Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile , @Field("country") String country );
 
-    @POST("brand_list")
+    @POST("trading_scheme_category")
     Call<Object> TAB();
 
     @POST("comodity_list")
