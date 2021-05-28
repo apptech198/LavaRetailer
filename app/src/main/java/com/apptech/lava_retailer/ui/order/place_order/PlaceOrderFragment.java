@@ -101,7 +101,6 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
         BRAND_ID = sessionManage.getUserDetails().get("BRAND_ID");
 
-
         json = sessionManage.getUserDetails().get("CARD_DATA");
         if (json != null) {
             try {
@@ -174,17 +173,45 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
     void cardQuntyUpdate() {
 
-        Log.e(TAG, "cardQuntyUpdate: " + MainjsonObject.toString() );
+        SessionManage sessionManage1 = SessionManage.getInstance(getContext());
+        String json1 = sessionManage1.getUserDetails().get("CARD_DATA");
+        Log.e(TAG, "cardQuntyUpdate: " +json1.toString());
 
+        JSONObject object = null;
+        try {
+            object = new JSONObject(json1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if(json != null){
+            try {
+
+
+
+                Log.e(TAG, "cardQuntyUpdate: " + object.toString());
+                JSONObject projectObject = new JSONObject(object.getJSONObject(BRAND_ID).toString());
+
+
+//                if (projectObject.length() > 0){
+//
+//                }else {
+//
+//                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+/*
         if (MainjsonObject.length() == 0) {
             binding.card.cardRound.setVisibility(View.GONE);
         } else {
             try {
                 if(MainjsonObject.getJSONObject(BRAND_ID).length() > 0){
 
-                    if(json == null){
-
-                    }
 
                     binding.card.cardRound.setVisibility(View.VISIBLE);
                     binding.card.countCard.setText(String.valueOf(MainjsonObject.getJSONObject(BRAND_ID).length()));
@@ -198,6 +225,9 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                 binding.card.cardRound.setVisibility(View.GONE);
             }
         }
+*/
+
+
     }
 
     @Override

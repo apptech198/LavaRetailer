@@ -2,6 +2,7 @@ package com.apptech.lava_retailer.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,19 +58,20 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         CardList list = cardLists.get(position);
 
+
+
         try {
-            int a = Integer.parseInt(list.getActual_price());
-            int b = Integer.parseInt(list.getDis_price());
-
-            if(a == b){
+            int Actual_price = Integer.parseInt(list.getActual_price());
+            int Dis_price = Integer.parseInt(list.getDis_price());
+            if(Dis_price >= Actual_price){
                 holder.ProductAmtDis.setVisibility(View.GONE);
-            }else {
-                holder.ProductAmtDis.setVisibility(View.VISIBLE);
             }
-
         }catch (NumberFormatException e){
             e.printStackTrace();
+            Log.e(TAG, "onActivityCreated: " + e.getMessage());
         }
+
+
 
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("ar")) {
@@ -82,6 +84,13 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price())));
                 int a = Integer.parseInt(list.getQty());
                 holder.cartQty.setText(new NumberConvertArabic().NumberConvertArabic(a));
+                String aa = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getQty()));
+
+                int cc = Integer.parseInt(list.getQty());
+                int dd = Integer.parseInt(list.getDis_price());
+                int xx = dd*cc;
+                int bb = Integer.parseInt(new NumberConvertArabic().arabicNumberCovert(xx));
+                holder.AmountCal.setText(aa +" x " + bb);
 
             }catch (NumberFormatException e){
                 e.printStackTrace();
@@ -94,6 +103,10 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             holder.ProductAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
             holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
             holder.cartQty.setText(list.getQty());
+            int a = Integer.parseInt(list.getQty());
+            int b = Integer.parseInt(list.getDis_price());
+            int c = a*b;
+            holder.AmountCal.setText(list.getQty() +" x " + c);
 
         }else {
             if(list.getMarketing_name_fr().isEmpty()){
@@ -107,13 +120,18 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
             holder.cartQty.setText(list.getQty());
 
+            int a = Integer.parseInt(list.getQty());
+            int b = Integer.parseInt(list.getDis_price());
+            int c = a*b;
+            holder.AmountCal.setText(list.getQty() +" x " + c);
+
         }
 
 
         holder.ProductAmtDis.setPaintFlags(holder.ProductAmtDis.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         holder.Productremove.setOnClickListener(v -> cardInterface.removeItem(position, list));
-        holder.plusQty.setOnClickListener(v ->  cardInterface.addQty(position , list , holder.cartQty));
-        holder.minQty.setOnClickListener(v ->  cardInterface.minQty(position , list , holder.cartQty));
+        holder.plusQty.setOnClickListener(v ->  cardInterface.addQty(position , list , holder.cartQty , holder.AmountCal));
+        holder.minQty.setOnClickListener(v ->  cardInterface.minQty(position , list , holder.cartQty , holder.AmountCal));
 
     }
 
@@ -132,7 +150,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img ;
-        TextView ProductName, ProductAmt, ProductAmtDis , cartQty  , ModalName;
+        TextView ProductName, ProductAmt, ProductAmtDis , cartQty  , ModalName , AmountCal;
         LinearLayout Productremove , plusQty , minQty;
 
 
@@ -148,6 +166,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             plusQty = itemView.findViewById(R.id.plusQty);
             minQty = itemView.findViewById(R.id.minQty);
             ModalName = itemView.findViewById(R.id.ModalName);
+            AmountCal = itemView.findViewById(R.id.AmountCal);
 
         }
 
@@ -156,8 +175,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
 
     public interface CardInterface {
         void removeItem(int postion, CardList list);
-        void addQty(int postion, CardList list , TextView cartQty);
-        void minQty(int postion, CardList list , TextView cartQty);
+        void addQty(int postion, CardList list , TextView cartQty ,TextView AmountCal);
+        void minQty(int postion, CardList list , TextView cartQty , TextView AmountCal);
     }
 
 

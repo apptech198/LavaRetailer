@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -121,6 +122,19 @@ public class ProductDetailsFragment extends Fragment {
             binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
             binding.productAmtDic.setText(getResources().getString(R.string.egp) + list.getActual_price());
 
+            try {
+                int Actual_price = Integer.parseInt(list.getActual_price());
+                int Dis_price = Integer.parseInt(list.getDis_price());
+                if(Dis_price >= Actual_price){
+                    binding.productAmtDic.setVisibility(View.GONE);
+                }
+
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+                Log.e(TAG, "onActivityCreated: " + e.getMessage() );
+            }
+
+
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
@@ -153,18 +167,31 @@ public class ProductDetailsFragment extends Fragment {
             }else {
                 binding.productName.setText(list.getMarketing_name_fr());
             }
+            String htmlData;
             if(list.getDes_fr().isEmpty()){
-                String htmlData = "<font color='#c4c4c4'>" + list.getDes() + "</font>";
-                binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
-//                binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
+                htmlData = "<font color='#c4c4c4'>" + list.getDes() + "</font>";
+                //                binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
             }else {
-                String htmlData = "<font color='#c4c4c4'>" + list.getDes_fr() + "</font>";
-                binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
-//                binding.productDic.loadData(list.getDes_fr(), "text/html", "UTF-8");
+                htmlData = "<font color='#c4c4c4'>" + list.getDes_fr() + "</font>";
+                //                binding.productDic.loadData(list.getDes_fr(), "text/html", "UTF-8");
             }
+            binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
 
             binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
             binding.productAmtDic.setText(getResources().getString(R.string.egp) + list.getActual_price());
+
+            try {
+                int Actual_price = Integer.parseInt(list.getActual_price());
+                int Dis_price = Integer.parseInt(list.getDis_price());
+                if(Dis_price >= Actual_price){
+                    binding.productAmtDic.setVisibility(View.GONE);
+                }
+
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+                Log.e(TAG, "onActivityCreated: " + e.getMessage() );
+            }
+
 
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
@@ -198,6 +225,20 @@ public class ProductDetailsFragment extends Fragment {
             binding.productAmt.setText(getResources().getString(R.string.egp)  + Dis_price);
             binding.productAmtDic.setText(getResources().getString(R.string.egp)  + Actual_price);
 
+
+            try {
+                int Actual_price1 = Integer.parseInt(list.getActual_price());
+                int Dis_price1 = Integer.parseInt(list.getDis_price());
+                if(Dis_price1 >= Actual_price1){
+                    binding.productAmtDic.setVisibility(View.GONE);
+                }
+
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+                Log.e(TAG, "onActivityCreated: " + e.getMessage() );
+            }
+
+
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
                 binding.ProductAdd.setClickable(false);
@@ -218,17 +259,16 @@ public class ProductDetailsFragment extends Fragment {
 
         }
 
-        binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        binding.productDic.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                view.loadUrl("javascript:document.body.style.color=\"#ffffff\";");
-            }
-        });
+//        binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+//        binding.productDic.setWebViewClient(new WebViewClient() {
+//            public void onPageFinished(WebView view, String url) {
+//                view.loadUrl("javascript:document.body.style.color=\"#ffffff\";");
+//            }
+//        });
 
-        binding.productDic.setBackgroundColor(getActivity().getResources().getColor(R.color.webblack));
+//        binding.productDic.setBackgroundColor(getActivity().getResources().getColor(R.color.webblack));
+        binding.productDic.setBackgroundColor(Color.TRANSPARENT);
 
-
-//        binding.DisName.setText("Distributor Name : " + list.getDistributor_name());
 
 
 

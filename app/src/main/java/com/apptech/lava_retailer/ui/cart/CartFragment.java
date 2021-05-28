@@ -79,8 +79,6 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        TextView brand_name = getActivity().findViewById(R.id.brand_name);
-        brand_name.setVisibility(View.GONE);
 
         binding = CartFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
@@ -109,7 +107,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         // TODO: Use the ViewModel
 
         if (json != null) {
-            binding.PriceDetailsLayout.setVisibility(View.VISIBLE);
+//            binding.PriceDetailsLayout.setVisibility(View.VISIBLE);
             binding.NoItem.setVisibility(View.GONE);
 
             JSONObject issueObj = null;
@@ -230,12 +228,12 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e(TAG, "onCreate: " + e.getMessage() );
-                binding.PriceDetailsLayout.setVisibility(View.GONE);
+//                binding.PriceDetailsLayout.setVisibility(View.GONE);
                 binding.CardDetails.setVisibility(View.GONE);
                 binding.NoItem.setVisibility(View.VISIBLE);
             }
         }else {
-            binding.PriceDetailsLayout.setVisibility(View.GONE);
+//            binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
             binding.addressLayout.setVisibility(View.GONE);
@@ -289,11 +287,16 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     public void removeItem(int postion, CardList list) {
 
         cardData.remove(postion);
+
+        if(cardData.size() == 0){
+            MainjsonObject.remove(BRAND_ID);
+        }
+
         try {
             MainjsonObject.getJSONObject(BRAND_ID).remove(list.getId());
             if (MainjsonObject.getJSONObject(BRAND_ID).length() == 0) {
                 MainjsonObject.remove(BRAND_ID);
-                binding.PriceDetailsLayout.setVisibility(View.GONE);
+//                binding.PriceDetailsLayout.setVisibility(View.GONE);
                 binding.NoItem.setVisibility(View.VISIBLE);
                 binding.CardDetails.setVisibility(View.GONE);
                 binding.addressLayout.setVisibility(View.GONE);
@@ -306,17 +309,21 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
         if (MainjsonObject.length() == 0) {
             sessionManage.clearaddcard();
-            binding.PriceDetailsLayout.setVisibility(View.GONE);
+//            binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.addressLayout.setVisibility(View.GONE);
         }
         cardAdapter.notifyDataSetChanged();
-        CalCart();
+        CalCart(null ,"");
+
+
+
+
     }
 
     @Override
-    public void addQty(int postion, CardList list, TextView cartQty) {
+    public void addQty(int postion, CardList list, TextView cartQty , TextView AmountCal) {
 
         int addQty = 0;
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
@@ -346,7 +353,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         try {
             MainjsonObject.getJSONObject(BRAND_ID).getJSONObject(list.getId()).put("qty", String.valueOf(addQty));
             sessionManage.addcard(MainjsonObject.toString());
-            CalCart();
+            CalCart(AmountCal , String.valueOf(addQty));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -355,7 +362,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     }
 
     @Override
-    public void minQty(int postion, CardList list, TextView cartQty) {
+    public void minQty(int postion, CardList list, TextView cartQty , TextView AmountCal) {
         int addQty = 0;
         int qty = 0;
 
@@ -370,7 +377,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 try {
                     MainjsonObject.getJSONObject(BRAND_ID).getJSONObject(list.getId()).put("qty", String.valueOf(addQty));
                     sessionManage.addcard(MainjsonObject.toString());
-                    CalCart();
+                    CalCart(AmountCal , String.valueOf(addQty));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -391,7 +398,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 try {
                     MainjsonObject.getJSONObject(BRAND_ID).getJSONObject(list.getId()).put("qty", String.valueOf(addQty));
                     sessionManage.addcard(MainjsonObject.toString());
-                    CalCart();
+                    CalCart(AmountCal , String.valueOf(addQty));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -405,9 +412,9 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     }
 
 
-    private void CalCart(){
+    private void CalCart(TextView AmoutCal , String qty){
 
-        int TotalproductAmt = 0 , DisAmt = 0 , item = 0 , DeliveryTotalAmt = 0;
+        int TotalproductAmt = 0 , DisAmt = 0 , item = 0 , DeliveryTotalAmt = 0 , ProductQty =0 ;
 
 
         String json = sessionManage.getUserDetails().get("CARD_DATA");
@@ -431,6 +438,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     try {
                         int amt = Integer.parseInt(jo.getString("actual_price")) * Integer.parseInt(jo.getString("qty"));
                         int disamt = Integer.parseInt(jo.getString("dis_price")) * Integer.parseInt(jo.getString("qty"));
+                        ProductQty = disamt;
                         TotalproductAmt +=  amt;
                         int disAmt = amt - disamt;
                         DisAmt += disAmt;
@@ -455,6 +463,9 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     String itemnum = "Price (" + String.valueOf(item) + " Item)";
                     binding.ItemQty.setText(itemnum);
 
+                    if(AmoutCal != null){
+                        AmoutCal.setText(qty + "x" + ProductQty);
+                    }
                 }else {
                     try {
 
@@ -465,6 +476,12 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
                         String itemnum = "Price (" + new NumberConvertArabic().NumberConvertArabic(item) + " Item)";
                         binding.ItemQty.setText(itemnum);
+
+                        if(AmoutCal != null){
+                            String a = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(qty));
+                            String b = new NumberConvertArabic().NumberConvertArabic(ProductQty);
+                            AmoutCal.setText( a + "x" + b );
+                        }
 
                     }catch (NumberFormatException e){
                         e.printStackTrace();
@@ -486,7 +503,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 Log.e(TAG, "onCreate: " + e.getMessage() );
             }
         }else {
-            binding.PriceDetailsLayout.setVisibility(View.GONE);
+//            binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
             binding.addressLayout.setVisibility(View.GONE);
@@ -728,7 +745,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         String json = sessionManage.getUserDetails().get("CARD_DATA");
 
         if (json != null) {
-            binding.PriceDetailsLayout.setVisibility(View.VISIBLE);
+//            binding.PriceDetailsLayout.setVisibility(View.VISIBLE);
             binding.NoItem.setVisibility(View.GONE);
 
             try {
@@ -768,7 +785,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 Log.e(TAG, "onCreate: " + e.getMessage() );
             }
         }else {
-            binding.PriceDetailsLayout.setVisibility(View.GONE);
+//            binding.PriceDetailsLayout.setVisibility(View.GONE);
             binding.CardDetails.setVisibility(View.GONE);
             binding.NoItem.setVisibility(View.VISIBLE);
             binding.addressLayout.setVisibility(View.GONE);

@@ -5,118 +5,144 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10sp"
     app:cardElevation="8dp"
+    android:layout_marginTop="12dp"
     android:layout_marginBottom="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp">
+        android:padding="12dp"
+        android:background="@color/purple_500">
+
+
+        <LinearLayout
+            android:id="@+id/ImgLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="4dp"
+            android:background="@color/white">
 
             <ImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/ProductImg"
                 android:layout_width="100dp"
                 android:layout_height="120dp"
-                android:src="@drawable/a1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+             />
+
+        </LinearLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/Carfaty"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/ImgLayout"
+            app:layout_constraintTop_toTopOf="@+id/ImgLayout"
+            app:layout_constraintVertical_bias="0.0">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ProductName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="svdvdsvdsvdv"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ProductAmt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="1000"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ProductName" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ProductAmtDis"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintStart_toEndOf="@+id/ProductImg"
-                app:layout_constraintTop_toTopOf="@+id/ProductImg"
-                app:layout_constraintEnd_toStartOf="@+id/Carfaty"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:fontFamily="@font/lato_bold"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/ProductAmt"
+                app:layout_constraintStart_toEndOf="@+id/ProductAmt"
+                tool:text="2000" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/AmountCal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="1 x 1200"
+                android:textSize="11sp"
+                android:fontFamily="@font/lato_semi_bold"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ProductAmt" />
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ModalName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/lato_regular"
+                android:maxLines="1"
+                android:text="svdvdsvdsvdv"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/AmountCal" />
+
+
+            <LinearLayout
+                android:id="@+id/Productremove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/card_add_btn_design"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp">
+                app:layout_constraintLeft_toLeftOf="parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ProductName"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:text="svdvdsvdsvdv"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:maxLines="2"
-                    android:ellipsize="end"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ProductAmt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-                    android:text="1000"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/ProductName"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:maxLines="2"
-                    android:layout_marginTop="4dp"
-                    android:ellipsize="end"/>
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ProductAmtDis"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
                     android:fontFamily="@font/lato_bold"
-                    android:textColor="@color/gray"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/ProductAmt"
-                    app:layout_constraintStart_toEndOf="@+id/ProductAmt"
-                    tool:text="2000" />
+                    android:paddingLeft="30sp"
+                    android:paddingTop="4dp"
+                    android:paddingRight="30sp"
+                    android:paddingBottom="4dp"
+                    android:text="Remove"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
 
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/ModalName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="svdvdsvdsvdv"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/lato_regular"
-                    app:layout_constraintTop_toBottomOf="@+id/ProductAmt"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:maxLines="1"
-                    android:ellipsize="end"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/Productremove"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/card_add_btn_design"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lato_bold"
-                        android:paddingLeft="30sp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="30sp"
-                        android:paddingBottom="4dp"
-                        android:text="Remove"
-                        android:textColor="@color/white"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
-
-
-
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
                 android:id="@+id/Carfaty"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

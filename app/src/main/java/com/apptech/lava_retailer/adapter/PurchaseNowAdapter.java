@@ -100,6 +100,20 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             holder.addBtnLayout1.setEnabled(true);
             holder.addBtnLayout1.setClickable(true);
 
+            try {
+                int Actual_price = Integer.parseInt(list.getActual_price());
+                int Dis_price = Integer.parseInt(list.getDis_price());
+                if(Dis_price >= Actual_price){
+                    holder.productAmtDic.setVisibility(View.GONE);
+                }
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+                Log.e(TAG, "onActivityCreated: " + e.getMessage() );
+            }
+
+
+
+
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
                 holder.addBtnLayout1.setEnabled(false);
@@ -133,6 +147,18 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             holder.productAmtDic.setText(context.getResources().getString(R.string.egp) +  Actual_price);
             holder.addBtnLayout1.setEnabled(true);
             holder.addBtnLayout1.setClickable(true);
+
+
+            try {
+                int Actual_price1 = Integer.parseInt(list.getActual_price());
+                int Dis_price1 = Integer.parseInt(list.getDis_price());
+                if(Dis_price1 >= Actual_price1){
+                    holder.productAmtDic.setVisibility(View.GONE);
+                }
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+                Log.e(TAG, "onActivityCreated: " + e.getMessage() );
+            }
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
@@ -174,6 +200,18 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
             holder.productAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
             holder.productAmtDic.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+
+
+            try {
+                int Actual_price = Integer.parseInt(list.getActual_price());
+                int Dis_price = Integer.parseInt(list.getDis_price());
+                if(Dis_price >= Actual_price){
+                    holder.productAmtDic.setVisibility(View.GONE);
+                }
+            }catch (NumberFormatException e){
+                e.printStackTrace();
+                Log.e(TAG, "onActivityCreated: " + e.getMessage() );
+            }
 
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
