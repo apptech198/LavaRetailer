@@ -258,7 +258,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        String RetId = sessionManage.getUserDetails().get("ID");
+        String RetId = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         Log.e(TAG, "getOrderStatus: " + RetId );
 
         lavaInterface.ORDER_STATUS_LIST_CALL(RetId ,endDate , strDate).enqueue(new Callback<OrderStatusList>() {

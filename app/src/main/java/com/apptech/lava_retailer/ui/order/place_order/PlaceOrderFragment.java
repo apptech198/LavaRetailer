@@ -225,11 +225,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
     private void NEWES_FIRST() {
         try {
             if(purchaseNowAdapter != null){
-                Collections.sort(productLists, (o1, o2) -> {
-                    int a = Integer.parseInt(o1.getTotal_sale());
-                    int b = Integer.parseInt(o2.getTotal_sale());
-                    return  b-a;
-                });
+                Collections.sort(productLists, new NewesShort());
                 purchaseNowAdapter.notifyDataSetChanged();
             }
         }catch (NullPointerException e){
@@ -262,8 +258,6 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
 
     private void POPULARITY() {
         Toast.makeText(getContext(), "POPULARITY", Toast.LENGTH_SHORT).show();
-        StringConvertDate("2021-05-21 13:19:13");
-
         try {
             if(purchaseNowAdapter != null){
                 Collections.sort(productLists , new PriceshortDate());
@@ -705,16 +699,21 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
         }
     }
 
-    private static Date StringConvertDate(String date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date d = null;
-        try {
-             d = sdf.parse(date);
-            return d;
-        } catch (ParseException ex) {
-            Log.v("Exception", ex.getLocalizedMessage());
+
+    private static class NewesShort implements Comparator<ProductList>{
+
+        @Override
+        public int compare(ProductList o1, ProductList o2) {
+            int a = 0;
+            int b = 0;
+            try {
+                a = Integer.parseInt(o1.getTotal_sale());
+                b = Integer.parseInt(o2.getTotal_sale());
+            }catch (NullPointerException e){
+                Log.e(TAG, "compare: " + e.getMessage() );
+            }
+            return   b-a ;
         }
-        return  d;
     }
 
 

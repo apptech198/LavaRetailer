@@ -68,7 +68,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     JSONObject ProductJsonObject = new JSONObject();
     int PRODUCT_TOTAL_AMT = 0 , PRODUCT_DISCOUNT_AMT = 0 , PRODUCT_ACTUCAL_AMT = 0;
     private ProgressDialog progressDialog;
-
+    NavController navController;
 
     public static CartFragment newInstance() {
         return new CartFragment();
@@ -280,6 +280,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+         navController = Navigation.findNavController(view);
 
     }
 
@@ -616,9 +617,9 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         orderPlace.addProperty("ret_name" , ret_name);
         orderPlace.addProperty("ret_mobile" , ret_mobile);
         orderPlace.addProperty("address" , address);
-        orderPlace.addProperty("pretotal" , pretotal.substring(1));
-        orderPlace.addProperty("order_total" , order_total.substring(1));
-        orderPlace.addProperty("discount" , discount.substring(1));
+        orderPlace.addProperty("pretotal" , pretotal);
+        orderPlace.addProperty("order_total" , order_total);
+        orderPlace.addProperty("discount" , discount);
         orderPlace.add("items" , OPjsonArray);
         OrderPlaceAddData();
 
@@ -688,18 +689,18 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.order_success_dailog , null);
         LinearLayout buymore = view.findViewById(R.id.buymore);
-        LinearLayout no = view.findViewById(R.id.no);
+        LinearLayout no = view.findViewById(R.id.close);
         LinearLayout myorder = view.findViewById(R.id.Myorder);
 
 
         buymore.setOnClickListener( v -> {
-            NavController navController = Navigation.findNavController(v);
+
             navController.popBackStack();
             navController.navigate(R.id.placeOrderFragment);
         });
 
         myorder.setOnClickListener(v -> {
-            NavController navController = Navigation.findNavController(v);
+
             navController.popBackStack();
             navController.navigate(R.id.orderStatusFragment);
         });
@@ -735,15 +736,15 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     try {
                         int itemt = Integer.parseInt(jo.getString("dis_price")) * Integer.parseInt(jo.getString("qty"));
                         JsonObject object = new JsonObject();
-                        object.addProperty("product_ivt_id", jo.getString("id"));
-                        object.addProperty("product_id", jo.getString("product_id"));
-                        object.addProperty("product_name", jo.getString("marketing_name"));
-                        object.addProperty("imei", jo.getString("imei"));
-                        object.addProperty("qty", jo.getString("qty"));
-                        object.addProperty("actual_price", jo.getString("actual_price"));
-                        object.addProperty("discount_price", jo.getString("dis_price"));
-                        object.addProperty("dis_id", jo.getString("distributor_id"));
-                        object.addProperty("dis_name", jo.getString("distributor_name"));
+                        object.addProperty("product_ivt_id", jo.optString("id"));
+                        object.addProperty("product_id", jo.optString("id"));
+                        object.addProperty("product_name", jo.optString("marketing_name"));
+                        object.addProperty("imei", jo.optString("imei"));
+                        object.addProperty("qty", jo.optString("qty"));
+                        object.addProperty("actual_price", jo.optString("actual_price"));
+                        object.addProperty("discount_price", jo.optString("dis_price"));
+                        object.addProperty("dis_id", jo.optString("distributor_id"));
+                        object.addProperty("dis_name", jo.optString("distributor_name"));
                         object.addProperty("item_total", String.valueOf(itemt));
                         OPjsonArray.add(object);
 
