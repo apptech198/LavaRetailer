@@ -312,7 +312,12 @@ public class SessionManage {
     }
 
     public void Profile_Percentage(String countNum){
+        double tot= 11;
         editor.putString(PROFILE_PERCENTAGE , countNum).commit();
+    }
+
+    public int GetProfilePercent(){
+        return 75;
     }
 
     public void PROFILE_VERIFY_CHECK(String check){

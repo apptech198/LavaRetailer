@@ -27,19 +27,19 @@ public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewho
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        OrderStatusList l = list.get(position);
-        holder.binding.o1.setText(l.getId());
-        holder.binding.o2.setText(l.getDis_name());
-        holder.binding.o3.setText(l.getProduct_name());
-        holder.binding.o4.setText(l.getActual_price());
-        holder.binding.o5.setText(l.getAddress());
-        holder.binding.o6.setText(l.getDis_name());
+//        OrderStatusList l = list.get(position);
+//        holder.binding.o1.setText(l.getId());
+//        holder.binding.o2.setText(l.getDis_name());
+//        holder.binding.o3.setText(l.getProduct_name());
+//        holder.binding.o4.setText(l.getActual_price());
+//        holder.binding.o5.setText(l.getAddress());
+//        holder.binding.o6.setText(l.getDis_name());
 
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return 50;
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {

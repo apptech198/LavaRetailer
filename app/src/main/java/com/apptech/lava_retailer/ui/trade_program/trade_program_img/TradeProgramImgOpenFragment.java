@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.TradeProgramImgOpenFragmentBinding;
@@ -69,23 +70,33 @@ public class TradeProgramImgOpenFragment extends Fragment {
 //        binding.imageView.setImageResource(R.drawable.a1);
 //        binding.imageView.setImageURI(uri);
 
-        String mStringUrl = "https://images.pexels.com/photos/53141/rose-red-blossom-bloom-53141.jpeg";
+
 //
 //        binding.imageView.loadUrl(mStringUrl);
 //        binding.imageView.getSettings().setBuiltInZoomControls(true);
 //        binding.imageView.setBackgroundColor(Color.TRANSPARENT);
         if(getArguments()!=null){
             binding.materialTextView.setText(getArguments().getString("name"));
-            Glide.with(getActivity()).load(ApiClient.Image_URL +getArguments().getString("image").trim()).listener(new RequestListener<Drawable>() {
+            String mStringUrl = ApiClient.Image_URL +getArguments().getString("image");
+
+//            Glide.with(getActivity()).load(mStringUrl).dontAnimate().into(binding.imageView);
+
+
+
+            Glide.with(getActivity()).load(mStringUrl).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-
+//                    binding.imageView.setImageResource(R.drawable.a1);
+                    Log.e(TAG, "onLoadFailed: "+ e.getMessage());
+//                    Toast.makeText(getActivity(), "nhi ho rahi load ", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
                 @Override
                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
 //                holder.binding.GipLoader.setVisibility(View.GONE);
+//                    binding.imageView.setImageResource(R.drawable.a1);
+//                    Toast.makeText(getActivity(), "ready ho gyi", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }).into(binding.imageView);
@@ -93,8 +104,9 @@ public class TradeProgramImgOpenFragment extends Fragment {
         }
 
 
-//        pAttacher = new PhotoViewAttacher(binding.imageView);
-//        pAttacher.update();
+        pAttacher = new PhotoViewAttacher(binding.imageView);
+        pAttacher.update();
+        pAttacher.isZoomable();
 
     }
 

@@ -37,6 +37,11 @@ import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.snatik.storage.Storage;
 
@@ -112,7 +117,13 @@ public class PassbookFragment extends Fragment {
         sessionManage = SessionManage.getInstance(getContext());
 
 
-        getPassbook();
+        PassbookAdapter passbookAdapter = new PassbookAdapter(orderStatusLists);
+        binding.PassbookRecyclerView.setAdapter(passbookAdapter);
+        binding.noData.setVisibility(View.GONE);
+        binding.progressbar.setVisibility(View.GONE);
+        binding.PassbookRecyclerView.setVisibility(View.VISIBLE);
+
+//        getPassbook();
         setPopUpWindow();
         binding.DatpickerRange.setOnClickListener(v ->  {
             mypopupWindow.showAsDropDown(v,-153,0);
@@ -120,7 +131,8 @@ public class PassbookFragment extends Fragment {
         });
 
         binding.PdfDownload.setOnClickListener(v -> {
-            generatePDF2();
+//            generatePDF2();
+            PDFDownload1();
         });
 
 //        if (checkPermission()) {
@@ -584,6 +596,62 @@ public class PassbookFragment extends Fragment {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
         title.setText("Passbook");
+    }
+
+
+    private void PDFDownload1() {
+
+        String root = Environment.getExternalStorageDirectory() + File.separator + "LAVARetailer";
+        File folder = new File(root);
+        boolean success = true;
+        if (!folder.exists()) {
+            success = folder.mkdirs();
+        }
+
+//        file create inndir
+        try {
+            FileOutputStream out = new FileOutputStream(File.createTempFile("LAVA" ,".pdf" , folder));
+            Document document = new Document();
+            PdfWriter.getInstance(document, out);
+            document.open();
+
+            document.add(new Paragraph("LAVA Retailder"));
+            document.add(new Paragraph("Sellout Report"));
+            document.add(new Paragraph("  ") );
+
+            PdfPTable pdfPTable =new PdfPTable(8);
+            pdfPTable.setPaddingTop(10);
+            PdfPCell pdfCell1 = new PdfPCell(new Phrase("Date of Entry"));
+            PdfPCell pdfCell2 = new PdfPCell(new Phrase("Claim Type"));
+            PdfPCell pdfCell3 = new PdfPCell(new Phrase("Claim Code"));
+            PdfPCell pdfCell4 = new PdfPCell(new Phrase("Value"));
+            PdfPCell pdfCell5 = new PdfPCell(new Phrase("Status"));
+            PdfPCell pdfCell6 = new PdfPCell(new Phrase("Payment Date"));
+            PdfPCell pdfCell7 = new PdfPCell(new Phrase("Payment Refernece"));
+
+
+
+            pdfPTable.addCell(pdfCell1);
+            pdfPTable.addCell(pdfCell2);
+            pdfPTable.addCell(pdfCell3);
+            pdfPTable.addCell(pdfCell4);
+            pdfPTable.addCell(pdfCell5);
+            pdfPTable.addCell(pdfCell6);
+            pdfPTable.addCell(pdfCell7);
+
+
+            for (int i=0 ; i<8; i++){
+                pdfPTable.addCell(new PdfPCell(new Phrase("cisdvushduvidv")));
+            }
+
+            document.add(pdfPTable);
+            Toast.makeText(getContext(), "Pdf Create", Toast.LENGTH_SHORT).show();
+            document.close();
+
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -29,32 +29,43 @@
         app:layout_constraintStart_toEndOf="@+id/icon" />
 
 
+    <LinearLayout
+        android:id="@+id/per_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/percent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_regular"
+            android:gravity="center_vertical"
+            android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+            android:paddingRight="?attr/listPreferredItemPaddingRight"
+            android:text="75%"
+            android:textColor="#1f2124"
+            android:textSize="14sp" />
+
+        <ProgressBar
+            android:id="@+id/ProfileProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="120dp"
+            android:layout_height="10dp"
+            android:layout_weight="1"
+            android:progressDrawable="@drawable/progressbargradient"
+            android:visibility="visible" />
 
 
-<!--    <ProgressBar-->
-<!--        android:id="@+id/ProfileProgress"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_weight="1"-->
-<!--        android:layout_marginRight="55dp"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintStart_toStartOf="@+id/lblListHeader"-->
-<!--        app:layout_constraintEnd_toEndOf="@+id/lblListHeader"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/lblListHeader"-->
-<!--        style="?android:attr/progressBarStyleHorizontal" />-->
+    </LinearLayout>
 
 
-<!--    <com.google.android.material.textview.MaterialTextView-->
-<!--        android:id="@+id/lblListHeader"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="?attr/listPreferredItemHeightSmall"-->
-<!--        android:gravity="center_vertical"-->
-<!--        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"-->
-<!--        android:paddingRight="?attr/listPreferredItemPaddingRight"-->
-<!--        android:textColor="#1f2124"-->
-<!--        android:textSize="16sp"-->
-<!--        android:fontFamily="@font/montserrat_black"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/icon"/>-->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout >

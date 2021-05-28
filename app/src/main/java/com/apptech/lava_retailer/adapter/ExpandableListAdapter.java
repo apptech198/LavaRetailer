@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.apptech.lava_retailer.modal.MenuModel;
 import com.apptech.lava_retailer.R;
+import com.apptech.lava_retailer.other.SessionManage;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +27,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<MenuModel> listDataHeader;
     private HashMap<MenuModel, List<MenuModel>> listDataChild;
     private static final String TAG = "ExpandableListAdapter";
+    SessionManage sessionManage;
 
     public ExpandableListAdapter(Context context, List<MenuModel> listDataHeader,
                                  HashMap<MenuModel, List<MenuModel>> listChildData) {
         this.context = context;
         this.listDataHeader = listDataHeader;
         this.listDataChild = listChildData;
+        sessionManage = SessionManage.getInstance(context);
     }
 
     @Override
@@ -98,7 +104,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = convertView.findViewById(R.id.lblListHeader);
         ImageView imageView = convertView.findViewById(R.id.icon);
-//        ProgressBar ProfileProgress = convertView.findViewById(R.id.ProfileProgress);
+        ProgressBar ProfileProgress = convertView.findViewById(R.id.ProfileProgress);
+        MaterialTextView percent = convertView.findViewById(R.id.percent);
+        LinearLayout percentview = convertView.findViewById(R.id.per_view);
 
         lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
@@ -107,8 +115,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         switch (groupPosition){
             case 0:
                 imageView.setImageResource(R.drawable.ic_user__2_);
-//                ProfileProgress.setVisibility(View.VISIBLE);
-//                ProfileProgress.setProgress(50);
+                percentview.setVisibility(View.VISIBLE);
+                ProfileProgress.setProgress(sessionManage.GetProfilePercent());
                 int a = 0;
                 Log.e(TAG, "getGroupView: " + a );
                 break;

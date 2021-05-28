@@ -3,81 +3,102 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:stretchColumns="6"
-    android:background="@drawable/spinner_stock"
-    android:layout_marginBottom="12dp">
+    android:stretchColumns="7"
+    android:background="@drawable/spinner_stock">
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="6"
-        android:padding="8dp">
+        android:background="@drawable/spinner_stock"
+        >
 
         <TextView
-            android:id="@+id/o1"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="Date of Entry"
+            android:padding="8dp"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <View android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="8dp"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:text="Date of Entry"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <View android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
+
+        <TextView
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text=""
+            android:layout_marginLeft="20dp"
+            android:text="Claim Code"
+            android:padding="8dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_margin="4dp"/>
+            android:textSize="12sp" />
+
+        <View android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
 
         <TextView
-            android:id="@+id/o2"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text=""
+            android:padding="8dp"
+            android:text="Status"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_margin="4dp"/>
+            android:textSize="12sp" />
+
+        <View android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
 
         <TextView
-            android:id="@+id/o3"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text=""
+            android:padding="8dp"
+            android:text="Payment Date"
+            android:layout_marginLeft="20dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_margin="4dp"/>
+            android:textSize="12sp" />
+
+        <View android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
 
         <TextView
-            android:id="@+id/o4"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:padding="8dp"
             android:gravity="center"
-            android:text=""
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:text="Payment Refernececdsfsdfdsfsdfdfs"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_margin="4dp"/>
-
-        <TextView
-            android:id="@+id/o5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_margin="4dp"/>
-
-        <TextView
-            android:id="@+id/o6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="12sp"
-            android:layout_margin="4dp"/>
+            android:textSize="12sp" />
 
     </TableRow>
 
