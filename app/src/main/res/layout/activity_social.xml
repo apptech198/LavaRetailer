@@ -26,7 +26,7 @@
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Global Business Retail Partner"
+        android:text="@string/global_business_retail_partner"
         app:layout_constraintTop_toBottomOf="@+id/image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

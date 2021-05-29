@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/order_status_design"
-    android:layout_marginBottom="16dp">
-
-
+    android:paddingTop="16dp">
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,7 +18,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="G. Total"
+            android:text="45"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:fontFamily="@font/lato_semi_bold"
@@ -33,7 +30,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="G. Total"
+            android:text="45. "
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:fontFamily="@font/lato_semi_bold"
@@ -42,37 +39,6 @@
             android:layout_weight="1"
             android:gravity="center"/>
 
-</TableRow>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </TableRow>
 
 

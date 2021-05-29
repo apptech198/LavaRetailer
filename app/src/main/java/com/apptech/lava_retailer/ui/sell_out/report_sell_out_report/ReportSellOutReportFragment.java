@@ -29,8 +29,12 @@ import android.widget.Toast;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.CheckEntriesSellOutInvalidAdapter;
 import com.apptech.lava_retailer.adapter.SelloutReportAdapter;
+import com.apptech.lava_retailer.bottomsheet.category_filter.CategoryFilterBottomSheetFragment;
+import com.apptech.lava_retailer.bottomsheet.short_filter.ShortFilterBottomSheetFragment;
 import com.apptech.lava_retailer.databinding.ReportSellOutReportFragmentBinding;
 import com.apptech.lava_retailer.modal.CheckEntriesSellOutImeiMonthYearsList;
+import com.apptech.lava_retailer.ui.filter.SellOutReportCategoryFilter;
+import com.apptech.lava_retailer.ui.filter.SellOutReportModalFilter;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -53,7 +57,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
-public class ReportSellOutReportFragment extends Fragment implements EasyPermissions.PermissionCallbacks, View.OnClickListener {
+public class ReportSellOutReportFragment extends Fragment implements EasyPermissions.PermissionCallbacks, View.OnClickListener , SellOutReportCategoryFilter.OnClickBackPress  , SellOutReportModalFilter.OnItemClickBackPress {
 
     private ReportSellOutReportViewModel mViewModel;
     ReportSellOutReportFragmentBinding binding;
@@ -72,7 +76,12 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
     PopupWindow mypopupWindow;
+    PopupWindow filterOpen;
     String StartDate ="" , End_Date = "" , TYPE = "";
+    SellOutReportCategoryFilter sellOutReportCategoryFilter;
+    SellOutReportModalFilter sellOutReportModalFilter;
+    SelloutReportAdapter selloutReportAdapter;
+
 
     public static ReportSellOutReportFragment newInstance() {
         return new ReportSellOutReportFragment();
@@ -103,14 +112,6 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
         setPopUpWindow();
         binding.DatpickerRange.setOnClickListener(v -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
-//            view = LayoutInflater.from(requireContext()).inflate(R.layout.row_dialog_open, null);
-//            builder.setView(view);
-//            alertDialog = builder.create();
-//            alertDialog.show();
-//            fromDatetitle = view.findViewById(R.id.fromDatetitle);
-//            toDatetitle = view.findViewById(R.id.toDatetitle);
-//            dilogclick();
             mypopupWindow.showAsDropDown(v,-153,0);
         });
 
@@ -120,12 +121,36 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         });
 
 
+        binding.filterModel.setOnClickListener(v -> {
+            sellOutReportModalFilter = new SellOutReportModalFilter(this::OnClickItem);
+            sellOutReportModalFilter.show(getChildFragmentManager(), "modal bottom sheet");
+        });
+
+        binding.filterCategory.setOnClickListener(v -> {
+            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this::Customspinnerset);
+            sellOutReportCategoryFilter.show(getChildFragmentManager(), "category filter");
+        });
+
+
+        setupRadioFilter();
+        binding.RadioBtn.setOnClickListener(v -> {
+            filterOpen.showAsDropDown(v,-153,0);
+        });
+
+
         binding.PendingLayout.setOnClickListener(this);
         binding.ApprovedLayout.setOnClickListener(this);
         binding.CancelledLayout.setOnClickListener(this);
 
     }
 
+
+    private void setupRadioFilter(){
+        LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.row_sell_out_qty_filter, null);
+        filterOpen = new PopupWindow(view, 350, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
+
+    }
 
     private void setPopUpWindow() {
         LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -526,7 +551,23 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
         binding.noData.setVisibility(View.GONE);
         binding.progressbar.setVisibility(View.GONE);
-        binding.ReportselloutRecyclerView.setAdapter(new SelloutReportAdapter());
+
+
+
+        for (int i=0;i<5;i++){
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.row_sell_out_report_inner , null);
+            binding.tablayout.addView(view);
+
+            for (int x=0; x < 10; x++){
+                View v = LayoutInflater.from(getContext()).inflate(R.layout.row_sell_out_report , null);
+                binding.tablayout.addView(v);
+            }
+
+//            selloutReportAdapter = new SelloutReportAdapter(i);
+//            binding.ReportselloutRecyclerView.setAdapter(selloutReportAdapter);
+        }
+
+
     }
 
 
@@ -557,7 +598,23 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     }
 
 
+    @Override
+    public void OnClickItem() {
 
+    }
+
+
+    private void FilterListCategory(){
+        selloutReportAdapter.notifyDataSetChanged();
+    }
+    private void FilterListModal(){
+        selloutReportAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void Onitem() {
+
+    }
 }
 
 

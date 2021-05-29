@@ -142,8 +142,13 @@ public class ProfileFragment extends Fragment {
 
         Profile_details();
 
-        getCountry();
-        getGovernate();
+        try {
+            getCountry();
+            getGovernate();
+        }catch (NullPointerException e){
+            Log.e(TAG, "onActivityCreated: " , e);
+        }
+
 
         binding.UpdateProfile.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
@@ -388,7 +393,7 @@ public class ProfileFragment extends Fragment {
 */
 
 
-    private void getCountry(){
+    private void getCountry() throws NullPointerException{
         countryLists.clear();
         lavaInterface.Country().enqueue(new Callback<Object>() {
 
@@ -442,59 +447,66 @@ public class ProfileFragment extends Fragment {
 
     private void SelectSmaertCountry(){
 
-        binding.progressbar.setVisibility(View.GONE);
+        try {
 
-        CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
-            binding.SelectCountry.setText(text);
-            CountryName = list.getName();
-            binding.SelectGovernate.setText("");
-            binding.SelectLocality.setText("");
-            binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
-            binding.progressbar.setVisibility(View.VISIBLE);
-            getGovernate();
+            binding.progressbar.setVisibility(View.GONE);
 
-        };
+            CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
+                binding.SelectCountry.setText(text);
+                CountryName = list.getName();
+                binding.SelectGovernate.setText("");
+                binding.SelectLocality.setText("");
+                binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
+                binding.progressbar.setVisibility(View.VISIBLE);
+                getGovernate();
 
-        CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);
-        binding.CountryRecyclerView.setAdapter(countryAdapter);
+            };
 
-
-
-        binding.SelectCountry.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
-                binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
-                return;
-            }
-            binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
-        });
-
-        binding.SelectCountry.setOnClickListener(v -> {
-            binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
-        });
+            CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);
+            binding.CountryRecyclerView.setAdapter(countryAdapter);
 
 
-        binding.SelectCountry.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(countryAdapter != null){
-                    countryAdapter.getFilter().filter(s.toString());
+            binding.SelectCountry.setOnFocusChangeListener((v, hasFocus) -> {
+                if(hasFocus){
+                    binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
+                    return;
                 }
-            }
+                binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
+            });
 
-            @Override
-            public void afterTextChanged(Editable s) {
+            binding.SelectCountry.setOnClickListener(v -> {
+                binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
+            });
 
-            }
-        });
+
+            binding.SelectCountry.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(countryAdapter != null){
+                        countryAdapter.getFilter().filter(s.toString());
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e(TAG, "SelectSmaertCountry: ",e );
+        }
+
 
     }
 
-    private void getGovernate() {
+    private void getGovernate() throws NullPointerException{
         governatelist.clear();
         Log.e(TAG, "getGovernate: " + Languages);
         Call call = lavaInterface.Governate(Languages , CountryName);
@@ -630,74 +642,71 @@ public class ProfileFragment extends Fragment {
 
     private void SelectSmartSearchGovernate(){
 
-
-        com.apptech.lava_retailer.adapter.GovernateAdapter.GovernateInterface governateInterface = (list) -> {
-//            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-//                binding.SelectGovernate.setText(list.getName());
-//            } else {
-//                binding.SelectGovernate.setText(list.getName_ar());
-//            }
-
-
-            switch (sessionManage.getUserDetails().get("LANGUAGE")){
-                case "en":
-                    binding.SelectGovernate.setText(list.getName());
-                    break;
-                case "fr":
-                    if(list.getName_fr().isEmpty()){
+        try {
+            com.apptech.lava_retailer.adapter.GovernateAdapter.GovernateInterface governateInterface = (list) -> {
+                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                    case "en":
                         binding.SelectGovernate.setText(list.getName());
-                    }else {
-                        binding.SelectGovernate.setText(list.getName_fr());
-                    }
-                    break;
-                case "ar":
-                    binding.SelectGovernate.setText(list.getName_ar());
-                    break;
-            }
+                        break;
+                    case "fr":
+                        if(list.getName_fr().isEmpty()){
+                            binding.SelectGovernate.setText(list.getName());
+                        }else {
+                            binding.SelectGovernate.setText(list.getName_fr());
+                        }
+                        break;
+                    case "ar":
+                        binding.SelectGovernate.setText(list.getName_ar());
+                        break;
+                }
 
-            GovernateSelect = list.getId();
-            binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
-            binding.progressbar.setVisibility(View.VISIBLE);
+                GovernateSelect = list.getId();
+                binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
+                binding.progressbar.setVisibility(View.VISIBLE);
+                getLocality();
+
+            };
+
+            com.apptech.lava_retailer.adapter.GovernateAdapter governateAdapter1 = new com.apptech.lava_retailer.adapter.GovernateAdapter(governateInterface , governatelist);
+            binding.GovernateRecyclerView.setAdapter(governateAdapter1);
             getLocality();
 
-        };
 
-        com.apptech.lava_retailer.adapter.GovernateAdapter governateAdapter1 = new com.apptech.lava_retailer.adapter.GovernateAdapter(governateInterface , governatelist);
-        binding.GovernateRecyclerView.setAdapter(governateAdapter1);
-
-        getLocality();
-
-
-        binding.SelectGovernate.setOnFocusChangeListener((v, hasFocus) -> {
-            if(hasFocus){
-                binding.GovernateRecyclerViewLayout.setVisibility(View.VISIBLE);
-                return;
-            }
-            binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
-        });
-
-        binding.SelectGovernate.setOnClickListener(v -> {
-            binding.GovernateRecyclerViewLayout.setVisibility(View.VISIBLE);
-        });
-
-        binding.SelectGovernate.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(governateAdapter1 != null){
-                    governateAdapter1.getFilter().filter(s.toString());
+            binding.SelectGovernate.setOnFocusChangeListener((v, hasFocus) -> {
+                if(hasFocus){
+                    binding.GovernateRecyclerViewLayout.setVisibility(View.VISIBLE);
+                    return;
                 }
-            }
-        });
+                binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
+            });
+
+            binding.SelectGovernate.setOnClickListener(v -> {
+                binding.GovernateRecyclerViewLayout.setVisibility(View.VISIBLE);
+            });
+
+            binding.SelectGovernate.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(governateAdapter1 != null){
+                        governateAdapter1.getFilter().filter(s.toString());
+                    }
+                }
+            });
+
+        }catch (NullPointerException e){
+            Log.e(TAG, "SelectSmartSearchGovernate: " ,e );
+        }
+
 
 
     }
@@ -841,7 +850,7 @@ public class ProfileFragment extends Fragment {
     }
 */
 
-    private void SelectSmartSearchLocality(){
+    private void SelectSmartSearchLocality() throws NullPointerException{
 
         LocalityAdapter.LocalityInterface localityInterface = list -> {
 

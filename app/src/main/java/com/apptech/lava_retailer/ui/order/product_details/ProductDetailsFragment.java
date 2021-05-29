@@ -216,8 +216,15 @@ public class ProductDetailsFragment extends Fragment {
             binding.modelName.setText("Model - "+list.getModel_ar());
             binding.productName.setText(list.getMarketing_name_ar());
 //            binding.productDic.loadData(list.getDes_ar(), "text/html", "UTF-8");
-            String htmlData = "<font color='#c4c4c4'>" + list.getDes_ar() + "</font>";
+
+//            String htmlData = "<body style= color='#ffffff'>" + list.getDes_ar() + "</body>";
+//            binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
+
+//            String htmlData = "<body style=\"color: white;\">   "</body>";
+            String htmlData = "<body style=\"color: #c4c4c4;\"> "+ list.getDes_ar() +" </body>";
             binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
+
+
 
             String Dis_price =  new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
@@ -267,6 +274,9 @@ public class ProductDetailsFragment extends Fragment {
 //        });
 
 //        binding.productDic.setBackgroundColor(getActivity().getResources().getColor(R.color.webblack));
+
+
+
         binding.productDic.setBackgroundColor(Color.TRANSPARENT);
 
 

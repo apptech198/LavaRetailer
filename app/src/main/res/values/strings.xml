@@ -68,6 +68,8 @@
 
 
 
+
+
     <string-array name="qtyArray">
         <item>1</item>
         <item>2</item>
@@ -91,6 +93,10 @@
     <string name="fb_login_protocol_scheme">fb4482161495132131</string>
 
 
+    <string name="language">Language</string>
+    <string name="global_business_retail_partner">Global Business Retail Partner</string>
+    <string name="login">Login</string>
+    <string name="log_in">Log In</string>
 
 
 </resources>

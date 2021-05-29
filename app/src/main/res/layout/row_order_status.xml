@@ -83,7 +83,8 @@
             android:fontFamily="@font/lato_regular"
             app:layout_constraintTop_toBottomOf="@+id/modalNameTitle"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:visibility="gone"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/Imei"
@@ -96,7 +97,7 @@
             app:layout_constraintTop_toTopOf="@+id/ImeiTitle"
             app:layout_constraintBottom_toBottomOf="@+id/ImeiTitle"
             app:layout_constraintStart_toEndOf="@+id/ImeiTitle"
-            />
+            android:visibility="gone"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/productQtyTitle"

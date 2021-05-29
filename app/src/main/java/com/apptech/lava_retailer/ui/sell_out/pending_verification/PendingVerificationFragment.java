@@ -130,7 +130,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 //        });
 
         binding.PendingLayout.setOnClickListener(this);
-        binding.ApprovedLayout.setOnClickListener(this);
         binding.RejectedLayout.setOnClickListener(this);
 
 
@@ -527,22 +526,12 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
                 TYPE = "PENDING";
                 StockList();
                 binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
-                binding.ApprovedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-                break;
-            case R.id.ApprovedLayout:
-                TYPE = "APPROVED";
-                StockList();
-                binding.ApprovedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
-                binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-                binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-
                 break;
             case R.id.RejectedLayout:
                 TYPE = "REJECTED";
                 StockList();
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
-                binding.ApprovedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 break;
         }

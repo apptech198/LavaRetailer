@@ -81,7 +81,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next screen"
+            android:text="Next"
             android:fontFamily="@font/lato_regular"
             android:textColor="@color/back_all"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>

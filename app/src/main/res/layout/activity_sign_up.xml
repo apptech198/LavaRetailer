@@ -44,7 +44,7 @@
                 android:drawableLeft="@drawable/ic_baseline_edit_location_24"
                 android:drawablePadding="4dp"
                 android:fontFamily="@font/lato_bold"
-                android:text="Language"
+                android:text="@string/language"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />

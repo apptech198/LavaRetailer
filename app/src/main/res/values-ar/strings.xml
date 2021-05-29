@@ -73,7 +73,6 @@
 
 
 
-
     <string-array name="language">
         <item>Select language</item>
         <item>English</item>
@@ -84,6 +83,13 @@
 
     <string name="facebook_app_id">4482161495132131</string>
     <string name="fb_login_protocol_scheme">fb4482161495132131</string>
+
+
+
+    <string name="language">اللغه</string>
+    <string name="global_business_retail_partner">شريك أعمال التجزئة العالمي</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="log_in">تسجيل الدخول</string>
 
 
 </resources>

@@ -592,7 +592,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         View v = LayoutInflater.from(getContext()).inflate(R.layout.row_custom_alert_dialog , null );
         builder.setView(v);
         LinearLayout submit = v.findViewById(R.id.submit);
-        LinearLayout no = v.findViewById(R.id.no);
+        LinearLayout no = v.findViewById(R.id.close);
 
 
 
