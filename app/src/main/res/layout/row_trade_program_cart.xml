@@ -29,7 +29,7 @@
             android:id="@+id/orderNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Order"
+            android:text="@string/order"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
