@@ -3,17 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/dialog_back">
 
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Address"
+        android:text="Alert"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
+        android:textColor="@color/dialog_heading"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
     <LinearLayout
@@ -32,6 +34,193 @@
 
     </LinearLayout>
 
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/dialog_heading"
+        app:layout_constraintTop_toBottomOf="@+id/Title"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/line">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/distributorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distributor Name"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="#A8A8A8"
+            app:fontFamily="@font/lato_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/distributorName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Distributor namr"
+            android:layout_marginTop="2dp"
+            app:fontFamily="@font/lato_semi_bold"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/distributorTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ImeiTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="imei : "
+            android:fontFamily="@font/lato_semi_bold"
+            android:layout_marginTop="4dp"
+            android:textColor="#A8A8A8"
+            app:fontFamily="@font/lato_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/distributorName"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/imei"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="451"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
+            app:layout_constraintStart_toEndOf="@+id/ImeiTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/ImeiTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/ModalTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Model : "
+            android:fontFamily="@font/lato_semi_bold"
+            android:layout_marginTop="4dp"
+            android:textColor="#A8A8A8"
+            app:fontFamily="@font/lato_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ImeiTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/Modal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="RGMsnc"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
+            app:layout_constraintStart_toEndOf="@+id/ModalTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/ModalTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/skuTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Sku : "
+            android:fontFamily="@font/lato_semi_bold"
+            android:layout_marginTop="4dp"
+            android:textColor="#A8A8A8"
+            app:fontFamily="@font/lato_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ModalTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/skuid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="RGMsnc"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
+            app:layout_constraintStart_toEndOf="@+id/skuTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/skuTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/DateTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Date : "
+            android:fontFamily="@font/lato_semi_bold"
+            android:layout_marginTop="4dp"
+            android:textColor="#A8A8A8"
+            app:fontFamily="@font/lato_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/skuTitle"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="RGMsnc"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_semi_bold"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
+            app:layout_constraintStart_toEndOf="@+id/DateTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/DateTitle"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="msg user not availver"
+        android:fontFamily="@font/lato_semi_bold"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/red"
+        app:fontFamily="@font/lato_semi_bold"
+        android:paddingBottom="8dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Layout"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

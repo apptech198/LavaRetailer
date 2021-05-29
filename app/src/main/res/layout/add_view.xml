@@ -26,12 +26,11 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/imeiTitle"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="IMEI"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@+id/remove"
+                android:text="IMEI : "
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="#c4c4c4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,17 +45,42 @@
                 android:layout_marginTop="4dp"/>
 
 
+
+
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/imei"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Imei"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="2dp"
                 android:fontFamily="@font/lato_semi_bold"
                 android:textColor="@color/white"
-                app:layout_constraintEnd_toStartOf="@+id/remove"
+                app:layout_constraintStart_toEndOf="@+id/imeiTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/imeiTitle"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/distributorTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distributor : "
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="#c4c4c4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imeiTitle"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/distributorName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Imei"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/lato_semi_bold"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/distributorTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/distributorTitle"/>
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -66,9 +90,9 @@
                 android:text="Model : "
                 android:fontFamily="@font/lato_semi_bold"
                 android:layout_marginTop="4dp"
-                android:textColor="@color/white"
+                android:textColor="#c4c4c4"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imei"/>
+                app:layout_constraintTop_toBottomOf="@+id/distributorTitle"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/Modal"
@@ -104,7 +128,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/Modal"
+                app:layout_constraintBottom_toBottomOf="@+id/msg"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imei">
 

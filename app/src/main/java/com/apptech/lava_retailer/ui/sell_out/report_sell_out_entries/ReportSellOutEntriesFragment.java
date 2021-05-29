@@ -1,6 +1,7 @@
 package com.apptech.lava_retailer.ui.sell_out.report_sell_out_entries;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -99,7 +100,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
 
-        USER_ID = sessionManage.getUserDetails().get("ID");
+        USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         TodayDate = getCurrentDate();
 
 
@@ -296,7 +297,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         }
     }
 
-    private void addView(Drawable drawable , int type , String modals ) {
+    private void addView(Drawable drawable , int type , String modals , String imeis , String distributor_name , String mess ) {
 
         int a = imeiCount += 1;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -307,6 +308,9 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         mainLayout = rowView.findViewById(R.id.mainLayout);
         Modal = rowView.findViewById(R.id.Modal);
         TextView ModalTitle = rowView.findViewById(R.id.ModalTitle);
+        TextView imei = rowView.findViewById(R.id.imei);
+        TextView distributorName = rowView.findViewById(R.id.distributorName);
+        TextView msg = rowView.findViewById(R.id.msg);
         ImageView icon  = rowView.findViewById(R.id.icon);
 
         mainLayout.setBackground(drawable);
@@ -314,19 +318,19 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         textView.setTag(String.valueOf(a));
         removeBtn = rowView.findViewById(R.id.remove);
 
-        switch (type){
-            case 200:
-                icon.setBackground(ResourcesCompat.getDrawable(getResources() , R.drawable.ic_check , null));
-                Modal.setVisibility(View.VISIBLE);
-                ModalTitle.setVisibility(View.VISIBLE);
-                Modal.setText(modals);
-                break;
-            case 301:
-                icon.setBackground(ResourcesCompat.getDrawable(getResources() , R.drawable.ic__check , null));
-                Modal.setVisibility(View.GONE);
-                ModalTitle.setVisibility(View.GONE);
-                break;
+        if (type == 200) {
+            icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_check, null));
+            distributorName.setText(distributor_name);
+            msg.setText(mess);
+            msg.setTextColor(getResources().getColor(R.color.green));
+        } else {
+            icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic__check, null));
+            distributorName.setText(distributor_name);
+            msg.setText(mess);
+            msg.setTextColor(getResources().getColor(R.color.yellow));
         }
+        Modal.setText(modals);
+        imei.setText(imeis);
 
 
         removeView();
@@ -376,7 +380,10 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
+        String a = "123456789123458";
+
         lavaInterface.IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID).enqueue(new Callback<Object>() {
+//        lavaInterface.IMEI_CHECK(a , "13").enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
@@ -386,61 +393,76 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                 try {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
 
-                    String error = jsonObject.getString("error");
                     String message = jsonObject.optString("message");
+                    String error = jsonObject.getString("error");
                     int error_code = jsonObject.getInt("error_code");
 
                     if(error.equalsIgnoreCase("FALSE")){
 
+                        JSONObject object = jsonObject.getJSONObject("list");
 
                         switch (error_code){
                             case 200:
-                                JSONObject object = jsonObject.getJSONObject("list");
-                                addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_name"));
-                                binding.progressbar.setVisibility(View.GONE);
+                                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                    case "en":
+                                    case "fr":
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") , message );
+                                        break;
+                                    case "ar":
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_ar") ,object.optString("imei"),object.optString("distributor_name") , message);
+                                        break;
+                                }
                                 break;
                             case 301:
-                                addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"");
-                                binding.progressbar.setVisibility(View.GONE);
-                                break;
-                            case 401:
-                                addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"N/A");
-                                binding.progressbar.setVisibility(View.GONE);
-                                break;
-                            case 500:
-//                               dialog open
-                                ImeiDialogOpen();
-                                break;
+                                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                    case "en":
+                                    case "fr":
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") ,message);
+                                        break;
+                                    case "ar":
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"), message);
+                                        break;
+                                }
+
                         }
 
-                        if(error_code == 200){
-                            JSONObject object = jsonObject.getJSONObject("list");
-                            addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_name"));
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
-                        }
+//                        if(error_code == 200){
+//                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+//                                case "en":
+//                                case "fr":
+//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , "");
+//                                    break;
+//                                case "ar":
+//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_ar") ,object.optString("imei"),"");
+//                                    break;
+//                            }
+//                        }else {
+//                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+//                                case "en":
+//                                case "fr":
+//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name"));
+//                                    break;
+//                                case "ar":
+//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"));
+//                                    break;
+//                            }
+//                        }
+                        binding.progressbar.setVisibility(View.GONE);
 
-/*
-                        if(error_code == 301){
-                            addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"");
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
-                        }
-
-                        if (error_code == 401){
-                            addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 ,"N/A");
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
-                        }
+                    }else {
 
                         if (error_code == 500){
-                            return;
+                            JSONObject object = jsonObject.optJSONObject("list");
+                            if(object == null){
+                                ImeiDialogOpen(501 , message , "" , "" ,"","" );
+                            }else {
+                                ImeiDialogOpen(500 , message , object.optString("distributor_name") , object.optString("sku") ,object.optString("imei"),object.optString("time") );
+                            }
                         }
-*/
 
                     }
                     binding.ImeiEdittext.setText("");
-                    MessageDilaog(message);
+//                    MessageDilaog(message);
                     binding.progressbar.setVisibility(View.GONE);
                     return;
 
@@ -463,13 +485,34 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     }
 
 
-    private void ImeiDialogOpen() {
+    private void ImeiDialogOpen(int code , String mess , String distributor_name  , String sku , String imeis , String dates) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.sell_out_imei_dialog , null);
-        builder.setView(view);
+        builder.setCancelable(false);
 
+        TextView msg = view.findViewById(R.id.msg);
+        TextView distributorName = view.findViewById(R.id.distributorName);
+        TextView skuid = view.findViewById(R.id.skuid);
+        TextView imei = view.findViewById(R.id.imei);
+        TextView date = view.findViewById(R.id.date);
         LinearLayout closeDialog = view.findViewById(R.id.closeDialog);
+        ConstraintLayout Layout = view.findViewById(R.id.Layout);
 
+        if (code != 500){
+            Layout.setVisibility(View.GONE);
+            msg.setText(mess);
+            msg.setTextSize(18);
+            msg.setPadding(0,10,0,0);
+        } else {
+            Layout.setVisibility(View.VISIBLE);
+            msg.setText(mess);
+            distributorName.setText(distributor_name);
+            skuid.setText(sku);
+            imei.setText(imeis);
+            date.setText(dates.substring(0,10));
+        }
+
+        builder.setView(view);
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
