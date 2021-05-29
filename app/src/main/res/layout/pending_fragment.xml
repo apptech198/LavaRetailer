@@ -32,7 +32,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
-                android:text="Sr.No"
+                android:text="@string/Sr.No"
                 android:textColor="@color/white" />
 
             <TextView
@@ -42,7 +42,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
-                android:text="Type"
+                android:text="@string/type"
                 android:textColor="@color/white" />
 
             <TextView
@@ -52,7 +52,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
-                android:text="IMEI"
+                android:text="@string/IMEI"
                 android:textColor="@color/white" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
-                android:text="Date"
+                android:text="@string/date"
                 android:textColor="@color/white" />
 
             <TextView
@@ -72,7 +72,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"
                 android:gravity="center"
-                android:text="Action"
+                android:text="@string/Action"
                 android:textColor="@color/white" />
         </TableRow>
 

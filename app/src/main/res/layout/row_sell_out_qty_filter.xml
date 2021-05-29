@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:text="Quantity"
+            android:text="@string/Quantity"
             app:fontFamily="@font/lato_semi_bold"/>
 
 
@@ -54,7 +54,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:text="Value"
+            android:text="@string/Value"
             app:fontFamily="@font/lato_semi_bold" />
 
 

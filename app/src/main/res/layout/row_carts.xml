@@ -133,7 +133,7 @@
                     android:paddingTop="4dp"
                     android:paddingRight="30sp"
                     android:paddingBottom="4dp"
-                    android:text="Remove"
+                    android:text="@string/Remove"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 

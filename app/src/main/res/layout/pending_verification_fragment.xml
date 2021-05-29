@@ -15,7 +15,7 @@
         android:id="@+id/headtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pending Verification"
+        android:text="@string/Pending_Verification"
         android:fontFamily="@font/lato_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pending"
+            android:text="@string/pending"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:fontFamily="@font/lato_semi_bold"
             android:textColor="@color/white"/>
@@ -113,7 +113,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rejected"
+            android:text="@string/Rejected"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:fontFamily="@font/lato_semi_bold"
             android:textColor="@color/white"/>
@@ -164,7 +164,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No data found"
+            android:text="@string/data_not_found"
             android:fontFamily="@font/lato_bold"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"/>

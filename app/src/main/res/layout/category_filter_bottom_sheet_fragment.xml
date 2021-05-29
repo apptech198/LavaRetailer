@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lato_bold"
         android:padding="10dp"
-        android:text="Category By"
+        android:text="@string/Category_By"
         android:textColor="@color/black"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

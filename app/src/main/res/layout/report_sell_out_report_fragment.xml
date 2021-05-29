@@ -14,7 +14,7 @@
         android:id="@+id/headtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Report sell out"
+        android:text="@string/Report_sell_out"
         android:fontFamily="@font/lato_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Category"
+                        android:text="@string/Category"
                         android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/ic_baseline_filter_list_24"
                         android:textColor="@color/black"/>
@@ -146,7 +146,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="Model"
+                        android:text="@string/Model"
                         android:drawableLeft="@drawable/ic_baseline_filter_list_24"
                         android:drawablePadding="10dp"
                         android:textColor="@color/black"/>
@@ -172,7 +172,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Pending"
+                    android:text="@string/pending"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:fontFamily="@font/lato_semi_bold"
                     android:textColor="@color/white"/>
@@ -196,7 +196,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Approved"
+                    android:text="@string/Approved"
                     android:fontFamily="@font/lato_semi_bold"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:textColor="@color/white"/>
@@ -219,7 +219,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cancelled"
+                    android:text="@string/Cancelled"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:fontFamily="@font/lato_semi_bold"
                     android:textColor="@color/white"/>
@@ -268,7 +268,7 @@
         android:id="@+id/noData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No data found"
+        android:text="@string/data_not_found"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

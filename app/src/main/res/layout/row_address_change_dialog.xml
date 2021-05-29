@@ -11,7 +11,7 @@
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Address"
+        android:text="@string/Change_Address"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         android:layout_marginTop="16dp"
         app:boxBackgroundColor="@color/white"
-        android:hint="Address">
+        android:hint="@string/address">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -92,7 +92,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change addresss"
+                android:text="@string/Change_Address"
                 android:paddingTop="6dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"

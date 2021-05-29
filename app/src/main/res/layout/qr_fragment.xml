@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:text="No Barcode Detected"
+        android:text="@string/No_Barcode_Detected"
         android:textColor="@android:color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

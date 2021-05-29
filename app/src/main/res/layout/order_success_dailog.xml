@@ -11,7 +11,7 @@
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order Status"
+        android:text="@string/Order_Status"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
@@ -57,7 +57,7 @@
         app:boxBackgroundColor="@color/white"
         android:textSize="18sp"
         android:textAlignment="center"
-        android:text="Your Order Has been Successfully Placed! "/>
+        android:text="@string/success_order_places"/>
 
 
 
@@ -92,7 +92,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buy More"
+                android:text="@string/Buy_More"
                 android:paddingTop="4dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -112,7 +112,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="My Order"
+                android:text="@string/My_Orders"
                 android:paddingTop="4dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"

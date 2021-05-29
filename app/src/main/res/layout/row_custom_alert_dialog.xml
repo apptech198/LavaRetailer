@@ -10,7 +10,7 @@
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Order Place"
+        android:text="@string/Place_Order"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
@@ -103,7 +103,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Confirm"
+            android:text="@string/Confirm"
             android:paddingTop="4dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"

@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center"
-            android:text="VALID IMEI"
+            android:text="@string/VALID_IMEI"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center"
-            android:text="INVALID IMEI"
+            android:text="@string/INVALID_IMEI"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_semibold"
             android:gravity="center"
-            android:text="PENDING \n VERIFICATION"
+            android:text="@string/PENDING_VERIFICATION"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

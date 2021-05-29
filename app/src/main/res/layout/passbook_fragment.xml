@@ -152,6 +152,12 @@
         </RelativeLayout>
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/tablayout"
+            android:layout_marginTop="20dp"
+            tools:listitem="@layout/row_passbook_layout"
+            android:layout_height="wrap_content"/>
 
 
 
@@ -159,153 +165,12 @@
 
 
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/startHorizontal"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="20dp"
-                android:fillViewport="true">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
 
 
-                    <TableLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:padding="4dp">
-
-                        <TableRow
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:weightSum="6"
-                            android:background="@drawable/row_background_table"
-                            >
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginLeft="10dp"
-                                android:gravity="center"
-                                android:fontFamily="@font/lato_bold"
-                                android:text="Date of Entry"
-                                android:textColor="@color/white"
-                                android:padding="8dp"
-                                android:textSize="12sp" />
-
-                            <View android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/white"/>
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:layout_marginLeft="20dp"
-                                android:fontFamily="@font/lato_bold"
-                                android:text="Date of Entry"
-                                android:textColor="@color/white"
-                                android:padding="8dp"
-                                android:textSize="12sp" />
 
 
-                            <View android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/white"/>
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:layout_marginLeft="20dp"
-                                android:text="Claim Code"
-                                android:fontFamily="@font/lato_bold"
-                                android:textColor="@color/white"
-                                android:padding="8dp"
-                                android:textSize="12sp" />
-
-                            <View android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/white"/>
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="Status"
-                                android:fontFamily="@font/lato_bold"
-                                android:layout_marginLeft="20dp"
-                                android:textColor="@color/white"
-                                android:padding="8dp"
-                                android:textSize="12sp" />
-
-                            <View android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/white"/>
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/lato_bold"
-                                android:text="Payment Date"
-                                android:layout_marginLeft="20dp"
-                                android:textColor="@color/white"
-                                android:padding="8dp"
-                                android:textSize="12sp" />
-
-                            <View android:layout_width="1dp"
-                                android:layout_height="match_parent"
-                                android:background="@color/white"/>
-
-                            <TextView
-                                android:layout_width="130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:fontFamily="@font/lato_bold"
-                                android:layout_marginLeft="20dp"
-                                android:layout_marginRight="10dp"
-                                android:text="Payment Refernece"
-                                android:textColor="@color/white"
-                                android:padding="8dp"
-                                android:textSize="12sp" />
-
-                        </TableRow>
 
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/PassbookRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            tools:listitem="@layout/row_passbook"
-                            tools:itemCount="50"
-                            app:stackFromEnd="false"
-                            android:paddingBottom="40dp"
-                            android:clipToPadding="false"
-                            android:scrollbarStyle="outsideOverlay"
-                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
-
-
-                    </TableLayout>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            </HorizontalScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

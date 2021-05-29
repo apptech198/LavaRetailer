@@ -10,7 +10,7 @@
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Otp"
+        android:text="@string/otp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line"
         android:layout_marginTop="16dp"
         app:boxBackgroundColor="@color/white"
-        android:hint="Enter otp">
+        android:hint="@string/enter_otp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -90,7 +90,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Verify otp"
+                android:text="@string/verify"
                 android:paddingTop="4dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"

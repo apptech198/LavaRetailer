@@ -15,7 +15,7 @@
         android:id="@+id/headtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Orders"
+        android:text="@string/My_Orders"
         android:fontFamily="@font/lato_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Processing"
+            android:text="@string/Processing"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:fontFamily="@font/lato_semi_bold"
             android:textColor="@color/white"/>
@@ -87,7 +87,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delivered"
+            android:text="@string/Delivered"
             android:fontFamily="@font/lato_semi_bold"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:textColor="@color/white"/>
@@ -110,7 +110,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelled"
+            android:text="@string/Cancelled"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:fontFamily="@font/lato_semi_bold"
             android:textColor="@color/white"/>
@@ -134,7 +134,7 @@
         android:id="@+id/noData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No data found"
+        android:text="@string/data_not_found"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
