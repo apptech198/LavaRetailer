@@ -250,7 +250,7 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:text="Address-"
+            android:text="@string/address"
             android:textColor="@color/black"
             android:fontFamily="@font/lato_bold"
             android:textStyle="bold"
@@ -398,7 +398,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="No Cart Item"
+        android:text="@string/No_Cart_Item"
         android:textColor="@color/white"
         style="@style/TextAppearance.MaterialComponents.Headline5"
         app:layout_constraintTop_toTopOf="parent" />

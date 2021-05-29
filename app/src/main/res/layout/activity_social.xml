@@ -39,7 +39,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Signup with otp"
+        android:text="@string/signup_with_otp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:text="Send Otp"
+                android:text="@string/send_otp"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -240,7 +240,7 @@
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Signup with Gmail"
+                    android:text="@string/gmail"
                     android:textColor="@color/white"
                     android:fontFamily="@font/lato_semi_bold" />
 

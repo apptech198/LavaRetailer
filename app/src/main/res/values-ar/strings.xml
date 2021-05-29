@@ -35,15 +35,15 @@
     <string name="passbook">وصل الدفع</string>
     <string name="order">ترتيب</string>
     <string name="trade_program">برنامج التجارة</string>
-    <string name="mobile_number">رقم الهاتف الجوال</string>
-    <string name="password">كلمة المرور</string>
+    <string name="mobile_number">رقم الهاتف المحمول / معرف تسجيل الدخول</string>
+    <string name="password">كلمه السر</string>
 
 
     <string name="change_language">Change Language</string>
     <string name="logout">Logout</string>
-    <string name="enter_otp">أدخل otp</string>
+    <string name="enter_otp">أدخل OTP</string>
     <string name="psw_not_match">Password not match</string>
-    <string name="bobile_number">رقم الهاتف الجوال</string>
+    <string name="bobile_number">رقم الهاتف المحمول</string>
     <string name="egp">\u00a3</string>
 
 
@@ -87,9 +87,40 @@
 
 
     <string name="language">اللغه</string>
+    <string name="country">تبديل الدولة</string>
     <string name="global_business_retail_partner">شريك أعمال التجزئة العالمي</string>
     <string name="login">تسجيل الدخول</string>
     <string name="log_in">تسجيل الدخول</string>
-
+    <string name="rememberme">تذكرنى</string>
+    <string name="forgetpass">هل نسيت كلمة السر</string>
+    <string name="or">أو</string>
+    <string name="signup">اشتراك</string>
+    <string name="signup_with_otp">قم بالتسجيل مع OTP</string>
+    <string name="send_otp">Send Otp</string>
+    <string name="gmail">Signup with Gmail</string>
+    <string name="full_name">اسم</string>
+    <string name="email">عنوان الايميل</string>
+    <string name="outletname">اسم المحل</string>
+    <string name="address">عنوان</string>
+    <string name="select_country">الدولة </string>
+    <string name="Governate">محافظة </string>
+    <string name="Locality">المنطقة </string>
+    <string name="resend_otp">Resend Otp </string>
+    <string name="latest_news">أحدث الأخبار</string>
+    <string name="next">التالي</string>
+    <string name="brand">الماركة</string>
+    <string name="choose_language">اختر اللغة</string>
+    <string name="english">اللغة الإنكليزية</string>
+    <string name="arabic">اللغة العربية</string>
+    <string name="forgot">Forgot</string>
+    <string name="change_password">Change password</string>
+    <string name="otp">OTP</string>
+    <string name="Send_otp_to_verify_your_profile">Send otp to verify your profile</string>
+    <string name="select_brand">اختر الماركة</string>
+    <string name="success_order_places">تهانينا!! لقد قدمت طلبك بنجاح</string>
+    <string name="Success">Success</string>
+    <string name="Request_amount">Request amount</string>
+    <string name="DONE">DONE</string>
+    <string name="No_Cart_Item">No Cart Item</string>
 
 </resources>

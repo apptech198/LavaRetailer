@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="match_parent"
             android:textAlignment="center"
-            android:text="Select Brands"
+            android:text="@string/select_brand"
             android:layout_height="wrap_content"
             android:id="@+id/select"
             android:textStyle="bold"

@@ -22,71 +22,148 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:id="@+id/segment1"
-        android:layout_height="match_parent">
-
-
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/headtitle"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Passbook"
-        android:fontFamily="@font/lato_black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/white"/>
+        tools:ignore="MissingConstraints">
 
 
-            <LinearLayout
-                android:id="@+id/DatpickerRange"
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/claimheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Claim Settlement"
+            android:fontFamily="@font/lato_black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textColor="@color/white"/>
+
+
+        <LinearLayout
+            android:id="@+id/claimDatpickerRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="4dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/claimheading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/claimheading">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingTop="4dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/headtitle"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/headtitle">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_calendar" />
+                android:src="@drawable/ic_calendar" />
 
 
-            </LinearLayout>
+        </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/PdfDownload"
+        <LinearLayout
+            android:id="@+id/claimPdfDownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="4dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/claimheading"
+            app:layout_constraintTop_toTopOf="@+id/claimheading"
+            app:layout_constraintEnd_toStartOf="@+id/claimDatpickerRange">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingTop="4dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="4dp"
-                app:layout_constraintBottom_toBottomOf="@+id/headtitle"
-                app:layout_constraintTop_toTopOf="@+id/headtitle"
-                app:layout_constraintEnd_toStartOf="@+id/DatpickerRange">
+                android:src="@drawable/ic_pdf" />
 
-                <ImageView
+
+        </LinearLayout>
+
+
+
+            <RelativeLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/claimheading"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:id="@+id/pending_Layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_pdf" />
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/blac_order_status"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:layout_marginLeft="30dp"
+                    android:paddingTop="4dp"
+                    android:layout_alignParentLeft="true"
+                    android:paddingBottom="4dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Processing"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:fontFamily="@font/lato_semi_bold"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
 
 
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/Layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@drawable/red_order_status"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingTop="4dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="4dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Processing"
+                        android:id="@+id/name"
+
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:fontFamily="@font/lato_semi_bold"
+                        android:textColor="@color/white"/>
+
+                </LinearLayout>
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/startHorizontal"
-                app:layout_constraintTop_toBottomOf="@+id/DatpickerRange"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginBottom="20dp"
                 android:fillViewport="true">
@@ -233,213 +310,6 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/segment1"
-        android:layout_height="wrap_content">
-
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/claimheading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Claim Settlement"
-            android:fontFamily="@font/lato_black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="@color/white"/>
-
-
-        <LinearLayout
-            android:id="@+id/claimDatpickerRange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="4dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/claimheading"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/claimheading">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_calendar" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/claimPdfDownload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingTop="4dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="4dp"
-            app:layout_constraintBottom_toBottomOf="@+id/claimheading"
-            app:layout_constraintTop_toTopOf="@+id/claimheading"
-            app:layout_constraintEnd_toStartOf="@+id/claimDatpickerRange">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_pdf" />
-
-
-        </LinearLayout>
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/claimstartHorizontal"
-            app:layout_constraintTop_toBottomOf="@+id/claimDatpickerRange"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:fillViewport="true">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:padding="4dp">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:weightSum="6">
-
-                        <TextView
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center"
-                            android:fontFamily="@font/lato_bold"
-                            android:text="Claim type: price Protection"
-                            android:textColor="@color/white"
-                            android:padding="8dp"
-                            android:textSize="12sp" />
-
-                        <View android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"/>
-
-                        <TextView
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:fontFamily="@font/lato_bold"
-                            android:text="Claim code: price Protection"
-                            android:textColor="@color/white"
-                            android:padding="8dp"
-                            android:textSize="12sp" />
-
-
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="wrap_content"
-                        android:weightSum="6">
-
-                        <TextView
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center"
-                            android:fontFamily="@font/lato_bold"
-                            android:text="Claim type: price Protection"
-                            android:textColor="@color/white"
-                            android:padding="8dp"
-                            android:textSize="12sp" />
-
-                        <View android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"/>
-
-                        <TextView
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:fontFamily="@font/lato_bold"
-                            android:text="Claim code: price Protection"
-                            android:textColor="@color/white"
-                            android:padding="8dp"
-                            android:textSize="12sp" />
-
-
-                    </TableRow>
-
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="wrap_content"
-                        android:weightSum="6">
-
-                        <TextView
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginLeft="10dp"
-                            android:gravity="center"
-                            android:fontFamily="@font/lato_bold"
-                            android:text="Claim type: price Protection"
-                            android:textColor="@color/white"
-                            android:padding="8dp"
-                            android:textSize="12sp" />
-
-                        <View android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/white"/>
-
-                        <TextView
-                            android:layout_width="130dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:fontFamily="@font/lato_bold"
-                            android:text="Claim code: price Protection"
-                            android:textColor="@color/white"
-                            android:padding="8dp"
-                            android:textSize="12sp" />
-
-
-                    </TableRow>
-
-
-
-                </TableLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        </HorizontalScrollView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
