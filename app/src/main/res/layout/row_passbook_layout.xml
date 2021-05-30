@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/lava_back"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
+    android:elevation="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <HorizontalScrollView
@@ -34,6 +35,7 @@
                         android:layout_weight="1"
                         android:layout_marginLeft="10dp"
                         android:gravity="center"
+                        android:id="@+id/ctype"
                         android:fontFamily="@font/lato_bold"
                         android:text="Claim type: price Protection"
                         android:textColor="@color/white"
@@ -51,6 +53,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:layout_marginLeft="20dp"
+                        android:id="@+id/paymentdate"
                         android:fontFamily="@font/lato_bold"
                         android:text="Claim code: price Protection"
                         android:textColor="@color/white"
@@ -75,6 +78,7 @@
                         android:text="Claim type: price Protection"
                         android:textColor="@color/white"
                         android:padding="8dp"
+                        android:id="@+id/ccode"
                         android:layout_marginRight="20dp"
                         android:textSize="12sp" />
 
@@ -92,6 +96,7 @@
                         android:text="Claim code: price Protection"
                         android:textColor="@color/white"
                         android:padding="8dp"
+                        android:id="@+id/value"
                         android:textSize="12sp" />
 
 
@@ -113,6 +118,7 @@
                         android:text="Claim type: price Protection"
                         android:textColor="@color/white"
                         android:padding="8dp"
+                        android:id="@+id/dateofapproval"
                         android:layout_marginRight="20dp"
                         android:textSize="12sp" />
 
@@ -130,6 +136,7 @@
                         android:text="Claim code: price Protection"
                         android:textColor="@color/white"
                         android:padding="8dp"
+                        android:id="@+id/paymentdetail"
                         android:textSize="12sp" />
 
 
@@ -137,6 +144,7 @@
 
                 <TableRow
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:weightSum="2">
 
@@ -154,6 +162,7 @@
                         android:textSize="12sp" />
 
                     <View android:layout_width="1dp"
+                        android:visibility="gone"
                         android:layout_height="match_parent"
                         android:background="@color/white"/>
 
@@ -167,6 +176,7 @@
                         android:layout_marginLeft="20dp"
                         android:fontFamily="@font/lato_bold"
                         android:text="Detailed View"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:padding="8dp"
                         android:textSize="12sp" />

@@ -82,7 +82,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
                              @Nullable Bundle savedInstanceState) {
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Place order");
+        title.setText(getActivity().getString(R.string.Place_Order));
 
         binding = PlaceOrderFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
@@ -301,7 +301,7 @@ public class PlaceOrderFragment extends Fragment implements ShortFilterBottomShe
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Place order");
+        title.setText(getActivity().getString(R.string.Place_Order));
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.apptech.lava_retailer.service;
 
 import com.apptech.lava_retailer.list.notificationList.NotificationModel;
+import com.apptech.lava_retailer.list.passbook.PassbookList;
 import com.apptech.lava_retailer.modal.message.NotificationListBrandWise;
 import com.apptech.lava_retailer.modal.order_statusList.OrderStatusList;
 import com.apptech.lava_retailer.modal.productgallery.ProductGalleryList;
 import com.apptech.lava_retailer.modal.productlist.ProductList;
 import com.apptech.lava_retailer.modal.sellOutPendingVerification.SellOutPendingVerificationList;
 import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -46,10 +49,13 @@ public interface LavaInterface {
 
     @POST("brand_list")
     @FormUrlEncoded
-    Call<Object> Brand(@Field("mobile") String mobile);
+    Call<Object> Brand(@Field("country_name") String mobile);
 
     @POST("country")
     Call<Object> Country();
+
+    @POST("price_drop_annoucment")
+    Call<Object> GetAnnounceList();
 
     @POST("governate")
     @FormUrlEncoded
@@ -129,6 +135,10 @@ public interface LavaInterface {
 
     @POST("buy_products")
     Call<Object> BuyProduct(@Body JsonObject jsonObject);
+
+    @POST("passbook_list")
+    @FormUrlEncoded
+    Call<Object> GetPASSBOOK(@Field("start_date") String s, @Field("end_date") String s1 );
 
 
     @POST("my_orders")

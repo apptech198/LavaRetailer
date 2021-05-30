@@ -254,7 +254,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Serialize Warranty");
+        title.setText(getActivity().getString(R.string.Serialize_Warranty));
     }
 
     @Override

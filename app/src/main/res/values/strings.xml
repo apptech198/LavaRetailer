@@ -160,6 +160,7 @@
     <string name="Sr.No">Sr.No</string>
     <string name="type">Type</string>
     <string name="IMEI">IMEI</string>
+    <string name="imei">IMEI :</string>
     <string name="date">Date</string>
     <string name="Action">Action</string>
     <string name="Category">Category</string>
@@ -184,6 +185,48 @@
     <string name="Status">Status</string>
     <string name="Quantity">Quantity</string>
     <string name="Value">Value</string>
+    <string name="Handset">Handset</string>
+    <string name="Return_Handset">Return_Handset</string>
+    <string name="ProductName">ProductName</string>
+    <string name="Distributor_Name">Distributor Name</string>
+    <string name="Model_colon">Model :</string>
+    <string name="Sku">SKU :</string>
+    <string name="date_colon">Date :</string>
+    <string name="Selling_Program">Selling Program</string>
+    <string name="INVOICE">INVOICE</string>
+    <string name="Earphone">Earphone</string>
+    <string name="Issue_Date">Issue Date</string>
+    <string name="Warranty_Date">Warranty Date</string>
+    <string name="Charger">Charger</string>
+    <string name="Mobile_Phone">Mobile Phone</string>
+    <string name="Sort_By">Sort By</string>
+    <string name="Popularity">Popularity</string>
+    <string name="Description">Description</string>
+    <string name="Photo">Photo</string>
+    <string name="Profile">Profile</string>
+    <string name="Forgot_Password">Forgot Password</string>
+    <string name="select_Date">select Date</string>
+    <string name="Trade_Program">Trade Program</string>
+    <string name="Newest_First">Newest First</string>
+    <string name="Price_l_h">Price -- Low to High</string>
+    <string name="Price_h_l">Price -- High to Low</string>
+    <string name="Dashboard">Dashboard</string>
+    <string name="Sell_Through">Sell Through</string>
+    <string name="Price_Protection">Price Protection</string>
+    <string name="Claim_Statement">Claim Statement</string>
+    <string name="Buy_Product">Buy Product</string>
+    <string name="Warranty">Warranty</string>
+    <string name="Serialized">Serialized</string>
+    <string name="Unserialized">Unserialized</string>
+    <string name="Report">Report</string>
+    <string name="Latest_News">Latest News</string>
+    <string name="Price_Drop_Entry">Price Drop Entry</string>
+    <string name="Entery_pending_verification">Entery pending verification</string>
+    <string name="Serialize_Warranty">Serialize Warranty</string>
+    <string name="Cart">Cart</string>
+    <string name="Passbook">Passbook</string>
+    <string name="UnSerialize_Warranty">UnSerialize Warranty</string>
+
 
 
 </resources>

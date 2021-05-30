@@ -91,7 +91,7 @@ public class ProfileFragment extends Fragment {
 
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Profile");
+        title.setText(getActivity().getString(R.string.Profile));
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(getContext());
@@ -169,7 +169,7 @@ public class ProfileFragment extends Fragment {
                     .compress(64)
                     .maxResultSize(1080, 1080)
                     .start();
-            title.setText("Profile");
+            title.setText(getActivity().getString(R.string.Profile));
         });
 
     }
@@ -1093,7 +1093,7 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Profile");
+        title.setText(getActivity().getString(R.string.Profile));
 
         if (resultCode == getActivity().RESULT_OK) {
 

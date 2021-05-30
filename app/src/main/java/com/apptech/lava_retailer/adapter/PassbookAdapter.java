@@ -7,46 +7,49 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.databinding.RowPassbookBinding;
+import com.apptech.lava_retailer.databinding.RowPassbookLayoutBinding;
 import com.apptech.lava_retailer.list.OrderStatusList;
+import com.apptech.lava_retailer.list.passbook.PassbookList;
 
 import java.util.List;
 
 public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewholder> {
 
-    List<OrderStatusList> list;
+    List<com.apptech.lava_retailer.list.passbook.List> list;
 
-    public PassbookAdapter(List<OrderStatusList> orderStatusLists) {
+    public PassbookAdapter(List<com.apptech.lava_retailer.list.passbook.List> orderStatusLists) {
         this.list = orderStatusLists;
     }
 
     @NonNull
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new Viewholder(RowPassbookBinding.inflate(LayoutInflater.from(parent.getContext()) , parent , false));
+        return new Viewholder(RowPassbookLayoutBinding.inflate(LayoutInflater.from(parent.getContext()) , parent , false));
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-//        OrderStatusList l = list.get(position);
-//        holder.binding.o1.setText(l.getId());
-//        holder.binding.o2.setText(l.getDis_name());
-//        holder.binding.o3.setText(l.getProduct_name());
-//        holder.binding.o4.setText(l.getActual_price());
-//        holder.binding.o5.setText(l.getAddress());
-//        holder.binding.o6.setText(l.getDis_name());
+          holder.binding.ctype.setText("Claim Type : "+list.get(position).getClaimType());
+          holder.binding.ccode.setText("Claim Code : "+list.get(position).getClaimCode());
+          holder.binding.dateofapproval.setText("Date of Approval : "+list.get(position).getTime().substring(0,10));
+          holder.binding.value.setText("Value : "+list.get(position).getValue());
+          holder.binding.paymentdetail.setText("Payment Detail : "+list.get(position).getPaymentReference());
+          holder.binding.paymentdate.setText("Payment Date : "+list.get(position).getPaymentDate().substring(0,10));
+
 
     }
 
     @Override
     public int getItemCount() {
-        return 50;
+        return list.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
-        RowPassbookBinding binding;
+        RowPassbookLayoutBinding binding;
 
-        public Viewholder(@NonNull RowPassbookBinding itemView) {
+        public Viewholder(@NonNull RowPassbookLayoutBinding itemView) {
             super(itemView.getRoot());
             this.binding = itemView;
         }

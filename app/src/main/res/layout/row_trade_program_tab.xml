@@ -24,7 +24,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Processing"
+            android:text="@string/Processing"
             android:id="@+id/name"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:fontFamily="@font/lato_semi_bold"

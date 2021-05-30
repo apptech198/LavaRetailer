@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
+    android:background="@drawable/lava_back"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,10 +14,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.passbook.PassbookFragment"
-    android:background="@color/back_all"
-    android:paddingStart="16dp"
     android:paddingTop="16dp"
-    android:paddingEnd="16dp">
+   >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,10 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Claim Settlement"
+            android:paddingStart="16dp"
             android:fontFamily="@font/lato_black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
             android:textColor="@color/white"/>
 
 
@@ -46,6 +46,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingLeft="10dp"
+            android:layout_marginEnd="16dp"
             android:paddingTop="4dp"
             android:paddingRight="10dp"
             android:paddingBottom="4dp"
@@ -156,6 +157,10 @@
             android:layout_width="match_parent"
             app:layout_constraintTop_toBottomOf="@id/tablayout"
             android:layout_marginTop="20dp"
+            android:visibility="visible"
+            android:id="@+id/recycle"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
             tools:listitem="@layout/row_passbook_layout"
             android:layout_height="wrap_content"/>
 
@@ -164,6 +169,26 @@
 
 
 
+        <LinearLayout
+            android:id="@+id/DatpickerRange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingTop="4dp"
+            android:paddingRight="10dp"
+            android:layout_marginRight="16dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/claimheading">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calendar" />
+
+        </LinearLayout>
 
 
 
@@ -193,7 +218,7 @@
         android:id="@+id/noData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No data found"
+        android:text="@string/data_not_found"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

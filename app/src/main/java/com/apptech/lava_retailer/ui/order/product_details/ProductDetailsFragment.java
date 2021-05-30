@@ -72,7 +72,7 @@ public class ProductDetailsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Product Detail");
+        title.setText(getActivity().getString(R.string.Price_Details));
 
         binding = ProductDetailsFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -461,7 +461,7 @@ public class ProductDetailsFragment extends Fragment {
         TextView title = getActivity().findViewById(R.id.Actiontitle);
         TextView brand_name = getActivity().findViewById(R.id.brand_name);
         brand_name.setVisibility(View.GONE);
-        title.setText("Product Detail");
+        title.setText(getActivity().getString(R.string.Price_Details));
     }
 
 

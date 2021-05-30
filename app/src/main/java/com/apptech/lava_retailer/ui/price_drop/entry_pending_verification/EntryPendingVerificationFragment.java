@@ -525,7 +525,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Entery pending verification");
+        title.setText(getActivity().getString(R.string.Entery_pending_verification));
     }
 
     @Override

@@ -69,7 +69,7 @@ public class LanguageChangeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Language");
+        title.setText(getActivity().getString(R.string.change_language));
     }
 
 

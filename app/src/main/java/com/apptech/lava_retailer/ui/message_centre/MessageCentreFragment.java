@@ -318,7 +318,7 @@ public class MessageCentreFragment extends Fragment  {
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Message Centre");
+        title.setText(getActivity().getString(R.string.message_center));
     }
 
     @Override

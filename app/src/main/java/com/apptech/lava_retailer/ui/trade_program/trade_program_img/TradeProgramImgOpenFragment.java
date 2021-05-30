@@ -139,7 +139,7 @@ public class TradeProgramImgOpenFragment extends Fragment {
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Trade Program");
+        title.setText(getActivity().getString(R.string.Trade_Program));
     }
 
 }

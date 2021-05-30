@@ -132,7 +132,7 @@ public class UnSerializeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("UnSerialize Warranty");
+        title.setText(getActivity().getString(R.string.UnSerialize_Warranty));
 
         if (resultCode == getActivity().RESULT_OK) {
 
@@ -156,7 +156,7 @@ public class UnSerializeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("UnSerialize Warranty");
+        title.setText(getActivity().getString(R.string.UnSerialize_Warranty));
     }
 
     @Override

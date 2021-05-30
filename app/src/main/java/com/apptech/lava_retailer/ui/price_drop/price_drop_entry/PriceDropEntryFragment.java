@@ -17,28 +17,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
+import com.apptech.lava_retailer.adapter.PassbookAdapter;
 import com.apptech.lava_retailer.databinding.PriceDropEntryFragmentBinding;
 import com.apptech.lava_retailer.fragment.ScannerFragment;
+import com.apptech.lava_retailer.list.announcelist.PriceDrop;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,6 +71,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     JsonObject mainJsonObject = new JsonObject();
     LinearLayout mainLayout;
     private boolean NoData = true, Wrongdatra = true;
+    List<PriceDrop>announcelist= new ArrayList<>();
 
     public static PriceDropEntryFragment newInstance() {
         return new PriceDropEntryFragment();
@@ -165,7 +173,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Price Drop Entry");
+        title.setText(getActivity().getString(R.string.Price_Drop_Entry));
     }
 
     void submitImei() {
@@ -445,6 +453,68 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+    }
+
+
+
+    void getAnnounceList(){
+        lavaInterface.GetAnnounceList().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.isSuccessful()){
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        announcelist.clear();
+                        if(error.equalsIgnoreCase("FALSE")){
+
+                            JSONArray elements = jsonObject.optJSONArray("price_drop_list");
+
+                            for (int i=0; i<elements.length(); i++){
+                                JSONObject object= elements.optJSONObject(i);
+                                announcelist.add(new PriceDrop(
+                                   object.optString("id")
+                                        ,object.optString("name")
+                                        ,object.optString("start_date")
+                                        ,object.optString("end_date")
+                                        ,object.optString("name_ar")
+                                        ,object.optString("name_fr")
+                                        ,object.optString("time")
+                                        ,object.optString("active")
+                                ));
+                            }
+                            if(announcelist.isEmpty()){
+
+                            }else {
+//                                ArrayAdapter<PriceDrop> arrayAdapter = new ArrayAdapter<PriceDrop>(getActivity(),R.layout.s)
+//                                binding.noData.setVisibility(View.GONE);
+//                                binding.recycle.setVisibility(View.VISIBLE);
+//                                PassbookAdapter adapter= new PassbookAdapter(lists);
+//                                binding.recycle.setAdapter(adapter);
+                            }
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
+                        binding.progressbar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        return;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+                Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
+            }
+        });
     }
 
 

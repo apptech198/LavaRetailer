@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="@+id/img"
             app:layout_constraintStart_toEndOf="@+id/img"
-            android:text="ProductName"
+            android:text="@string/ProductName"
             android:fontFamily="@font/lato_regular"
             android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"

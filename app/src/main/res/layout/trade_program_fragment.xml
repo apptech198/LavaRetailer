@@ -16,7 +16,7 @@
         android:id="@+id/headtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trade Program"
+        android:text="@string/Trade_Program"
         android:layout_marginLeft="16dp"
         android:fontFamily="@font/lato_black"
         app:layout_constraintTop_toTopOf="parent"

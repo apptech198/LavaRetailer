@@ -603,7 +603,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        profile
 
-        MenuModel menuModel = new MenuModel("Profile", true, false, "PROFILE_UPDATE");
+        MenuModel menuModel = new MenuModel(getResources().getString(R.string.Profile), true, false, "PROFILE_UPDATE");
         headerList.add(menuModel);
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
@@ -619,17 +619,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 //      Sell Out
-        menuModel = new MenuModel(getResources().getString(R.string.sell_outs), true, true, "SELL_OUT"); //Menu of Java Tutorials
+        menuModel = new MenuModel(getResources().getString(R.string.Sell_Through), true, true, "SELL_OUT"); //Menu of Java Tutorials
         headerList.add(menuModel);
 
         List<MenuModel> childModelsList = new ArrayList<>();
         MenuModel childModel = new MenuModel(getResources().getString(R.string.report_sell_out_entries), false, false, "SELL_OUT_REPORT_SELL_OUT_ENTRIES");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Pending Verification", false, false, "SELL_OUT_PENDING_VERIFICATION");
+        childModel = new MenuModel(getResources().getString(R.string.Pending_Verification), false, false, "SELL_OUT_PENDING_VERIFICATION");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Dashboard", false, false, "SELL_OUT_REPORT_SELL_OUT_REPORT");
+        childModel = new MenuModel(getResources().getString(R.string.Dashboard), false, false, "SELL_OUT_REPORT_SELL_OUT_REPORT");
         childModelsList.add(childModel);
 
 
@@ -637,17 +637,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             childList.put(menuModel, childModelsList);
         }
 
-        menuModel = new MenuModel(getResources().getString(R.string.price_drop1), true, true, "");  // CHECK_ENTRIES
+        menuModel = new MenuModel(getResources().getString(R.string.Price_Protection), true, true, "");  // CHECK_ENTRIES
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Price Drop Entry", false, false, "PRICE_DROP_PRICE_DROP_ENTRY");
+        childModel = new MenuModel(getResources().getString(R.string.Price_Drop_Entry), false, false, "PRICE_DROP_PRICE_DROP_ENTRY");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Entery pending verification", false, false, "PRICE_DROP_ENTERY_PENDING_VERIFICATION");
+        childModel = new MenuModel(getResources().getString(R.string.Entery_pending_verification), false, false, "PRICE_DROP_ENTERY_PENDING_VERIFICATION");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Reports", false, false, "PRICE_DROP_REPORTS");
+        childModel = new MenuModel(getResources().getString(R.string.Report), false, false, "PRICE_DROP_REPORTS");
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
@@ -655,7 +655,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 //       Passbook
-        menuModel = new MenuModel(getResources().getString(R.string.passbook), true, false, "PASSBOOK_PASSBOOK");
+        menuModel = new MenuModel(getResources().getString(R.string.Claim_Statement), true, false, "PASSBOOK_PASSBOOK");
         headerList.add(menuModel);
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
@@ -663,14 +663,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 //       Order
-        menuModel = new MenuModel(getResources().getString(R.string.order), true, true, "");  // PURCHASE_REQUEST
+        menuModel = new MenuModel(getResources().getString(R.string.Buy_Product), true, true, "");  // PURCHASE_REQUEST
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Place Order", false, false, "ORDER_PLACE_ORDER");
+        childModel = new MenuModel(getResources().getString(R.string.Place_Order), false, false, "ORDER_PLACE_ORDER");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("Order status", false, false, "ORDER_ORDER_STATUS");
+        childModel = new MenuModel(getResources().getString(R.string.Order_Status), false, false, "ORDER_ORDER_STATUS");
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {
@@ -681,7 +681,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //       Trade  Schemes
 
 
-        menuModel = new MenuModel("Trade Program", true, false, "TRADE_PROGRAM");
+        menuModel = new MenuModel(getResources().getString(R.string.Trade_Program), true, false, "TRADE_PROGRAM");
         headerList.add(menuModel);
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
@@ -710,14 +710,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
  //        Warranty
-        menuModel = new MenuModel("Warranty", true, true, "WARRANTY");  //SCHEMES
+        menuModel = new MenuModel(getResources().getString(R.string.Warranty), true, true, "WARRANTY");  //SCHEMES
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel("Serialize", false, false, "SERIALIZE");
+        childModel = new MenuModel(getResources().getString(R.string.Serialized), false, false, "SERIALIZE");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel("UnSerialize", false, false, "UN_SERIALIZE");
+        childModel = new MenuModel(getResources().getString(R.string.Unserialized), false, false, "UN_SERIALIZE");
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {

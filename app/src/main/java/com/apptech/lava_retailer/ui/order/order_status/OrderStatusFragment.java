@@ -342,7 +342,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Order Status");
+        title.setText(getResources().getString(R.string.Order_Status));
     }
 
 

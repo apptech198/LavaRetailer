@@ -516,7 +516,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Cart");
+        title.setText(getActivity().getString(R.string.Cart));
     }
 
 
