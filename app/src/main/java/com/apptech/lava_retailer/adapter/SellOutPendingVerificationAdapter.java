@@ -38,11 +38,9 @@ public class SellOutPendingVerificationAdapter extends RecyclerView.Adapter<Sell
     @Override
     public void onBindViewHolder(@NonNull @NotNull Viewholder holder, int position) {
         com.apptech.lava_retailer.modal.sellOutPendingVerification.List list = sellOutPendingVerificationLists.get(position);
-        String status = list.getValid().trim();
+        String status = list.getStatus().trim();
+
         switch (status) {
-            case "APPROVED":
-                binding.validCheck.setTextColor(context.getResources().getColor(R.color.green));
-                break;
             case "PENDING":
                 binding.validCheck.setTextColor(context.getResources().getColor(R.color.yellow));
                 break;
@@ -51,7 +49,7 @@ public class SellOutPendingVerificationAdapter extends RecyclerView.Adapter<Sell
                 binding.validCheck.setTextColor(context.getResources().getColor(R.color.red));
         }
         binding.datetime.setText(list.getDate().toString().trim().split(" ")[0]);
-        binding.validCheck.setText(list.getValid());
+        binding.validCheck.setText(list.getStatus());
         binding.setList(list);
         binding.executePendingBindings();
     }

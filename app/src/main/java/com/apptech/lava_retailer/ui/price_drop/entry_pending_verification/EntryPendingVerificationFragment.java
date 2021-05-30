@@ -38,6 +38,10 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -94,7 +98,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
-        USER_ID = sessionManage.getUserDetails().get("ID");
+        USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
 
 
         setPopUpWindow();
@@ -283,57 +287,72 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
                 try {
 
-                    if (response.isSuccessful()) {
-                        if (!response.body().getError()) {
-                            if (response.body().getList().size() > 0) {
+                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String error_code = jsonObject.getString("error_code");
+                    String message = jsonObject.getString("message");
 
-                                lists = new ArrayList<>(response.body().getList());
+                    if(error.equalsIgnoreCase("false")){
 
-                                DuplicateList.clear();
-                                for (int i=0; i < response.body().getList().size(); i++){
-                                    if(TYPE.equalsIgnoreCase(lists.get(i).getValid())){
-                                        List l = lists.get(i);
-                                        DuplicateList.add(l);
-                                    }
-                                }
+                        JSONArray jsonArray = jsonObject.getJSONArray("list");
+                        lists.clear();
+                        for (int i=0; i < jsonArray.length(); i++){
 
-                                if(DuplicateList.size() > 0){
-                                    sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(DuplicateList);
-                                    binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                                    binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                                    binding.progressbar.setVisibility(View.GONE);
-                                    binding.noStock.setVisibility(View.GONE);
-                                    return;
-                                }
-                                binding.ImeiRecyclerView.setVisibility(View.GONE);
-                                binding.noStock.setVisibility(View.VISIBLE);
-                                binding.progressbar.setVisibility(View.GONE);
-                                return;
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            String status = object.optString("status");
+
+                            if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
+                                lists.add(new List(
+                                        object.optString("id")
+                                        ,object.optString("type")
+                                        ,object.optString("imei")
+                                        ,object.optString("date")
+                                        ,object.optString("retailer_id")
+                                        ,object.optString("time")
+                                        ,object.optString("product_id")
+                                        ,object.optString("model")
+                                        ,object.optString("check_status")
+                                        ,object.optString("status")
+                                        ,object.optString("price_drop_id")
+                                        ,object.optString("price_drop_name")
+                                        ,object.optString("qty")
+                                        ,object.optString("price")
+                                ));
                             }
-                            binding.ImeiRecyclerView.setVisibility(View.GONE);
-                            binding.noStock.setVisibility(View.VISIBLE);
+                        }
+
+                        if(lists.size() > 0){
+                            sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
+                            binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
+                            binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
                             binding.progressbar.setVisibility(View.GONE);
+                            binding.noStock.setVisibility(View.GONE);
                             return;
                         }
-                        Toast.makeText(getContext(), "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         binding.ImeiRecyclerView.setVisibility(View.GONE);
-                        binding.progressbar.setVisibility(View.GONE);
                         binding.noStock.setVisibility(View.VISIBLE);
+                        binding.progressbar.setVisibility(View.GONE);
                         return;
                     }
-                    Toast.makeText(getContext(), getString(R.string.something_went_wrong) , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                     binding.progressbar.setVisibility(View.GONE);
                     binding.noStock.setVisibility(View.VISIBLE);
                     binding.ImeiRecyclerView.setVisibility(View.GONE);
-
+                    return;
                 }catch (NullPointerException e){
                     e.printStackTrace();
                     Log.e(TAG, "onResponse: " + e.getMessage() );
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.progressbar.setVisibility(View.GONE);
+                binding.noStock.setVisibility(View.VISIBLE);
+                binding.ImeiRecyclerView.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -469,31 +488,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 
     }
 
-    private void filtervalid(String valid) {
-        binding.progressbar.setVisibility(View.VISIBLE);
-        java.util.List<List> list = new ArrayList<>();
 
-        for (int i = 0; i < lists.size(); i++) {
-            com.apptech.lava_retailer.modal.sellOutPendingVerification.List l = lists.get(i);
-            if (valid.equalsIgnoreCase(l.getValid())) {
-                list.add(l);
-            }
-        }
-
-        Log.e(TAG, "filtervalid: " + list.size());
-        Log.e(TAG, "filtervalid: " + list);
-
-        if (list.size() == 0) {
-            binding.noStock.setVisibility(View.VISIBLE);
-        } else {
-            binding.noStock.setVisibility(View.GONE);
-        }
-        binding.progressbar.setVisibility(View.GONE);
-        sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(list);
-        binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-        sellOutPendingVerificationAdapter.notifyDataSetChanged();
-
-    }
 
     public static String getCurrentDate() {
         Calendar c = Calendar.getInstance();
@@ -525,7 +520,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getActivity().getString(R.string.Entery_pending_verification));
+        title.setText("Entery pending verification");
     }
 
     @Override

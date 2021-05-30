@@ -38,6 +38,10 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +67,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     String USER_ID;
 //    String StartDate = null, EndDate = null;
     Button searchBtn;
-    java.util.List<List> lists;
+    java.util.List<List> lists = new ArrayList<>();
     java.util.List<List> DuplicateList = new ArrayList<>();
 
     SellOutPendingVerificationAdapter sellOutPendingVerificationAdapter;
@@ -71,6 +75,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     String StartDate ="" , End_Date = "" , TYPE = "";
     MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
+    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     public static PendingVerificationFragment newInstance() {
         return new PendingVerificationFragment();
@@ -96,8 +101,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
-        USER_ID = sessionManage.getUserDetails().get("ID");
-
+        USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
 
 /*
         binding.datetimefilter.setOnClickListener(v -> {
@@ -122,7 +126,11 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         StartDate = date[0];
         End_Date = date[1];
         TYPE = "PENDING";
-        StockList();
+        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+            StockList();
+        }else {
+            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
 //        binding.validsipnner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
 //            Log.e(TAG, "onActivityCreated: " + t1.toString().trim());
@@ -177,7 +185,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
     private String TodayDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         String endDateStr = df.format(calendar1.getTime());
@@ -186,7 +193,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
     private String ThisWeekDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         calendar1.add(Calendar.DAY_OF_WEEK , -7);
@@ -201,7 +207,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -215,7 +220,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -229,7 +233,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -279,13 +282,83 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         binding.progressbar.setVisibility(View.VISIBLE);
 
         Log.e(TAG, "StockList: " + TYPE );
+        Log.e(TAG, "StockList: " + USER_ID );
+        Log.e(TAG, "StockList: " + StartDate );
+        Log.e(TAG, "StockList: " + End_Date );
 
-        lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<SellOutPendingVerificationList>() {
+        lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
+            public void onResponse(Call<Object> call, Response<Object> response) {
 
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
+
+                try {
+
+                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String error_code = jsonObject.getString("error_code");
+                    String message = jsonObject.getString("message");
+
+                    if(error.equalsIgnoreCase("false")){
+
+                        JSONArray jsonArray = jsonObject.getJSONArray("list");
+                        lists.clear();
+                        for (int i=0; i < jsonArray.length(); i++){
+
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            String status = object.optString("status");
+
+                            if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
+                                lists.add(new List(
+                                        object.optString("id")
+                                        ,object.optString("type")
+                                        ,object.optString("imei")
+                                        ,object.optString("date")
+                                        ,object.optString("retailer_id")
+                                        ,object.optString("time")
+                                        ,object.optString("product_id")
+                                        ,object.optString("model")
+                                        ,object.optString("check_status")
+                                        ,object.optString("status")
+                                        ,object.optString("price_drop_id")
+                                        ,object.optString("price_drop_name")
+                                        ,object.optString("qty")
+                                        ,object.optString("price")
+                                ));
+                            }
+                        }
+
+                        if(lists.size() > 0){
+                            sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
+                            binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
+                            binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
+                            binding.progressbar.setVisibility(View.GONE);
+                            binding.noStock.setVisibility(View.GONE);
+                            return;
+                        }
+                        binding.ImeiRecyclerView.setVisibility(View.GONE);
+                        binding.noStock.setVisibility(View.VISIBLE);
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    }
+                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    binding.progressbar.setVisibility(View.GONE);
+                    binding.noStock.setVisibility(View.VISIBLE);
+                    binding.ImeiRecyclerView.setVisibility(View.GONE);
+                    return;
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                    Log.e(TAG, "onResponse: " + e.getMessage() );
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.progressbar.setVisibility(View.GONE);
+                binding.noStock.setVisibility(View.VISIBLE);
+                binding.ImeiRecyclerView.setVisibility(View.GONE);
+
+/*
                 try {
 
                     if (response.isSuccessful()) {
@@ -335,11 +408,12 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
                     e.printStackTrace();
                     Log.e(TAG, "onResponse: " + e.getMessage() );
                 }
+*/
 
             }
 
             @Override
-            public void onFailure(Call<SellOutPendingVerificationList> call, Throwable t) {
+            public void onFailure(Call<Object> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
                 binding.progressbar.setVisibility(View.GONE);
                 binding.noStock.setVisibility(View.VISIBLE);
@@ -417,92 +491,8 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
     }
 
-  private void dateFilter1(String from, String to) {
-
-        binding.progressbar.setVisibility(View.VISIBLE);
-        binding.noStock.setVisibility(View.GONE);
 
 
-        lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
-            @Override
-            public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                if (response.isSuccessful()) {
-                    if (!response.body().getError()) {
-                        if (response.body().getList().size() > 0) {
-                            lists = new ArrayList<>(response.body().getList());
-                            binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                            sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(response.body().getList());
-                            binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                            sellOutPendingVerificationAdapter.notifyDataSetChanged();
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
-                        }
-                        binding.noStock.setVisibility(View.VISIBLE);
-                        binding.progressbar.setVisibility(View.GONE);
-                        binding.ImeiRecyclerView.setVisibility(View.GONE);
-                        return;
-                    }
-                    binding.noStock.setVisibility(View.VISIBLE);
-                    binding.progressbar.setVisibility(View.GONE);
-                    Toast.makeText(getContext(), "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                binding.noStock.setVisibility(View.VISIBLE);
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<SellOutPendingVerificationList> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-
-                binding.progressbar.setVisibility(View.GONE);
-
-            }
-        });
-    }
-
-    private void filtervalid(String valid) {
-
-        binding.progressbar.setVisibility(View.VISIBLE);
-        java.util.List<List> list = new ArrayList<>();
-
-
-        for (int i = 0; i < lists.size(); i++) {
-            com.apptech.lava_retailer.modal.sellOutPendingVerification.List l = lists.get(i);
-
-            Log.e(TAG, "filtervalid: " + valid );
-            Log.e(TAG, "filtervalid: " + l.getValid() );
-
-            if (valid.equalsIgnoreCase(l.getValid())) {
-                list.add(l);
-            }
-        }
-
-        Log.e(TAG, "filtervalid: " + list.size());
-        Log.e(TAG, "filtervalid: " + list);
-
-        if (list.size() == 0) {
-            binding.noStock.setVisibility(View.VISIBLE);
-        } else {
-            binding.noStock.setVisibility(View.GONE);
-        }
-        sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(list);
-        binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-        sellOutPendingVerificationAdapter.notifyDataSetChanged();
-        binding.progressbar.setVisibility(View.GONE);
-
-    }
-
-    public static String getCurrentDate() {
-        Calendar c = Calendar.getInstance();
-        System.out.println("Current time => " + c.getTime());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = df.format(c.getTime());
-        return formattedDate;
-    }
 
     @Override
     public void onStart() {

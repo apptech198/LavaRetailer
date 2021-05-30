@@ -61,6 +61,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     String signup_type ="" , social_auth_token = "" , MOB = "";
     List<Country_list> countryLists = new ArrayList<>();
     boolean doubleBackToExitPressedOnce = false;
+    PopupMenu popupMenu1;
 
 
     @Override
@@ -84,6 +85,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
+
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
@@ -95,6 +97,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
         MOB = getIntent().getStringExtra("MOB");
         signup_type = getIntent().getStringExtra("TYPE");
+
 
         try {
             Intent intent = getIntent();
@@ -157,8 +160,12 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 //            }
 //        }
 
-
+        Context wrapper1 = new ContextThemeWrapper(this, R.style.YOURSTYLE);
+        popupMenu1 = new PopupMenu(wrapper1, binding.SelectCountrytop);
         getCountry();
+        if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
+            binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+        }
 
         binding.Signup.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(this)) {
@@ -196,6 +203,18 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         });
         Hideerror();
 
+
+        binding.SelectCountrytop.setOnClickListener(v -> {
+            popupMenu1.setOnMenuItemClickListener(item -> {
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString());
+//                Toast.makeText(LoginActivity.this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+                binding.countryName.setText(item.getTitle());
+                return false;
+            });
+            popupMenu1.show();
+
+        });
 
     }
 
@@ -541,7 +560,33 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                     ,object.optString("name_fr")
                                     ,object.getString("time")
                             ));
+
+
+                            int id = Integer.parseInt(object.getString("id"));
+                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                case "en":
+                                    popupMenu1.getMenu().add(i, id, i ,object.getString("name"));
+                                    break;
+                                case "fr":
+                                    if(countryLists.get(0).getName_fr().isEmpty()){
+                                        popupMenu1.getMenu().add(i, id, i ,object.getString("name"));
+                                    }else {
+                                        popupMenu1.getMenu().add(i, id, i ,object.getString("name_fr"));
+                                    }
+                                    break;
+                                case "ar":
+                                    popupMenu1.getMenu().add(i, id, i ,object.getString("name_ar"));
+                                    break;
+                            }
+
+
+
                         }
+
+
+
+
+
                         SelectSmaertCountry();
                         binding.progressbar.setVisibility(View.GONE);
                         return;

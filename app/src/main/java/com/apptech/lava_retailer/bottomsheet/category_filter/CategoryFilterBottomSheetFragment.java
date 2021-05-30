@@ -19,6 +19,7 @@ import com.apptech.lava_retailer.adapter.TradeProgramTabAdapter;
 import com.apptech.lava_retailer.databinding.CategoryFilterBottomSheetFragmentBinding;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
 import com.apptech.lava_retailer.modal.category.CategoryList;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -71,7 +72,11 @@ public class CategoryFilterBottomSheetFragment extends BottomSheetDialogFragment
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
 
-        GetComodity_list();
+        if(new NetworkCheck().haveNetworkConnection(getActivity())){
+            GetComodity_list();
+        }else {
+            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
         categoryItemClickInterface = category -> categoryInterface.OnItemCategoryClick(category);
         
     }

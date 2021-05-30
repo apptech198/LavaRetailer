@@ -1,15 +1,12 @@
 package com.apptech.lava_retailer.service;
 
 import com.apptech.lava_retailer.list.notificationList.NotificationModel;
-import com.apptech.lava_retailer.list.passbook.PassbookList;
 import com.apptech.lava_retailer.modal.message.NotificationListBrandWise;
 import com.apptech.lava_retailer.modal.order_statusList.OrderStatusList;
+import com.apptech.lava_retailer.modal.product.ProductList;
 import com.apptech.lava_retailer.modal.productgallery.ProductGalleryList;
-import com.apptech.lava_retailer.modal.productlist.ProductList;
 import com.apptech.lava_retailer.modal.sellOutPendingVerification.SellOutPendingVerificationList;
 import com.google.gson.JsonObject;
-
-import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -25,23 +22,24 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 
-public interface LavaInterface {
+
+public interface LavaInterface{
 
     @POST("register")
     @FormUrlEncoded
-    Call<Object> Signup(@Field("name") String name,
-                        @Field("mobile") String mobile,
-                        @Field("password") String password,
-                        @Field("email") String email,
-                        @Field("locality") String locality,
-                        @Field("governate") String governate,
-                        @Field("address") String address,
-                        @Field("signup_type") String signup_type,
-                        @Field("social_auth_token") String social_auth_token,
-                        @Field("outlet_name") String outlet_name,
-                        @Field("locality_id") String locality_id,
-                        @Field("locality_ar") String locality_ar
-    );
+        Call<Object> Signup(@Field("name") String name,
+                @Field("mobile") String mobile,
+                @Field("password") String password,
+                @Field("email") String email,
+                @Field("locality") String locality,
+                @Field("governate") String governate,
+                @Field("address") String address,
+                @Field("signup_type") String signup_type,
+                @Field("social_auth_token") String social_auth_token,
+                @Field("outlet_name") String outlet_name,
+                @Field("locality_id") String locality_id,
+                @Field("locality_ar") String locality_ar
+            );
 
     @POST("login")
     @FormUrlEncoded
@@ -53,9 +51,6 @@ public interface LavaInterface {
 
     @POST("country")
     Call<Object> Country();
-
-    @POST("price_drop_annoucment")
-    Call<Object> GetAnnounceList();
 
     @POST("governate")
     @FormUrlEncoded
@@ -80,13 +75,13 @@ public interface LavaInterface {
     @POST("sale_stock_imei")
     Call<Object> PRICE_DROP_IMEI(@Body JsonObject imei);
 
-    @POST("stock_imei_list")
+    @POST("pricedrop_imei_list_pending_block")
     @FormUrlEncoded
     Call<SellOutPendingVerificationList> PRICE_DROP_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
 
-    @POST("sellout_imei_list")
+    @POST("sellout_imei_list_pending_block")
     @FormUrlEncoded
-    Call<SellOutPendingVerificationList> SELL_OUT_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
+    Call<Object> SELL_OUT_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
 
     @POST("notification_list_latest")
     Call<Object> NotificationList();
@@ -97,7 +92,7 @@ public interface LavaInterface {
     @POST("notification_list_brand_wise")
     @FormUrlEncoded
     Call<NotificationListBrandWise> NotificationListBrandWise(@Field("brand_id") String brand_id , @Field("country_id") String country_id
-            ,  @Field("start_date") String start_date, @Field("end_date") String end_date  );
+        , @Field("start_date") String start_date, @Field("end_date") String end_date  );
 
     @POST("send_otp")
     @FormUrlEncoded
@@ -136,10 +131,6 @@ public interface LavaInterface {
     @POST("buy_products")
     Call<Object> BuyProduct(@Body JsonObject jsonObject);
 
-    @POST("passbook_list")
-    @FormUrlEncoded
-    Call<Object> GetPASSBOOK(@Field("start_date") String s, @Field("end_date") String s1 );
-
 
     @POST("my_orders")
     @FormUrlEncoded
@@ -152,29 +143,29 @@ public interface LavaInterface {
     @POST("profile_update")
     @Multipart
     Call<Object> PROFILE_UPDATE (@Part MultipartBody.Part img_url , @Part("id") RequestBody id , @Part("name") RequestBody name
-            , @Part("email") RequestBody email, @Part("locality") RequestBody locality
-            , @Part("governate") RequestBody governate, @Part("address") RequestBody address, @Part("outlet_name") RequestBody outlet_name
-            , @Part("locality_id") RequestBody locality_id
-            , @Part("locality_ar") RequestBody locality_ar
-            , @Part("country_id") RequestBody country_id
-    );
+        , @Part("email") RequestBody email, @Part("locality") RequestBody locality
+        , @Part("governate") RequestBody governate, @Part("address") RequestBody address, @Part("outlet_name") RequestBody outlet_name
+        , @Part("locality_id") RequestBody locality_id
+        , @Part("locality_ar") RequestBody locality_ar
+        , @Part("country_id") RequestBody country_id
+        );
 
     @POST("profile_update_first_time")
     @Multipart
     Call<Object> PROFILE_UPDATE_FIRST_TIME (
-            @Part MultipartBody.Part img_url , @Part("id") RequestBody id , @Part("name") RequestBody name , @Part("email") RequestBody email, @Part("locality") RequestBody locality
+        @Part MultipartBody.Part img_url , @Part("id") RequestBody id , @Part("name") RequestBody name , @Part("email") RequestBody email, @Part("locality") RequestBody locality
             , @Part("governate") RequestBody governate, @Part("address") RequestBody address, @Part("outlet_name") RequestBody outlet_name, @Part("locality_id") RequestBody locality_id
             , @Part("locality_ar") RequestBody locality_ar
             , @Part("country_id") RequestBody country_id
             , @Part("password") RequestBody password
             , @Part("number") RequestBody number
-    );
+        );
 
 
     @POST("warranty_check_nonseries")
     @Multipart
-    Call<Object> WARRANTY_NO_SERIALIZED (@Part MultipartBody.Part img_url ,  @Part("retailer_id") RequestBody retailer_id , @Part("retailer_name") RequestBody retailer_name
-            , @Part("date_sale") RequestBody date_sale, @Part("des") RequestBody des);
+    Call<Object> WARRANTY_NO_SERIALIZED (@Part MultipartBody.Part img_url , @Part("retailer_id") RequestBody retailer_id , @Part("retailer_name") RequestBody retailer_name
+        , @Part("date_sale") RequestBody date_sale, @Part("des") RequestBody des);
 
     @POST("warranty_check_series")
     @FormUrlEncoded
@@ -205,17 +196,18 @@ public interface LavaInterface {
     @POST("comodity_list")
     Call<Object> GRT_COMODITY();
 
+    @POST("sellout_report_filters")
+    Call<Object> SELL_OUT_CATEGORY_MODAL_FILTER();
+
+    @POST("sellout_report")
+    @FormUrlEncoded
+    Call<Object> SELLOUT_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date , @Field("end_date") String end_date );
 
 
+    @POST("price_drop_annoucment")
+    Call<Object> GetAnnounceList();
 
 }
-
-
-
-
-
-
-
 
 
 

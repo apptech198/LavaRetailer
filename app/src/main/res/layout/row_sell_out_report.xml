@@ -8,6 +8,7 @@
 
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/modal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="G. Total"
@@ -19,6 +20,7 @@
             android:layout_weight="1"/>
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/Category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="G. Total"

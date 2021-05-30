@@ -8,82 +8,93 @@ import com.google.gson.annotations.SerializedName;
 
 public class List {
 
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("retailer_id")
-    @Expose
-    private String retailerId;
-    @SerializedName("imei")
-    @Expose
-    private String imei;
-    @SerializedName("time")
-    @Expose
-    private String time;
-    @SerializedName("valid")
-    @Expose
-    private String valid;
-    @SerializedName("product_id")
-    @Expose
-    private Object productId;
-    @SerializedName("date")
-    @Expose
-    private String date;
+    String id;
+    String type;
+    String imei;
+    String date;
+    String retailer_id;
+    String time;
+    String product_id;
+    String model;
+    String check_status;
+    String status;
+    String price_drop_id;
+    String price_drop_name;
+    String qty;
+    String price;
+
+
+    public List(String id, String type, String imei, String date, String retailer_id, String time, String product_id, String model, String check_status, String status, String price_drop_id, String price_drop_name, String qty, String price) {
+        this.id = id;
+        this.type = type;
+        this.imei = imei;
+        this.date = date;
+        this.retailer_id = retailer_id;
+        this.time = time;
+        this.product_id = product_id;
+        this.model = model;
+        this.check_status = check_status;
+        this.status = status;
+        this.price_drop_id = price_drop_id;
+        this.price_drop_name = price_drop_name;
+        this.qty = qty;
+        this.price = price;
+    }
+
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getRetailerId() {
-        return retailerId;
-    }
-
-    public void setRetailerId(String retailerId) {
-        this.retailerId = retailerId;
+    public String getType() {
+        return type;
     }
 
     public String getImei() {
         return imei;
     }
 
-    public void setImei(String imei) {
-        this.imei = imei;
+    public String getDate() {
+        return date;
+    }
+
+    public String getRetailer_id() {
+        return retailer_id;
     }
 
     public String getTime() {
         return time;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public String getProduct_id() {
+        return product_id;
     }
 
-    public String getValid() {
-        return valid;
+    public String getModel() {
+        return model;
     }
 
-    public void setValid(String valid) {
-        this.valid = valid;
+    public String getCheck_status() {
+        return check_status;
     }
 
-    public Object getProductId() {
-        return productId;
+    public String getStatus() {
+        return status;
     }
 
-    public void setProductId(Object productId) {
-        this.productId = productId;
+    public String getPrice_drop_id() {
+        return price_drop_id;
     }
 
-    public String getDate() {
-        return date;
+    public String getPrice_drop_name() {
+        return price_drop_name;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public String getQty() {
+        return qty;
     }
 
+    public String getPrice() {
+        return price;
+    }
 }

@@ -169,111 +169,6 @@ public class MessageShowActivity extends AppCompatActivity {
     }
 
 
-    private void MessageShow() {
-
-        lavaInterface.NotificationList().enqueue(new Callback<Object>() {
-
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                try {
-                    String json = String.valueOf(response.body());
-
-                    JSONObject jsonObject1 = new JSONObject(json);
-                    String error = jsonObject1.getString("error");
-                    String message = jsonObject1.getString("message");
-                    JSONArray jsonElements = jsonObject1.getJSONArray("list");
-
-                    if (error.equals("false")) {
-
-//                        if (mainJsonObject.length() > 0 || sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
-//
-//                            for (int i = 0; i < jsonElements.length(); i++) {
-//                                JSONObject object = jsonElements.getJSONObject(i);
-//                                try {
-//                                    mainJsonObject.getString(object.getString("id"));
-//                                    NEXTACTITIVY += 1;
-//                                } catch (JSONException e) {
-//                                    Log.e(TAG, "onResponse: " + e.getMessage());
-//                                    notificationListShows.add(new NotificationListShow(
-//                                            object.getString("id"),
-//                                            object.getString("heading"),
-//                                            object.getString("des"),
-//                                            object.getString("img"),
-//                                            object.getString("time"),
-//                                            object.getString("brand_id"),
-//                                            object.getString("brand_name")
-//                                    ));
-//                                }
-//                            }
-//                            messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
-//                            binding.messageRecyclerview.setAdapter(messageShowAdapter);
-//
-//                            binding.msgCount.setText(String.valueOf(notificationListShows.size()));
-//                            if (NEXTACTITIVY == jsonElements.length()) {
-//                                if (sessionManage.getUserDetails().get("BRAND_ID") != null) {
-//                                    startActivity(new Intent(MessageShowActivity.this, MainActivity.class));
-//                                    finish();
-//                                    return;
-//                                }
-//                                startActivity(new Intent(MessageShowActivity.this, BrandActivity.class));
-//                                finish();
-//                            }
-//                            binding.progressbar.setVisibility(View.GONE);
-//                            return;
-//                        }
-
-
-                        for (int i = 0; i < jsonElements.length(); i++) {
-
-                            JSONObject object = jsonElements.getJSONObject(i);
-                            notificationListShows.add(new NotificationListShow(
-                                    object.getString("id"),
-                                    object.getString("heading"),
-                                    object.getString("des"),
-                                    object.getString("img"),
-//                                    object.getString("time"),
-                                    "",
-                                    object.getString("brand_id"),
-                                    object.getString("brand_name")
-                            ));
-                        }
-
-                        if (mainJsonObject.length() > 0 || sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
-                            binding.msgCount.setText(String.valueOf(notificationListShows.size()));
-                            if (mainJsonObject.length() == jsonElements.length()) {
-                                if (sessionManage.getUserDetails().get("BRAND_ID") != null) {
-                                    startActivity(new Intent(MessageShowActivity.this, MainActivity.class));
-                                    finish();
-                                    return;
-                                }
-                                startActivity(new Intent(MessageShowActivity.this, BrandActivity.class));
-                                finish();
-                            }
-                        }
-
-                        messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
-                        binding.messageRecyclerview.setAdapter(messageShowAdapter);
-                        binding.msgCount.setText(String.valueOf(notificationListShows.size()));
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
-                    }
-                    binding.progressbar.setVisibility(View.GONE);
-                    Toast.makeText(MessageShowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "onResponse: " + e.getMessage() );
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
-    }
 
     private void MessageShow1() {
 
@@ -286,6 +181,8 @@ public class MessageShowActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
 
                     if(!response.body().getError()){
+
+                        binding.nextScreenbutton.setVisibility(View.VISIBLE);
 
                         Newslist = response.body().getList();
 
@@ -373,10 +270,8 @@ public class MessageShowActivity extends AppCompatActivity {
 
         MaterialTextView msg = view.findViewById(R.id.msg);
 
-        Log.e(TAG, "OtpVerificationDialog: " + Newslist.size());
-        Log.e(TAG, "OtpVerificationDialog: " + mainJsonObject.length());
-
-
+//        Log.e(TAG, "OtpVerificationDialog: " + Newslist.size());
+//        Log.e(TAG, "OtpVerificationDialog: " + mainJsonObject.length());
 
 //        if(Newslist.size() == mainJsonObject.length()){
 //            msg.setText("Read all your are latest news");

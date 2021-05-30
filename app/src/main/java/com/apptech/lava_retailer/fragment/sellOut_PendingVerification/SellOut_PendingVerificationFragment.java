@@ -250,28 +250,29 @@ public class SellOut_PendingVerificationFragment extends Fragment {
     }
 
     private void filtervalid(String valid) {
-        binding.progressbar.setVisibility(View.VISIBLE);
-        List<com.apptech.lava_retailer.modal.sellOutPendingVerification.List> list = new ArrayList<>();
 
-        for (int i = 0; i < lists.size(); i++) {
-            com.apptech.lava_retailer.modal.sellOutPendingVerification.List l = lists.get(i);
-            if (valid.equalsIgnoreCase(l.getValid())) {
-                list.add(l);
-            }
-        }
-
-        Log.e(TAG, "filtervalid: " + list.size());
-        Log.e(TAG, "filtervalid: " + list);
-
-        if (list.size() == 0) {
-            binding.noStock.setVisibility(View.VISIBLE);
-        } else {
-            binding.noStock.setVisibility(View.GONE);
-        }
-        binding.progressbar.setVisibility(View.GONE);
-        sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(list);
-        binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-        sellOutPendingVerificationAdapter.notifyDataSetChanged();
+//        binding.progressbar.setVisibility(View.VISIBLE);
+//        List<com.apptech.lava_retailer.modal.sellOutPendingVerification.List> list = new ArrayList<>();
+//
+//        for (int i = 0; i < lists.size(); i++) {
+//            com.apptech.lava_retailer.modal.sellOutPendingVerification.List l = lists.get(i);
+//            if (valid.equalsIgnoreCase(l.getValid())) {
+//                list.add(l);
+//            }
+//        }
+//
+//        Log.e(TAG, "filtervalid: " + list.size());
+//        Log.e(TAG, "filtervalid: " + list);
+//
+//        if (list.size() == 0) {
+//            binding.noStock.setVisibility(View.VISIBLE);
+//        } else {
+//            binding.noStock.setVisibility(View.GONE);
+//        }
+//        binding.progressbar.setVisibility(View.GONE);
+//        sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(list);
+//        binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
+//        sellOutPendingVerificationAdapter.notifyDataSetChanged();
 
     }
 

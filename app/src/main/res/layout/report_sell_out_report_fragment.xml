@@ -14,12 +14,13 @@
         android:id="@+id/headtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/Report_sell_out"
+        android:text="Report sell out"
         android:fontFamily="@font/lato_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingBottom="8dp"/>
 
 
     <LinearLayout
@@ -31,7 +32,8 @@
         android:paddingLeft="10dp"
         android:paddingTop="4dp"
         android:paddingRight="10dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -87,8 +89,9 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headtitle">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,7 +108,8 @@
                 app:cardElevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -117,7 +121,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="@string/Category"
+                        android:text="Category"
                         android:drawablePadding="10dp"
                         android:drawableLeft="@drawable/ic_baseline_filter_list_24"
                         android:textColor="@color/black"/>
@@ -146,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="10dp"
-                        android:text="@string/Model"
+                        android:text="Model"
                         android:drawableLeft="@drawable/ic_baseline_filter_list_24"
                         android:drawablePadding="10dp"
                         android:textColor="@color/black"/>
@@ -167,12 +171,13 @@
                 android:paddingEnd="24dp"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginTop="16dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/pending"
+                    android:text="Pending"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:fontFamily="@font/lato_semi_bold"
                     android:textColor="@color/white"/>
@@ -191,12 +196,13 @@
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp">
+                android:paddingBottom="4dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Approved"
+                    android:text="Approved"
                     android:fontFamily="@font/lato_semi_bold"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:textColor="@color/white"/>
@@ -214,23 +220,84 @@
                 android:paddingStart="24dp"
                 android:paddingEnd="24dp"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp">
+                android:paddingBottom="4dp"
+                android:visibility="gone">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Cancelled"
+                    android:text="Cancelled"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                     android:fontFamily="@font/lato_semi_bold"
                     android:textColor="@color/white"/>
 
             </LinearLayout>
 
+
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/FilterQtyLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/PendingLayout"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@color/back_all"
+                android:layout_marginTop="8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/QtyCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@+id/QtyCheckbox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="Quantity"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/lato_semi_bold"/>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/QtyCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:clickable="false"
+                    android:enabled="false"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/FilterValueLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/FilterQtyLayout"
+                android:background="@color/back_all">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="@+id/ValueCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@+id/ValueCheckbox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="Value"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/lato_semi_bold"/>
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/ValueCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:clickable="false"
+                    android:enabled="false"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/FilterValueLayout"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp">
 
@@ -258,23 +325,28 @@
 
 
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/noData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No data found"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/FilterValueLayout"
+                android:textColor="@color/white"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
 
 
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/noData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/data_not_found"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/white"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
 
     <LinearLayout
         android:id="@+id/progressbar"
