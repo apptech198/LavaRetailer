@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -45,6 +46,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -72,6 +74,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     LinearLayout mainLayout;
     private boolean NoData = true, Wrongdatra = true;
     List<PriceDrop>announcelist= new ArrayList<>();
+    List<PriceDrop>selectAnnounce= new ArrayList<>();
+
 
     public static PriceDropEntryFragment newInstance() {
         return new PriceDropEntryFragment();
@@ -95,7 +99,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         barCodeScannerFragment = new BarCodeScannerFragment(this);
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
-
+        getAnnounceList();
         USER_ID = sessionManage.getUserDetails().get("ID");
         TodayDate = getCurrentDate();
         binding.addBtn.setOnClickListener(v -> {
@@ -483,16 +487,27 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                                         ,object.optString("name_fr")
                                         ,object.optString("time")
                                         ,object.optString("active")
+                                        ,getContext()
                                 ));
                             }
                             if(announcelist.isEmpty()){
 
                             }else {
-//                                ArrayAdapter<PriceDrop> arrayAdapter = new ArrayAdapter<PriceDrop>(getActivity(),R.layout.s)
-//                                binding.noData.setVisibility(View.GONE);
-//                                binding.recycle.setVisibility(View.VISIBLE);
-//                                PassbookAdapter adapter= new PassbookAdapter(lists);
-//                                binding.recycle.setAdapter(adapter);
+                                ArrayAdapter<PriceDrop> arrayAdapter = new ArrayAdapter<PriceDrop>(getContext(),
+                                        android.R.layout.simple_list_item_1, announcelist);
+                                binding.announce.setAdapter(arrayAdapter);
+                                binding.announce.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                         selectAnnounce = Collections.singletonList(announcelist.get(position));
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+                                          selectAnnounce.clear();
+                                    }
+                                });
+
                             }
                             binding.progressbar.setVisibility(View.GONE);
                             return;
