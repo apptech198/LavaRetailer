@@ -156,8 +156,8 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                             }
 
                         }
-                        submitImei();
-                        binding.addLayout.removeAllViews();
+                        AlertDialog();
+//                        binding.addLayout.removeAllViews();
                         return;
 
                     }
@@ -178,6 +178,37 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         });
 
     }
+
+
+    private void AlertDialog(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_comfirmation_layout , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+            submitImei();
+            binding.addLayout.removeAllViews();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();
+        binding.progressbar.setVisibility(View.GONE);});
+
+
+
+    }
+
+
 
     @Override
     public void onStart() {
