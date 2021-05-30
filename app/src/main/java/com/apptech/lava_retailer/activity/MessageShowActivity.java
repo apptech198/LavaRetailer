@@ -18,6 +18,7 @@ import com.apptech.lava_retailer.adapter.MessageShowAdapter;
 import com.apptech.lava_retailer.databinding.ActivityMessageShowBinding;
 import com.apptech.lava_retailer.list.notificationList.NotificationModel;
 import com.apptech.lava_retailer.modal.notification_list.NotificationListShow;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -71,7 +72,13 @@ public class MessageShowActivity extends AppCompatActivity {
             }
         }
 
-        MessageShow1();
+        if(new NetworkCheck().haveNetworkConnection(this)){
+            binding.noproduct.setVisibility(View.GONE);
+            MessageShow1();
+        }else {
+            binding.noproduct.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
         binding.nextBtn.setOnClickListener(v -> {
             if (sessionManage.getUserDetails().get("BRAND_ID") != null) {
