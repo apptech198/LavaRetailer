@@ -52,6 +52,13 @@ public interface LavaInterface{
     @POST("country")
     Call<Object> Country();
 
+    @POST("passbook_filter")
+    Call<Object> GETCLAIMTYPE();
+
+    @POST("passbook_list")
+    @FormUrlEncoded
+    Call<Object> GetPASSBOOK(@Field("start_date") String mobile,@Field("end_date") String mobile1);
+
     @POST("governate")
     @FormUrlEncoded
     Call<Object> Governate(@Field("lang") String lang , @Field("Country_name") String Country_name);

@@ -88,6 +88,7 @@
 
             <RelativeLayout
             android:id="@+id/tablayout"
+                android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintHorizontal_weight="1"
@@ -153,9 +154,29 @@
         </RelativeLayout>
 
 
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:id="@+id/claimtypeLayout"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintTop_toBottomOf="@id/tablayout"
+            android:layout_height="40dp">
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:id="@+id/claimType"
+                android:layout_height="match_parent"/>
+
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/tablayout"
+            app:layout_constraintTop_toBottomOf="@id/claimtypeLayout"
             android:layout_marginTop="20dp"
             android:visibility="visible"
             android:id="@+id/recycle"

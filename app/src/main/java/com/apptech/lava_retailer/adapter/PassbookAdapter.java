@@ -2,6 +2,8 @@ package com.apptech.lava_retailer.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,14 +13,19 @@ import com.apptech.lava_retailer.databinding.RowPassbookLayoutBinding;
 import com.apptech.lava_retailer.list.OrderStatusList;
 import com.apptech.lava_retailer.list.passbook.PassbookList;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewholder> {
+public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewholder> implements Filterable {
 
     List<com.apptech.lava_retailer.list.passbook.List> list;
+    List<com.apptech.lava_retailer.list.passbook.List> fulldata= new ArrayList<>();
+    getCount getCount;
 
-    public PassbookAdapter(List<com.apptech.lava_retailer.list.passbook.List> orderStatusLists) {
+    public PassbookAdapter(List<com.apptech.lava_retailer.list.passbook.List> orderStatusLists, getCount getCount) {
         this.list = orderStatusLists;
+        this.fulldata.addAll(orderStatusLists);
+        this.getCount= getCount;
     }
 
     @NonNull
@@ -28,7 +35,48 @@ public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewho
     }
 
 
+
     @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter= new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<com.apptech.lava_retailer.list.passbook.List> filterdata = new ArrayList<>();
+            if (constraint.toString().equals("Select ClaimType")) {
+                filterdata.addAll(fulldata);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (com.apptech.lava_retailer.list.passbook.List list : fulldata) {
+                    if (list.getClaimType().toLowerCase().trim().contains(filterPattern)) {
+                        filterdata.add(list);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filterdata;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list.clear();
+            list.addAll((List) results.values);
+            if(list.isEmpty()){
+                getCount.getVisibility(true);
+            }else {
+                getCount.getVisibility(false);
+            }
+
+            notifyDataSetChanged();
+        }
+    };
+
+
+
+        @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
           holder.binding.ctype.setText("Claim Type : "+list.get(position).getClaimType());
           holder.binding.ccode.setText("Claim Code : "+list.get(position).getClaimCode());
@@ -39,6 +87,17 @@ public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewho
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public int getItemCount() {
@@ -53,6 +112,11 @@ public class PassbookAdapter extends RecyclerView.Adapter<PassbookAdapter.Viewho
             super(itemView.getRoot());
             this.binding = itemView;
         }
+    }
+
+
+    public interface getCount{
+            public void getVisibility(Boolean aBoolean);
     }
 }
 
