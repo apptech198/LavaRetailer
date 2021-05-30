@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,6 +33,8 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.PassbookAdapter;
 import com.apptech.lava_retailer.adapter.TradeProgramTabAdapter;
 import com.apptech.lava_retailer.databinding.PassbookFragmentBinding;
+import com.apptech.lava_retailer.list.ClaimTypeList;
+import com.apptech.lava_retailer.list.announcelist.PriceDrop;
 import com.apptech.lava_retailer.list.passbook.PassbookList;
 import com.apptech.lava_retailer.list.tradecatlist.TradingMenuList;
 import com.apptech.lava_retailer.modal.order_statusList.OrderStatusList;
@@ -64,6 +68,7 @@ import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -89,6 +94,8 @@ public class PassbookFragment extends Fragment {
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
     private static final int PERMISSION_REQUEST_CODE = 200;
     List<com.apptech.lava_retailer.list.passbook.List>lists= new ArrayList<>();
+    List<ClaimTypeList>claimTypeLists= new ArrayList<>();
+    PassbookAdapter.getCount getCount;
 
 
 
@@ -125,6 +132,16 @@ public class PassbookFragment extends Fragment {
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(getContext());
+
+        getCount= aBoolean -> {
+          if(aBoolean) {
+              binding.recycle.setVisibility(View.GONE);
+              binding.noData.setVisibility(View.VISIBLE);
+          }else {
+              binding.recycle.setVisibility(View.VISIBLE);
+              binding.noData.setVisibility(View.GONE);
+          }
+        };
 
 
         ThisWeekDate();
@@ -227,71 +244,166 @@ public class PassbookFragment extends Fragment {
 
     }
 
+    void getClaimtype(PassbookAdapter adapter){
+
+        lavaInterface.GETCLAIMTYPE().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.isSuccessful()){
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        claimTypeLists.clear();
+                        if(error.equalsIgnoreCase("FALSE")){
+
+                            JSONArray elements = jsonObject.optJSONArray("list");
+                            claimTypeLists.add(new ClaimTypeList(
+                                    "Select ClaimType"
+                            ));
+                            for (int i=0; i<elements.length(); i++){
+                                JSONObject object= elements.optJSONObject(i);
+                                claimTypeLists.add(new ClaimTypeList(
+                                   object.optString("claim_type")
+                                ));
+                            }
+                            if(claimTypeLists.isEmpty()){
+
+                            }else {
+                                ArrayAdapter<ClaimTypeList> arrayAdapter = new ArrayAdapter<ClaimTypeList>(getContext(),
+                                        android.R.layout.simple_list_item_1, claimTypeLists);
+                                binding.claimType.setAdapter(arrayAdapter);
+                                binding.claimType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                                        adapter.getFilter().filter(claimTypeLists.get(position).getClaim_type());
+//                                        Log.d(TAG, "onItemSelected() returned: " + adapter.getItemCount()  );
+//                                        if(adapter.getItemCount()<0){
+//                                            binding.recycle.setVisibility(View.GONE);
+//                                            binding.noData.setVisibility(View.VISIBLE);
+//                                        }else {
+//                                            binding.recycle.setVisibility(View.VISIBLE);
+//                                            binding.noData.setVisibility(View.GONE);
+//                                        }
+
+                                        List<com.apptech.lava_retailer.list.passbook.List> ClaiList = new ArrayList<>();
+                                        for (com.apptech.lava_retailer.list.passbook.List lisr : lists){
+                                            if(lisr.getClaimType().trim().toUpperCase().contains(claimTypeLists.get(position).getClaim_type().trim().toUpperCase())){
+                                                ClaiList.add(lisr);
+                                            }
+                                        }
+                                        if(ClaiList.isEmpty()){
+                                            binding.recycle.setVisibility(View.GONE);
+                                            binding.noData.setVisibility(View.VISIBLE);
+                                        }else {
+                                           PassbookAdapter passbookAdapter= new PassbookAdapter(ClaiList,getCount);
+                                           binding.recycle.setAdapter(passbookAdapter);
+                                            binding.recycle.setVisibility(View.VISIBLE);
+                                            binding.noData.setVisibility(View.GONE);
+                                        }
+
+
+
+
+
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+                                         adapter.getFilter().filter("Select ClaimType");
+                                    }
+                                });
+
+                            }
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
+                        binding.progressbar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        return;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+                Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
+            }
+        });
+    }
 
 
     private void getPassbook(){
 
-//            binding.progressbar.setVisibility(View.VISIBLE);
-//
-//
-//            lavaInterface.GetPASSBOOK(StartDate,End_Date).enqueue(new Callback<Object>() {
-//                @Override
-//                public void onResponse(Call<Object> call, Response<Object> response) {
-//
-//                    if(response.isSuccessful()){
-//                        JSONObject jsonObject = null;
-//                        try {
-//                            jsonObject = new JSONObject(new Gson().toJson(response.body()));
-//                            String error = jsonObject.getString("error");
-//                            String message = jsonObject.getString("message");
-//                            lists.clear();
-//                            if(error.equalsIgnoreCase("FALSE")){
-//
-//                                JSONArray elements = jsonObject.optJSONArray("list");
-//
-//                                for (int i=0; i<elements.length(); i++){
-//                                    JSONObject object= elements.optJSONObject(i);
-//                                    lists.add(new com.apptech.lava_retailer.list.passbook.List(
-//                                            object.optString("id")
-//                                            ,object.optString("claim_type")
-//                                            ,object.optString("claim_code")
-//                                            ,object.optString("value")
-//                                            ,object.optString("status")
-//                                            ,object.optString("payment_reference")
-//                                            ,object.optString("payment_date")
-//                                            ,object.optString("time")
-//                                    ));
-//                                }
-//                                if(lists.isEmpty()){
-//                                    binding.noData.setVisibility(View.VISIBLE);
-//                                    binding.recycle.setVisibility(View.GONE);
-//                                }else {
-//                                    binding.noData.setVisibility(View.GONE);
-//                                    binding.recycle.setVisibility(View.VISIBLE);
-//                                    PassbookAdapter adapter= new PassbookAdapter(lists);
-//                                    binding.recycle.setAdapter(adapter);
-//                                }
-//                                binding.progressbar.setVisibility(View.GONE);
-//                                return;
-//                            }
-//                            binding.progressbar.setVisibility(View.GONE);
-//                            Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-//                            return;
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                    binding.progressbar.setVisibility(View.GONE);
-//                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-//                }
-//
-//                @Override
-//                public void onFailure(Call<Object> call, Throwable t) {
-//                    binding.progressbar.setVisibility(View.GONE);
-//                    Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
-//                }
-//            });
-//
+            binding.progressbar.setVisibility(View.VISIBLE);
+
+
+            lavaInterface.GetPASSBOOK(StartDate,End_Date).enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+
+                    if(response.isSuccessful()){
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                            String error = jsonObject.getString("error");
+                            String message = jsonObject.getString("message");
+                            lists.clear();
+                            if(error.equalsIgnoreCase("FALSE")){
+
+                                JSONArray elements = jsonObject.optJSONArray("list");
+
+                                for (int i=0; i<elements.length(); i++){
+                                    JSONObject object= elements.optJSONObject(i);
+                                    lists.add(new com.apptech.lava_retailer.list.passbook.List(
+                                            object.optString("id")
+                                            ,object.optString("claim_type")
+                                            ,object.optString("claim_code")
+                                            ,object.optString("value")
+                                            ,object.optString("status")
+                                            ,object.optString("payment_reference")
+                                            ,object.optString("payment_date")
+                                            ,object.optString("time")
+                                    ));
+                                }
+                                if(lists.isEmpty()){
+                                    binding.noData.setVisibility(View.VISIBLE);
+                                    binding.recycle.setVisibility(View.GONE);
+                                }else {
+                                    binding.noData.setVisibility(View.GONE);
+                                    binding.recycle.setVisibility(View.VISIBLE);
+                                    PassbookAdapter adapter= new PassbookAdapter(lists, getCount);
+                                    binding.recycle.setAdapter(adapter);
+                                    getClaimtype(adapter);
+                                }
+                                binding.progressbar.setVisibility(View.GONE);
+                                return;
+                            }
+                            binding.progressbar.setVisibility(View.GONE);
+                            Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                            return;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    binding.progressbar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    binding.progressbar.setVisibility(View.GONE);
+                    Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
+                }
+            });
+
 
     }
 
