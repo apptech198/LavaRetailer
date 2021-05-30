@@ -10,23 +10,46 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.PriceDropReportadapter;
 import com.apptech.lava_retailer.databinding.ReportsFragmentBinding;
+import com.apptech.lava_retailer.databinding.RowPriceDropReportBinding;
+import com.apptech.lava_retailer.list.announcelist.PriceDrop;
+import com.apptech.lava_retailer.service.ApiClient;
+import com.apptech.lava_retailer.service.LavaInterface;
+import com.apptech.lava_retailer.ui.filter.PriceDropCategoryFilterFragment;
+import com.apptech.lava_retailer.ui.filter.PriceDropModalFilterFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ReportsFragment extends Fragment implements View.OnClickListener {
 
@@ -36,8 +59,14 @@ public class ReportsFragment extends Fragment implements View.OnClickListener {
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
     PopupWindow mypopupWindow;
     String StartDate ="" , End_Date = "" , TYPE = "";
-
+    LavaInterface lavaInterface;
     private static final String TAG = "ReportsFragment";
+    List<PriceDrop> announcelist= new ArrayList<>();
+    PriceDrop selectAnnounce;
+    String announce_start_date ="" , announce_end_date ="" ,  announce_drop_amount ="" ,   announce_active ="";
+    String QTYSelect = "" , VALUESelect = "";
+    PriceDropCategoryFilterFragment proceDropCategoryFilterFragment;
+    PriceDropModalFilterFragment proceDropModalFilterFragment;
 
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
@@ -57,10 +86,13 @@ public class ReportsFragment extends Fragment implements View.OnClickListener {
         mViewModel = new ViewModelProvider(this).get(ReportsViewModel.class);
         // TODO: Use the ViewModel
 
+        lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
         String[] TodayDate = TodayDate().split("#");
         StartDate = TodayDate[0];
         End_Date = TodayDate[1];
+
+        getAnnounceList();
         GerReport();
 
         setPopUpWindow();
@@ -70,6 +102,47 @@ public class ReportsFragment extends Fragment implements View.OnClickListener {
         binding.PendingLayout.setOnClickListener(this);
         binding.ApprovedLayout.setOnClickListener(this);
         binding.CancelledLayout.setOnClickListener(this);
+
+
+        binding.FilterQtyLayout.setOnClickListener(v -> {
+            if (binding.QtyCheckbox.isChecked()){
+                binding.QtyCheckbox.setChecked(false);
+                QTYSelect = "";
+                return;
+            }
+            binding.QtyCheckbox.setChecked(true);
+            QTYSelect = "YES";
+
+
+
+
+        });
+
+
+        binding.FilterValueLayout.setOnClickListener(v -> {
+            if (binding.ValueCheckbox.isChecked()){
+                VALUESelect = "";
+                binding.ValueCheckbox.setChecked(false);
+                return;
+            }
+            binding.ValueCheckbox.setChecked(true);
+            VALUESelect = "YES";
+        });
+
+
+
+
+        binding.filterModel.setOnClickListener(v -> {
+            proceDropModalFilterFragment = new PriceDropModalFilterFragment();
+            proceDropModalFilterFragment.show(getChildFragmentManager(), "category filter");
+        });
+
+        binding.filterCategory.setOnClickListener(v -> {
+            proceDropCategoryFilterFragment = new PriceDropCategoryFilterFragment();
+            proceDropCategoryFilterFragment.show(getChildFragmentManager(), "modal bottom sheet");
+        });
+
+
 
 
     }
@@ -204,8 +277,12 @@ public class ReportsFragment extends Fragment implements View.OnClickListener {
         Log.e(TAG, "GerReport end date: " + End_Date );
         binding.noData.setVisibility(View.GONE);
         binding.progressbar.setVisibility(View.GONE);
+//
+//        binding.PriceDropReportRecyclerView.setAdapter(new PriceDropReportadapter());
 
-        binding.PriceDropReportRecyclerView.setAdapter(new PriceDropReportadapter());
+        binding.PriceDropReportRecyclerView.setAdapter(new PriceDropReportAdapter());
+
+
     }
 
 
@@ -241,6 +318,117 @@ public class ReportsFragment extends Fragment implements View.OnClickListener {
         binding = null;
     }
 
+
+    void getAnnounceList(){
+        lavaInterface.GetAnnounceList().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.isSuccessful()){
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        announcelist.clear();
+                        if(error.equalsIgnoreCase("FALSE")){
+
+                            JSONArray elements = jsonObject.optJSONArray("price_drop_list");
+
+                            for (int i=0; i<elements.length(); i++){
+                                JSONObject object= elements.optJSONObject(i);
+                                announcelist.add(new PriceDrop(
+                                        object.optString("id")
+                                        ,object.optString("drop_amount")
+                                        ,object.optString("name")
+                                        ,object.optString("start_date")
+                                        ,object.optString("end_date")
+                                        ,object.optString("name_ar")
+                                        ,object.optString("name_fr")
+                                        ,object.optString("time")
+                                        ,object.optString("active")
+                                        ,getContext()
+                                ));
+                            }
+                            if(announcelist.isEmpty()){
+
+                            }else {
+                                ArrayAdapter<PriceDrop> arrayAdapter = new ArrayAdapter<PriceDrop>(getContext(),
+                                        android.R.layout.simple_list_item_1, announcelist);
+                                binding.announce.setAdapter(arrayAdapter);
+                                binding.announce.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                                         selectAnnounce.clear();
+//                                         selectAnnounce = Collections.singletonList(announcelist.get(position));
+                                        announce_start_date = announcelist.get(position).getStartDate();
+                                        announce_end_date = announcelist.get(position).getEndDate();
+                                        announce_drop_amount = announcelist.get(position).getDrop_amount();
+                                        announce_active = announcelist.get(position).getActive();
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> parent) {
+
+                                    }
+                                });
+
+                            }
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
+                        binding.progressbar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        return;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+                Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+
+
+    private class PriceDropReportAdapter extends RecyclerView.Adapter<ReportsFragment.Viewholder>{
+
+        @NonNull
+        @Override
+        public ReportsFragment.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            return new Viewholder(RowPriceDropReportBinding.inflate(LayoutInflater.from(parent.getContext()) , parent , false));
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull ReportsFragment.Viewholder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 10;
+        }
+    }
+
+
+    public class Viewholder extends RecyclerView.ViewHolder {
+        public Viewholder(@NonNull RowPriceDropReportBinding itemView) {
+            super(itemView.getRoot());
+
+        }
+    }
 }
 
 

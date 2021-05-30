@@ -143,19 +143,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                     if(binding.addLayout.getChildCount() > 0){
 
                         binding.progressbar.setVisibility(View.VISIBLE);
-                        jsonElements = new JsonArray();
-                        for (int i = 0; i < binding.addLayout.getChildCount(); i++) {
-                            JsonObject jsonObject = new JsonObject();
-                            try {
-                                int getid = i + 1;
-                                TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
-                                jsonObject.addProperty("imei", textView.getText().toString());
-                                jsonElements.add(jsonObject);
-                            } catch (NullPointerException e) {
-                                Log.e(TAG, "onActivityCreated: " + e.getMessage());
-                            }
 
-                        }
                         AlertDialog();
 //                        binding.addLayout.removeAllViews();
                         return;
@@ -198,6 +186,23 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             submit.setEnabled(false);
             submit.setClickable(false);
             alertDialog.dismiss();
+
+
+            jsonElements = new JsonArray();
+            for (int i = 0; i < binding.addLayout.getChildCount(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                try {
+                    int getid = i + 1;
+                    TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
+                    jsonObject.addProperty("imei", textView.getText().toString());
+                    jsonObject.addProperty("check_status", "PENDING");
+                    jsonObject.addProperty("status", "PENDING");
+                    jsonElements.add(jsonObject);
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "onActivityCreated: " + e.getMessage());
+                }
+            }
+
             submitImei();
             binding.addLayout.removeAllViews();
         });

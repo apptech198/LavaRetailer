@@ -76,7 +76,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     LinearLayout mainLayout;
     private boolean NoData = true, Wrongdatra = true;
     List<PriceDrop>announcelist= new ArrayList<>();
-    List<PriceDrop>selectAnnounce= new ArrayList<>();
+    PriceDrop selectAnnounce;
+    String announce_start_date ="" , announce_end_date ="" ,  announce_drop_amount ="" ,   announce_active ="";
 
 
     public static PriceDropEntryFragment newInstance() {
@@ -141,19 +142,6 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                     if(binding.addLayout.getChildCount() > 0){
 
                         binding.progressbar.setVisibility(View.VISIBLE);
-                        jsonElements = new JsonArray();
-                        for (int i = 0; i < binding.addLayout.getChildCount(); i++) {
-                            JsonObject jsonObject = new JsonObject();
-                            try {
-                                int getid = i + 1;
-                                TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
-                                jsonObject.addProperty("imei", textView.getText().toString());
-                                jsonElements.add(jsonObject);
-                            } catch (NullPointerException e) {
-                                Log.e(TAG, "onActivityCreated: " + e.getMessage());
-                            }
-                        }
-
                         AlertDialog();
 //                        submitImei();
 //                        binding.addLayout.removeAllViews();
@@ -185,13 +173,19 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
     void submitImei() {
 
+
+//        Log.e(TAG, "submitImei: " +announce_start_date );
+//        Log.e(TAG, "submitImei: " + announce_end_date);
+
         mainJsonObject.addProperty("date", binding.startDatetime.getText().toString().trim());
-        mainJsonObject.addProperty("start_date", announcelist.get(0).getStartDate());
-        mainJsonObject.addProperty("end_date", announcelist.get(0).getEndDate());
+        mainJsonObject.addProperty("start_date", announce_start_date);
+        mainJsonObject.addProperty("end_date", announce_end_date);
         mainJsonObject.addProperty("retailer_id", USER_ID);
+
         mainJsonObject.add("imei_list", jsonElements);
 
-        Log.e(TAG, "submitImei: " + mainJsonObject);
+        Log.e(TAG, "submitImei: " + mainJsonObject.toString());
+        Log.e(TAG, "submitImei: " + mainJsonObject.toString());
 
         Call call = lavaInterface.PRICE_DROP_IMEI(mainJsonObject);
         call.enqueue(new Callback() {
@@ -210,24 +204,6 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                         imeiCount = 0;
                         binding.addLayout.removeAllViews();
 
-/*
-                        try {
-                            if (error_code == 401) {
-                                String jsonArraySrtring = jsonObject.getString("dl");
-                                JSONArray jsonArray = new JSONArray(jsonArraySrtring);
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    wrongimei(jsonArray.getJSONObject(i).getString("imei"));
-                                }
-                                binding.msgShowWrongImei.setText(getResources().getString(R.string.imei_allready_exists));
-                                binding.msgShowWrongImei.setVisibility(View.VISIBLE);
-                                NoData = false;
-                            } else {
-                                binding.msgShowWrongImei.setVisibility(View.GONE);
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAG, "onResponse: " + e.getMessage());
-                        }
-*/
 
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         binding.submitBtn.setClickable(true);
@@ -256,6 +232,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
         });
+
+
     }
 
     private void removeView() {
@@ -336,6 +314,24 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         submit.setOnClickListener(view -> {
             submit.setEnabled(false);
             submit.setClickable(false);
+
+
+            jsonElements = new JsonArray();
+            for (int i = 0; i < binding.addLayout.getChildCount(); i++) {
+                JsonObject jsonObject = new JsonObject();
+                try {
+                    int getid = i + 1;
+                    TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
+                    jsonObject.addProperty("imei", textView.getText().toString());
+                    jsonObject.addProperty("drop_amount", announce_drop_amount);
+                    jsonObject.addProperty("check_status", announce_active);
+                    jsonObject.addProperty("status", "PENDING");
+                    jsonElements.add(jsonObject);
+                } catch (NullPointerException e) {
+                    Log.e(TAG, "onActivityCreated: " + e.getMessage());
+                }
+            }
+
             alertDialog.dismiss();
             submitImei();
             binding.addLayout.removeAllViews();
@@ -607,7 +603,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                             for (int i=0; i<elements.length(); i++){
                                 JSONObject object= elements.optJSONObject(i);
                                 announcelist.add(new PriceDrop(
-                                   object.optString("id")
+                                        object.optString("id")
+                                        ,object.optString("drop_amount")
                                         ,object.optString("name")
                                         ,object.optString("start_date")
                                         ,object.optString("end_date")
@@ -627,13 +624,17 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                                 binding.announce.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                     @Override
                                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        selectAnnounce.clear();
-                                         selectAnnounce = Collections.singletonList(announcelist.get(position));
+//                                         selectAnnounce.clear();
+//                                         selectAnnounce = Collections.singletonList(announcelist.get(position));
+                                        announce_start_date = announcelist.get(position).getStartDate();
+                                        announce_end_date = announcelist.get(position).getEndDate();
+                                        announce_drop_amount = announcelist.get(position).getDrop_amount();
+                                        announce_active = announcelist.get(position).getActive();
                                     }
 
                                     @Override
                                     public void onNothingSelected(AdapterView<?> parent) {
-                                          selectAnnounce.clear();
+
                                     }
                                 });
 
