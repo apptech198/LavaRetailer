@@ -312,12 +312,39 @@ public class SessionManage {
     }
 
     public void Profile_Percentage(String countNum){
-        double tot= 11;
         editor.putString(PROFILE_PERCENTAGE , countNum).commit();
     }
 
     public int GetProfilePercent(){
-        return 75;
+        double tot= 8;
+        int fill= 0;
+        if(!pref.getString(NAME,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(EMAIL,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(OUTLET_NAME,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(ADDRESS,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(COUNTRY_NAME,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(LOCALITY,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(USER_IMG,"").isEmpty()){
+            fill++;
+        }
+        if(!pref.getString(GOVERNATE,"").isEmpty()){
+            fill++;
+        }
+        double div = fill/tot;
+        double per= div*100;
+        return (int) per;
     }
 
     public void PROFILE_VERIFY_CHECK(String check){

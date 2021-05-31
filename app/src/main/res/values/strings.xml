@@ -195,6 +195,9 @@
     <string name="Selling_Program">Selling Program</string>
     <string name="INVOICE">INVOICE</string>
     <string name="Earphone">Earphone</string>
+    <string name="Battery">Battery</string>
+    <string name="USB">USB</string>
+    <string name="Adaptor">Adaptor</string>
     <string name="Issue_Date">Issue Date</string>
     <string name="Warranty_Date">Warranty Date</string>
     <string name="Charger">Charger</string>
@@ -225,7 +228,9 @@
     <string name="Serialize_Warranty">Serialize Warranty</string>
     <string name="Cart">Cart</string>
     <string name="Passbook">Passbook</string>
+    <string name="Accessories">Accessories</string>
     <string name="UnSerialize_Warranty">UnSerialize Warranty</string>
+    <string name="Serial_no">Serial Number</string>
 
 
 

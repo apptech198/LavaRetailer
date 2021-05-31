@@ -19,16 +19,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.activity.MainActivity;
 import com.apptech.lava_retailer.databinding.UnSerializeFragmentBinding;
+import com.apptech.lava_retailer.fragment.ScannerFragment;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.gson.Gson;
 
@@ -46,7 +49,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UnSerializeFragment extends Fragment {
+public class UnSerializeFragment extends Fragment implements ScannerFragment.BackPress , BarCodeScannerFragment.BackPressBarCode {
 
     private UnSerializeViewModel mViewModel;
     UnSerializeFragmentBinding binding;
@@ -58,6 +61,10 @@ public class UnSerializeFragment extends Fragment {
     LavaInterface lavaInterface;
     SessionManage sessionManage;
     NavController navController;
+    ScannerFragment scannerFragment;
+    BarCodeScannerFragment barCodeScannerFragment;
+    boolean onetime = true;
+
 
     public static UnSerializeFragment newInstance() {
         return new UnSerializeFragment();
@@ -84,6 +91,8 @@ public class UnSerializeFragment extends Fragment {
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(getContext());
+        scannerFragment = new ScannerFragment(this);
+        barCodeScannerFragment = new BarCodeScannerFragment(this);
 
         binding.selectDatePicker.setOnClickListener(v -> DatePickerOpen());
         binding.PhotoSelect.setOnClickListener(v -> Photoselect());
@@ -117,6 +126,29 @@ public class UnSerializeFragment extends Fragment {
             }
         });
 
+        binding.radiogroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId){
+                case R.id.searilize:
+                    binding.Searilizelayout.setVisibility(View.VISIBLE);
+                    binding.note.setVisibility(View.GONE);
+                    break;
+                case R.id.unsearilize:
+                    binding.Searilizelayout.setVisibility(View.GONE);
+                    binding.note.setVisibility(View.VISIBLE);
+            }
+        });
+
+        binding.scanBtn.setOnClickListener(v -> {
+            onetime = true;
+            Log.e(TAG, "onActivityCreated: " + "clicked" );
+            loadfragment(barCodeScannerFragment);
+        });
+
+    }
+
+    private void loadfragment(Fragment fragment) {
+        if (fragment != null)
+            getChildFragmentManager().beginTransaction().replace(R.id.LoadFragment, fragment).addToBackStack(null).commit();
     }
 
     private void Photoselect() {
@@ -132,7 +164,7 @@ public class UnSerializeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getActivity().getString(R.string.UnSerialize_Warranty));
+        title.setText(getActivity().getString(R.string.Accessories));
 
         if (resultCode == getActivity().RESULT_OK) {
 
@@ -156,7 +188,7 @@ public class UnSerializeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getActivity().getString(R.string.UnSerialize_Warranty));
+        title.setText(getActivity().getString(R.string.Accessories));
     }
 
     @Override
@@ -261,9 +293,27 @@ public class UnSerializeFragment extends Fragment {
             }
         });
     }
-    
 
 
+    @Override
+    public void Onbackpress(String imei) {
+        if (onetime) {
+            binding.ImeiEdittext.setText(imei);
+            getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
+        }
+        onetime = false;
+        Log.e(TAG, "OnbackpressBarcode: "+ imei );
+    }
+
+    @Override
+    public void OnbackpressBarcode(String imei) {
+        if (onetime) {
+            binding.ImeiEdittext.setText(imei);
+            getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
+        }
+        onetime = false;
+        Log.e(TAG, "OnbackpressBarcode: "+ imei );
+    }
 }
 
 

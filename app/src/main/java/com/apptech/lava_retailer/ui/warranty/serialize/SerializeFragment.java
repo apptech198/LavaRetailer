@@ -1,8 +1,11 @@
 package com.apptech.lava_retailer.ui.warranty.serialize;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +32,7 @@ import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -39,6 +44,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,6 +65,12 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     boolean onetime = true;
     NavController navController;
     AlertDialog alertDialog1;
+    int imeiCount = 0;
+    View rowView;
+    TextView textView , Modal , ModalTitle;
+    LinearLayout mainLayout;
+    LinearLayout removeBtn;
+    private boolean NoData = true, Wrongdatra = true;
 
     String IMEI ="" , WARRANTY_TYPE_MOB = "", WARRANTY_TYPE_CHAR = "", WARRANTY_TYPE_EAR = "" , WARRANTY_PERIOD_MOB ="" , WARRANTY_PERIOD_CHAR ="" , WARRANTY_PERIOD_EAR ="" , ITEM_PURCHASE_DATE_date ="";
     JsonObject mainObject = new JsonObject();
@@ -96,10 +109,10 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
 
-        binding.submit.setOnClickListener(v -> {
+        binding.addBtn.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
                 if (validation()) {
-                    WarrantyCheck(binding.Imei.getText().toString().trim());
+                    WarrantyCheck(binding.ImeiEdittext.getText().toString().trim());
                     return;
                 }
                 return;
@@ -108,7 +121,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
         });
 
-        binding.ScanImei.setOnClickListener(v -> {
+        binding.scanBtn.setOnClickListener(v -> {
             loadfragment(barCodeScannerFragment);
         });
 
@@ -271,23 +284,23 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     }
 
     private boolean validation() {
-        return ImeiValid(binding.Imei.getText().toString().trim()) ;
+        return ImeiValid(binding.ImeiEdittext.getText().toString().trim()) ;
     }
 
     private boolean ImeiValid(String imei) {
         if (imei.isEmpty()) {
             binding.ImeiError.setVisibility(View.VISIBLE);
             binding.ImeiError.setText(getResources().getString(R.string.field_required));
-            binding.Imei.setError(getResources().getString(R.string.field_required));
+            binding.ImeiEdittext.setError(getResources().getString(R.string.field_required));
             return false;
         }
         if (imei.length() != 15) {
             binding.ImeiError.setText("Invalid Imei code");
             binding.ImeiError.setVisibility(View.VISIBLE);
-            binding.Imei.setError("Invalid Imei code");
+            binding.ImeiEdittext.setError("Invalid Imei code");
             return false;
         }
-        binding.Imei.setError(null);
+        binding.ImeiEdittext.setError(null);
         binding.ImeiError.setVisibility(View.GONE);
         return true;
     }
@@ -316,11 +329,13 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
         binding.submit.setEnabled(false);
         binding.progressbar.setVisibility(View.VISIBLE);
-
-        String id = sessionManage.getUserDetails().get("ID");
+        Map<String , String> map = new HashMap<>();
+        map.put("imei",imei);
+        map.put("retailer_id","ff2326e2cf317a74fef52f267662a1ef");
+//        map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
 
 //        lavaInterface.WARRANTY_CHECK(id,imei).enqueue(new Callback<Object>() {
-        lavaInterface.WARRANTY_CHECK("98","121212121212121").enqueue(new Callback<Object>() {
+        lavaInterface.WARRENTYCHECK(map).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -331,21 +346,61 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                     String error = jsonObject.optString("error");
                     String message = jsonObject.optString("message");
+                    int error_code = jsonObject.getInt("error_code");
 
 
                     if(error.equalsIgnoreCase("false")){
 
-                        JSONObject order_detail = jsonObject.getJSONObject("order_detail");
+                        JSONObject object = jsonObject.getJSONObject("detail");
+                        switch (error_code){
+//                            case 200:
+//                                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+//                                    case "en":
+//                                    case "fr":
+//                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") , message );
+//                                        break;
+//                                    case "ar":
+//                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_ar") ,object.optString("imei"),object.optString("distributor_name") , message);
+//                                        break;
+//                                }
+//                                break;
+                            case 301:
+                                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                    case "en":
+                                    case "fr":
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") ,message);
+                                        break;
+                                    case "ar":
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"), message);
+                                        break;
+                                }
+
+                        }
+
+
+
+
+                        JSONObject order_detail = jsonObject.getJSONObject("detail");
                         String time = order_detail.getString("time");
 
-                        String acce_mobile = order_detail.getString("acce_mobile");
-                        String acce_mobile_war = order_detail.getString("acce_mobile_war");
+                        String acce_mobile = order_detail.getString("prowar");
+                        String acce_mobile_war = order_detail.getString("pro_war_days");
 
-                        String acce_charger = order_detail.getString("acce_charger");
-                        String acce_charger_war = order_detail.getString("acce_charger_war");
+                        String acce_charger = order_detail.getString("charger_war");
+                        String acce_charger_war = order_detail.getString("charger_war_days");
 
-                        String acce_earphone = order_detail.getString("acce_earphone");
-                        String acce_earphone_war = order_detail.getString("acce_earphone_war");
+                        String acce_earphone = order_detail.getString("wired_earphone_war");
+                        String acce_earphone_war = order_detail.getString("wired_earphone_war_days");
+
+                        String acce_battert = order_detail.getString("battery_war");
+                        String acce_battery_war = order_detail.getString("battery_war_days");
+
+                        String acce_usb = order_detail.getString("usb_war");
+                        String acce_usb_war = order_detail.getString("usb_war_days");
+
+
+                        String acce_adapter = order_detail.getString("charging_adapter_war");
+                        String acce_adapter_war = order_detail.getString("charging_adapter_war_days");
 
                         IMEI = order_detail.getString("imei");;
                         WARRANTY_PERIOD_MOB = acce_mobile_war;
@@ -473,6 +528,173 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         }
 
 
+
+                        if(acce_adapter.equalsIgnoreCase("YES")){
+
+                            binding.AdapterLayout.setVisibility(View.VISIBLE);
+                            binding.NoWaranty.setVisibility(View.GONE);
+                            binding.submitBtn.setVisibility(View.VISIBLE);
+
+                            WarrantyPhone = false;
+                            String d = df.format(new Date().getTime());
+
+                            Calendar MobIssueDate =  Date_Convert_String_To_Calender(time);
+
+                            String[] MobDatesplit = df.format(MobIssueDate.getTime()).split("-");
+                            Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
+
+                            Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
+                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
+
+
+                            Log.e(TAG, "onResponse MobIssueDate: " + df.format(MobIssueDate.getTime()) );
+                            Log.e(TAG, "onResponse MobtodayDate: " + df.format(MobtodayDate.getTime()));
+                            Log.e(TAG, "onResponse futherdate : " + df.format(MobcalendarFutureDate.getTime()) );
+
+                            binding.IssueDateAdapter.setText(String.valueOf(df.format(MobIssueDate.getTime())));
+                            binding.WarrantyDateAdapter.setText(String.valueOf(df.format(MobcalendarFutureDate.getTime())));
+
+                            if(MobcalendarFutureDate.after(MobtodayDate)){
+//                                warranty
+                                binding.AdapterCheckbox.setEnabled(true);
+//                                Toast.makeText(getContext(), "warrant", Toast.LENGTH_SHORT).show();
+
+
+                                binding.AdapterMessage.setText("Warranty available");
+                                binding.AdapterMessage.setTextColor(getResources().getColor(R.color.green));
+
+                            }else {
+//                                out of warranty
+                                binding.AdapterCheckbox.setEnabled(false);
+//                                Toast.makeText(getContext(), "out of warrant", Toast.LENGTH_SHORT).show();
+
+                                binding.AdapterMessage.setText("out of warrtanty");
+                                binding.AdapterMessage.setTextColor(getResources().getColor(R.color.red));
+                            }
+
+
+                        }else {
+                            binding.AdapterLayout.setVisibility(View.GONE);
+                            WarrantyPhone = true ;
+                        }
+
+
+
+                        if(acce_battert.equalsIgnoreCase("YES")){
+
+                            binding.BatteryLayout.setVisibility(View.VISIBLE);
+                            binding.NoWaranty.setVisibility(View.GONE);
+                            binding.submitBtn.setVisibility(View.VISIBLE);
+
+                            WarrantyPhone = false;
+                            String d = df.format(new Date().getTime());
+
+                            Calendar MobIssueDate =  Date_Convert_String_To_Calender(time);
+
+                            String[] MobDatesplit = df.format(MobIssueDate.getTime()).split("-");
+                            Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
+
+                            Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
+                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
+
+
+                            Log.e(TAG, "onResponse MobIssueDate: " + df.format(MobIssueDate.getTime()) );
+                            Log.e(TAG, "onResponse MobtodayDate: " + df.format(MobtodayDate.getTime()));
+                            Log.e(TAG, "onResponse futherdate : " + df.format(MobcalendarFutureDate.getTime()) );
+
+                            binding.IssueDateBat.setText(String.valueOf(df.format(MobIssueDate.getTime())));
+                            binding.WarrantyDateBat.setText(String.valueOf(df.format(MobcalendarFutureDate.getTime())));
+
+                            if(MobcalendarFutureDate.after(MobtodayDate)){
+//                                warranty
+                                binding.BatteryCheckbox.setEnabled(true);
+//                                Toast.makeText(getContext(), "warrant", Toast.LENGTH_SHORT).show();
+
+
+                                binding.BatteryMessage.setText("Warranty available");
+                                binding.BatteryMessage.setTextColor(getResources().getColor(R.color.green));
+
+                            }else {
+//                                out of warranty
+                                binding.BatteryCheckbox.setEnabled(false);
+//                                Toast.makeText(getContext(), "out of warrant", Toast.LENGTH_SHORT).show();
+
+                                binding.BatteryMessage.setText("out of warrtanty");
+                                binding.BatteryMessage.setTextColor(getResources().getColor(R.color.red));
+                            }
+
+
+                        }else {
+                            binding.BatteryLayout.setVisibility(View.GONE);
+                            WarrantyPhone = true ;
+                        }
+
+
+
+                        if(acce_usb.equalsIgnoreCase("YES")){
+
+                            binding.USBLayout.setVisibility(View.VISIBLE);
+                            binding.NoWaranty.setVisibility(View.GONE);
+                            binding.submitBtn.setVisibility(View.VISIBLE);
+
+                            WarrantyPhone = false;
+                            String d = df.format(new Date().getTime());
+
+                            Calendar MobIssueDate =  Date_Convert_String_To_Calender(time);
+
+                            String[] MobDatesplit = df.format(MobIssueDate.getTime()).split("-");
+                            Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
+
+                            Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
+                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
+
+
+                            Log.e(TAG, "onResponse MobIssueDate: " + df.format(MobIssueDate.getTime()) );
+                            Log.e(TAG, "onResponse MobtodayDate: " + df.format(MobtodayDate.getTime()));
+                            Log.e(TAG, "onResponse futherdate : " + df.format(MobcalendarFutureDate.getTime()) );
+
+                            binding.IssueDateUSB.setText(String.valueOf(df.format(MobIssueDate.getTime())));
+                            binding.WarrantyDateUSB.setText(String.valueOf(df.format(MobcalendarFutureDate.getTime())));
+
+                            if(MobcalendarFutureDate.after(MobtodayDate)){
+//                                warranty
+                                binding.USBCheckbox.setEnabled(true);
+//                                Toast.makeText(getContext(), "warrant", Toast.LENGTH_SHORT).show();
+
+
+                                binding.USBMessage.setText("Warranty available");
+                                binding.USBMessage.setTextColor(getResources().getColor(R.color.green));
+
+                            }else {
+//                                out of warranty
+                                binding.USBCheckbox.setEnabled(false);
+//                                Toast.makeText(getContext(), "out of warrant", Toast.LENGTH_SHORT).show();
+
+                                binding.USBMessage.setText("out of warrtanty");
+                                binding.USBMessage.setTextColor(getResources().getColor(R.color.red));
+                            }
+
+
+                        }else {
+                            binding.USBLayout.setVisibility(View.GONE);
+                            WarrantyPhone = true ;
+                        }
+
+
+
+
+
+
+
+
+
+
                         if(acce_earphone.equalsIgnoreCase("YES")){
 
                             binding.EarphoneLayout.setVisibility(View.VISIBLE);
@@ -539,6 +761,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                     Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                     binding.submit.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
+                    AlertDialogfailure(message);
                     return;
 
                 } catch (JSONException e) {
@@ -568,8 +791,10 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     @Override
     public void Onbackpress(String imei) {
+        binding.ImeiEdittext.setText(imei);
         if (onetime) {
             if(validation()){
+
                 getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
                 WarrantyCheck(imei);
             }
@@ -580,8 +805,10 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     @Override
     public void OnbackpressBarcode(String imei) {
+        binding.ImeiEdittext.setText(imei);
         if (onetime) {
             if(validation()){
+                binding.ImeiEdittext.setText(imei);
                 getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
                 WarrantyCheck(imei);
             }
@@ -623,6 +850,97 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     };
 
 
+
+    private void addView(Drawable drawable , int type , String modals , String imeis , String distributor_name , String mess ) {
+
+        int a = imeiCount += 1;
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        rowView = inflater.inflate(R.layout.add_view, null);
+        binding.addLayout.addView(rowView, binding.addLayout.getChildCount() - 1);
+
+        textView = rowView.findViewById(R.id.imei);
+        mainLayout = rowView.findViewById(R.id.mainLayout);
+        Modal = rowView.findViewById(R.id.Modal);
+        TextView ModalTitle = rowView.findViewById(R.id.ModalTitle);
+        TextView imei = rowView.findViewById(R.id.imei);
+        TextView distributorName = rowView.findViewById(R.id.distributorName);
+        TextView msg = rowView.findViewById(R.id.msg);
+        ImageView icon  = rowView.findViewById(R.id.icon);
+
+        mainLayout.setBackground(drawable);
+        textView.setText(binding.ImeiEdittext.getText().toString().trim());
+        textView.setTag(String.valueOf(a));
+        removeBtn = rowView.findViewById(R.id.remove);
+
+        if (type == 200) {
+            icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_check, null));
+            distributorName.setText(distributor_name);
+            msg.setText(mess);
+            msg.setTextColor(getResources().getColor(R.color.green));
+        } else {
+            icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic__check, null));
+            distributorName.setText(distributor_name);
+            msg.setText(mess);
+            msg.setTextColor(getResources().getColor(R.color.yellow));
+        }
+        Modal.setText(modals);
+        imei.setText(imeis);
+
+
+        removeView();
+        binding.ImeiEdittext.setText(null);
+        NoData = true;
+        Wrongdatra = true;
+    }
+
+    private void removeView() {
+        removeBtn.setOnClickListener(v -> {
+            binding.addLayout.removeView((View) v.getParent().getParent().getParent());
+            if (binding.addLayout.getChildCount() == 0) {
+                NoData = true;
+                Wrongdatra = true;
+                imeiCount = 0;
+                binding.msgShowWrongImei.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+    private void AlertDialogfailure(String msg){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+
+        des.setText(msg);
+
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+        } else {
+
+        }
+
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+
+
+    }
 }
 
 

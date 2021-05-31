@@ -189,6 +189,10 @@ public interface LavaInterface{
     @FormUrlEncoded
     Call<Object> PROFILE_DETAILS(@Field("user_id") String user_id);
 
+    @POST("warranty_check")
+    @FormUrlEncoded
+    Call<Object> WARRENTYCHECK(@FieldMap Map<String,String> params);
+
     @POST("send_otp_auth")
     @FormUrlEncoded
     Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile , @Field("country") String country );

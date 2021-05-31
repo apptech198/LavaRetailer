@@ -15,6 +15,118 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:id="@+id/radiolayout"
+            app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+            app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:weightSum="2"
+                android:id="@+id/radiogroup"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="wrap_content">
+
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:text="@string/Serialized"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:id="@+id/searilize"
+                    android:textColor="@color/white"
+                    android:layout_height="wrap_content"/>
+
+
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:text="@string/Unserialized"
+                    android:textColor="@color/white"
+                    android:layout_weight="1"
+                    android:id="@+id/unsearilize"
+                    android:layout_height="wrap_content"/>
+
+
+
+
+
+            </RadioGroup>
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Searilizelayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#1A1A1A"
+        app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/radiolayout">
+
+
+
+        <EditText
+            android:id="@+id/ImeiEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_color"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/montserrat_medium"
+            android:inputType="number"
+            android:padding="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/purple_500"
+            android:textColorHint="@color/purple_500"
+            android:hint="@string/Serial_no"
+            android:textSize="14sp"
+            android:maxLength="15"
+            tools:layout_editor_absoluteX="15dp"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:id="@+id/scanBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/ImeiEdittext"
+            android:background="@drawable/btn_edit"
+            android:paddingStart="10dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_barcode"/>
+
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/retailer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -23,11 +135,14 @@
             android:paddingStart="16dp"
             android:paddingLeft="16dp"
             android:paddingEnd="16dp"
+            android:visibility="gone"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"
             app:layout_constraintEnd_toEndOf="@+id/guidelineEnd"
             app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/Searilizelayout">
+
+
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/sellDatetitle"
@@ -39,8 +154,7 @@
                 android:text="@string/date"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:textColor="@color/white"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintLeft_toLeftOf="parent" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/selectDatePicker"
@@ -135,6 +249,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/note"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -250,6 +365,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="16dp" />
+
+
+
+        <FrameLayout
+            android:id="@+id/LoadFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
 
         <LinearLayout

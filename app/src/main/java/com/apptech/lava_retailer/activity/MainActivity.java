@@ -77,6 +77,7 @@ import com.apptech.lava_retailer.other.LanguageChange;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.ui.warranty.serialize.SerializeFragment;
 import com.apptech.lava_retailer.ui.warranty.unserialize.UnSerializeFragment;
+import com.apptech.lava_retailer.ui.warranty.warrenty_check.WarrentyCheckFragment;
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
@@ -714,11 +715,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel(getResources().getString(R.string.Serialized), false, false, "SERIALIZE");
+        childModel = new MenuModel(getResources().getString(R.string.Mobile_Phone), false, false, "SERIALIZE");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel(getResources().getString(R.string.Unserialized), false, false, "UN_SERIALIZE");
+
+        childModel = new MenuModel(getResources().getString(R.string.Accessories), false, false, "UN_SERIALIZE");
         childModelsList.add(childModel);
+
+        childModel = new MenuModel(getResources().getString(R.string.Warranty), false, false, "WARRENTY_CHECK");
+        childModelsList.add(childModel);
+
 
         if (menuModel.hasChildren) {
             childList.put(menuModel, childModelsList);
@@ -865,6 +871,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         case "PRICE_DROP_PENDING_VERIFICATION":
                             loadfragment(new SellOut_PendingVerificationFragment());
                             binding.appBarMain.Actiontitle.setText("Entery pending verification");
+                            break;
+                        case "WARRENTY_CHECK":
+                            loadfragment(new WarrentyCheckFragment());
+                            binding.appBarMain.Actiontitle.setText("Warrenty Chack");
                             break;
                     }
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -1033,6 +1043,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                         case "UN_SERIALIZE":
                             navController.navigate(R.id.unSerializeFragment);
+                            binding.expandableListView.setClickable(true);
+                            binding.expandableListView.setEnabled(true);
+                            binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            break;
+                        case "WARRENTY_CHECK":
+                            navController.navigate(R.id.warrentycheckFragment);
                             binding.expandableListView.setClickable(true);
                             binding.expandableListView.setEnabled(true);
                             binding.drawerLayout.closeDrawer(GravityCompat.START);

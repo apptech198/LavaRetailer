@@ -117,6 +117,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 imageView.setImageResource(R.drawable.ic_user__2_);
                 percentview.setVisibility(View.VISIBLE);
                 ProfileProgress.setProgress(sessionManage.GetProfilePercent());
+                percent.setText(String.valueOf(sessionManage.GetProfilePercent())+"%");
                 int a = 0;
                 Log.e(TAG, "getGroupView: " + a );
                 break;
