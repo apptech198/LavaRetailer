@@ -118,8 +118,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 
             StartDate = getCurrentDate();
             End_Date = getCurrentDate();
-            TYPE = "NO";
-
+            TYPE = "PENDING";
             StockList();
         } else {
             binding.progressbar.setVisibility(View.GONE);
@@ -133,7 +132,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 //        });
 
         binding.PendingLayout.setOnClickListener(this);
-        binding.ApprovedLayout.setOnClickListener(this);
         binding.RejectedLayout.setOnClickListener(this);
 
     }
@@ -275,10 +273,12 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     }
 
     private void StockList() {
-        Log.e(TAG, "onActivityCreated: " + USER_ID);
 
-        Log.e(TAG, "StockList: " + StartDate );
-        Log.e(TAG, "StockList: " + End_Date );
+//        Log.e(TAG, "onActivityCreated: " + USER_ID);
+//        Log.e(TAG, "StockList: " + StartDate );
+//        Log.e(TAG, "StockList: " + End_Date );
+
+        binding.progressbar.setVisibility(View.VISIBLE);
 
 
         lavaInterface.PRICE_DROP_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<SellOutPendingVerificationList>() {
@@ -298,39 +298,40 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
                     if(error.equalsIgnoreCase("false")){
 
                         JSONArray jsonArray = jsonObject.getJSONArray("list");
-                        lists.clear();
-                        for (int i=0; i < jsonArray.length(); i++){
+                        if(jsonArray.length() > 0){
+                            lists.clear();
 
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            String status = object.optString("status");
-
-                            if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
-                                lists.add(new List(
-                                        object.optString("id")
-                                        ,object.optString("type")
-                                        ,object.optString("imei")
-                                        ,object.optString("date")
-                                        ,object.optString("retailer_id")
-                                        ,object.optString("time")
-                                        ,object.optString("product_id")
-                                        ,object.optString("model")
-                                        ,object.optString("check_status")
-                                        ,object.optString("status")
-                                        ,object.optString("price_drop_id")
-                                        ,object.optString("price_drop_name")
-                                        ,object.optString("qty")
-                                        ,object.optString("price")
-                                ));
+                            for (int i=0; i < jsonArray.length(); i++){
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                String status = object.optString("status");
+                                if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
+                                    lists.add(new List(
+                                            object.optString("id")
+                                            ,object.optString("type")
+                                            ,object.optString("imei")
+                                            ,object.optString("date")
+                                            ,object.optString("retailer_id")
+                                            ,object.optString("time")
+                                            ,object.optString("product_id")
+                                            ,object.optString("model")
+                                            ,object.optString("check_status")
+                                            ,object.optString("status")
+                                            ,object.optString("price_drop_id")
+                                            ,object.optString("price_drop_name")
+                                            ,object.optString("qty")
+                                            ,object.optString("price")
+                                    ));
+                                }
                             }
-                        }
 
-                        if(lists.size() > 0){
-                            sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
-                            binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                            binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                            binding.progressbar.setVisibility(View.GONE);
-                            binding.noStock.setVisibility(View.GONE);
-                            return;
+                            if(lists.size() > 0){
+                                sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
+                                binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
+                                binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
+                                binding.progressbar.setVisibility(View.GONE);
+                                binding.noStock.setVisibility(View.GONE);
+                                return;
+                            }
                         }
                         binding.ImeiRecyclerView.setVisibility(View.GONE);
                         binding.noStock.setVisibility(View.VISIBLE);
@@ -369,124 +370,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     }
 
 
-    private void dilogclick() {
 
-
-        fromTextView = view.findViewById(R.id.fromTextView);
-        toTextView = view.findViewById(R.id.toTextView);
-        closeImg = view.findViewById(R.id.closeImg);
-        searchBtn = view.findViewById(R.id.searchBtn);
-
-        closeImg.setOnClickListener(v -> {
-            alertDialog.dismiss();
-        });
-
-        searchBtn.setOnClickListener(v -> {
-            if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
-                if (fromTextView.getText().toString().trim().equalsIgnoreCase("From")) {
-                    Snackbar snackbar = Snackbar
-                            .make(binding.getRoot(), "from date", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    return;
-                }
-                if (toTextView.getText().toString().trim().equalsIgnoreCase("To")) {
-                    Snackbar snackbar = Snackbar
-                            .make(binding.getRoot(), "to dater", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    return;
-                }
-                dateFilter1(fromTextView.getText().toString().trim(), toTextView.getText().toString().trim());
-                alertDialog.dismiss();
-
-                return;
-            }
-            Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show();
-        });
-
-
-        fromDatetitle.setOnClickListener(v -> {
-            final Calendar cldr = Calendar.getInstance();
-            int day = cldr.get(Calendar.DAY_OF_MONTH);
-            int month = cldr.get(Calendar.MONTH);
-            int year = cldr.get(Calendar.YEAR);
-            // date picker dialog
-            picker = new DatePickerDialog(requireContext(),
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-//                            eText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                        fromTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
-                        StartDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                    }, year, month, day);
-            picker.show();
-        });
-
-        toDatetitle.setOnClickListener(v -> {
-            final Calendar cldr = Calendar.getInstance();
-            int day = cldr.get(Calendar.DAY_OF_MONTH);
-            int month = cldr.get(Calendar.MONTH);
-            int year = cldr.get(Calendar.YEAR);
-            // date picker dialog
-            picker = new DatePickerDialog(requireContext(),
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-                        toTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
-                        EndDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                    }, year, month, day);
-            picker.show();
-        });
-
-    }
-
-    private void dateFilter1(String from, String to) {
-
-        binding.progressbar.setVisibility(View.VISIBLE);
-        binding.noStock.setVisibility(View.GONE);
-
-
-        lavaInterface.PRICE_DROP_IMEI_LIST(USER_ID, from, to).enqueue(new Callback<SellOutPendingVerificationList>() {
-            @Override
-            public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                if (response.isSuccessful()) {
-                    if (!response.body().getError()) {
-                        lists = new ArrayList<>(response.body().getList());
-                        if (response.body().getList().size() > 0) {
-                            sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(response.body().getList());
-                            binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                            sellOutPendingVerificationAdapter.notifyDataSetChanged();
-                            binding.progressbar.setVisibility(View.GONE);
-                            binding.noStock.setVisibility(View.GONE);
-                            binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                            return;
-                        }
-                        binding.noStock.setVisibility(View.VISIBLE);
-                        binding.progressbar.setVisibility(View.GONE);
-                        binding.ImeiRecyclerView.setVisibility(View.GONE);
-                        return;
-                    }
-                    Toast.makeText(requireContext(), "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                    binding.noStock.setVisibility(View.VISIBLE);
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<SellOutPendingVerificationList> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
-    }
 
 
 
@@ -537,22 +421,12 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
                 TYPE = "PENDING";
                 StockList();
                 binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
-                binding.ApprovedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-                break;
-            case R.id.ApprovedLayout:
-                TYPE = "APPROVED";
-                StockList();
-                binding.ApprovedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
-                binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-                binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-
                 break;
             case R.id.RejectedLayout:
                 TYPE = "REJECTED";
                 StockList();
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
-                binding.ApprovedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 break;
         }

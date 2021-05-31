@@ -11,11 +11,13 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class PriceDrop {
-    Context context;
 
     @SerializedName("id")
     @Expose
     private String id;
+    @SerializedName("drop_amount")
+    @Expose
+    private String drop_amount;
     @SerializedName("name")
     @Expose
     private String name;
@@ -38,9 +40,11 @@ public class PriceDrop {
     @Expose
     private String active;
 
+    Context context;
 
-    public PriceDrop(String id, String name, String startDate, String endDate, String nameAr, String nameFr, String time, String active,Context context ) {
+    public PriceDrop(String id, String drop_amount, String name, String startDate, String endDate, String nameAr, String nameFr, String time, String active, Context context) {
         this.id = id;
+        this.drop_amount = drop_amount;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -48,71 +52,47 @@ public class PriceDrop {
         this.nameFr = nameFr;
         this.time = time;
         this.active = active;
-        this.context=context;
+        this.context = context;
     }
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getDrop_amount() {
+        return drop_amount;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getStartDate() {
         return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
     }
 
     public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
     public String getNameAr() {
         return nameAr;
-    }
-
-    public void setNameAr(String nameAr) {
-        this.nameAr = nameAr;
     }
 
     public String getNameFr() {
         return nameFr;
     }
 
-    public void setNameFr(String nameFr) {
-        this.nameFr = nameFr;
-    }
-
     public String getTime() {
         return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getActive() {
         return active;
     }
 
-    public void setActive(String active) {
-        this.active = active;
+    public Context getContext() {
+        return context;
     }
 
     @Override

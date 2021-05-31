@@ -160,9 +160,13 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             popupMenu.show();//showing popup menu
         });
 
-        Context wrapper = new ContextThemeWrapper(this, R.style.YOURSTYLE);
-        popupMenu = new PopupMenu(wrapper, binding.SelectCountry);
-        getCountry();
+        if(new NetworkCheck().haveNetworkConnection(this)){
+            Context wrapper = new ContextThemeWrapper(this, R.style.YOURSTYLE);
+            popupMenu = new PopupMenu(wrapper, binding.SelectCountry);
+            getCountry();
+        }else {
+            Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
             binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));

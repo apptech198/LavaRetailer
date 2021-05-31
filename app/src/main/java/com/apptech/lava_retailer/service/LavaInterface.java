@@ -79,7 +79,7 @@ public interface LavaInterface{
     @POST("sale_sellout_imei")
     Call<Object> SELL_OUT_IMEI(@Body JsonObject imei);
 
-    @POST("sale_stock_imei")
+    @POST("pricedrop_imei")
     Call<Object> PRICE_DROP_IMEI(@Body JsonObject imei);
 
     @POST("pricedrop_imei_list_pending_block")
@@ -184,6 +184,10 @@ public interface LavaInterface{
     @POST("check_imei")
     @FormUrlEncoded
     Call<Object> IMEI_CHECK(@Field("imei") String imei , @Field("ret_id") String ret_id);
+
+    @POST("price_drop_check_imei")
+    @FormUrlEncoded
+    Call<Object> PROOCE_DROP_IMEI_CHECK(@Field("imei") String imei , @Field("ret_id") String ret_id , @Field("start_date") String start_date , @Field("end_date") String end_date );
 
     @POST("profile_detail")
     @FormUrlEncoded

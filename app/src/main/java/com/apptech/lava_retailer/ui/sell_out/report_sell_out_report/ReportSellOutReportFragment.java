@@ -589,7 +589,8 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         progressDialog.show();
         try {
             CategoryJsonObject = new JSONObject(String.valueOf(o));
-            DataCategoryFilter();
+//            DataCategoryFilter();
+            filterCategoryloop();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -612,7 +613,8 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         try {
             progressDialog.show();
             ModalJsonObject = new JSONObject(String.valueOf(o));
-            DataModalFilter();
+            filterModalloop();
+//            DataModalFilter();
         } catch (JSONException e) {
             e.printStackTrace();
         }

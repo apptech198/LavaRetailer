@@ -39,6 +39,20 @@
         app:layout_constraintVertical_bias="0.19999999"
         tools:listitem="@layout/row_brands" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/noproduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="@string/data_not_found"
+        android:textColor="@color/white"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <LinearLayout
         android:id="@+id/progressbar"

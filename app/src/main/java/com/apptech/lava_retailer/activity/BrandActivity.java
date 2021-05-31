@@ -14,6 +14,7 @@ import com.apptech.lava_retailer.adapter.BrandsAdapter;
 import com.apptech.lava_retailer.databinding.ActivityBrandBinding;
 import com.apptech.lava_retailer.list.brand.Brandlist;
 import com.apptech.lava_retailer.other.LanguageChange;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -67,7 +68,13 @@ public class BrandActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-        brand();
+        if (new NetworkCheck().haveNetworkConnection(this)){
+            binding.noproduct.setVisibility(View.GONE);
+            brand();
+        }else {
+            binding.noproduct.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
         brandInterfaces = (list , text  , text_ar) -> {
             sessionManage.brandSelect(list.getId() , text , text_ar,list.getName_fr());

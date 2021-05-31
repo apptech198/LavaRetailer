@@ -67,9 +67,6 @@
     <string name="country_id_fiels_missing">Country Id is missing</string>
 
 
-
-
-
     <string-array name="qtyArray">
         <item>1</item>
         <item>2</item>
@@ -231,7 +228,6 @@
     <string name="Accessories">Accessories</string>
     <string name="UnSerialize_Warranty">UnSerialize Warranty</string>
     <string name="Serial_no">Serial Number</string>
-
 
 
 </resources>

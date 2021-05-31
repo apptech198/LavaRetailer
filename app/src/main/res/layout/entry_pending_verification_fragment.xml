@@ -54,7 +54,7 @@
         app:layout_constraintHorizontal_weight="1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/headtitle"
-        app:layout_constraintEnd_toStartOf="@+id/ApprovedLayout"
+        app:layout_constraintEnd_toStartOf="@+id/RejectedLayout"
         android:background="@drawable/red_order_status"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
@@ -72,42 +72,21 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ApprovedLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintEnd_toStartOf="@+id/RejectedLayout"
-        app:layout_constraintTop_toTopOf="@+id/PendingLayout"
-        app:layout_constraintBottom_toBottomOf="@+id/PendingLayout"
-        app:layout_constraintStart_toEndOf="@+id/PendingLayout"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Approved"
-            android:fontFamily="@font/lato_semi_bold"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/white"/>
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/RejectedLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/ApprovedLayout"
-        app:layout_constraintBottom_toBottomOf="@+id/ApprovedLayout"
+        app:layout_constraintTop_toTopOf="@+id/PendingLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/PendingLayout"
+        app:layout_constraintStart_toEndOf="@+id/PendingLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"
         android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+        android:paddingBottom="4dp"
+        android:background="@drawable/blac_order_status">
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"

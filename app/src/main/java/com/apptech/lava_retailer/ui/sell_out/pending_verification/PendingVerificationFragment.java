@@ -358,58 +358,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
                 binding.noStock.setVisibility(View.VISIBLE);
                 binding.ImeiRecyclerView.setVisibility(View.GONE);
 
-/*
-                try {
-
-                    if (response.isSuccessful()) {
-                        if (!response.body().getError()) {
-                            if (response.body().getList().size() > 0) {
-
-                                lists = new ArrayList<>(response.body().getList());
-
-                                DuplicateList.clear();
-                                for (int i=0; i < response.body().getList().size(); i++){
-                                    if(TYPE.equalsIgnoreCase(lists.get(i).getValid())){
-                                        List l = lists.get(i);
-                                        DuplicateList.add(l);
-                                    }
-                                }
-
-                                if(DuplicateList.size() > 0){
-                                    sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(DuplicateList);
-                                    binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                                    binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                                    binding.progressbar.setVisibility(View.GONE);
-                                    binding.noStock.setVisibility(View.GONE);
-                                    return;
-                                }
-                                binding.ImeiRecyclerView.setVisibility(View.GONE);
-                                binding.noStock.setVisibility(View.VISIBLE);
-                                binding.progressbar.setVisibility(View.GONE);
-                                return;
-                            }
-                            binding.ImeiRecyclerView.setVisibility(View.GONE);
-                            binding.noStock.setVisibility(View.VISIBLE);
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
-                        }
-                        Toast.makeText(getContext(), "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
-                        binding.ImeiRecyclerView.setVisibility(View.GONE);
-                        binding.progressbar.setVisibility(View.GONE);
-                        binding.noStock.setVisibility(View.VISIBLE);
-                        return;
-                    }
-                    Toast.makeText(getContext(), getString(R.string.something_went_wrong) , Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    binding.noStock.setVisibility(View.VISIBLE);
-                    binding.ImeiRecyclerView.setVisibility(View.GONE);
-
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                    Log.e(TAG, "onResponse: " + e.getMessage() );
-                }
-*/
-
             }
 
             @Override
