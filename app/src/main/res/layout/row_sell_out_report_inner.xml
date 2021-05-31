@@ -1,44 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="16dp">
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="G. Total"
-            android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:fontFamily="@font/lato_semi_bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_weight="1"/>
+    android:background="@drawable/order_status_design"
+    android:padding="8dp">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/modalname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="45"
             android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:fontFamily="@font/lato_semi_bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:gravity="center"
-            android:layout_weight="1"/>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="45. "
-            android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:fontFamily="@font/lato_semi_bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_weight="1"
-            android:gravity="center"/>
+            android:text="Modal"
+            android:textSize="12sp"/>
 
-    </TableRow>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Qty"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="12sp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Value"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="12sp"/>
+
+</TableRow>
 
 

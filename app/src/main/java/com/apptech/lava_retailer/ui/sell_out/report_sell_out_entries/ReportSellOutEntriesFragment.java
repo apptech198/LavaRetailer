@@ -31,6 +31,7 @@ import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -68,6 +69,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     JsonObject mainJsonObject = new JsonObject();
     LinearLayout mainLayout;
     BarCodeScannerFragment barCodeScannerFragment;
+    String CHECK_STATUS =""  , STATUS = "";
 
 
 
@@ -193,10 +195,14 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                 JsonObject jsonObject = new JsonObject();
                 try {
                     int getid = i + 1;
+
                     TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
+
+                    Log.e(TAG, "AlertDialog: " + textView.getHint());
+
                     jsonObject.addProperty("imei", textView.getText().toString());
-                    jsonObject.addProperty("check_status", "PENDING");
-                    jsonObject.addProperty("status", "PENDING");
+                    jsonObject.addProperty("check_status", textView.getHint().toString());
+                    jsonObject.addProperty("status", textView.getHint().toString());
                     jsonElements.add(jsonObject);
                 } catch (NullPointerException e) {
                     Log.e(TAG, "onActivityCreated: " + e.getMessage());
@@ -206,7 +212,10 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             submitImei();
             binding.addLayout.removeAllViews();
         });
-        no.setOnClickListener(view -> {alertDialog.dismiss();
+        no.setOnClickListener(view -> {
+            submit.setEnabled(true);
+            submit.setClickable(true);
+            alertDialog.dismiss();
         binding.progressbar.setVisibility(View.GONE);});
 
 
@@ -229,6 +238,9 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         mainJsonObject.addProperty("date", binding.startDatetime.getText().toString().trim());
         mainJsonObject.addProperty("retailer_id", USER_ID);
+        mainJsonObject.addProperty("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+
         mainJsonObject.add("imei_list", jsonElements);
 
         Log.e(TAG, "submitImei: " + mainJsonObject);
@@ -254,6 +266,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                         binding.submitBtn.setClickable(true);
                         binding.submitBtn.setEnabled(true);
                         binding.progressbar.setVisibility(View.GONE);
+                        binding.submitBtn.setVisibility(View.GONE);
                         return;
                     }
                     binding.progressbar.setVisibility(View.GONE);
@@ -280,22 +293,22 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     }
 
 
-    private void wrongimei(String imei) {
-        int a = imeiCount += 1;
-        Log.e(TAG, "addImei: idset" + a);
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        rowView = inflater.inflate(R.layout.add_view, null);
-        binding.addLayout.addView(rowView, binding.addLayout.getChildCount() - 1);
-        textView = rowView.findViewById(R.id.imei);
-        mainLayout = rowView.findViewById(R.id.mainLayout);
-        mainLayout.setBackground(getResources().getDrawable(R.drawable.wrong_imei));
-        textView.setText(imei);
-        textView.setTag(String.valueOf(a));
-        removeBtn = rowView.findViewById(R.id.remove);
-        removeView();
-        binding.ImeiEdittext.setText(null);
-        Wrongdatra = false;
-    }
+//    private void wrongimei(String imei) {
+//        int a = imeiCount += 1;
+//        Log.e(TAG, "addImei: idset" + a);
+//        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        rowView = inflater.inflate(R.layout.add_view, null);
+//        binding.addLayout.addView(rowView, binding.addLayout.getChildCount() - 1);
+//        textView = rowView.findViewById(R.id.imei);
+//        mainLayout = rowView.findViewById(R.id.mainLayout);
+//        mainLayout.setBackground(getResources().getDrawable(R.drawable.wrong_imei));
+//        textView.setText(imei);
+//        textView.setTag(String.valueOf(a));
+//        removeBtn = rowView.findViewById(R.id.remove);
+//        removeView();
+//        binding.ImeiEdittext.setText(null);
+//        Wrongdatra = false;
+//    }
 
     private void removeView() {
         removeBtn.setOnClickListener(v -> {
@@ -305,6 +318,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                 Wrongdatra = true;
                 imeiCount = 0;
                 binding.msgShowWrongImei.setVisibility(View.GONE);
+                binding.submitBtn.setVisibility(View.GONE);
             }
         });
     }
@@ -351,10 +365,14 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         mainLayout.setBackground(drawable);
         textView.setText(binding.ImeiEdittext.getText().toString().trim());
-        textView.setTag(String.valueOf(a));
+        textView.setTag(String.valueOf(a));;
         removeBtn = rowView.findViewById(R.id.remove);
 
         if (type == 200) {
+            CHECK_STATUS = "APPROVED";
+            STATUS = "APPROVED";
+            textView.setHint("APPROVED");
+
             icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_check, null));
             distributorName.setText(distributor_name);
             msg.setText(mess);
@@ -364,10 +382,13 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             distributorName.setText(distributor_name);
             msg.setText(mess);
             msg.setTextColor(getResources().getColor(R.color.yellow));
+            CHECK_STATUS = "PENDING";
+            STATUS = "PENDING";
+            textView.setHint("PENDING");
         }
         Modal.setText(modals);
         imei.setText(imeis);
-
+        binding.submitBtn.setVisibility(View.VISIBLE);
 
         removeView();
         binding.ImeiEdittext.setText(null);
@@ -381,11 +402,50 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             return false;
         }
         if (imei.length() != 15) {
-            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();
+
+//            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();
+            AlertDialogfailure("Imei Code Invalid");
             return false;
         }
         return true;
     }
+
+    private void AlertDialogfailure(String msg){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+        MaterialTextView Title = v.findViewById(R.id.Title);
+        Title.setText("Alert");
+        des.setText(msg);
+
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+        } else {
+
+        }
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+
+
+    }
+
 
     public static String getCurrentDate() {
         Calendar c = Calendar.getInstance();
@@ -442,7 +502,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                                     case "en":
                                     case "fr":
-                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") , message );
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") , message  );
                                         break;
                                     case "ar":
                                         addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_ar") ,object.optString("imei"),object.optString("distributor_name") , message);

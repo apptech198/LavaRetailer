@@ -36,6 +36,7 @@ import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -181,6 +182,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         mainJsonObject.addProperty("start_date", announce_start_date);
         mainJsonObject.addProperty("end_date", announce_end_date);
         mainJsonObject.addProperty("retailer_id", USER_ID);
+        mainJsonObject.addProperty("locality_name",  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
 
         mainJsonObject.add("imei_list", jsonElements);
 
@@ -209,6 +212,9 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                         binding.submitBtn.setClickable(true);
                         binding.submitBtn.setEnabled(true);
                         binding.progressbar.setVisibility(View.GONE);
+                        binding.submitBtn.setVisibility(View.GONE);
+
+
                         return;
                     }
                     binding.progressbar.setVisibility(View.GONE);
@@ -244,6 +250,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                 Wrongdatra = true;
                 imeiCount = 0;
                 binding.msgShowWrongImei.setVisibility(View.GONE);
+                binding.scanBtn.setVisibility(View.GONE);
+
             }
         });
     }
@@ -281,15 +289,17 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
             distributorName.setText(distributor_name);
             msg.setText(mess);
             msg.setTextColor(getResources().getColor(R.color.green));
+            textView.setHint("APPROVED");
         } else {
             icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic__check, null));
             distributorName.setText(distributor_name);
             msg.setText(mess);
             msg.setTextColor(getResources().getColor(R.color.yellow));
+            textView.setHint("PENDING");
         }
         Modal.setText(modals);
         imei.setText(imeis);
-
+        binding.submitBtn.setVisibility(View.VISIBLE);
 
         removeView();
         binding.ImeiEdittext.setText(null);
@@ -321,11 +331,16 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                 JsonObject jsonObject = new JsonObject();
                 try {
                     int getid = i + 1;
+
                     TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
+
+
                     jsonObject.addProperty("imei", textView.getText().toString());
                     jsonObject.addProperty("drop_amount", announce_drop_amount);
-                    jsonObject.addProperty("check_status", announce_active);
-                    jsonObject.addProperty("status", "PENDING");
+                    jsonObject.addProperty("check_status", textView.getHint().toString());
+                    jsonObject.addProperty("status",  textView.getHint().toString());
+
+
                     jsonElements.add(jsonObject);
                 } catch (NullPointerException e) {
                     Log.e(TAG, "onActivityCreated: " + e.getMessage());
@@ -409,7 +424,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
             Toast.makeText(requireContext(), getResources().getString(R.string.field_required), Toast.LENGTH_SHORT).show();
             return false;
         } else if (imei.length() != 15) {
-            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();
+            AlertDialogfailure("Imei Code Invalid");
             return false;
         }
         return true;
@@ -509,27 +525,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
                         }
 
-//                        if(error_code == 200){
-//                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
-//                                case "en":
-//                                case "fr":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , "");
-//                                    break;
-//                                case "ar":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_ar") ,object.optString("imei"),"");
-//                                    break;
-//                            }
-//                        }else {
-//                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
-//                                case "en":
-//                                case "fr":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name"));
-//                                    break;
-//                                case "ar":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"));
-//                                    break;
-//                            }
-//                        }
+
                         binding.progressbar.setVisibility(View.GONE);
 
                     }else {
@@ -695,6 +691,42 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         alertDialog.show();
 
         closeDialog.setOnClickListener(v -> {alertDialog.dismiss();});
+
+
+    }
+
+    private void AlertDialogfailure(String msg){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+        MaterialTextView Title = v.findViewById(R.id.Title);
+        Title.setText("Alert");
+        des.setText(msg);
+
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+        } else {
+
+        }
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
 
 
     }

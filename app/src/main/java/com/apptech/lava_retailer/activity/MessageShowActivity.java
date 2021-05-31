@@ -217,6 +217,8 @@ public class MessageShowActivity extends AppCompatActivity {
                             messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
                             binding.messageRecyclerview.setAdapter(messageShowAdapter);
 
+                            binding.nextScreenbutton.setVisibility(View.VISIBLE);
+
                             binding.msgCount.setText(String.valueOf(notificationListShows.size()));
                             if (mainJsonObject.length() == response.body().getList().size()) {
                                 if (sessionManage.getUserDetails().get("BRAND_ID") != null) {
@@ -248,6 +250,7 @@ public class MessageShowActivity extends AppCompatActivity {
                         binding.messageRecyclerview.setAdapter(messageShowAdapter);
                         binding.msgCount.setText(String.valueOf(notificationListShows.size()));
                         binding.progressbar.setVisibility(View.GONE);
+                        binding.nextScreenbutton.setVisibility(View.VISIBLE);
                         return;
                     }
                     Toast.makeText(MessageShowActivity.this, "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();

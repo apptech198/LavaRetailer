@@ -16,9 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.RowSellOutReportBinding;
 import com.apptech.lava_retailer.list.sell_out_report.SellOutReportList;
+import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomCategoryList;
+import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomModalList;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SelloutReportAdapter extends RecyclerView.Adapter<SelloutReportAdapter.Viewholder> {
@@ -26,11 +29,13 @@ public class SelloutReportAdapter extends RecyclerView.Adapter<SelloutReportAdap
 
     Context context;
     private static final String TAG = "SelloutReportAdapter";
-    List<SellOutReportList> sellOutReportLists;
+    List<SellOutCustomCategoryList> sellOutCustomCategoryLists;
     SessionManage sessionManage;
 
-    public SelloutReportAdapter(List<SellOutReportList> sellOutReportLists) {
-        this.sellOutReportLists = sellOutReportLists;
+
+
+    public SelloutReportAdapter(List<SellOutCustomCategoryList> sellOutCustomCategoryLists) {
+        this.sellOutCustomCategoryLists = sellOutCustomCategoryLists;
     }
 
 
@@ -45,47 +50,48 @@ public class SelloutReportAdapter extends RecyclerView.Adapter<SelloutReportAdap
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        SellOutReportList l = sellOutReportLists.get(position);
-
-
+        SellOutCustomCategoryList l = sellOutCustomCategoryLists.get(position);
         switch (sessionManage.getUserDetails().get("LANGUAGE")){
             case "en":
-
-                break;
-            case "fr":
-//                if(countryLists.get(0).getName_fr().isEmpty()){
-////                    popupMenu1.getMenu().add(i, id, i ,object.getString("name"));
-//                }else {
-////                    popupMenu1.getMenu().add(i, id, i ,object.getString("name_fr"));
-//                }
+                holder.binding.commodityName.setText(l.getCommodity());
                 break;
             case "ar":
-
+                holder.binding.commodityName.setText(l.getCommodity_ar());
                 break;
         }
 
+        holder.binding.qty.setText(l.getQty());
+        holder.binding.value.setText(l.getValue());
 
-
-        holder.binding.modal.setText(l.getModel());
-        holder.binding.Category.setText(l.getCommodity());
+        holder.binding.InnerRecyclerView.setAdapter(new SellOutReportInnerAdapter(l.getSellOutCustomModalLists()));
 
     }
 
 
     @Override
     public int getItemCount() {
-        return sellOutReportLists.size();
+        return sellOutCustomCategoryLists.size();
     }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 
         RowSellOutReportBinding binding;
+        SellOutReportInnerAdapter sellOutReportInnerAdapter;
 
         public Viewholder(@NonNull RowSellOutReportBinding itemView) {
             super(itemView.getRoot());
             this.binding = itemView;
         }
+
+
     }
+
+    public void UpdateList(List<SellOutCustomCategoryList> sellOutCustomCategoryLists){
+        this.sellOutCustomCategoryLists = sellOutCustomCategoryLists;
+        notifyDataSetChanged();
+    }
+
+
 }
 
 

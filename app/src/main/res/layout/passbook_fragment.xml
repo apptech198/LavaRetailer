@@ -178,7 +178,7 @@
             android:layout_width="match_parent"
             app:layout_constraintTop_toBottomOf="@id/claimtypeLayout"
             android:layout_marginTop="20dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/recycle"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"

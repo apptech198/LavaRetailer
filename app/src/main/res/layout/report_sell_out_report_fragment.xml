@@ -308,6 +308,51 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent">
 
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:background="@drawable/order_status_design"
+                        >
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/commodity_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="G. Total"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/lato_semi_bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_weight="1"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/qty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/lato_semi_bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:gravity="center"
+                            android:layout_weight="1"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/lato_semi_bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            android:layout_weight="1"
+                            android:gravity="center"/>
+
+                    </TableRow>
+
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/ReportselloutRecyclerView"
                         android:layout_width="match_parent"

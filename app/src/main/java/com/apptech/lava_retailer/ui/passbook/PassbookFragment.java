@@ -156,7 +156,7 @@ public class PassbookFragment extends Fragment {
 //        });
 
         if (checkPermission()) {
-            Toast.makeText(getContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
         } else {
             requestPermission();
         }
@@ -378,7 +378,7 @@ public class PassbookFragment extends Fragment {
                                     binding.recycle.setVisibility(View.GONE);
                                 }else {
                                     binding.noData.setVisibility(View.GONE);
-                                    binding.recycle.setVisibility(View.VISIBLE);
+                                    binding.recycle.setVisibility(View.GONE);
                                     PassbookAdapter adapter= new PassbookAdapter(lists, getCount);
                                     binding.recycle.setAdapter(adapter);
                                     getClaimtype(adapter);

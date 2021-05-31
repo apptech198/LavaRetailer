@@ -144,6 +144,91 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment {
 
     private void getModel() {
 
+        String josn = "{\n" +
+                "  \"comodity_list\": [\n" +
+                "    {\n" +
+                "      \"id\": \"1\",\n" +
+                "      \"name\": \"SMART PHONE\",\n" +
+                "      \"name_ar\": \"هاتف ذكي\",\n" +
+                "      \"name_fr\": \"\",\n" +
+                "      \"brand_id\": null,\n" +
+                "      \"brand_name\": null,\n" +
+                "      \"form_type\": null,\n" +
+                "      \"time\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": \"2\",\n" +
+                "      \"name\": \"USB CABLE\",\n" +
+                "      \"name_ar\": \"كابل USB\",\n" +
+                "      \"name_fr\": \"\",\n" +
+                "      \"brand_id\": null,\n" +
+                "      \"brand_name\": null,\n" +
+                "      \"form_type\": null,\n" +
+                "      \"time\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": \"5\",\n" +
+                "      \"name\": \"FEATURE PHONE\",\n" +
+                "      \"name_ar\": \"مواصفات الهاتف\",\n" +
+                "      \"name_fr\": \"\",\n" +
+                "      \"brand_id\": null,\n" +
+                "      \"brand_name\": null,\n" +
+                "      \"form_type\": null,\n" +
+                "      \"time\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": \"6\",\n" +
+                "      \"name\": \"WIRED EARPHONE\",\n" +
+                "      \"name_ar\": \"سماعة سلكية\",\n" +
+                "      \"name_fr\": \"\",\n" +
+                "      \"brand_id\": null,\n" +
+                "      \"brand_name\": null,\n" +
+                "      \"form_type\": null,\n" +
+                "      \"time\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": \"7\",\n" +
+                "      \"name\": \"BLUETOOTH EARPHONE\",\n" +
+                "      \"name_ar\": \"سماعة بلوتوث\",\n" +
+                "      \"name_fr\": \"\",\n" +
+                "      \"brand_id\": null,\n" +
+                "      \"brand_name\": null,\n" +
+                "      \"form_type\": null,\n" +
+                "      \"time\": null\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"id\": \"8\",\n" +
+                "      \"name\": \"EARPHONE\",\n" +
+                "      \"name_ar\": \"سماعة الأذن\",\n" +
+                "      \"name_fr\": \"\",\n" +
+                "      \"brand_id\": null,\n" +
+                "      \"brand_name\": null,\n" +
+                "      \"form_type\": null,\n" +
+                "      \"time\": null\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"model_list\": [\n" +
+                "    {\n" +
+                "      \"model\": \"Y30\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"model\": \"Y31\"\n" +
+                "    }\n" +
+                "    ,\n" +
+                "    {\n" +
+                "      \"model\": \"Y32\"\n" +
+                "    }\n" +
+                "    ,\n" +
+                "    {\n" +
+                "      \"model\": \"Y33\"\n" +
+                "    }\n" +
+                "  ],\n" +
+                "  \"error\": false,\n" +
+                "  \"error_code\": 200,\n" +
+                "  \"message\": \" all IMEI   \"\n" +
+                "}";
+
+
         progressDialog.show();
         lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
 
@@ -153,7 +238,8 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment {
                 if(response.isSuccessful()){
                     try {
                         JSONObject jsonObject  = new JSONObject(new Gson().toJson(response.body()));
-                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+//                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        jsonObject = new JSONObject(josn);
                         String error = jsonObject.getString("error");
                         String message = jsonObject.getString("message");
 

@@ -15,8 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
+import com.apptech.lava_retailer.adapter.SellOutReportModalFilterAdapter;
 import com.apptech.lava_retailer.databinding.FragmentProceDropModalFilterBinding;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -24,6 +26,19 @@ import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
@@ -33,6 +48,16 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
     LavaInterface lavaInterface;
     SessionManage sessionManage;
     ProgressDialog progressDialog;
+    SellOutReportModalFilterAdapter sellOutReportModalFilterAdapter;
+    List<String> modalList = new ArrayList<>();
+    SellOutReportModalFilterAdapter.OnItemClickInterface onItemClickInterface;
+    JSONObject MainObject = new JSONObject();
+    PriceDropModalInterFace priceDropModalInterFace;
+
+
+    public PriceDropModalFilterFragment(PriceDropModalInterFace priceDropModalInterFace) {
+        this.priceDropModalInterFace = priceDropModalInterFace;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +78,30 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
 
+
+
+        onItemClickInterface = new SellOutReportModalFilterAdapter.OnItemClickInterface() {
+            @Override
+            public void AddItem(String l) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(l, l);
+                    jsonObject.put("name" , l);
+                    MainObject.put(l , jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void RemoveItem(String l) {
+                MainObject.remove(l);
+
+            }
+        };
+
+        binding.Filterbtn.setOnClickListener(v -> priceDropModalInterFace.ModalResult(MainObject));
+
     }
 
     @NonNull
@@ -66,6 +115,59 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
         });
         return  dialog;
     }
+
+
+    private void getModel() {
+
+        progressDialog.show();
+        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if(response.isSuccessful()){
+                    try {
+                        JSONObject jsonObject  = new JSONObject(new Gson().toJson(response.body()));
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+
+                        if(error.equalsIgnoreCase("FALSE")){
+                            JSONArray model_list = jsonObject.getJSONArray("model_list");
+                            modalList.clear();
+
+                            for (int i=0; i<model_list.length(); i++){
+                                JSONObject op = model_list.getJSONObject(i);
+                                modalList.add(op.optString("model"));
+                            }
+
+                            sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(onItemClickInterface , modalList);
+                            binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
+
+                            progressDialog.dismiss();
+                            return;
+                        }
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+
+    }
+
 
 
     private void setupFullHeight(BottomSheetDialog bottomSheetDialog) {
@@ -89,5 +191,45 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
     }
 
 
+    public interface PriceDropModalInterFace{
+        void ModalResult(JSONObject object);
+    };
+
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

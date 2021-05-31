@@ -188,6 +188,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/login_btn_design"
             android:paddingLeft="60dp"
+            android:visibility="gone"
             android:paddingRight="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

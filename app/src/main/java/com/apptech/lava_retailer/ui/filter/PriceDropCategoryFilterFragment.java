@@ -52,7 +52,14 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
     SessionManage sessionManage;
     ProgressDialog progressDialog;
     List<ComodityLists> categoryLists =new ArrayList<>();
+    SellOutReportCategoryFilterAdapter sellOutReportCategoryFilterAdapter;
+    SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface onItemClickInterface;
+    JSONObject MainObject = new JSONObject();
+    PriceDropCategoryInterFace priceDropCategoryInterFace;
 
+    public PriceDropCategoryFilterFragment(PriceDropCategoryInterFace priceDropCategoryInterFace) {
+        this.priceDropCategoryInterFace = priceDropCategoryInterFace;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,6 +85,33 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
+
+        onItemClickInterface = new SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface() {
+            @Override
+            public void OnItemClick() {
+
+            }
+
+            @Override
+            public void AddItem(ComodityLists lists) {
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put(lists.getId() , lists.getId());
+                    jsonObject.put("name" , lists.getName());
+                    MainObject.put(lists.getId() , jsonObject);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void RemoveItem(ComodityLists lists) {
+                MainObject.remove(lists.getId());
+            }
+        };
+
+
+        binding.Filterbtn.setOnClickListener(v -> priceDropCategoryInterFace.CategoryResult(MainObject));
 
     }
 
@@ -112,7 +146,7 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
                                 ));
                             }
 
-                            PriceDropCategoryFilterAdapter priceDropCategoryFilterAdapter = new PriceDropCategoryFilterAdapter();
+                            sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(onItemClickInterface , categoryLists , true );
                             binding.categoryRecyclerView.setAdapter(priceDropCategoryFilterAdapter);
 
                             progressDialog.dismiss();
@@ -172,6 +206,12 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
+
+
+
+    public interface PriceDropCategoryInterFace{
+        void CategoryResult(JSONObject object);
+    };
 
 
 }
