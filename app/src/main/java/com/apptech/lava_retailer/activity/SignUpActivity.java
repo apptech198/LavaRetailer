@@ -77,6 +77,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             new LanguageChange(this, "ar");
         }
 
+        if(!new NetworkCheck().haveNetworkConnection(SignUpActivity.this)){
+            CheckInternetAleart();
+        }
 
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -1309,7 +1312,25 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         alertDialog.show();
     }
 
+    void CheckInternetAleart(){
 
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    startActivity(new Intent(this,SignUpActivity.class));
+                    finish();
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
 
 
 }

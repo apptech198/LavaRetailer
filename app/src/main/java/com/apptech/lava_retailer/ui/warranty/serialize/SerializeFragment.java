@@ -560,6 +560,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.MobMessage.setText("Warranty available");
                                 binding.MobMessage.setTextColor(getResources().getColor(R.color.green));
+                                binding.WarrantyDateMob.setTextColor(getResources().getColor(R.color.green));
 
                             }else {
 //                                out of warranty
@@ -614,6 +615,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.ChargerMessage.setText("Warranty available");
                                 binding.ChargerMessage.setTextColor(getResources().getColor(R.color.green));
+                                binding.WarrantyDateChar.setTextColor(getResources().getColor(R.color.green));
 
                             }else {
 //                                out of warranty
@@ -669,6 +671,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.AdapterMessage.setText("Warranty available");
                                 binding.AdapterMessage.setTextColor(getResources().getColor(R.color.green));
+                                binding.WarrantyDateAdapter.setTextColor(getResources().getColor(R.color.green));
 
                             }else {
 //                                out of warranty
@@ -724,6 +727,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.BatteryMessage.setText("Warranty available");
                                 binding.BatteryMessage.setTextColor(getResources().getColor(R.color.green));
+                                binding.WarrantyDateBat.setTextColor(getResources().getColor(R.color.green));
 
                             }else {
 //                                out of warranty
@@ -779,6 +783,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.USBMessage.setText("Warranty available");
                                 binding.USBMessage.setTextColor(getResources().getColor(R.color.green));
+                                binding.WarrantyDateUSB.setTextColor(getResources().getColor(R.color.green));
 
                             }else {
 //                                out of warranty
@@ -841,6 +846,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.EarphoneMessage.setText("Warranty available");
                                 binding.EarphoneMessage.setTextColor(getResources().getColor(R.color.green));
+                                binding.WarrantyDateEar.setTextColor(getResources().getColor(R.color.green));
 
                             }else {
 //                                out of warranty

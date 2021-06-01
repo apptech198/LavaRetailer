@@ -3,6 +3,7 @@ package com.apptech.lava_retailer.activity;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -78,7 +79,9 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             new LanguageChange(this, "ar");
         }
 
-
+        if(!new NetworkCheck().haveNetworkConnection(LoginActivity.this)){
+           CheckInternetAleart();
+        }
 
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
@@ -165,6 +168,8 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             popupMenu = new PopupMenu(wrapper, binding.SelectCountry);
             getCountry();
         }else {
+            Context wrapper = new ContextThemeWrapper(this, R.style.YOURSTYLE);
+            popupMenu = new PopupMenu(wrapper, binding.SelectCountry);
             Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -597,6 +602,25 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
     }
 
 
+    void CheckInternetAleart(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    startActivity(new Intent(LoginActivity.this,LoginActivity.class));
+                    finish();
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+         alertDialog.setCancelable(false);
+
+    }
 
 }
 

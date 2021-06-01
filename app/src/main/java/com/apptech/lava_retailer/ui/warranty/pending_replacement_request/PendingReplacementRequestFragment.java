@@ -63,7 +63,7 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     private ProgressDialog progressDialog;
     WarrantyPendingReplacementAdapter warrantyPendingReplacementAdapter;
     private java.util.List<List> list = new ArrayList<>();
-    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     public static PendingReplacementRequestFragment newInstance() {
         return new PendingReplacementRequestFragment();
