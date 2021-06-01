@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.RowOrderStatusBinding;
 import com.apptech.lava_retailer.list.OrderStatusList;
+import com.apptech.lava_retailer.other.SessionManage;
 
 public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.Viewholder> {
 
     java.util.List<OrderStatusList> lists;
     Context context;
-
-
+    SessionManage sessionManage;
+    String currency;
 
     public OrderStatusAdapter(java.util.List<OrderStatusList> orderStatusLists) {
         this.lists = orderStatusLists;
@@ -26,6 +27,8 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     @Override
     public Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
+        sessionManage = SessionManage.getInstance(context);
+        currency =  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY_SYMBOL);
         return new Viewholder(RowOrderStatusBinding.inflate(LayoutInflater.from(parent.getContext()) , parent , false));
     }
 
@@ -42,7 +45,7 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         holder.binding.orderNumber.setText("order No : " + list.getOrder_no());
         try {
             int disAmt = Integer.parseInt(list.getDiscount_price()) * Integer.parseInt(list.getQty());
-            holder.binding.productamt.setText(context.getResources().getString(R.string.egp) + disAmt);
+            holder.binding.productamt.setText(currency + disAmt);
         }catch (NumberFormatException e){
             e.printStackTrace();
         }

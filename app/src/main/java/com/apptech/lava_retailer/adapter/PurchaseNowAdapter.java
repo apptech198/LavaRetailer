@@ -71,11 +71,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
     public ViewBinding onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         sessionManage = SessionManage.getInstance(context);
-
-
-        currency =  new NumberConvertArabic().GetCurreny(sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY));
-
-
+        currency = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY_SYMBOL);
         return new ViewBinding(LayoutInflater.from(context).inflate(R.layout.row_purachase_request_now, parent, false));
     }
 
@@ -97,6 +93,9 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
         }).into(holder.image);
 
 
+
+
+
 //        String [] countries = { "US", "CA", "MX", "GB", "DE", "PL", "RU", "JP", "CN" , "IN" };
 
 //        try {
@@ -113,8 +112,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             holder.productName.setText(list.getMarketing_name());
             holder.brandName.setText("Brand : " + list.getBrand());
             holder.modalName.setText("Modal : " +  list.getModel());
-            holder.productAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
-            holder.productAmtDic.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+            holder.productAmt.setText(currency + list.getDis_price());
+            holder.productAmtDic.setText(currency + list.getActual_price());
             holder.addBtnLayout1.setEnabled(true);
             holder.addBtnLayout1.setClickable(true);
 
@@ -138,12 +137,12 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                 holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
-                MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.productAmtDic.setText(string);
 
                 SpannableString string1 = new SpannableString(list.getDis_price());
-                MaskFilter blurMask1 = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask1 = new BlurMaskFilter(15, BlurMaskFilter.Blur.NORMAL);
                 string1.setSpan(new MaskFilterSpan(blurMask1), 0, list.getDis_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.productAmt.setText(string);
 
@@ -162,8 +161,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
 
-            holder.productAmt.setText(context.getResources().getString(R.string.egp) + Dis_price);
-            holder.productAmtDic.setText(context.getResources().getString(R.string.egp) +  Actual_price);
+            holder.productAmt.setText(currency + Dis_price);
+            holder.productAmtDic.setText(currency +  Actual_price);
             holder.addBtnLayout1.setEnabled(true);
             holder.addBtnLayout1.setClickable(true);
 
@@ -186,12 +185,12 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                 holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(Actual_price);
-                MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string.setSpan(new MaskFilterSpan(blurMask), 0, Actual_price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.productAmtDic.setText(string);
 
                 SpannableString string1 = new SpannableString(Dis_price);
-                MaskFilter blurMask1 = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask1 = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string1.setSpan(new MaskFilterSpan(blurMask1), 0, Dis_price.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.productAmt.setText(string);
 
@@ -217,8 +216,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 //            String Dis_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
 //            String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
-            holder.productAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
-            holder.productAmtDic.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+            holder.productAmt.setText(currency + list.getDis_price());
+            holder.productAmtDic.setText(currency + list.getActual_price());
 
 
             try {
@@ -240,12 +239,12 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                 holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
-                MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.productAmtDic.setText(string);
 
                 SpannableString string1 = new SpannableString(list.getDis_price());
-                MaskFilter blurMask1 = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask1 = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string1.setSpan(new MaskFilterSpan(blurMask1), 0, list.getDis_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 holder.productAmt.setText(string);
 

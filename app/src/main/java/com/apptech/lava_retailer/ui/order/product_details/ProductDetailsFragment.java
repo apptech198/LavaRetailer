@@ -61,7 +61,7 @@ public class ProductDetailsFragment extends Fragment {
     String BRAND_ID = "";
     NavController navController;
     List<ProductGalleryLists> galleryLists = new ArrayList<>();
-
+    String currency;
 
     public static ProductDetailsFragment newInstance() {
         return new ProductDetailsFragment();
@@ -93,6 +93,7 @@ public class ProductDetailsFragment extends Fragment {
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
         BRAND_ID = sessionManage.getUserDetails().get("BRAND_ID");
+        currency = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY_SYMBOL);
 
         assert getArguments() != null;
          list = ProductDetailsFragmentArgs.fromBundle(getArguments()).getProductList();
@@ -119,8 +120,8 @@ public class ProductDetailsFragment extends Fragment {
             binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
 //            binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
 
-            binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
-            binding.productAmtDic.setText(getResources().getString(R.string.egp) + list.getActual_price());
+            binding.productAmt.setText(currency + list.getDis_price());
+            binding.productAmtDic.setText(currency + list.getActual_price());
 
             try {
                 int Actual_price = Integer.parseInt(list.getActual_price());
@@ -142,7 +143,7 @@ public class ProductDetailsFragment extends Fragment {
                 binding.ProductAdd.setEnabled(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
-                MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 binding.productAmtDic.setText(string);
 
@@ -177,8 +178,8 @@ public class ProductDetailsFragment extends Fragment {
             }
             binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
 
-            binding.productAmt.setText(getResources().getString(R.string.egp) + list.getDis_price());
-            binding.productAmtDic.setText(getResources().getString(R.string.egp) + list.getActual_price());
+            binding.productAmt.setText(currency + list.getDis_price());
+            binding.productAmtDic.setText(currency + list.getActual_price());
 
             try {
                 int Actual_price = Integer.parseInt(list.getActual_price());
@@ -229,8 +230,8 @@ public class ProductDetailsFragment extends Fragment {
             String Dis_price =  new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
-            binding.productAmt.setText(getResources().getString(R.string.egp)  + Dis_price);
-            binding.productAmtDic.setText(getResources().getString(R.string.egp)  + Actual_price);
+            binding.productAmt.setText(currency  + Dis_price);
+            binding.productAmtDic.setText(currency  + Actual_price);
 
 
             try {

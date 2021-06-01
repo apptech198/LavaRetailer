@@ -103,18 +103,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         sessionManage = SessionManage.getInstance(requireContext());
         USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
 
-/*
-        binding.datetimefilter.setOnClickListener(v -> {
-            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
-            view = LayoutInflater.from(requireContext()).inflate(R.layout.row_dialog_open, null);
-            builder.setView(view);
-            alertDialog = builder.create();
-            alertDialog.show();
-            fromDatetitle = view.findViewById(R.id.fromDatetitle);
-            toDatetitle = view.findViewById(R.id.toDatetitle);
-            dilogclick();
-        });
-*/
 
         setPopUpWindow();
         binding.datetimefilter.setOnClickListener(v -> {
@@ -126,16 +114,8 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         StartDate = date[0];
         End_Date = date[1];
         TYPE = "PENDING";
-        if (new NetworkCheck().haveNetworkConnection(getActivity())){
-            StockList();
-        }else {
-            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-        }
+        submitData();
 
-//        binding.validsipnner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
-//            Log.e(TAG, "onActivityCreated: " + t1.toString().trim());
-//            filtervalid(t1.toString());
-//        });
 
         binding.PendingLayout.setOnClickListener(this);
         binding.RejectedLayout.setOnClickListener(this);
@@ -158,14 +138,14 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
             String[] last_7 = ThisWeekDate().split("#");
             StartDate = last_7[1];
             End_Date = last_7[0];
-            StockList();
+            submitData();
         });
         last_month.setOnClickListener(v -> {
             mypopupWindow.dismiss();
             String[] lastMonth = LastMonthdate().split("#");
             StartDate = lastMonth[0];
             End_Date = lastMonth[1];
-            StockList();
+            submitData();
         });
 
         this_month.setOnClickListener(v -> {
@@ -173,14 +153,22 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
             String[] thisMonth = ThisMonthdate().split("#");
             StartDate = thisMonth[0];
             End_Date = thisMonth[1];
-            StockList();
+            submitData();
         });
 
         CustomDate.setOnClickListener(v -> {
             mypopupWindow.dismiss();
-            datePicker();
+            submitData();
         });
 
+    }
+
+    private void  submitData(){
+        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+            StockList();
+        }else {
+            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String TodayDate(){
@@ -260,7 +248,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
             binding.datetimefilter.setClickable(true);
             StartDate = getTimeStamp(selection.first) ;
             End_Date = getTimeStamp(selection.second);
-            StockList();
+            submitData();
         });
 
 
@@ -273,8 +261,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         System.out.println("Today is " + date);
         return date;
     }
-
-
 
     private void StockList() {
 
@@ -303,40 +289,46 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
                     if(error.equalsIgnoreCase("false")){
 
                         JSONArray jsonArray = jsonObject.getJSONArray("list");
-                        lists.clear();
-                        for (int i=0; i < jsonArray.length(); i++){
 
-                            JSONObject object = jsonArray.getJSONObject(i);
-                            String status = object.optString("status");
+                        if(jsonArray.length() > 0){
 
-                            if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
-                                lists.add(new List(
-                                        object.optString("id")
-                                        ,object.optString("type")
-                                        ,object.optString("imei")
-                                        ,object.optString("date")
-                                        ,object.optString("retailer_id")
-                                        ,object.optString("time")
-                                        ,object.optString("product_id")
-                                        ,object.optString("model")
-                                        ,object.optString("check_status")
-                                        ,object.optString("status")
-                                        ,object.optString("price_drop_id")
-                                        ,object.optString("price_drop_name")
-                                        ,object.optString("qty")
-                                        ,object.optString("price")
-                                ));
+                            lists.clear();
+                            for (int i=0; i < jsonArray.length(); i++){
+
+                                JSONObject object = jsonArray.getJSONObject(i);
+                                String status = object.optString("status");
+
+                                if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
+                                    lists.add(new List(
+                                            object.optString("id")
+                                            ,object.optString("type")
+                                            ,object.optString("imei")
+                                            ,object.optString("date")
+                                            ,object.optString("retailer_id")
+                                            ,object.optString("time")
+                                            ,object.optString("product_id")
+                                            ,object.optString("model")
+                                            ,object.optString("check_status")
+                                            ,object.optString("status")
+                                            ,object.optString("price_drop_id")
+                                            ,object.optString("price_drop_name")
+                                            ,object.optString("qty")
+                                            ,object.optString("price")
+                                    ));
+                                }
                             }
+
+                            if(lists.size() > 0){
+                                sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
+                                binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
+                                binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
+                                binding.progressbar.setVisibility(View.GONE);
+                                binding.noStock.setVisibility(View.GONE);
+                                return;
+                            }
+
                         }
 
-                        if(lists.size() > 0){
-                            sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
-                            binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                            binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                            binding.progressbar.setVisibility(View.GONE);
-                            binding.noStock.setVisibility(View.GONE);
-                            return;
-                        }
                         binding.ImeiRecyclerView.setVisibility(View.GONE);
                         binding.noStock.setVisibility(View.VISIBLE);
                         binding.progressbar.setVisibility(View.GONE);
@@ -460,13 +452,31 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         switch (v.getId()){
             case R.id.PendingLayout:
                 TYPE = "PENDING";
-                StockList();
+                submitData();
+
+                binding.PendingLayout.setEnabled(false);
+                binding.PendingLayout.setClickable(false);
+
+                binding.RejectedLayout.setClickable(true);
+                binding.RejectedLayout.setEnabled(true);
+
                 binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 break;
             case R.id.RejectedLayout:
+
+
+
+                binding.PendingLayout.setEnabled(true);
+                binding.PendingLayout.setClickable(true);
+
+                binding.RejectedLayout.setClickable(false);
+                binding.RejectedLayout.setEnabled(false);
+
+
+
                 TYPE = "REJECTED";
-                StockList();
+                submitData();
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
                 binding.PendingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 break;

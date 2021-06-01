@@ -65,8 +65,7 @@ public class MessageShowActivity extends AppCompatActivity {
 
         if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
             try {
-                JSONObject jsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
-                mainJsonObject = jsonObject;
+                mainJsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -103,46 +102,10 @@ public class MessageShowActivity extends AppCompatActivity {
             @Override
             public void removeitem(int pos, NotificationListShow list) {
 
-/*
-                try {
-                    if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
-                        try {
-                            mainJsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("ID", list.getId());
-                        mainJsonObject.putOpt(list.getId(), jsonObject);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    sessionManage.NotificationStore(mainJsonObject.toString());
-                    List<NotificationListShow> notificationLists = new ArrayList<>(notificationListShows);
-                    notificationLists.remove(pos);
-                    messageShowAdapter.setData(notificationLists);
-                    binding.msgCount.setText(String.valueOf(notificationLists.size()));
-                    if (notificationLists.size() == 0) dialogOpen();
-
-
-                }catch (IndexOutOfBoundsException e){
-                    e.printStackTrace();
-                    Log.e(TAG, "removeitem: " + e.getMessage() );
-                    dialogOpen();
-                }
-*/
-
-
             }
 
             @Override
             public void ExpansionLayout(int pos, NotificationListShow list , ImageView img1) {
-
-
 
                     try {
 
@@ -167,14 +130,6 @@ public class MessageShowActivity extends AppCompatActivity {
     }
 
 
-    private void dialogOpen() {
-        binding.countLayout.setVisibility(View.GONE);
-        binding.messageRecyclerview.setVisibility(View.GONE);
-        binding.nomsg.setVisibility(View.VISIBLE);
-        binding.nextBtn.setVisibility(View.VISIBLE);
-        binding.nextBtn.setVisibility(View.VISIBLE);
-    }
-
 
 
     private void MessageShow1() {
@@ -195,14 +150,19 @@ public class MessageShowActivity extends AppCompatActivity {
 
                         if (mainJsonObject.length() > 0 || sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
 //
+
+
                             for (int i = 0; i < response.body().getList().size(); i++) {
 
                                 com.apptech.lava_retailer.list.notificationList.List l = response.body().getList().get(i);
-//                                try {
-//                                    mainJsonObject.getString(l.getId());
-//                                    NEXTACTITIVY += 1;
-//                                } catch (JSONException e) {
-//                                    Log.e(TAG, "onResponse: " + e.getMessage());
+
+                                String id = l.getId();
+
+                                try {
+                                    mainJsonObject.getString(id);
+                                } catch (JSONException jsonException) {
+                                    jsonException.printStackTrace();
+
                                     notificationListShows.add(new NotificationListShow(
                                             l.getId(),
                                             l.getHeading(),
@@ -212,7 +172,9 @@ public class MessageShowActivity extends AppCompatActivity {
                                             l.getBrandId(),
                                             l.getBrandName()
                                     ));
-//                                }
+
+                                }
+
                             }
                             messageShowAdapter = new MessageShowAdapter(notificationListShows, messageShowInterface);
                             binding.messageRecyclerview.setAdapter(messageShowAdapter);

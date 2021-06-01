@@ -37,6 +37,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     ArrayList<QtyList> qtyLists = new ArrayList<>();
     boolean openQty = false;
     SessionManage sessionManage;
+    String currency;
 
 
     public CardAdapter(List<CardList> cardData, CardInterface cardInterface) {
@@ -50,6 +51,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         sessionManage = SessionManage.getInstance(context);
+        currency =  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY_SYMBOL);
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.row_carts, parent, false));
     }
 
@@ -80,8 +82,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             Glide.with(context).load(ApiClient.Image_URL + list.getThumb_ar()).centerCrop().into(holder.img);
 
             try {
-                holder.ProductAmt.setText(context.getResources().getString(R.string.egp) + new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price())));
-                holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price())));
+                holder.ProductAmt.setText(currency + new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price())));
+                holder.ProductAmtDis.setText(currency+ new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price())));
                 int a = Integer.parseInt(list.getQty());
                 holder.cartQty.setText(new NumberConvertArabic().NumberConvertArabic(a));
                 String aa = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getQty()));
@@ -100,8 +102,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             holder.ProductName.setText(list.getMarketing_name());
             holder.ModalName.setText("Model : " + list.getModel());
             Glide.with(context).load(ApiClient.Image_URL + list.getThumb()).centerCrop().into(holder.img);
-            holder.ProductAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
-            holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+            holder.ProductAmt.setText(currency + list.getDis_price());
+            holder.ProductAmtDis.setText(currency + list.getActual_price());
             holder.cartQty.setText(list.getQty());
             int a = Integer.parseInt(list.getQty());
             int b = Integer.parseInt(list.getDis_price());
@@ -116,8 +118,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             }
             holder.ModalName.setText("Model : " + list.getModel());
             Glide.with(context).load(ApiClient.Image_URL + list.getThumb()).centerCrop().into(holder.img);
-            holder.ProductAmt.setText(context.getResources().getString(R.string.egp) + list.getDis_price());
-            holder.ProductAmtDis.setText(context.getResources().getString(R.string.egp) + list.getActual_price());
+            holder.ProductAmt.setText(currency + list.getDis_price());
+            holder.ProductAmtDis.setText(currency + list.getActual_price());
             holder.cartQty.setText(list.getQty());
 
             int a = Integer.parseInt(list.getQty());

@@ -47,10 +47,11 @@ public class ForgotActivity extends AppCompatActivity {
         binding.forgotBtn.setOnClickListener(v -> {
             if(new NetworkCheck().haveNetworkConnection(this)){
                 if(validation()){
+                    binding.forgotBtn.setEnabled(false);
+                    binding.forgotBtn.setClickable(false);
                     ForgotPassword();
                     return;
                 }
-                return;
             }
 
             Toast.makeText(ForgotActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -88,6 +89,8 @@ public class ForgotActivity extends AppCompatActivity {
 
     private void ForgotPassword() {
 
+        binding.progressbar.setVisibility(View.VISIBLE);
+
         lavaInterface.FORGOT_PASSWORD(binding.NumberInputLayout.getText().toString().trim()).enqueue(new Callback<Object>() {
 
             @Override
@@ -104,17 +107,25 @@ public class ForgotActivity extends AppCompatActivity {
                         String otp = jsonObject.optString("otp");
                         startActivity(new Intent(ForgotActivity.this  , ConfirmPasswordActivity.class).putExtra("mob" , binding.NumberInputLayout.getText().toString().trim()).putExtra("otp" , otp));
                         binding.progressbar.setVisibility(View.GONE);
+
+                        binding.forgotBtn.setEnabled(true);
+                        binding.forgotBtn.setClickable(true);
+
                         return;
                     }
 
                     Toast.makeText(ForgotActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                     binding.progressbar.setVisibility(View.GONE);
+                    binding.forgotBtn.setEnabled(true);
+                    binding.forgotBtn.setClickable(true);
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 binding.progressbar.setVisibility(View.GONE);
+                binding.forgotBtn.setEnabled(true);;
+                binding.forgotBtn.setClickable(true);
                 Toast.makeText(ForgotActivity.this, "" + getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
 
@@ -122,6 +133,8 @@ public class ForgotActivity extends AppCompatActivity {
             public void onFailure(Call<Object> call, Throwable t) {
                 Toast.makeText(ForgotActivity.this, "Time out", Toast.LENGTH_SHORT).show();
                 binding.progressbar.setVisibility(View.GONE);
+                binding.forgotBtn.setEnabled(true);;
+                binding.forgotBtn.setClickable(true);
             }
         });
     }

@@ -85,6 +85,8 @@ public class OtpActivity extends AppCompatActivity   {
         binding.VerifyOtpBtn.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(this)) {
                 if (otpValidation(binding.OtpInputLayout.getText().toString().trim())) {
+                    binding.VerifyOtpBtn.setClickable(false);
+                    binding.VerifyOtpBtn.setEnabled(false);
                     VerifyOtp();
                 }
             } else {
@@ -180,25 +182,32 @@ public class OtpActivity extends AppCompatActivity   {
                             startActivity(new Intent(OtpActivity.this , SignUpActivity.class).putExtra("MOB" , mob).putExtra("TYPE" , "OTP"));
                             Toast.makeText(OtpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                             binding.progressbar.setVisibility(View.GONE);
+                            binding.VerifyOtpBtn.setClickable(true);
+                            binding.VerifyOtpBtn.setEnabled(true);
                             return;
                         }
 
                     Toast.makeText(OtpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                     binding.progressbar.setVisibility(View.GONE);
+                    binding.VerifyOtpBtn.setClickable(true);
+                    binding.VerifyOtpBtn.setEnabled(true);
                     return;
-                    } catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(OtpActivity.this, "" + getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
+                binding.VerifyOtpBtn.setClickable(true);
+                binding.VerifyOtpBtn.setEnabled(true);
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Toast.makeText(OtpActivity.this, "Time out", Toast.LENGTH_SHORT).show();
                 binding.progressbar.setVisibility(View.GONE);
+                binding.VerifyOtpBtn.setClickable(true);
+                binding.VerifyOtpBtn.setEnabled(true);
             }
         });
 

@@ -78,6 +78,8 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         binding.changePsw.setOnClickListener(v -> {
             if(new NetworkCheck().haveNetworkConnection(this)){
                 if(validation()){
+                    binding.changePsw.setClickable(false);
+                    binding.changePsw.setEnabled(false);
                     Changepassword();
                     return;
                 }
@@ -163,11 +165,15 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
                         startActivity(new Intent(ConfirmPasswordActivity.this , LoginActivity.class));
                         finish();
                         binding.progressbar.setVisibility(View.GONE);
+                        binding.changePsw.setClickable(true);
+                        binding.changePsw.setEnabled(true);
                         return;
                     }
 
                     Toast.makeText(ConfirmPasswordActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                     binding.progressbar.setVisibility(View.GONE);
+                    binding.changePsw.setClickable(true);
+                    binding.changePsw.setEnabled(true);
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -175,7 +181,8 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
 
                 binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(ConfirmPasswordActivity.this, "" + getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
+                binding.changePsw.setClickable(true);
+                binding.changePsw.setEnabled(true);
             }
 
             @Override
@@ -183,6 +190,8 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
                 Log.e(TAG, "onFailure: " + t.getMessage() );
                 binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(ConfirmPasswordActivity.this, "Time out", Toast.LENGTH_SHORT).show();
+                binding.changePsw.setClickable(true);
+                binding.changePsw.setEnabled(true);
             }
         });
 
