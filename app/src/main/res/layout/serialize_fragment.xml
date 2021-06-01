@@ -183,15 +183,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/ProductLayout"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/edit_back_color_change"
                 android:padding="8dp"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/guidelineEnd2"
+
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guidelineStart2"
                 app:layout_constraintTop_toBottomOf="@+id/submit">
 
 

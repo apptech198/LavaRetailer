@@ -127,12 +127,16 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                     }else {Snackbar.make(binding.getRoot(),"Add Serial Number",5000).show();}
                 }else {
                     if(!SELECT_DATE.isEmpty()){
+                        binding.selectDatePicker.setError(null);
                         if(filePart!=null){
+                            binding.PhotoSelect.setError(null);
                             submit();
                         }else {
+                            binding.PhotoSelect.setError("Upload invoice");
                             Snackbar.make(binding.getRoot(),"Upload Invoice",5000).show();
                         }
                     }else {
+                        binding.selectDatePicker.setError("Select Date");
                         Snackbar.make(binding.getRoot(),"Select Date",5000).show();
                     }
                 }
@@ -185,7 +189,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
         binding.addBtn.setOnClickListener(v -> {
             if(binding.ImeiEdittext.getText().toString().isEmpty()){
-              Snackbar.make(binding.getRoot(),"Enter IMEI Number",5000).show();
+              Snackbar.make(binding.getRoot(),"Enter Serial Number",5000).show();
             }else {
                 CheckWarrenty(binding.ImeiEdittext.getText().toString());
             }
@@ -311,6 +315,11 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
         Log.e(TAG, "submit: "+  binding.ImeiEdittext.getText().toString());
         Log.e(TAG, "submit: "+  SELECT_DATE);
+        Log.e(TAG, "submit: "+  TYPE);
+        Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.NAME));
+        Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
 
         lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart , sell_date ,type , srno,retailer_id, retailer_name,locality_id,locality_name).enqueue(new Callback<Object>() {
 
@@ -339,7 +348,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         return;
                     }
 
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    AlertDialogfailure(message);
                     binding.progressbar.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -347,7 +357,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 }
 
                 binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
             }
 

@@ -112,7 +112,14 @@ public class WarrentyCheckFragment extends Fragment implements ScannerFragment.B
             }
         });
         binding.addBtn.setOnClickListener(v -> {
-            CheckWarrenty(binding.ImeiEdittext.getText().toString());
+            if(binding.ImeiEdittext.getText().toString().isEmpty()){
+                binding.ImeiEdittext.setError("Enter IMEI");
+                Snackbar.make(binding.getRoot(),"Enter IMEI",5000).show();
+            }else {
+                binding.ImeiEdittext.setError(null);
+                CheckWarrenty(binding.ImeiEdittext.getText().toString());
+            }
+
         });
     }
 

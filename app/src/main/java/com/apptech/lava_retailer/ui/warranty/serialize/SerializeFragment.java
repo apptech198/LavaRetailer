@@ -414,7 +414,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                     String error = jsonObject.optString("error");
                     String message = jsonObject.optString("message");
                     int error_code = jsonObject.getInt("error_code");
-
+                    binding.addLayout.removeAllViews();
 
                     if(error.equalsIgnoreCase("false")){
 
@@ -441,12 +441,14 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                                         addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"), message);
                                         break;
                                 }
+                                binding.progressbar.setVisibility(View.GONE);
+                                return;
 
                         }
 
 
 
-
+                        binding.addLayout.removeAllViews();
                         JSONObject order_detail = jsonObject.getJSONObject("detail");
                         Log.e(TAG, "onResponse: "+ order_detail.optString("sell_out_date") );
                         if(order_detail.optString("sell_out_date").equals("")){
@@ -454,6 +456,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             AlertDialogfailure("Invalid IMEI");
                             return;
                         }
+
+
                         String time = order_detail.getString("sell_out_date");
                         SELL_DATE = order_detail.getString("sell_out_date");
                         String tertiary_date = order_detail.optString("tertiary_warranty_date");
