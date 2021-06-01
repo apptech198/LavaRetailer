@@ -40,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -61,7 +62,8 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     String USER_ID = "";
     private ProgressDialog progressDialog;
     WarrantyPendingReplacementAdapter warrantyPendingReplacementAdapter;
-    private java.util.List<List> list;
+    private java.util.List<List> list = new ArrayList<>();
+    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
     public static PendingReplacementRequestFragment newInstance() {
         return new PendingReplacementRequestFragment();
@@ -100,6 +102,11 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
 
         setPopUpWindow();
+        binding.DatpickerRange.setOnClickListener( v -> {
+            mypopupWindow.showAsDropDown(v,-153,0);
+        });
+
+
         if (new NetworkCheck().haveNetworkConnection(getActivity())){
             getPendinfReplacement();
         }else {
@@ -112,6 +119,12 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     }
 
     private void getPendinfReplacement() {
+
+        progressDialog.show();
+
+        Log.e(TAG, "getPendinfReplacement: " + StartDate );
+        Log.e(TAG, "getPendinfReplacement: " + End_Date );
+
         lavaInterface.WARRANTY_PENDING(USER_ID, StartDate, End_Date).enqueue(new Callback<PendingWarrentyList>() {
             @Override
             public void onResponse(Call<PendingWarrentyList> call, Response<PendingWarrentyList> response) {
@@ -122,9 +135,12 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
                     if (!response.body().getError()){
 
                         if (response.body().getList().size() > 0){
-
-                            list = response.body().getList();
+                            list.clear();
                             for (int i=0 ; i< response.body().getList().size(); i++){
+
+                                Log.e(TAG, "onResponse: " +TYPE );
+                                Log.e(TAG, "onResponse: " +response.body().getList().get(i).getStatus() );
+
                                 if (TYPE.equalsIgnoreCase(response.body().getList().get(i).getStatus())){
                                     list.add(response.body().getList().get(i));
                                 }
@@ -210,7 +226,6 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
     private String TodayDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         String endDateStr = df.format(calendar1.getTime());
@@ -220,7 +235,6 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
     private String ThisWeekDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String endDateStr  = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         calendar1.add(Calendar.DAY_OF_WEEK , -7);
@@ -235,7 +249,7 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -249,7 +263,6 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -263,7 +276,6 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -299,8 +311,7 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
     public String getTimeStamp(long timeinMillies) {
         String date = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // modify format
-        date = formatter.format(new Date(timeinMillies));
+        date = df.format(new Date(timeinMillies));
         System.out.println("Today is " + date);
         return date;
     }
@@ -309,15 +320,33 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.DeliveredLayout:
+                binding.DeliveredLayout.setEnabled(false);
                 binding.DeliveredLayout.setClickable(false);
+
+                binding.ProcessingLayout.setEnabled(true);
+                binding.ProcessingLayout.setClickable(true);
+
+                binding.CancelledLayout.setEnabled(true);
+                binding.CancelledLayout.setClickable(true);
+
+
                 TYPE = "APPROVED";
                 getPendinfReplacement();
                 binding.DeliveredLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
                 binding.ProcessingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 binding.CancelledLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
-                binding.DeliveredLayout.setClickable(true);
                 break;
             case R.id.ProcessingLayout:
+
+                binding.DeliveredLayout.setEnabled(true);
+                binding.DeliveredLayout.setClickable(true);
+
+                binding.ProcessingLayout.setEnabled(false);
+                binding.ProcessingLayout.setClickable(false);
+
+                binding.CancelledLayout.setEnabled(true);
+                binding.CancelledLayout.setClickable(true);
+
                 TYPE = "PENDING";
                 getPendinfReplacement();
                 binding.ProcessingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
@@ -326,6 +355,18 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
                 break;
             case R.id.CancelledLayout:
+
+
+                binding.DeliveredLayout.setEnabled(true);
+                binding.DeliveredLayout.setClickable(true);
+
+                binding.ProcessingLayout.setEnabled(true);
+                binding.ProcessingLayout.setClickable(true);
+
+                binding.CancelledLayout.setEnabled(false);
+                binding.CancelledLayout.setClickable(false);
+
+
                 TYPE = "CANCELLED";
                 getPendinfReplacement();
                 binding.CancelledLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));

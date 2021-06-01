@@ -57,7 +57,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
     PurchaseNowIterface purchaseNowIterface;
     SessionManage sessionManage;
     private static final String TAG = "PurchaseNowAdapter";
-
+    String currency;
 
     public PurchaseNowAdapter(List<ProductList> productLists, PurchaseNowIterface purchaseNowIterface) {
         this.productLists = productLists;
@@ -70,8 +70,12 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
     @Override
     public ViewBinding onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-//        sessionManage = new SessionManage(context);
         sessionManage = SessionManage.getInstance(context);
+
+
+        currency =  new NumberConvertArabic().GetCurreny(sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY));
+
+
         return new ViewBinding(LayoutInflater.from(context).inflate(R.layout.row_purachase_request_now, parent, false));
     }
 
@@ -93,9 +97,15 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
         }).into(holder.image);
 
 
-//        String [] countries = { "US", "CA", "MX", "GB", "DE", "PL", "RU", "JP", "CN" };
-        Log.e(TAG, "onBindViewHolder: " + new NumberConvertArabic().GetCurreny("IN") );
-        Log.e(TAG, "onBindViewHolder: " + new NumberConvertArabic().GetCurreny("GB") );
+//        String [] countries = { "US", "CA", "MX", "GB", "DE", "PL", "RU", "JP", "CN" , "IN" };
+
+//        try {
+//            new NumberConvertArabic().GetCurreny(sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_CURRENCY));
+//        }catch (IllegalArgumentException e){
+//            e.printStackTrace();
+//        }
+
+        Log.e(TAG, "onBindViewHolder: " + currency);
 
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {

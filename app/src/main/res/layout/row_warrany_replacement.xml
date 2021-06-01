@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/order_status_design"
+    android:layout_marginBottom="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:padding="12dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/imeiTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/IMEI"
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/imei"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="vdsvddd"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toTopOf="@+id/imeiTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/imeiTitle"
+            app:layout_constraintStart_toEndOf="@+id/imeiTitle" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/orderDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="05-06-202"
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toTopOf="@+id/imeiTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/imeiTitle"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/SNORLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Sr.No"
+            android:textColor="#6f7880"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toBottomOf="@+id/imei"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/SNOR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginStart="4dp"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toTopOf="@+id/SNORLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/SNORLayout"
+            app:layout_constraintStart_toEndOf="@+id/SNORLayout" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/modalNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/handset_replacement"
+            android:textColor="#6f7880"
+
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toBottomOf="@+id/SNORLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/modalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginStart="4dp"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="@font/lato_regular"
+            app:layout_constraintTop_toTopOf="@+id/modalNameTitle"
+            app:layout_constraintBottom_toBottomOf="@+id/modalNameTitle"
+            app:layout_constraintStart_toEndOf="@+id/modalNameTitle"
+            />
+
+
+
+
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivered"
+            android:layout_marginStart="4dp"
+            android:textColor="#4db452"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:fontFamily="@font/lato_semi_bold"
+            app:layout_constraintTop_toBottomOf="@+id/modalName"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

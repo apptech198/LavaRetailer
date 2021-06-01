@@ -21,9 +21,18 @@ public  class NumberConvertArabic {
     }
 
     public String GetCurreny(String Country_Locale){
-        Locale locale = new Locale("EN", "EG");
-        Currency currency= Currency.getInstance(locale);
-        String symbol = currency.getSymbol();
+
+        String symbol = "";
+        try {
+            Locale locale = new Locale("EN", Country_Locale);
+            Currency currency= Currency.getInstance(locale);
+            symbol = currency.getSymbol();
+        }catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            Locale locale = new Locale("EN", "GB");
+            Currency currency= Currency.getInstance(locale);
+            symbol = currency.getSymbol();
+        }
         return  symbol;
     }
 
