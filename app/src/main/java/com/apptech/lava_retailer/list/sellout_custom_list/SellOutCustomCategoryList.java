@@ -18,16 +18,16 @@ public class SellOutCustomCategoryList {
     private List<SellOutCustomModalList> sellOutCustomModalLists;
 
 
-//    public SellOutCustomCategoryList(String commodity, String commodity_ar, String model, String model_ar, String qty, String value, String count, List<SellOutCustomModalList> sellOutCustomModalLists) {
-//        this.commodity = commodity;
-//        this.commodity_ar = commodity_ar;
-//        this.model = model;
-//        this.model_ar = model_ar;
-//        this.qty = qty;
-//        this.value = value;
-//        this.count = count;
-//        this.sellOutCustomModalLists = sellOutCustomModalLists;
-//    }
+    public SellOutCustomCategoryList(String commodity, String commodity_ar, String model, String model_ar, String qty, String value, String count, List<SellOutCustomModalList> sellOutCustomModalLists) {
+        this.commodity = commodity;
+        this.commodity_ar = commodity_ar;
+        this.model = model;
+        this.model_ar = model_ar;
+        this.qty = qty;
+        this.value = value;
+        this.count = count;
+        this.sellOutCustomModalLists = sellOutCustomModalLists;
+    }
 
     public String getCommodity() {
         return commodity;

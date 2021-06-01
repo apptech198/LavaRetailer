@@ -239,6 +239,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        sessionManage.clearaddcard();
 
+        Log.e(TAG, "onCreate: " + "\u00a3" );
+        Log.e(TAG, "onCreate: " + "\u20B9" );
+
     }
 
 

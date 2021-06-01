@@ -206,9 +206,12 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
         binding.SelectCountrytop.setOnClickListener(v -> {
             popupMenu1.setOnMenuItemClickListener(item -> {
-                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString());
-//                Toast.makeText(LoginActivity.this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(LoginActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+                int pos = item.getGroupId();
+
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString() , countryLists.get(pos).getCurrency()
+                        , countryLists.get(pos).getCurrency_symbol());
+
                 binding.countryName.setText(item.getTitle());
                 return false;
             });
@@ -559,6 +562,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                     ,object.optString("name_ar")
                                     ,object.optString("name_fr")
                                     ,object.optString("time")
+                                    ,object.getString("currency")
+                                    ,object.optString("currency_symbol")
                             ));
 
 

@@ -86,6 +86,10 @@ public interface LavaInterface{
     @FormUrlEncoded
     Call<SellOutPendingVerificationList> PRICE_DROP_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
 
+    @POST("warranty_pending_list")
+    @FormUrlEncoded
+    Call<Object> WARRANTY_PENDING (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
+
     @POST("sellout_imei_list_pending_block")
     @FormUrlEncoded
     Call<Object> SELL_OUT_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);

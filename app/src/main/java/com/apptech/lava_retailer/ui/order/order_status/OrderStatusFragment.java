@@ -25,6 +25,7 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.OrderStatusAdapter;
 import com.apptech.lava_retailer.databinding.OrderStatusFragmentBinding;
 import com.apptech.lava_retailer.modal.order_statusList.OrderStatusList;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -81,7 +82,14 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
         End_Date = date[1];
         TYPE = "PENDING";
 
-        getOrderStatus(StartDate , End_Date , TYPE);
+        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+            getOrderStatus(StartDate , End_Date , TYPE);
+        }else {
+            binding.progressbar.setVisibility(View.GONE);
+            binding.noData.setVisibility(View.VISIBLE);
+            binding.OrderStatusRecyclerView.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
 
         binding.DeliveredLayout.setOnClickListener(this);

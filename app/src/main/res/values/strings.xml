@@ -24,6 +24,7 @@
     <string name="otp_four_digit">Please enter 4 digits OTP</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="psw_short">This password is too short</string>
+    <string name="egp">\u00a3</string>
     <string name="rs_symbol">\u20B9</string>
     <string name="or_scan">Scan</string>
     <string name="verify">Verify</string>
@@ -49,7 +50,6 @@
     <string name="add">Add</string>
     <string name="psw_not_match">Password not match</string>
     <string name="bobile_number">Mobile Number</string>
-    <string name="egp">\u00a3</string>
     <string name="name_fiels_missing">Name field is missing</string>
     <string name="user_unique_id_fiels_missing">User unique id field is missing</string>
     <string name="email_fiels_missing">Email field is missing</string>

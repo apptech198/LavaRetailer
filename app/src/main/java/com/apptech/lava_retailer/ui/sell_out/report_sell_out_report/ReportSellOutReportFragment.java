@@ -107,7 +107,6 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     String ID;
     List<SellOutReportList> sellOutReportLists = new ArrayList<>();
     List<SellOutReportList> sellOutReportFilterLists = new ArrayList<>();
-    List<SellOutReportList> sellOutReportFilterModaleLists = new ArrayList<>();
     JSONObject CategoryJsonObject = new JSONObject();
     JSONObject ModalJsonObject = new JSONObject();
     String QTYSelect = "", VALUESelect = "";
@@ -115,7 +114,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     JSONArray model_list;
     JSONObject SelloutReportObject = new JSONObject();
     JSONObject SelloutReportModalObject = new JSONObject();
-    JSONObject CalculationObject = new JSONObject();
+    JSONObject CategoryjJsonobject = new JSONObject();
 
     int Grandtotal_Qty = 0;
     int Grandtotal_Value = 0;
@@ -481,7 +480,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getResources().getString(R.string.Dashboard));
+        title.setText("Reports sell out report");
     }
 
 
@@ -760,10 +759,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                         JSONObject issue = CategoryJsonObject.getJSONObject(key);
                         String Categoryname = issue.optString("name");
 
-                        int Countqty = 0;
-                        int CountValue = 0;
-                        int Count = 0;
 
+                        int Count = 0;
+                        int Countqty = 0;
 
                         for (SellOutReportList sell : sellOutReportLists) {
 
@@ -788,9 +786,8 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                                     int qty = Integer.parseInt(a.optString("qty"));
                                     int value = Integer.parseInt(a.optString("value"));
 
-                                    Count = getcount + 1;
-                                    Countqty = Countqty + qty;
-                                    CountValue = CountValue + value;
+                                    Countqty = qty + Countqty;
+                                    int CountValue = value + Integer.parseInt(sell.getDisPrice());
 
                                     a.put("value", String.valueOf(CountValue));
                                     a.put("qty", String.valueOf(Countqty));
@@ -802,6 +799,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
                             }
 
+                            CategoryjJsonobject = new JSONObject(SelloutReportObject.toString());
 
                             if (SelloutReportModalObject.length() > 0) {
                                 SetFilterDatModalaAdapter();
@@ -836,10 +834,17 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     private void filterModalloop() {
 
 
+
         if (sellOutReportLists.size() > 0) {
             if (ModalJsonObject.length() > 0) {
 
                 SelloutReportModalObject = new JSONObject();
+                JSONObject object = new JSONObject();
+                try {
+                    SelloutReportObject = new JSONObject(CategoryjJsonobject.toString()) ;
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
 
 
                 Iterator iterator = ModalJsonObject.keys();
@@ -849,76 +854,63 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                         JSONObject issue = ModalJsonObject.getJSONObject(key);
                         String Modalname = issue.optString("name");
 
-                        Log.e(TAG, "filterModalloop: " + sellOutReportFilterLists.size());
-                        JSONObject object = new JSONObject();
-                        int Count = 0;
+
+                        int QtyCount = 0;
+                        String ModelCheck = "";
 
                         for (SellOutReportList sell : sellOutReportFilterLists) {
                             if (Modalname.trim().toUpperCase().contains(sell.getModel().trim().toUpperCase())) {
 
-                                Count++;
+
+                                JSONObject aa = SelloutReportObject.getJSONObject(sell.getCommodity());
 
                                 JSONObject jsonObject = new JSONObject();
-
-                                object.put(sell.getCommodity() + "_" + sell.getModel() , sell.getCommodity() + "_" + sell.getModel());
-
                                 jsonObject.put("model", sell.getModel());
                                 jsonObject.put("model_ar", sell.getModelAr());
                                 jsonObject.put("qty", sell.getQty());
                                 jsonObject.put("value", sell.getDisPrice());
                                 jsonObject.put("category", sell.getCommodity());
-                                jsonObject.put("count", String.valueOf(Count));
-                                JSONObject aa = SelloutReportObject.getJSONObject(sell.getCommodity());
-
+                                jsonObject.put("count", "1");
+                                aa.put(sell.getCommodity() + "_" + sell.getModel(), jsonObject);
+                                object.put(sell.getCommodity() + "_" + sell.getModel() , sell.getCommodity() + "_" + sell.getModel() );
                                 aa.put("Modal", object);
 
-                                aa.put(sell.getCommodity() + "_" + sell.getModel(), jsonObject);
-
-                                CalculationObject.put(sell.getCommodity() + "_" + sell.getModel(), jsonObject);
-
-  /*                              JSONObject jsonObject = new JSONObject();
-                                jsonObject.put( "model" , sell.getModel());
-                                jsonObject.put( "model_ar" , sell.getModelAr());
-                                jsonObject.put( "qty" , sell.getQty());
-                                jsonObject.put( "value" , sell.getDisPrice());
-                                jsonObject.put( "category" , sell.getCommodity());
-                                jsonObject.put( "count" , "1");
-                                SelloutReportModalObject.put(sell.getCommodity() , jsonObject);
-
-
-                                    int qty1 = Integer.parseInt(sell.getQty()) + ModalQty;
-                                    ModalQty = qty1;
-                                    Log.e(TAG, "filterModalloop: " + Modalname);
-                                    Log.e(TAG, "filterModalloop: " + sell.getQty());
-                                    Log.e(TAG, "filterModalloop: " + qty1);
-
-
                                 try {
+                                    JSONObject object1 = aa.getJSONObject(sell.getCommodity() + "_" + sell.getModel());
 
-                                     JSONObject a = SelloutReportModalObject.getJSONObject(sell.getCommodity());
-                                    CountModal++;
-                                    a.put("value" , String.valueOf(CountModal));
+                                    if(ModelCheck.equalsIgnoreCase(sell.getCommodity() + "_" + sell.getModel())){
+
+                                        Log.e(TAG, "filterModalloop: " + sell.getCommodity() + "_" + sell.getModel());
+                                        Log.e(TAG, "filterModalloop: " + object1.getString("qty"));
+                                        Log.e(TAG, "filterModalloop: " + object1);
+
+                                        String  Getqty = object1.getString("qty");
+                                        int QtyCount1 =   Integer.parseInt(Getqty) + Integer.parseInt(sell.getQty());
+                                        QtyCount =  QtyCount +  Integer.parseInt(Getqty);
+                                        object1.put("qty" , String.valueOf(QtyCount));
+
+
+                                    }else {
+                                        ModelCheck = sell.getCommodity() + "_" + sell.getModel();
+                                        Log.e(TAG, "filterModalloop: " + "vvvknsassvavsvavasvs" );
+                                        QtyCount = 0;
+
+                                    }
+
+
+//                                    String  Getqty = object1.getString("qty");
 //
-                                        ModalQty = 0;
-                                        ModalValue = 0;
-
-                                        JSONObject a = SelloutReportModalObject.getJSONObject(sell.getModel());
-                                        int qty = Integer.parseInt(a.getString("qty")) + ModalQty;
-                                        int value = Integer.parseInt(a.getString("value")) + ModalValue;
-
-                                        ModalQty = qty;
-                                        ModalValue = value;
-
-                                        a.put("qty" , String.valueOf(ModalQty));
-                                        a.put("value" , String.valueOf(ModalValue));
+//                                    int QtyCount1 =   Integer.parseInt(Getqty) + Integer.parseInt(sell.getQty());
+//                                    Log.e(TAG, "filterModalloop: " + QtyCount1 );
 //
+//                                    QtyCount =  QtyCount +  Integer.parseInt(Getqty);
 //
+//                                    object1.put("qty" , String.valueOf(QtyCount));
 
-                                }catch (JSONException e){
+                                } catch (JSONException e) {
                                     e.printStackTrace();
-                                }*/
+                                }
 
-                                Log.e(TAG, "filterModalloop: " + SelloutReportModalObject.toString());
 
                             }
                         }
@@ -949,53 +941,53 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
     }
 
-
     private void SetFilterDatModalaAdapter() {
 
         sellOutCustomCategoryLists.clear();
-
-        Log.e(TAG, "SetFilterDatModalaAdapter: " + SelloutReportObject.toString());
-        Log.e(TAG, "SetFilterDatModalaAdapter: " + SelloutReportObject.toString());
 
         Iterator iterator = SelloutReportObject.keys();
         while (iterator.hasNext()) {
             String key = (String) iterator.next();
             try {
+
+                List<SellOutCustomModalList> sellOutCustomModalLists = new ArrayList<>();
+
                 JSONObject Model_jsonObject = SelloutReportObject.getJSONObject(key).getJSONObject("Modal");
-//                Log.e(TAG, "SetFilterDatModalaAdapter: " + Model_jsonObject.toString() );
+                Log.e(TAG, "SetFilterDatModalaAdapter: " + Model_jsonObject.toString() );
 
-                Iterator iterator1 = Model_jsonObject.keys();
-                while (iterator1.hasNext()) {
-
+                Iterator<String> iter = Model_jsonObject.keys();
+                while (iter.hasNext()) {
+                    String keys = iter.next();
                     try {
+                        Object value = Model_jsonObject.get(keys);
+                        String modalFind = value.toString();
+                        try {
+                            JSONObject MODELFetch =  SelloutReportObject.getJSONObject(key).getJSONObject(modalFind);
+                            sellOutCustomModalLists.add(new SellOutCustomModalList(
+                                    MODELFetch.getString("model")
+                                    ,MODELFetch.getString("model_ar")
+                                    ,MODELFetch.getString("qty")
+                                    ,MODELFetch.getString("value")
+                                    ,MODELFetch.getString("category")
+                            ));
+                        }catch (JSONException ex){
+                            ex.printStackTrace();
+                        }
 
-                        Log.e(TAG, "SetFilterDatModalaAdapter conftim : " + iterator1.next() );
-                        String category_modal = String.valueOf(iterator1.next());
-                        Log.e(TAG, "SetFilterDatModalaAdapter aaaaaaaaaaaaaaaaaaaaaaaaaaaaa: " + category_modal);
-
-                    }catch (NoSuchElementException e ){
-
+                    } catch (JSONException e) {
+                        // Something went wrong!
                     }
-
-//                    try {
-//
-//                        JSONObject MainKeys = SelloutReportObject.getJSONObject(key).getJSONObject(key_value);
-//                        Log.e(TAG, "SetFilterDatModalaAdapter: " + MainKeys.getString("model"));
-//                        Log.e(TAG, "SetFilterDatModalaAdapter: " + MainKeys.getString("model_ar"));
-//
-//                    } catch (JSONException jsonException) {
-//                        jsonException.printStackTrace();
-//                    }
-
-//                    sellOutCustomModalLists.add(new SellOutCustomModalList(
-//                                object1.getString("model")
-//                                ,object1.getString("model_ar")
-//                                ,object1.getString("qty")
-//                                ,object1.getString("value")
-//                                ,object1.getString("category")
-//                        ));
                 }
-
+                sellOutCustomCategoryLists.add(new SellOutCustomCategoryList(
+                        SelloutReportObject.getJSONObject(key).optString("commodity")
+                        ,SelloutReportObject.getJSONObject(key).optString("commodity_ar")
+                        ,SelloutReportObject.getJSONObject(key).optString("model")
+                        ,SelloutReportObject.getJSONObject(key).optString("model_ar")
+                        ,SelloutReportObject.getJSONObject(key).optString("qty")
+                        ,SelloutReportObject.getJSONObject(key).optString("value")
+                        ,SelloutReportObject.getJSONObject(key).optString("count")
+                        ,sellOutCustomModalLists
+                ));
 
                 Log.e(TAG, "SetFilterDatModalaAdapter:   categor______categor______categor______categor______categor______categor");
 
@@ -1006,190 +998,29 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         }
 
 
-//
-//        Iterator iterator = SelloutReportObject.keys();
-//        while (iterator.hasNext()) {
-//            String key = (String) iterator.next();
-//            Log.e(TAG, "SetFilterDatModalaAdapter: " + key );
-//            JSONObject object =null;
-//            try {
-//                 object=  SelloutReportObject.getJSONObject(key);
-//
-//
-//                Iterator iterator7 = object.keys();
-//                while (iterator7.hasNext()) {
-//                    String key1 = (String) iterator7.next();
-//
-//
-//                    Log.e(TAG, "SetFilterDatModalaAdapter: " + key1);
-//                    Log.e(TAG, "SetFilterDatModalaAdapter: " + key1);
-//                    List<SellOutCustomModalList> sellOutCustomModalLists = new ArrayList<>();
-//
-//
-//                    try {
-//
-//                        JSONObject object1 =   SelloutReportObject.getJSONObject(key).getJSONObject(key1);
-//                        Log.e(TAG, "SetFilterDatModalaAdapter: "+object1.getString("model") );
-//                        object1.getString("model");
-//
-//                        sellOutCustomModalLists.add(new SellOutCustomModalList(
-//                                object1.getString("model")
-//                                ,object1.getString("model_ar")
-//                                ,object1.getString("qty")
-//                                ,object1.getString("value")
-//                                ,object1.getString("category")
-//                        ));
-//
-//                    }catch (JSONException jsonException) {
-//                        jsonException.printStackTrace();
-//                    }
-//
-//                }
-////                 sellOutCustomCategoryLists.add(new SellOutCustomCategoryList(
-////                         SelloutReportObject.getJSONObject(key).optString("commodity")
-////                         ,SelloutReportObject.getJSONObject(key).optString("commodity_ar")
-////                         ,SelloutReportObject.getJSONObject(key).optString("model")
-////                         ,SelloutReportObject.getJSONObject(key).optString("model_ar")
-////                         ,SelloutReportObject.getJSONObject(key).optString("qty")
-////                         ,SelloutReportObject.getJSONObject(key).optString("value")
-////                         ,SelloutReportObject.getJSONObject(key).optString("count")
-////                         ,sellOutCustomModalLists
-////                 ));
-//
-//
-//
-//
-//            } catch (JSONException jsonException) {
-//                jsonException.printStackTrace();
-//            }
-//
-//            Log.e(TAG, "SetFilterDatModalaAdapter: " +  sellOutCustomCategoryLists );
-//            Log.e(TAG, "SetFilterDatModalaAdapter: " +  sellOutCustomCategoryLists );
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-////            Iterator iterator1 = SelloutReportModalObject.keys();
-////            List<SellOutCustomModalList> sellOutCustomModalLists = new ArrayList<>();
-////
-////            sellOutCustomModalLists.add(new SellOutCustomModalList(
-////                    "Modal"
-////                    ,""
-////                    ,"Qty"
-////                    ,"Value"
-////                    ,""
-////            ));
-////
-////
-////            int Total_qty = 0;
-////            int Total_value = 0;
-////
-////
-////            while (iterator1.hasNext()) {
-////                JSONObject issue = null;
-////                try {
-////                    String key1 = (String) iterator1.next();
-////                    issue = SelloutReportModalObject.getJSONObject(key1);
-////                    String model1 = issue.getString("model");
-////                    JSONObject object = SelloutReportModalObject.getJSONObject(model1);
-////
-////                    String model = object.getString("model");
-////
-////                    Log.e(TAG, "SetFilterDatModalaAdapter: " + model );
-////                    Log.e(TAG, "SetFilterDatModalaAdapter: " + model );
-////
-////                    String model_ar = object.getString("model_ar");
-////                    String qty = object.getString("qty");
-////                    String value = object.getString("value");
-////                    String count = object.getString("count");
-////
-////
-////                    Total_qty = Integer.parseInt(qty) + Total_qty;
-////                    Total_value = Integer.parseInt(value) + Total_value;
-////
-////
-////                    sellOutCustomModalLists.add(new SellOutCustomModalList(
-////                            model
-////                            ,model_ar
-////                            ,qty
-////                            ,value
-////                            ,count
-////                    ));
-////
-////                } catch (JSONException jsonException) {
-////                    jsonException.printStackTrace();
-////                }
-////            }
-//
-////            try {
-////                JSONObject issue = SelloutReportObject.getJSONObject(key);
-////                String commodity = issue.getString("commodity");
-////                String commodity_ar = issue.getString("commodity_ar");
-////                String model = issue.getString("model");
-////                String model_ar = issue.getString("model_ar");
-////                String count = issue.getString("count");
-//////                String value = issue.getString("value");
-//////                String qty = issue.getString("qty");
-////
-////
-////
-////
-////                String value = String.valueOf(Total_value);
-////                String qty = String.valueOf(Total_qty);
-////
-////                Grandtotal_Qty = Grandtotal_Qty + Total_qty;
-////                Grandtotal_Value = Grandtotal_Value + Total_value;
-////
-////                sellOutCustomCategoryLists.add(new SellOutCustomCategoryList(
-////                        commodity
-////                        ,commodity_ar
-////                        ,model
-////                        ,model_ar
-////                        ,qty
-////                        ,value
-////                        ,count
-////                        ,sellOutCustomModalLists
-////                ));
-//
-////            } catch (JSONException jsonException) {
-////                jsonException.printStackTrace();
-////            }
-//
-//
-//
-////        }
-//
-//
-//
-//        if(sellOutCustomCategoryLists.size() > 0){
-//
-//            selloutReportAdapter = new SelloutReportAdapter(sellOutCustomCategoryLists);
-//            binding.ReportselloutRecyclerView.setAdapter(selloutReportAdapter);
-//            selloutReportAdapter.UpdateList(sellOutCustomCategoryLists);
-//            binding.ReportselloutRecyclerView.setVisibility(View.VISIBLE);
-//            binding.tablayout.setVisibility(View.VISIBLE);
-//            binding.noData.setVisibility(View.GONE);
-//
-//
-//            binding.qty.setText(String.valueOf(Grandtotal_Qty));
-//            binding.value.setText(String.valueOf(Grandtotal_Value));
-//
-//
-//        }else {
-//            binding.ReportselloutRecyclerView.setVisibility(View.GONE);
-//            binding.tablayout.setVisibility(View.GONE);
-//            binding.noData.setVisibility(View.VISIBLE);
-//        }
-//        progressDialog.dismiss();
-//
-//    }
-//
+
+        if(sellOutCustomCategoryLists.size() > 0){
+
+            selloutReportAdapter = new SelloutReportAdapter(sellOutCustomCategoryLists);
+            binding.ReportselloutRecyclerView.setAdapter(selloutReportAdapter);
+            selloutReportAdapter.UpdateList(sellOutCustomCategoryLists);
+            binding.ReportselloutRecyclerView.setVisibility(View.VISIBLE);
+            binding.tablayout.setVisibility(View.VISIBLE);
+            binding.noData.setVisibility(View.GONE);
+
+
+            binding.qty.setText(String.valueOf(Grandtotal_Qty));
+            binding.value.setText(String.valueOf(Grandtotal_Value));
+
+
+        }else {
+            binding.ReportselloutRecyclerView.setVisibility(View.GONE);
+            binding.tablayout.setVisibility(View.GONE);
+            binding.noData.setVisibility(View.VISIBLE);
+        }
+        progressDialog.dismiss();
+
+
 
     /*
     private void SetFilterDatModalaAdapter(){

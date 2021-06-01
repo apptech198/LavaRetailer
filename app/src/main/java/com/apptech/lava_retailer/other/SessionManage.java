@@ -107,6 +107,9 @@ public class SessionManage {
 
     public static final String LOGIN_COUNTRY_ID = "LOGIN_COUNTRY_ID";
     public static final String LOGIN_COUNTRY_NAME = "LOGIN_COUNTRY_NAME";
+    public static final String LOGIN_COUNTRY_CURRENCY = "LOGIN_COUNTRY_CURRENCY";
+    public static final String LOGIN_COUNTRY_CURRENCY_SYMBOL = "LOGIN_COUNTRY_CURRENCY_SYMBOL";
+
     public static final String PROFILE_PERCENTAGE  = "PROFILE_PERCENTAGE";
     public static final String PROFILE_VERIFY_CHECK  = "PROFILE_VERIFY_CHECK";
     public static final String PROFILE_VERIFICATION  = "PROFILE_VERIFICATION";
@@ -305,9 +308,11 @@ public class SessionManage {
         editor.commit();
     }
 
-    public void LOGIN_COUNTRY(String country_id , String country_name){
+    public void LOGIN_COUNTRY(String country_id , String country_name , String currency , String currency_symbol){
         editor.putString(LOGIN_COUNTRY_ID , country_id);
         editor.putString(LOGIN_COUNTRY_NAME , country_name);
+        editor.putString(LOGIN_COUNTRY_CURRENCY , currency);
+        editor.putString(LOGIN_COUNTRY_CURRENCY_SYMBOL , currency_symbol);
         editor.commit();
     }
 

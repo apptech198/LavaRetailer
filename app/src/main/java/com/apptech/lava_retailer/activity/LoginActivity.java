@@ -174,9 +174,13 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
         binding.SelectCountry.setOnClickListener(v -> {
             popupMenu.setOnMenuItemClickListener(item -> {
-                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString());
-//                Toast.makeText(LoginActivity.this, "" + item.getItemId(), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(LoginActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
+
+                int pos = item.getGroupId();
+
+
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString() , countryLists.get(pos).getCurrency()
+                        , countryLists.get(pos).getCurrency_symbol());
+
                 binding.countryName.setText(item.getTitle());
                 return false;
             });
@@ -426,6 +430,8 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                     ,object.getString("name_ar")
                                     ,object.optString("name_fr")
                                     ,object.getString("time")
+                                    ,object.getString("currency")
+                                    ,object.optString("currency_symbol")
                             ));
 
                             int id = Integer.parseInt(object.getString("id"));
@@ -446,19 +452,13 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                     break;
                             }
 
-//                            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-//                                popupMenu.getMenu().add(i, id, i ,object.getString("name"));
-//                            }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
-//                                popupMenu.getMenu().add(i, id, i ,object.getString("name"));
-//                            }else {
-//                                popupMenu.getMenu().add(i, id, i ,object.getString("name_ar"));
-//                            }
+
                         }
 
 
                         try {
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){
-                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName());
+                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()  ,  countryLists.get(0).getCurrency_symbol());
                                 binding.countryName.setText(countryLists.get(0).getName());
                             }
                         }catch (IndexOutOfBoundsException e){

@@ -418,6 +418,8 @@ public class ProfileFragment extends Fragment {
                                     ,object.optString("name_ar")
                                     ,object.optString("name_fr")
                                     ,object.optString("time")
+                                    ,object.getString("currency")
+                                    ,object.optString("currency_symbol")
                             ));
                         }
                         SelectSmaertCountry();
