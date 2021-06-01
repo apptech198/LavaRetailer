@@ -119,7 +119,7 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
                 if(response.isSuccessful()){
 
-                    if (response.body().getError()){
+                    if (!response.body().getError()){
 
                         if (response.body().getList().size() > 0){
 
@@ -310,7 +310,7 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
         switch (v.getId()){
             case R.id.DeliveredLayout:
                 binding.DeliveredLayout.setClickable(false);
-                TYPE = "DELIVERED";
+                TYPE = "APPROVED";
                 getPendinfReplacement();
                 binding.DeliveredLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
                 binding.ProcessingLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
@@ -326,7 +326,7 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
                 break;
             case R.id.CancelledLayout:
-                TYPE = "CANCEL";
+                TYPE = "CANCELLED";
                 getPendinfReplacement();
                 binding.CancelledLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.red_order_status , null));
                 binding.DeliveredLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));

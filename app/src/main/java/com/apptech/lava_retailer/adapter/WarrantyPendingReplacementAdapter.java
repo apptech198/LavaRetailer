@@ -22,6 +22,7 @@ public class WarrantyPendingReplacementAdapter extends RecyclerView.Adapter<Warr
     java.util.List<List> lists;
 
     public WarrantyPendingReplacementAdapter(java.util.List<List> list) {
+        this.lists=list;
     }
 
     @NonNull
@@ -47,6 +48,7 @@ public class WarrantyPendingReplacementAdapter extends RecyclerView.Adapter<Warr
 
             holder.binding.datetime.setText(l.getTime().toString().trim().split(" ")[0]);
            holder.binding.validCheck.setText(l.getStatus());
+           holder.binding.ValidImeiText.setText(l.getImei());
 
 
     }
