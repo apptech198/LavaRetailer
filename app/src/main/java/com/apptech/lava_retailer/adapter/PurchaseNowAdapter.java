@@ -43,8 +43,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 
 public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.ViewBinding> implements Filterable {
@@ -89,6 +91,12 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
                 return false;
             }
         }).into(holder.image);
+
+
+//        String [] countries = { "US", "CA", "MX", "GB", "DE", "PL", "RU", "JP", "CN" };
+        Log.e(TAG, "onBindViewHolder: " + new NumberConvertArabic().GetCurreny("IN") );
+        Log.e(TAG, "onBindViewHolder: " + new NumberConvertArabic().GetCurreny("GB") );
+
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
 
@@ -142,6 +150,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
             String Dis_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
+
 
             holder.productAmt.setText(context.getResources().getString(R.string.egp) + Dis_price);
             holder.productAmtDic.setText(context.getResources().getString(R.string.egp) +  Actual_price);

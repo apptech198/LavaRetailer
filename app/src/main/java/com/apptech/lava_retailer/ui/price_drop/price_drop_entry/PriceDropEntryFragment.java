@@ -175,13 +175,14 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     void submitImei() {
 
 
-//        Log.e(TAG, "submitImei: " +announce_start_date );
-//        Log.e(TAG, "submitImei: " + announce_end_date);
+        binding.progressbar.setVisibility(View.VISIBLE);
+
 
         mainJsonObject.addProperty("date", binding.startDatetime.getText().toString().trim());
         mainJsonObject.addProperty("start_date", announce_start_date);
         mainJsonObject.addProperty("end_date", announce_end_date);
         mainJsonObject.addProperty("retailer_id", USER_ID);
+        mainJsonObject.addProperty("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         mainJsonObject.addProperty("locality_name",  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
         mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
 

@@ -238,6 +238,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         mainJsonObject.addProperty("date", binding.startDatetime.getText().toString().trim());
         mainJsonObject.addProperty("retailer_id", USER_ID);
+        mainJsonObject.addProperty("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         mainJsonObject.addProperty("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
         mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
 

@@ -185,6 +185,8 @@ public class SessionManage {
         user.put(LOGIN_COUNTRY_NAME, pref.getString(LOGIN_COUNTRY_NAME, null));
         user.put(PROFILE_VERIFY_CHECK, pref.getString(PROFILE_VERIFY_CHECK, null));
         user.put(PROFILE_VERIFICATION, pref.getString(PROFILE_VERIFICATION, null));
+        user.put(LOGIN_COUNTRY_CURRENCY, pref.getString(LOGIN_COUNTRY_CURRENCY, null));
+        user.put(LOGIN_COUNTRY_CURRENCY_SYMBOL, pref.getString(LOGIN_COUNTRY_CURRENCY_SYMBOL, null));
 
 
         // return user

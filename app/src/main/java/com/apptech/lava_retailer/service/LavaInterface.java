@@ -1,6 +1,7 @@
 package com.apptech.lava_retailer.service;
 
 import com.apptech.lava_retailer.list.notificationList.NotificationModel;
+import com.apptech.lava_retailer.list.pending_warranty.PendingWarrentyList;
 import com.apptech.lava_retailer.modal.message.NotificationListBrandWise;
 import com.apptech.lava_retailer.modal.order_statusList.OrderStatusList;
 import com.apptech.lava_retailer.modal.product.ProductList;
@@ -88,7 +89,7 @@ public interface LavaInterface{
 
     @POST("warranty_pending_list")
     @FormUrlEncoded
-    Call<Object> WARRANTY_PENDING (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
+    Call<PendingWarrentyList> WARRANTY_PENDING (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
 
     @POST("sellout_imei_list_pending_block")
     @FormUrlEncoded

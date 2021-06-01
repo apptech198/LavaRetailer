@@ -25,7 +25,8 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.SellOutPendingVerificationAdapter;
 import com.apptech.lava_retailer.adapter.WarrantyPendingReplacementAdapter;
 import com.apptech.lava_retailer.databinding.PendingReplacementRequestFragmentBinding;
-import com.apptech.lava_retailer.modal.sellOutPendingVerification.List;
+import com.apptech.lava_retailer.list.pending_warranty.List;
+import com.apptech.lava_retailer.list.pending_warranty.PendingWarrentyList;
 import com.apptech.lava_retailer.modal.sellOutPendingVerification.SellOutPendingVerificationList;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -59,7 +60,8 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     private static final String TAG = "PendingReplacementReque";
     String USER_ID = "";
     private ProgressDialog progressDialog;
-    WarrantyPendingReplacementAdapter sellOutPendingVerificationAdapter;
+    WarrantyPendingReplacementAdapter warrantyPendingReplacementAdapter;
+    private java.util.List<List> list;
 
     public static PendingReplacementRequestFragment newInstance() {
         return new PendingReplacementRequestFragment();
@@ -110,84 +112,53 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     }
 
     private void getPendinfReplacement() {
-        lavaInterface.WARRANTY_PENDING(USER_ID, StartDate, End_Date).enqueue(new Callback<Object>() {
+        lavaInterface.WARRANTY_PENDING(USER_ID, StartDate, End_Date).enqueue(new Callback<PendingWarrentyList>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(Call<PendingWarrentyList> call, Response<PendingWarrentyList> response) {
 
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
-/*
-                try {
+                if(response.isSuccessful()){
 
-                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String error_code = jsonObject.getString("error_code");
-                    String message = jsonObject.getString("message");
+                    if (response.body().getError()){
 
-                    if(error.equalsIgnoreCase("false")){
+                        if (response.body().getList().size() > 0){
 
-                        JSONArray jsonArray = jsonObject.getJSONArray("list");
-                        if(jsonArray.length() > 0){
-//                            lists.clear();
-
-                            for (int i=0; i < jsonArray.length(); i++){
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                String status = object.optString("status");
-                                if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
-//                                    lists.add(new List(
-//                                            object.optString("id")
-//                                            ,object.optString("type")
-//                                            ,object.optString("imei")
-//                                            ,object.optString("date")
-//                                            ,object.optString("retailer_id")
-//                                            ,object.optString("time")
-//                                            ,object.optString("product_id")
-//                                            ,object.optString("model")
-//                                            ,object.optString("check_status")
-//                                            ,object.optString("status")
-//                                            ,object.optString("price_drop_id")
-//                                            ,object.optString("price_drop_name")
-//                                            ,object.optString("qty")
-//                                            ,object.optString("price")
-//                                    ));
-//                                }
+                            list = response.body().getList();
+                            for (int i=0 ; i< response.body().getList().size(); i++){
+                                if (TYPE.equalsIgnoreCase(response.body().getList().get(i).getStatus())){
+                                    list.add(response.body().getList().get(i));
+                                }
                             }
 
-//                            if(lists.size() > 0){
-//                                sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
-//                                binding.PendingReplacementRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-//                                binding.PendingReplacementRecyclerView.setVisibility(View.VISIBLE);
-//                                progressDialog.cancel();
-//                                binding.noData.setVisibility(View.GONE);
-//                                return;
-//                            }
+                            if(list.size() > 0){
+                                warrantyPendingReplacementAdapter = new WarrantyPendingReplacementAdapter(list);
+                                binding.PendingReplacementRecyclerView.setAdapter(warrantyPendingReplacementAdapter);
+                                binding.PendingReplacementRecyclerView.setVisibility(View.VISIBLE);
+                                binding.noData.setVisibility(View.GONE);
+                                progressDialog.dismiss();
+                                return;
+                            }
                         }
                         binding.PendingReplacementRecyclerView.setVisibility(View.GONE);
                         binding.noData.setVisibility(View.VISIBLE);
-                        progressDialog.cancel();
+                        progressDialog.dismiss();
                         return;
                     }
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                    progressDialog.cancel();
-                    binding.noData.setVisibility(View.VISIBLE);
                     binding.PendingReplacementRecyclerView.setVisibility(View.GONE);
+                    binding.noData.setVisibility(View.VISIBLE);
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "" + response.body().getMessage(), Toast.LENGTH_SHORT).show();
                     return;
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                    Log.e(TAG, "onResponse: " + e.getMessage() );
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                progressDialog.cancel();
-                binding.noData.setVisibility(View.VISIBLE);
                 binding.PendingReplacementRecyclerView.setVisibility(View.GONE);
+                binding.noData.setVisibility(View.VISIBLE);
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
-             }*/
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(Call<PendingWarrentyList> call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
                 progressDialog.cancel();
                 binding.noData.setVisibility(View.VISIBLE);

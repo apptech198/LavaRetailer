@@ -178,6 +178,11 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                 int pos = item.getGroupId();
 
 
+
+//                Log.e(TAG, "onCreate: " +  ""+ countryLists.get(pos).getCurrency_symbol()+"" );
+//                Log.e(TAG, "onCreate: " +  ""+countryLists.get(pos).getCurrency_symbol()+"" );
+
+
                 sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString() , countryLists.get(pos).getCurrency()
                         , countryLists.get(pos).getCurrency_symbol());
 
