@@ -1,9 +1,13 @@
 package com.apptech.lava_retailer.ui.warranty.unserialize;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +39,8 @@ import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
 import com.github.dhaval2404.imagepicker.ImagePicker;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -40,6 +48,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import okhttp3.MediaType;
@@ -49,13 +59,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
+
 public class UnSerializeFragment extends Fragment implements ScannerFragment.BackPress , BarCodeScannerFragment.BackPressBarCode {
 
     private UnSerializeViewModel mViewModel;
     UnSerializeFragmentBinding binding;
     DatePickerDialog picker;
     private static final String TAG = "UnSerializeFragment";
-    private String SELECT_DATE ="";
+    private String SELECT_DATE ="", TYPE="SERIALIZE";
     private Uri fileUri;
     MultipartBody.Part filePart= null;
     LavaInterface lavaInterface;
@@ -64,6 +76,12 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
     ScannerFragment scannerFragment;
     BarCodeScannerFragment barCodeScannerFragment;
     boolean onetime = true;
+    int imeiCount = 0;
+    View rowView;
+    TextView textView , Modal , ModalTitle;
+    LinearLayout mainLayout;
+    LinearLayout removeBtn;
+    private boolean NoData = true, Wrongdatra = true;
 
 
     public static UnSerializeFragment newInstance() {
@@ -99,10 +117,26 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
         binding.submit.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
-                if (validation()) {
-                    submit();
-                    return;
+                if(TYPE.equals("SERIALIZE")){
+                    if(!binding.ImeiEdittext.getText().toString().isEmpty()){
+                        if(!SELECT_DATE.isEmpty()){
+                            submit();
+                        }else {
+                            Snackbar.make(binding.getRoot(),"Select Date",5000).show();
+                        }
+                    }else {Snackbar.make(binding.getRoot(),"Add Serial Number",5000).show();}
+                }else {
+                    if(!SELECT_DATE.isEmpty()){
+                        if(filePart!=null){
+                            submit();
+                        }else {
+                            Snackbar.make(binding.getRoot(),"Upload Invoice",5000).show();
+                        }
+                    }else {
+                        Snackbar.make(binding.getRoot(),"Select Date",5000).show();
+                    }
                 }
+
                 return;
             }
             Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -131,10 +165,15 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 case R.id.searilize:
                     binding.Searilizelayout.setVisibility(View.VISIBLE);
                     binding.note.setVisibility(View.GONE);
+                    TYPE= "SERIALIZE";
                     break;
                 case R.id.unsearilize:
                     binding.Searilizelayout.setVisibility(View.GONE);
                     binding.note.setVisibility(View.VISIBLE);
+                    TYPE= "NONSERIALIZE";
+                    binding.ImeiEdittext.setText("");
+                    SELECT_DATE ="";
+                    break;
             }
         });
 
@@ -142,6 +181,14 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
             onetime = true;
             Log.e(TAG, "onActivityCreated: " + "clicked" );
             loadfragment(barCodeScannerFragment);
+        });
+
+        binding.addBtn.setOnClickListener(v -> {
+            if(binding.ImeiEdittext.getText().toString().isEmpty()){
+              Snackbar.make(binding.getRoot(),"Enter IMEI Number",5000).show();
+            }else {
+                CheckWarrenty(binding.ImeiEdittext.getText().toString());
+            }
         });
 
     }
@@ -172,7 +219,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
             fileUri = data.getData();
             binding.img.setImageURI(fileUri);
             File file =  ImagePicker.Companion.getFile(data);
-            filePart = MultipartBody.Part.createFormData("img_url", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+            filePart = MultipartBody.Part.createFormData("invoice", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
 
 
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -215,7 +262,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
 
     private boolean validation() {
-        return DateSelectValidation() && DescriptionSearchValidation(binding.description.getText().toString().trim()) && FileValidation() ;
+        return DateSelectValidation() && FileValidation() ;
     }
 
     private boolean DateSelectValidation() {
@@ -251,13 +298,21 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        RequestBody id = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(sessionManage.getUserDetails().get("ID")));
-        RequestBody name = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(sessionManage.getUserDetails().get("NAME")));
-        RequestBody des = RequestBody.create(MediaType.parse("multipart/form-data"), binding.description.getText().toString().trim());
-        RequestBody date = RequestBody.create(MediaType.parse("multipart/form-data"), SELECT_DATE);
+        RequestBody srno = RequestBody.create(MediaType.parse("multipart/form-data"),binding.ImeiEdittext.getText().toString());
+        RequestBody sell_date = RequestBody.create(MediaType.parse("multipart/form-data"), SELECT_DATE);
+        RequestBody type = RequestBody.create(MediaType.parse("multipart/form-data"), TYPE);
+        RequestBody retailer_id = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        RequestBody retailer_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.NAME));
+        RequestBody locality_id = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        RequestBody locality_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOCALITY));
 
 
-        lavaInterface.WARRANTY_NO_SERIALIZED(filePart , id ,name , date,des).enqueue(new Callback<Object>() {
+
+
+        Log.e(TAG, "submit: "+  binding.ImeiEdittext.getText().toString());
+        Log.e(TAG, "submit: "+  SELECT_DATE);
+
+        lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart , sell_date ,type , srno,retailer_id, retailer_name,locality_id,locality_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -267,9 +322,19 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
                     String error = jsonObject.optString("error");
                     String message = jsonObject.optString("message");
-
+                    int error_code = jsonObject.getInt("error_code");
                     if(error.equalsIgnoreCase("false")){
-                        startActivity(new Intent(getContext() , MainActivity.class));
+
+                        switch (error_code){
+                            case 200:
+                                AlertDialogfailure(message);
+                            case 301:
+                                AlertDialogfailure(message);
+                            case 500:
+                                AlertDialogfailure(message);
+                        }
+
+//                        startActivity(new Intent(getContext() , MainActivity.class));
                         binding.progressbar.setVisibility(View.GONE);
                         return;
                     }
@@ -295,11 +360,15 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
     }
 
 
+
+
+
     @Override
     public void Onbackpress(String imei) {
         if (onetime) {
             binding.ImeiEdittext.setText(imei);
             getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
+            CheckWarrenty(imei);
         }
         onetime = false;
         Log.e(TAG, "OnbackpressBarcode: "+ imei );
@@ -310,10 +379,219 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         if (onetime) {
             binding.ImeiEdittext.setText(imei);
             getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
+            CheckWarrenty(imei);
         }
         onetime = false;
         Log.e(TAG, "OnbackpressBarcode: "+ imei );
     }
+
+
+
+    void CheckWarrenty(String imei){
+        Map<String , String> map = new HashMap<>();
+        map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        map.put("srno",imei);
+        binding.progressbar.setVisibility(View.VISIBLE);
+        lavaInterface.ACCESORIES_WARENTY_CHECK(map).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String message = jsonObject.optString("message");
+                    int error_code = jsonObject.getInt("error_code");
+
+                    if (error.equalsIgnoreCase("false")) {
+                        JSONObject data = jsonObject.getJSONObject("detail");
+                        String pName= data.optString("marketing_name");
+                        String psku= data.optString("sku");
+                        String pModel= data.optString("model");
+                        String pNamear= data.optString("marketing_name_fr");
+                        String pNamefr= data.optString("marketing_name_fr");
+                        String Modelar= data.optString("model_ar");
+                        SELECT_DATE  = data.optString("sell_out_date").substring(0,10);
+                        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+                            AlertDialog(pName,psku,pModel);
+
+                        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+                            if(pNamefr.isEmpty()){
+                                AlertDialog(pName,psku,pModel);
+                            }else {
+                                AlertDialog(pName,psku,pModel);
+                            }
+
+                        } else {
+                            if(pNamear.isEmpty()){
+                                AlertDialog(pName,psku,pModel);
+                            }else {
+                                AlertDialog(pNamear,psku,Modelar);
+                            }
+                        }
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    }
+                    binding.progressbar.setVisibility(View.GONE);
+                    Toast.makeText(requireContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(),message,5000).show();
+                    AlertDialogfailure(message);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                binding.submitBtn.setClickable(true);
+//                binding.submitBtn.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+                Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
+                Log.e(TAG, "onFailure: " + t.getMessage());
+            }
+        });
+
+    }
+
+
+    private void AlertDialogfailure(String msg){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+
+        des.setText(msg);
+
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+        } else {
+
+        }
+
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+
+
+    }
+
+
+    private void AlertDialog(String pname, String pSku, String pModel){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_imei_check , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView name = v.findViewById(R.id.des);
+        MaterialTextView sku = v.findViewById(R.id.sku);
+        MaterialTextView model = v.findViewById(R.id.model);
+
+
+        name.setText(pname);
+        sku.setText("SKU - "+ pSku);
+        model.setText("Model - "+ pModel);
+
+
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+        } else {
+
+        }
+
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+
+
+    }
+
+
+    private void addView(Drawable drawable , int type , String modals , String imeis , String distributor_name , String mess ) {
+
+        int a = imeiCount += 1;
+        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        rowView = inflater.inflate(R.layout.add_view, null);
+        binding.addLayout.addView(rowView, binding.addLayout.getChildCount() - 1);
+
+        textView = rowView.findViewById(R.id.imei);
+        mainLayout = rowView.findViewById(R.id.mainLayout);
+        Modal = rowView.findViewById(R.id.Modal);
+        TextView ModalTitle = rowView.findViewById(R.id.ModalTitle);
+        TextView imei = rowView.findViewById(R.id.imei);
+        TextView distributorName = rowView.findViewById(R.id.distributorName);
+        TextView msg = rowView.findViewById(R.id.msg);
+        ImageView icon  = rowView.findViewById(R.id.icon);
+
+        mainLayout.setBackground(drawable);
+        textView.setText(binding.ImeiEdittext.getText().toString().trim());
+        textView.setTag(String.valueOf(a));
+        removeBtn = rowView.findViewById(R.id.remove);
+
+        if (type == 200) {
+            icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_check, null));
+            distributorName.setText(distributor_name);
+            msg.setText(mess);
+            msg.setTextColor(getResources().getColor(R.color.green));
+        } else {
+            icon.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.ic__check, null));
+            distributorName.setText(distributor_name);
+            msg.setText(mess);
+            msg.setTextColor(getResources().getColor(R.color.yellow));
+        }
+        Modal.setText(modals);
+        imei.setText(imeis);
+
+
+        removeView();
+        binding.ImeiEdittext.setText(null);
+        NoData = true;
+        Wrongdatra = true;
+    }
+
+    private void removeView() {
+        removeBtn.setOnClickListener(v -> {
+            binding.addLayout.removeView((View) v.getParent().getParent().getParent());
+            if (binding.addLayout.getChildCount() == 0) {
+                NoData = true;
+                Wrongdatra = true;
+                imeiCount = 0;
+                binding.msgShowWrongImei.setVisibility(View.GONE);
+            }
+        });
+    }
+
 }
 
 

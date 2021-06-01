@@ -481,7 +481,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Reports sell out report");
+        title.setText(getResources().getString(R.string.Dashboard));
     }
 
 

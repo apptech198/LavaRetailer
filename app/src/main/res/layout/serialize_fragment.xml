@@ -896,7 +896,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="@string/submit"
+                        android:text="Close"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 

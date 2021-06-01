@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/dialog_back">
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -12,7 +13,7 @@
         android:layout_height="wrap_content"
         android:text="@string/otp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:fontFamily="@font/lato_bold"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 

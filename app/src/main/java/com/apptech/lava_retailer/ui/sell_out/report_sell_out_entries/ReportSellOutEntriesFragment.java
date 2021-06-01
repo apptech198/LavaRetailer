@@ -228,7 +228,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Reports sell out entries");
+        title.setText(getResources().getString(R.string.Report_sell_through));
     }
 
 

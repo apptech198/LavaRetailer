@@ -199,6 +199,8 @@
     <string name="Warranty_Date">Warranty Date</string>
     <string name="Charger">Charger</string>
     <string name="Mobile_Phone">Mobile Phone</string>
+    <string name="Replacement_process">Replacement process</string>
+    <string name="Pending_replace_process">Pending Replacement Request</string>
     <string name="Sort_By">Sort By</string>
     <string name="Popularity">Popularity</string>
     <string name="Description">Description</string>
@@ -228,6 +230,7 @@
     <string name="Accessories">Accessories</string>
     <string name="UnSerialize_Warranty">UnSerialize Warranty</string>
     <string name="Serial_no">Serial Number</string>
+    <string name="Report_sell_through">Report Sell Through</string>
 
 
 </resources>

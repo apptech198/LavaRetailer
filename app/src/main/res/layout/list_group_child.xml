@@ -17,6 +17,19 @@
         android:src="@drawable/ic_baseline_arrow_forward_24"/>
 
 
+    <ImageView
+        android:id="@+id/dot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/lblListHeader"
+        app:layout_constraintBottom_toBottomOf="@+id/lblListHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="24dp"
+        app:layout_constraintRight_toLeftOf="@id/lblListItem"
+        android:src="@drawable/ic_dot"/>
+
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/lblListItem"
         android:layout_width="wrap_content"
@@ -27,6 +40,18 @@
         android:layout_marginStart="4dp"
         app:layout_constraintTop_toTopOf="@+id/icon"
         app:layout_constraintBottom_toBottomOf="@+id/icon"/>
+
+
+    <ImageView
+        android:id="@+id/Down"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@+id/lblListHeader"
+        app:layout_constraintBottom_toBottomOf="@+id/lblListHeader"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="24dp"
+        android:src="@drawable/ic_down"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

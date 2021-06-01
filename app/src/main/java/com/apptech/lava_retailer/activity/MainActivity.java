@@ -75,6 +75,7 @@ import com.apptech.lava_retailer.fragment.warrantys.warranty2.Warranty2Fragment;
 import com.apptech.lava_retailer.modal.MenuModel;
 import com.apptech.lava_retailer.other.LanguageChange;
 import com.apptech.lava_retailer.other.SessionManage;
+import com.apptech.lava_retailer.ui.warranty.pending_replacement_request.PendingReplacementRequestFragment;
 import com.apptech.lava_retailer.ui.warranty.serialize.SerializeFragment;
 import com.apptech.lava_retailer.ui.warranty.unserialize.UnSerializeFragment;
 import com.apptech.lava_retailer.ui.warranty.warrenty_check.WarrentyCheckFragment;
@@ -715,15 +716,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerList.add(menuModel);
 
         childModelsList = new ArrayList<>();
-        childModel = new MenuModel(getResources().getString(R.string.Mobile_Phone), false, false, "SERIALIZE");
+        childModel = new MenuModel(getResources().getString(R.string.Mobile_Phone), false, false, "");
         childModelsList.add(childModel);
 
+        childModel = new MenuModel(getResources().getString(R.string.Replacement_process), false, false, "SERIALIZE");
+        childModelsList.add(childModel);
 
-        childModel = new MenuModel(getResources().getString(R.string.Accessories), false, false, "UN_SERIALIZE");
+        childModel = new MenuModel(getResources().getString(R.string.Pending_replace_process), false, false, "PENDING_REPLACEMENT_REQUEST");
         childModelsList.add(childModel);
 
         childModel = new MenuModel(getResources().getString(R.string.Warranty), false, false, "WARRENTY_CHECK");
         childModelsList.add(childModel);
+
+
+        childModel = new MenuModel(getResources().getString(R.string.Accessories), false, false, "");
+        childModelsList.add(childModel);
+
+        childModel = new MenuModel(getResources().getString(R.string.Replacement_process), false, false, "UN_SERIALIZE");
+        childModelsList.add(childModel);
+
+
 
 
         if (menuModel.hasChildren) {
@@ -876,6 +888,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             loadfragment(new WarrentyCheckFragment());
                             binding.appBarMain.Actiontitle.setText("Warrenty Chack");
                             break;
+                        case "PENDING_REPLACEMENT_REQUEST":
+                            loadfragment(new PendingReplacementRequestFragment());
+                            binding.appBarMain.Actiontitle.setText(getResources().getString(R.string.Pending_replace_process));
+                            break;
+
                     }
                     binding.drawerLayout.closeDrawer(GravityCompat.START);
                 }
@@ -1049,6 +1066,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                         case "WARRENTY_CHECK":
                             navController.navigate(R.id.warrentycheckFragment);
+                            binding.expandableListView.setClickable(true);
+                            binding.expandableListView.setEnabled(true);
+                            binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            break;
+                        case "PENDING_REPLACEMENT_REQUEST":
+                            navController.navigate(R.id.pendingreplacementFragmnet);
                             binding.expandableListView.setClickable(true);
                             binding.expandableListView.setEnabled(true);
                             binding.drawerLayout.closeDrawer(GravityCompat.START);

@@ -60,10 +60,43 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = infalInflater.inflate(R.layout.list_group_child, null);
         }
 
-        TextView txtListChild = convertView
-                .findViewById(R.id.lblListItem);
+        ImageView imageView = convertView.findViewById(R.id.icon);
+        ImageView dot = convertView.findViewById(R.id.dot);
+        ImageView down = convertView.findViewById(R.id.Down);
+        TextView txtListChild = convertView.findViewById(R.id.lblListItem);
 
         txtListChild.setText(childText);
+        if(groupPosition==7) {
+            switch (childPosition) {
+                case 0:
+                    down.setVisibility(View.VISIBLE);
+                    Log.e(TAG, "getChildView: 1");
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                    imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_brightness_1_24));
+                    Log.e(TAG, "getChildView: 2");
+                    break;
+                case 4:
+                    down.setVisibility(View.VISIBLE);
+                    Log.e(TAG, "getChildView: 2");
+                    break;
+                case 5:
+                    imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_brightness_1_24));
+                    Log.e(TAG, "getChildView: 2");
+                    break;
+
+            }
+        }else {
+            imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_arrow_forward_24));
+            dot.setVisibility(View.GONE);
+            down.setVisibility(View.GONE);
+            imageView.setVisibility(View.VISIBLE);
+        }
+
+
+
         return convertView;
     }
 
@@ -104,6 +137,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListHeader = convertView.findViewById(R.id.lblListHeader);
         ImageView imageView = convertView.findViewById(R.id.icon);
+        ImageView dot = convertView.findViewById(R.id.dot);
+        ImageView down = convertView.findViewById(R.id.Down);
         ProgressBar ProfileProgress = convertView.findViewById(R.id.ProfileProgress);
         MaterialTextView percent = convertView.findViewById(R.id.percent);
         LinearLayout percentview = convertView.findViewById(R.id.per_view);
@@ -150,9 +185,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+
+
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
+        switch (childPosition){
+            case 0:
+
+        }
         return true;
+
     }
 
 }

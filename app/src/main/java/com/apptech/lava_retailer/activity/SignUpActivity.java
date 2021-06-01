@@ -484,23 +484,23 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
 
                             sessionManage.UserDetail(
-                                    jsonObject1.getString("id"),
-                                    jsonObject1.getString("user_unique_id"),
-                                    jsonObject1.getString("name"),
+                                    jsonObject1.optString("id"),
+                                    jsonObject1.optString("user_unique_id"),
+                                    jsonObject1.optString("name"),
                                     jsonObject1.optString("email"),
-                                    jsonObject1.getString("mobile"),
+                                    jsonObject1.optString("mobile"),
                                     jsonObject1.optString("user_type"),
                                     jsonObject1.optString("password"),
-                                    jsonObject1.getString("governate"),
-                                    jsonObject1.getString("locality_ar"),
-                                    jsonObject1.getString("locality"),
+                                    jsonObject1.optString("governate"),
+                                    jsonObject1.optString("locality_ar"),
+                                    jsonObject1.optString("locality"),
                                     jsonObject1.optString("time"),
-                                    jsonObject1.getString("address"),
-                                    jsonObject1.getString("locality_id"),
-                                    jsonObject1.getString("outlet_name"),
+                                    jsonObject1.optString("address"),
+                                    jsonObject1.optString("locality_id"),
+                                    jsonObject1.optString("outlet_name"),
                                     jsonObject1.optString("img_url"),
-                                    jsonObject1.getString("country_name"),
-                                    jsonObject1.getString("country_id")
+                                    jsonObject1.optString("country_name"),
+                                    jsonObject1.optString("country_id")
                             );
 
                             startActivity(new Intent(SignUpActivity.this, MessageShowActivity.class));
@@ -554,11 +554,11 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
                             JSONObject object = array.getJSONObject(i);
                             countryLists.add(new Country_list(
-                                    object.getString("id")
-                                    ,object.getString("name")
-                                    ,object.getString("name_ar")
+                                    object.optString("id")
+                                    ,object.optString("name")
+                                    ,object.optString("name_ar")
                                     ,object.optString("name_fr")
-                                    ,object.getString("time")
+                                    ,object.optString("time")
                             ));
 
 
@@ -634,13 +634,13 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject json_data = jsonArray.getJSONObject(i);
                                 governatelist.add(new GovernateList(
-                                        json_data.getString("id")
-                                        ,json_data.getString("country_id")
-                                        ,json_data.getString("country_name")
-                                        ,json_data.getString("name")
-                                        ,json_data.getString("name_ar")
+                                        json_data.optString("id")
+                                        ,json_data.optString("country_id")
+                                        ,json_data.optString("country_name")
+                                        ,json_data.optString("name")
+                                        ,json_data.optString("name_ar")
                                         ,json_data.optString("name_fr")
-                                        ,json_data.getString("time")
+                                        ,json_data.optString("time")
                                 ));
                             }
 
@@ -812,13 +812,13 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                 JSONObject jo = jsonArray.getJSONObject(i);
 
                                 localityList.add(new LocalityList(
-                                        jo.getString("id")
-                                        ,jo.getString("governate_id")
-                                        ,jo.getString("governate_name")
-                                        ,jo.getString("name")
-                                        ,jo.getString("name_ar")
+                                        jo.optString("id")
+                                        ,jo.optString("governate_id")
+                                        ,jo.optString("governate_name")
+                                        ,jo.optString("name")
+                                        ,jo.optString("name_ar")
                                         ,jo.optString("name_fr")
-                                        ,jo.getString("time")
+                                        ,jo.optString("time")
                                 ));
                             }
 

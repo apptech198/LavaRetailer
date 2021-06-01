@@ -5,6 +5,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +53,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class SerializeFragment extends Fragment implements ScannerFragment.BackPress  , BarCodeScannerFragment.BackPressBarCode{
 
     private SerializeViewModel mViewModel;
@@ -70,8 +74,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     TextView textView , Modal , ModalTitle;
     LinearLayout mainLayout;
     LinearLayout removeBtn;
+    String SELL_DATE="", HANDSET_REPLACE="", REPLACE_ITEM= "";
     private boolean NoData = true, Wrongdatra = true;
-
+    String NEW_IMEI="";
     String IMEI ="" , WARRANTY_TYPE_MOB = "", WARRANTY_TYPE_CHAR = "", WARRANTY_TYPE_EAR = "" , WARRANTY_PERIOD_MOB ="" , WARRANTY_PERIOD_CHAR ="" , WARRANTY_PERIOD_EAR ="" , ITEM_PURCHASE_DATE_date ="";
     JsonObject mainObject = new JsonObject();
     boolean WARRANTY_TYPE_MOB1 = false , WARRANTY_TYPE_EAR1 =false , WARRANTY_TYPE_CHAR1 = false;
@@ -120,6 +125,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
         });
+        binding.submitBtn.setOnClickListener(v -> {
+            navController.popBackStack();
+        });
 
         binding.scanBtn.setOnClickListener(v -> {
             loadfragment(barCodeScannerFragment);
@@ -160,14 +168,73 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         });
 
 
-        binding.submitBtn.setOnClickListener(v -> {
-            if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
-                if(validation1()){
-                    WarrantySubmit();
-                }
-                return;
+//        binding.submitBtn.setOnClickListener(v -> {
+//            if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
+//                if(validation1()){
+//                    WarrantySubmit();
+//                }
+//                return;
+//            }
+//            Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+//        });
+
+         binding.MobCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+             if(isChecked){
+                 HANDSET_REPLACE="YES";
+                 REPLACE_ITEM="HANDSET";
+               CheckIMei(binding.ImeiEdittext.getText().toString(),1);
+               binding.MobCheckbox.setEnabled(false);
+             }
+         });
+
+        binding.BatteryCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                HANDSET_REPLACE="NO";
+                REPLACE_ITEM="BATTERY";
+                NEW_IMEI ="";
+                Submit(2);
+                binding.BatteryCheckbox.setEnabled(false);
             }
-            Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        });
+
+        binding.AdapterCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                HANDSET_REPLACE="NO";
+                REPLACE_ITEM="ADAPTER";
+                NEW_IMEI ="";
+                Submit(3);
+                binding.AdapterCheckbox.setEnabled(false);
+            }
+        });
+
+        binding.EarphoneCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                HANDSET_REPLACE="NO";
+                REPLACE_ITEM="EARPHONE";
+                NEW_IMEI ="";
+                Submit(4);
+                binding.EarphoneCheckbox.setEnabled(false);
+            }
+        });
+
+        binding.ChargerCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                HANDSET_REPLACE="NO";
+                REPLACE_ITEM="CHARGER";
+                NEW_IMEI ="";
+                Submit(5);
+                binding.ChargerCheckbox.setEnabled(false);
+            }
+        });
+
+        binding.USBCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                HANDSET_REPLACE="NO";
+                REPLACE_ITEM="USB";
+                NEW_IMEI ="";
+                Submit(6);
+                binding.ChargerCheckbox.setEnabled(false);
+            }
         });
 
 
@@ -381,7 +448,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                         JSONObject order_detail = jsonObject.getJSONObject("detail");
-                        String time = order_detail.getString("time");
+                        String time = order_detail.getString("sell_out_date");
+                        SELL_DATE = order_detail.getString("sell_out_date");
+                        String tertiary_date = order_detail.optString("tertiary_warranty_date");
 
                         String acce_mobile = order_detail.getString("prowar");
                         String acce_mobile_war = order_detail.getString("pro_war_days");
@@ -406,6 +475,18 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         WARRANTY_PERIOD_MOB = acce_mobile_war;
                         WARRANTY_PERIOD_CHAR = acce_charger_war;
                         WARRANTY_PERIOD_EAR = acce_earphone_war;
+
+//                        time ="2019-05-29 00:00:00";
+                        if(tertiary_date==null) {
+                            Calendar ORDERDATE = Date_Convert_String_To_Calender(time);
+                            Calendar TERTIARY = Date_Convert_String_To_Calender(tertiary_date);
+                            if (ORDERDATE.after(TERTIARY)) {
+                                time = tertiary_date;
+                            }
+                        }
+
+
+
                         ITEM_PURCHASE_DATE_date= time;
 
 
@@ -439,9 +520,12 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
                             MobcalendarFutureDate.add(Calendar.MONTH, MobWar);
-                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
+
+
 
 
                             Log.e(TAG, "onResponse MobIssueDate: " + df.format(MobIssueDate.getTime()) );
@@ -450,6 +534,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                             binding.IssueDateMob.setText(String.valueOf(df.format(MobIssueDate.getTime())));
                             binding.WarrantyDateMob.setText(String.valueOf(df.format(MobcalendarFutureDate.getTime())));
+
 
                             if(MobcalendarFutureDate.after(MobtodayDate)){
 //                                warranty
@@ -467,6 +552,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.MobMessage.setText("out of warrtanty");
                                 binding.MobMessage.setTextColor(getResources().getColor(R.color.red));
+                                binding.WarrantyDateMob.setTextColor(getResources().getColor(R.color.red));
                             }
                         }else {
                             binding.MobLayout.setVisibility(View.GONE);
@@ -491,8 +577,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
                             MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
-                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
 
@@ -519,6 +606,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.ChargerMessage.setText("out of warrtanty");
                                 binding.ChargerMessage.setTextColor(getResources().getColor(R.color.red));
+                                binding.WarrantyDateChar.setTextColor(getResources().getColor(R.color.red));
                             }
 
 
@@ -544,8 +632,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
                             MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
-                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
 
@@ -572,6 +661,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.AdapterMessage.setText("out of warrtanty");
                                 binding.AdapterMessage.setTextColor(getResources().getColor(R.color.red));
+                                binding.WarrantyDateAdapter.setTextColor(getResources().getColor(R.color.red));
                             }
 
 
@@ -597,8 +687,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
                             MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
-                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
 
@@ -625,6 +716,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.BatteryMessage.setText("out of warrtanty");
                                 binding.BatteryMessage.setTextColor(getResources().getColor(R.color.red));
+                                binding.WarrantyDateBat.setTextColor(getResources().getColor(R.color.red));
                             }
 
 
@@ -650,8 +742,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
                             MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
-                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
 
@@ -678,6 +771,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.USBMessage.setText("out of warrtanty");
                                 binding.USBMessage.setTextColor(getResources().getColor(R.color.red));
+                                binding.WarrantyDateUSB.setTextColor(getResources().getColor(R.color.red));
                             }
 
 
@@ -710,8 +804,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             Calendar MobtodayDate =  Date_Convert_String_To_Calender(d);
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
+                            MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
                             MobcalendarFutureDate.add(Calendar.MONTH, Earphone_War);
-                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
+//                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
 
@@ -738,6 +833,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                                 binding.EarphoneMessage.setText("out of warrtanty");
                                 binding.EarphoneMessage.setTextColor(getResources().getColor(R.color.red));
+                                binding.WarrantyDateEar.setTextColor(getResources().getColor(R.color.red));
                             }
 
 
@@ -820,7 +916,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
 
-    private void HandsetReturn(){
+    private void HandsetReturn(int i){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View view = LayoutInflater.from(getContext()).inflate(R.layout.row_warrant_imei_replace , null);
@@ -828,7 +924,34 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         LinearLayout submit = view.findViewById(R.id.submit);
 
         TextInputLayout addressEdittext = view.findViewById(R.id.addressEdittext);
-        close.setOnClickListener(v -> {alertDialog1.dismiss();});
+        close.setOnClickListener(v -> {
+            switch (i) {
+                case 1:
+                    binding.MobCheckbox.setChecked(false);
+                    binding.MobCheckbox.setEnabled(true);
+                    break;
+                case 2:
+                    binding.BatteryCheckbox.setChecked(false);
+                    binding.BatteryCheckbox.setEnabled(true);
+                    break;
+                case 3:
+                    binding.AdapterCheckbox.setChecked(false);
+                    binding.AdapterCheckbox.setEnabled(true);
+                    break;
+                case 4:
+                    binding.EarphoneCheckbox.setChecked(false);
+                    binding.EarphoneCheckbox.setEnabled(true);
+                    break;
+                case 5:
+                    binding.ChargerCheckbox.setChecked(false);
+                    binding.ChargerCheckbox.setEnabled(true);
+                    break;
+                case 6:
+                    binding.USBCheckbox.setChecked(false);
+                    binding.USBCheckbox.setEnabled(true);
+                    break;
+            }
+            alertDialog1.dismiss();});
         submit.setOnClickListener(v -> {
             if(addressEdittext.getEditText().getText().toString().trim().isEmpty()){
                 addressEdittext.setError(getResources().getString(R.string.field_required));
@@ -837,14 +960,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             }
             addressEdittext.setError(null);
             addressEdittext.setErrorEnabled(false);
-
-            String add = addressEdittext.getEditText().getText().toString().trim();
-            sessionManage.AddressChange(add);
+            NEW_IMEI = addressEdittext.getEditText().getText().toString();
+            Submit(i);
             alertDialog1.dismiss();
         });
 
         builder.setView(view);
+
         alertDialog1 = builder.create();
+        alertDialog1.setCancelable(false);
+        alertDialog1.setCanceledOnTouchOutside(false);
         alertDialog1.show();
 
     };
@@ -926,9 +1051,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
         }
 
-
-
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         submit.setOnClickListener(view -> {
@@ -941,6 +1063,190 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
     }
+
+    void AlertAllReturn(){
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Message")
+                .setMessage("Do You Wan't replace All Items!")
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                  binding.MobCheckbox.setChecked(true);
+                  binding.AdapterCheckbox.setChecked(true);
+                  binding.BatteryCheckbox.setChecked(true);
+                  binding.EarphoneCheckbox.setChecked(true);
+                  binding.ChargerCheckbox.setChecked(true);
+                  binding.USBCheckbox.setChecked(true);
+                  dialogInterface.cancel();
+                })
+                .setNegativeButton("No", (dialogInterface, i) -> {
+                     dialogInterface.cancel();
+                })
+                .show();
+    }
+    
+    
+    void Submit(int i){
+        Map<String , String>map= new HashMap<>();
+        map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        map.put("retailer_name",sessionManage.getUserDetails().get(SessionManage.NAME));
+        map.put("locality_id",sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        map.put("locality_name",sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        map.put("imei",NEW_IMEI);
+        map.put("sell_date",SELL_DATE);
+        map.put("handest_replace",HANDSET_REPLACE);
+        map.put("item_name",REPLACE_ITEM);
+        map.put("imei_original",binding.ImeiEdittext.getText().toString());
+          lavaInterface.REPLACEMENT_WARENTY(map).enqueue(new Callback<Object>() {
+              @Override
+              public void onResponse(Call<Object> call, Response<Object> response) {
+                  Log.e(TAG, "onResponse: "  + response.body().toString());
+
+                  try {
+                      JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+
+                      String error = jsonObject.optString("error");
+                      String message = jsonObject.optString("message");
+                      int error_code = jsonObject.getInt("error_code");
+
+
+                      if(error.equalsIgnoreCase("false")){
+                          AlertDialogfailure(message);
+                          switch (i){
+                              case 1:
+                                  binding.MobCheckbox.setChecked(true);
+                                  binding.MobCheckbox.setEnabled(false);
+                                  break;
+                              case 2:
+                                  binding.BatteryCheckbox.setChecked(true);
+                                  binding.BatteryCheckbox.setEnabled(false);
+                                  break;
+                              case 3:
+                                  binding.AdapterCheckbox.setChecked(true);
+                                  binding.AdapterCheckbox.setEnabled(false);
+                                  break;
+                              case 4:
+                                  binding.EarphoneCheckbox.setChecked(true);
+                                  binding.EarphoneCheckbox.setEnabled(false);
+                                  break;
+                              case 5:
+                                  binding.ChargerCheckbox.setChecked(true);
+                                  binding.ChargerCheckbox.setEnabled(false);
+                                  break;
+                              case 6:
+                                  binding.USBCheckbox.setChecked(true);
+                                  binding.USBCheckbox.setEnabled(false);
+                                  break;
+
+                          }
+                          return;
+                      }
+
+                      Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                      binding.submit.setEnabled(true);
+                      binding.progressbar.setVisibility(View.GONE);
+                      AlertDialogfailure(message);
+                      switch (i){
+                          case 1:
+                              binding.MobCheckbox.setChecked(false);
+                              binding.MobCheckbox.setEnabled(true);
+                              break;
+                          case 2:
+                              binding.BatteryCheckbox.setChecked(false);
+                              binding.BatteryCheckbox.setEnabled(true);
+                              break;
+                          case 3:
+                              binding.AdapterCheckbox.setChecked(false);
+                              binding.AdapterCheckbox.setEnabled(true);
+                              break;
+                          case 4:
+                              binding.EarphoneCheckbox.setChecked(false);
+                              binding.EarphoneCheckbox.setEnabled(true);
+                              break;
+                          case 5:
+                              binding.ChargerCheckbox.setChecked(false);
+                              binding.ChargerCheckbox.setEnabled(true);
+                              break;
+                          case 6:
+                              binding.USBCheckbox.setChecked(false);
+                              binding.USBCheckbox.setEnabled(true);
+                              break;
+
+                      }
+                      return;
+
+                  } catch (JSONException e) {
+                      e.printStackTrace();
+                      Log.e(TAG, "onResponse: " + e.getMessage() );
+                  }
+
+                  Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                  binding.submit.setEnabled(true);
+                  binding.progressbar.setVisibility(View.GONE);
+
+
+              }
+
+              @Override
+              public void onFailure(Call<Object> call, Throwable t) {
+                  Toast.makeText(getContext(), "Time out" , Toast.LENGTH_SHORT).show();
+                  binding.submit.setEnabled(true);
+                  binding.progressbar.setVisibility(View.GONE);
+              }
+          });
+    }
+
+
+    void CheckIMei(String imei , int i){
+        lavaInterface.IMEI_CHECK(imei, sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Log.e(TAG, "onResponse: "  + response.body().toString());
+
+                try {
+                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+
+                    String error = jsonObject.optString("error");
+                    String message = jsonObject.optString("message");
+                    int error_code = jsonObject.getInt("error_code");
+
+
+                    if(error.equalsIgnoreCase("false")){
+                        HandsetReturn(i);
+                        return;
+                    }
+
+                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    binding.submit.setEnabled(true);
+                    binding.progressbar.setVisibility(View.GONE);
+
+                    AlertDialogfailure(message);
+                    switch (i){
+                        case 1:
+                            binding.MobCheckbox.setChecked(false);
+                            binding.MobCheckbox.setEnabled(true);
+
+                    }
+                    return;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "onResponse: " + e.getMessage() );
+                }
+
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.submit.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Toast.makeText(getContext(), "Time out" , Toast.LENGTH_SHORT).show();
+                binding.submit.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+            }
+        });
+    }
+
 }
 
 

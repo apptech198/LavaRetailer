@@ -174,12 +174,22 @@ public interface LavaInterface{
     Call<Object> WARRANTY_NO_SERIALIZED (@Part MultipartBody.Part img_url , @Part("retailer_id") RequestBody retailer_id , @Part("retailer_name") RequestBody retailer_name
         , @Part("date_sale") RequestBody date_sale, @Part("des") RequestBody des);
 
+
+    @POST("accesories_replacement_warranty")
+    @Multipart
+    Call<Object> ACCESORIES_REPLACEMENT_WARRENTY (@Part MultipartBody.Part img_url , @Part("sell_date") RequestBody sell_date , @Part("type") RequestBody type
+        , @Part("srno") RequestBody srno, @Part("retailer_id") RequestBody retailer_id, @Part("retailer_name") RequestBody retailer_name
+            , @Part("locality_id") RequestBody locality_id, @Part("locality_name") RequestBody locality_name);
+
     @POST("warranty_check_series")
     @FormUrlEncoded
     Call<Object> WARRANTY_CHECK (@Field("retailer_id") String retailer_id , @Field("imei") String imei );
 
     @POST("warranty_check_series_submit")
     Call<Object> SUBMIT_SERI(@Body JsonObject jsonObject);
+
+
+
 
     @POST("check_imei")
     @FormUrlEncoded
@@ -197,6 +207,10 @@ public interface LavaInterface{
     @FormUrlEncoded
     Call<Object> WARRENTYCHECK(@FieldMap Map<String,String> params);
 
+    @POST("accespries_warranty_check")
+    @FormUrlEncoded
+    Call<Object> ACCESORIES_WARENTY_CHECK(@FieldMap Map<String,String> params);
+
     @POST("send_otp_auth")
     @FormUrlEncoded
     Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile , @Field("country") String country );
@@ -207,6 +221,10 @@ public interface LavaInterface{
     @POST("trading_scheme_list")
     @FormUrlEncoded
     Call<Object> GETTRADEDATALIST(@FieldMap Map<String,String> params);
+
+    @POST("replacement_warranty")
+    @FormUrlEncoded
+    Call<Object> REPLACEMENT_WARENTY(@FieldMap Map<String,String> params);
 
     @POST("comodity_list")
     Call<Object> GRT_COMODITY();

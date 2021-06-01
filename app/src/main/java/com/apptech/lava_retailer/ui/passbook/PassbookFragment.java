@@ -146,7 +146,7 @@ public class PassbookFragment extends Fragment {
 
         ThisWeekDate();
         setPopUpWindow();
-        binding.DatpickerRange.setOnClickListener(v ->  {
+        binding.claimDatpickerRange.setOnClickListener(v ->  {
             mypopupWindow.showAsDropDown(v,-153,0);
 //            generatePDF2();
         });
@@ -412,7 +412,7 @@ public class PassbookFragment extends Fragment {
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getActivity().getString(R.string.Passbook));
+        title.setText(getActivity().getString(R.string.Claim_Statement));
     }
 
     private void datePicker() {
