@@ -69,26 +69,34 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if(groupPosition==7) {
             switch (childPosition) {
                 case 0:
+                    imageView.getLayoutParams().width=50;
+                    imageView.getLayoutParams().height=50;
+                    imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_arrow_forward_24));
                     down.setVisibility(View.VISIBLE);
                     Log.e(TAG, "getChildView: 1");
                     break;
                 case 1:
                 case 2:
                 case 3:
+                case 5:
+                    down.setVisibility(View.GONE);
+                    imageView.getLayoutParams().width=20;
+                    imageView.getLayoutParams().height=20;
                     imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_brightness_1_24));
                     Log.e(TAG, "getChildView: 2");
                     break;
                 case 4:
+                    imageView.getLayoutParams().width=50;
+                    imageView.getLayoutParams().height=50;
+                    imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_arrow_forward_24));
                     down.setVisibility(View.VISIBLE);
-                    Log.e(TAG, "getChildView: 2");
-                    break;
-                case 5:
-                    imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_brightness_1_24));
                     Log.e(TAG, "getChildView: 2");
                     break;
 
             }
         }else {
+            imageView.getLayoutParams().width=50;
+            imageView.getLayoutParams().height=50;
             imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_baseline_arrow_forward_24));
             dot.setVisibility(View.GONE);
             down.setVisibility(View.GONE);
@@ -151,6 +159,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             case 0:
                 imageView.setImageResource(R.drawable.ic_user__2_);
                 percentview.setVisibility(View.VISIBLE);
+                percent.setVisibility(View.VISIBLE);
                 ProfileProgress.setProgress(sessionManage.GetProfilePercent());
                 percent.setText(String.valueOf(sessionManage.GetProfilePercent())+"%");
                 int a = 0;
@@ -161,18 +170,28 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             case 3:
             case 4:
             case 6:
+                percentview.setVisibility(View.GONE);
+                percent.setVisibility(View.GONE);
                 imageView.setImageResource(R.drawable.ic_envelope);
                 break;
             case 5:
+                percentview.setVisibility(View.GONE);
+                percent.setVisibility(View.GONE);
                 imageView.setImageResource(R.drawable.ic_shopping_bags);
                 break;
             case 7:
+                percentview.setVisibility(View.GONE);
+                percent.setVisibility(View.GONE);
                 imageView.setImageResource(R.drawable.ic_secure);
                 break;
             case 8:
+                percentview.setVisibility(View.GONE);
+                percent.setVisibility(View.GONE);
                 imageView.setImageResource(R.drawable.ic_language);
                 break;
             case 9:
+                percentview.setVisibility(View.GONE);
+                percent.setVisibility(View.GONE);
                 imageView.setImageResource(R.drawable.ic_logout);
                 break;
         }

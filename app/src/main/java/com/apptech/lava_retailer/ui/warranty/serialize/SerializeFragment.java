@@ -334,7 +334,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getActivity().getString(R.string.Serialize_Warranty));
+        title.setText(getActivity().getString(R.string.Replacement_process));
     }
 
     @Override
@@ -398,8 +398,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         binding.progressbar.setVisibility(View.VISIBLE);
         Map<String , String> map = new HashMap<>();
         map.put("imei",imei);
-        map.put("retailer_id","ff2326e2cf317a74fef52f267662a1ef");
-//        map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+//        map.put("retailer_id","ff2326e2cf317a74fef52f267662a1ef");
+        map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
 
 //        lavaInterface.WARRANTY_CHECK(id,imei).enqueue(new Callback<Object>() {
         lavaInterface.WARRENTYCHECK(map).enqueue(new Callback<Object>() {
@@ -448,6 +448,12 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                         JSONObject order_detail = jsonObject.getJSONObject("detail");
+                        Log.e(TAG, "onResponse: "+ order_detail.optString("sell_out_date") );
+                        if(order_detail.optString("sell_out_date").equals("")){
+                            binding.progressbar.setVisibility(View.GONE);
+                            AlertDialogfailure("Invalid IMEI");
+                            return;
+                        }
                         String time = order_detail.getString("sell_out_date");
                         SELL_DATE = order_detail.getString("sell_out_date");
                         String tertiary_date = order_detail.optString("tertiary_warranty_date");
@@ -493,10 +499,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         int MobWar = 0;
                         int Charge_War = 0;
                         int Earphone_War = 0;
+                        int Battery_War = 0;
+                        int USB_War = 0;
+                        int Adapter_War = 0;
                         try {
                             MobWar = Integer.parseInt(acce_mobile_war);
                             Charge_War = Integer.parseInt(acce_charger_war);
                             Earphone_War = Integer.parseInt(acce_earphone_war);
+                            Battery_War = Integer.parseInt(acce_battery_war);
+                            USB_War = Integer.parseInt(acce_usb_war);
+                            Adapter_War = Integer.parseInt(acce_adapter_war);
                         }catch (NumberFormatException e){
                             e.printStackTrace();
                             Log.e(TAG, "onResponse: " + e.getMessage() );
@@ -633,7 +645,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
                             MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
-                            MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
+                            MobcalendarFutureDate.add(Calendar.MONTH, Adapter_War);
 //                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
@@ -688,7 +700,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
                             MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
-                            MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
+                            MobcalendarFutureDate.add(Calendar.MONTH, Battery_War);
 //                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 
@@ -743,7 +755,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                             Calendar MobcalendarFutureDate = Calendar.getInstance();
                             MobcalendarFutureDate.set(Integer.parseInt(MobDatesplit[0]),Integer.parseInt(MobDatesplit[1]),Integer.parseInt(MobDatesplit[2]));
-                            MobcalendarFutureDate.add(Calendar.MONTH, Charge_War);
+                            MobcalendarFutureDate.add(Calendar.MONTH, USB_War);
 //                            MobcalendarFutureDate.set(Calendar.DAY_OF_WEEK  , Integer.parseInt(MobDatesplit[2]));
 //                            MobcalendarFutureDate.set(Calendar.YEAR  , Integer.parseInt(MobDatesplit[0]));
 

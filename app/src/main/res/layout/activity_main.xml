@@ -22,7 +22,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/row_header">
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/nav_header_height"
@@ -35,14 +35,14 @@
                 <ExpandableListView
                     android:id="@+id/expandableListView"
                     android:layout_width="match_parent"
-                    android:layout_height="588dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/white"
                     android:dividerHeight="0dp"
                     android:groupIndicator="@null" />
 
             </LinearLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
 
     </com.google.android.material.navigation.NavigationView>
