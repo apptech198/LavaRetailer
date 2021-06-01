@@ -27,6 +27,7 @@ import com.apptech.lava_retailer.adapter.TradeProgramCartAdapter;
 import com.apptech.lava_retailer.adapter.TradeProgramTabAdapter;
 import com.apptech.lava_retailer.databinding.TradeProgramFragmentBinding;
 import com.apptech.lava_retailer.list.tradecatlist.TradingMenuList;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -101,7 +102,12 @@ public class TradeProgramFragment extends Fragment {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
 
-        GetTab();
+        if(new NetworkCheck().haveNetworkConnection(getActivity())){
+            GetTab();
+        }else {
+            binding.msg.setVisibility(View.VISIBLE);
+            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
         setPopUpWindow();
         binding.DatpickerRange.setOnClickListener(v ->  {
@@ -143,10 +149,12 @@ public class TradeProgramFragment extends Fragment {
 
                                    ));
                                  }
-                                 tradeProgramFragment = new TradeProgramTabAdapter(tradeProgramInterface, menuLists);
-                                 binding.TabRecyclerView.setAdapter(tradeProgramFragment);
-                                 progressDialog.dismiss();
-                                 return;
+                                 if (binding != null){
+                                     tradeProgramFragment = new TradeProgramTabAdapter(tradeProgramInterface, menuLists);
+                                     binding.TabRecyclerView.setAdapter(tradeProgramFragment);
+                                     progressDialog.dismiss();
+                                     return;
+                                 }
                              }
                              Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                              progressDialog.dismiss();
@@ -216,16 +224,18 @@ public class TradeProgramFragment extends Fragment {
                                 ));
                             }
 
-                            if(lists.isEmpty()){
-                                binding.mainview.setVisibility(View.GONE);
-                                binding.msg.setVisibility(View.VISIBLE);
-                            }else {
-                                binding.mainview.setVisibility(View.VISIBLE);
-                                binding.msg.setVisibility(View.GONE);
-                                tradeProgramCartAdapter = new TradeProgramCartAdapter(pos , tradeProgramCartInterface, lists);
-                                binding.CartRecyclerView.setAdapter(tradeProgramCartAdapter);
-                            }
+                            if (binding != null) {
+                                if (lists.isEmpty()) {
 
+                                    binding.mainview.setVisibility(View.GONE);
+                                    binding.msg.setVisibility(View.VISIBLE);
+                                } else {
+                                    binding.mainview.setVisibility(View.VISIBLE);
+                                    binding.msg.setVisibility(View.GONE);
+                                    tradeProgramCartAdapter = new TradeProgramCartAdapter(pos, tradeProgramCartInterface, lists);
+                                    binding.CartRecyclerView.setAdapter(tradeProgramCartAdapter);
+                                }
+                            }
 
                             progressDialog.dismiss();
                             return;

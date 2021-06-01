@@ -583,7 +583,9 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
 
     void getAnnounceList(){
-        lavaInterface.GetAnnounceList().enqueue(new Callback<Object>() {
+
+        if (binding != null){
+            lavaInterface.GetAnnounceList().enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){
@@ -593,6 +595,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                         String error = jsonObject.getString("error");
                         String message = jsonObject.getString("message");
                         announcelist.clear();
+
                         if(error.equalsIgnoreCase("FALSE")){
 
                             JSONArray elements = jsonObject.optJSONArray("price_drop_list");
@@ -612,34 +615,39 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                                         ,getContext()
                                 ));
                             }
-                            if(announcelist.isEmpty()){
 
-                            }else {
-                                ArrayAdapter<PriceDrop> arrayAdapter = new ArrayAdapter<PriceDrop>(getContext(),
-                                        android.R.layout.simple_list_item_1, announcelist);
-                                binding.announce.setAdapter(arrayAdapter);
-                                binding.announce.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                                         selectAnnounce.clear();
-//                                         selectAnnounce = Collections.singletonList(announcelist.get(position));
-                                        announce_start_date = announcelist.get(position).getStartDate();
-                                        announce_end_date = announcelist.get(position).getEndDate();
-                                        announce_drop_amount = announcelist.get(position).getDrop_amount();
-                                        announce_active = announcelist.get(position).getActive();
-                                    }
+                            if(binding != null){
+                                if(!announcelist.isEmpty()){
 
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
 
-                                    }
-                                });
+                                    ArrayAdapter<PriceDrop> arrayAdapter = new ArrayAdapter<PriceDrop>(getContext(),
+                                            android.R.layout.simple_list_item_1, announcelist);
+                                    binding.announce.setAdapter(arrayAdapter);
+                                    binding.announce.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                            //                                         selectAnnounce.clear();
+                                            //                                         selectAnnounce = Collections.singletonList(announcelist.get(position));
+                                            announce_start_date = announcelist.get(position).getStartDate();
+                                            announce_end_date = announcelist.get(position).getEndDate();
+                                            announce_drop_amount = announcelist.get(position).getDrop_amount();
+                                            announce_active = announcelist.get(position).getActive();
+                                        }
 
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+
+                                        }
+                                    });
+                                }
+
+                                binding.progressbar.setVisibility(View.GONE);
+                                return;
                             }
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
                         }
-                        binding.progressbar.setVisibility(View.GONE);
+                        if(binding != null){
+                            binding.progressbar.setVisibility(View.GONE);
+                        }
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         return;
                     } catch (JSONException e) {
@@ -657,6 +665,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                 Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
             }
         });
+        }
     }
 
     private void ImeiDialogOpen(int code , String mess , String distributor_name  , String sku , String imeis , String dates) {

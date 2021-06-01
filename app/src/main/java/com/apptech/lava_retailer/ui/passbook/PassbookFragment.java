@@ -271,12 +271,14 @@ public class PassbookFragment extends Fragment {
                             if(claimTypeLists.isEmpty()){
 
                             }else {
-                                ArrayAdapter<ClaimTypeList> arrayAdapter = new ArrayAdapter<ClaimTypeList>(getContext(),
-                                        android.R.layout.simple_list_item_1, claimTypeLists);
-                                binding.claimType.setAdapter(arrayAdapter);
-                                binding.claimType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                if (binding != null) {
+                                    ArrayAdapter<ClaimTypeList> arrayAdapter = new ArrayAdapter<ClaimTypeList>(getContext(),
+                                            android.R.layout.simple_list_item_1, claimTypeLists);
+                                    binding.claimType.setAdapter(arrayAdapter);
+                                    binding.claimType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                        @Override
+                                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 //                                        adapter.getFilter().filter(claimTypeLists.get(position).getClaim_type());
 //                                        Log.d(TAG, "onItemSelected() returned: " + adapter.getItemCount()  );
 //                                        if(adapter.getItemCount()<0){
@@ -287,39 +289,40 @@ public class PassbookFragment extends Fragment {
 //                                            binding.noData.setVisibility(View.GONE);
 //                                        }
 
-                                        List<com.apptech.lava_retailer.list.passbook.List> ClaiList = new ArrayList<>();
-                                        for (com.apptech.lava_retailer.list.passbook.List lisr : lists){
-                                            if(lisr.getClaimType().trim().toUpperCase().contains(claimTypeLists.get(position).getClaim_type().trim().toUpperCase())){
-                                                ClaiList.add(lisr);
+                                            List<com.apptech.lava_retailer.list.passbook.List> ClaiList = new ArrayList<>();
+                                            for (com.apptech.lava_retailer.list.passbook.List lisr : lists) {
+                                                if (lisr.getClaimType().trim().toUpperCase().contains(claimTypeLists.get(position).getClaim_type().trim().toUpperCase())) {
+                                                    ClaiList.add(lisr);
+                                                }
                                             }
+                                            if (ClaiList.isEmpty()) {
+                                                binding.recycle.setVisibility(View.GONE);
+                                                binding.noData.setVisibility(View.VISIBLE);
+                                            } else {
+                                                PassbookAdapter passbookAdapter = new PassbookAdapter(ClaiList, getCount);
+                                                binding.recycle.setAdapter(passbookAdapter);
+                                                binding.recycle.setVisibility(View.VISIBLE);
+                                                binding.noData.setVisibility(View.GONE);
+                                            }
+
+
                                         }
-                                        if(ClaiList.isEmpty()){
-                                            binding.recycle.setVisibility(View.GONE);
-                                            binding.noData.setVisibility(View.VISIBLE);
-                                        }else {
-                                           PassbookAdapter passbookAdapter= new PassbookAdapter(ClaiList,getCount);
-                                           binding.recycle.setAdapter(passbookAdapter);
-                                            binding.recycle.setVisibility(View.VISIBLE);
-                                            binding.noData.setVisibility(View.GONE);
+
+                                        @Override
+                                        public void onNothingSelected(AdapterView<?> parent) {
+                                            adapter.getFilter().filter("Select ClaimType");
                                         }
-
-
-
-
-
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-                                         adapter.getFilter().filter("Select ClaimType");
-                                    }
-                                });
-
+                                    });
+                                }
                             }
-                            binding.progressbar.setVisibility(View.GONE);
+                            if (binding != null) {
+                                binding.progressbar.setVisibility(View.GONE);
+                            }
                             return;
                         }
-                        binding.progressbar.setVisibility(View.GONE);
+                        if (binding != null) {
+                            binding.progressbar.setVisibility(View.GONE);
+                        }
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         return;
                     } catch (JSONException e) {
@@ -374,26 +377,36 @@ public class PassbookFragment extends Fragment {
                                     ));
                                 }
                                 if(lists.isEmpty()){
-                                    binding.noData.setVisibility(View.VISIBLE);
-                                    binding.recycle.setVisibility(View.GONE);
+                                    if (binding != null) {
+                                        binding.noData.setVisibility(View.VISIBLE);
+                                        binding.recycle.setVisibility(View.GONE);
+                                    }
                                 }else {
-                                    binding.noData.setVisibility(View.GONE);
-                                    binding.recycle.setVisibility(View.GONE);
-                                    PassbookAdapter adapter= new PassbookAdapter(lists, getCount);
-                                    binding.recycle.setAdapter(adapter);
-                                    getClaimtype(adapter);
+                                    if (binding != null) {
+                                        binding.noData.setVisibility(View.GONE);
+                                        binding.recycle.setVisibility(View.GONE);
+                                        PassbookAdapter adapter = new PassbookAdapter(lists, getCount);
+                                        binding.recycle.setAdapter(adapter);
+                                        getClaimtype(adapter);
+                                    }
                                 }
-                                binding.progressbar.setVisibility(View.GONE);
+                                if (binding != null) {
+                                    binding.progressbar.setVisibility(View.GONE);
+                                }
                                 return;
                             }
-                            binding.progressbar.setVisibility(View.GONE);
+                            if (binding != null) {
+                                binding.progressbar.setVisibility(View.GONE);
+                            }
                             Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                             return;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                    binding.progressbar.setVisibility(View.GONE);
+                    if (binding != null) {
+                        binding.progressbar.setVisibility(View.GONE);
+                    }
                     Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 }
 

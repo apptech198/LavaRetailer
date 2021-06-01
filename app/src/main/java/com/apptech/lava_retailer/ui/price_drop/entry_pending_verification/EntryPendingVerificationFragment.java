@@ -333,15 +333,19 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
                                 return;
                             }
                         }
-                        binding.ImeiRecyclerView.setVisibility(View.GONE);
-                        binding.noStock.setVisibility(View.VISIBLE);
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
+                        if (binding != null) {
+                            binding.ImeiRecyclerView.setVisibility(View.GONE);
+                            binding.noStock.setVisibility(View.VISIBLE);
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
                     }
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    binding.noStock.setVisibility(View.VISIBLE);
-                    binding.ImeiRecyclerView.setVisibility(View.GONE);
+                    if (binding != null) {
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        binding.progressbar.setVisibility(View.GONE);
+                        binding.noStock.setVisibility(View.VISIBLE);
+                        binding.ImeiRecyclerView.setVisibility(View.GONE);
+                    }
                     return;
                 }catch (NullPointerException e){
                     e.printStackTrace();
@@ -349,10 +353,12 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                binding.progressbar.setVisibility(View.GONE);
-                binding.noStock.setVisibility(View.VISIBLE);
-                binding.ImeiRecyclerView.setVisibility(View.GONE);
+                if (binding != null){
+                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    binding.progressbar.setVisibility(View.GONE);
+                    binding.noStock.setVisibility(View.VISIBLE);
+                    binding.ImeiRecyclerView.setVisibility(View.GONE);
+                }
 
             }
 

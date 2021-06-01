@@ -265,101 +265,111 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     private void StockList() {
 
 
-        binding.progressbar.setVisibility(View.VISIBLE);
-
-        Log.e(TAG, "StockList: " + TYPE );
-        Log.e(TAG, "StockList: " + USER_ID );
-        Log.e(TAG, "StockList: " + StartDate );
-        Log.e(TAG, "StockList: " + End_Date );
-
-        lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+        try {
 
 
-                try {
+            binding.progressbar.setVisibility(View.VISIBLE);
+            Log.e(TAG, "StockList: " + TYPE );
+            Log.e(TAG, "StockList: " + USER_ID );
+            Log.e(TAG, "StockList: " + StartDate );
+            Log.e(TAG, "StockList: " + End_Date );
 
-                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String error_code = jsonObject.getString("error_code");
-                    String message = jsonObject.getString("message");
+            lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
 
-                    if(error.equalsIgnoreCase("false")){
+                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
-                        JSONArray jsonArray = jsonObject.getJSONArray("list");
 
-                        if(jsonArray.length() > 0){
+                    try {
 
-                            lists.clear();
-                            for (int i=0; i < jsonArray.length(); i++){
+                        JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String error_code = jsonObject.getString("error_code");
+                        String message = jsonObject.getString("message");
 
-                                JSONObject object = jsonArray.getJSONObject(i);
-                                String status = object.optString("status");
+                        if(error.equalsIgnoreCase("false")){
 
-                                if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
-                                    lists.add(new List(
-                                            object.optString("id")
-                                            ,object.optString("type")
-                                            ,object.optString("imei")
-                                            ,object.optString("date")
-                                            ,object.optString("retailer_id")
-                                            ,object.optString("time")
-                                            ,object.optString("product_id")
-                                            ,object.optString("model")
-                                            ,object.optString("check_status")
-                                            ,object.optString("status")
-                                            ,object.optString("price_drop_id")
-                                            ,object.optString("price_drop_name")
-                                            ,object.optString("qty")
-                                            ,object.optString("price")
-                                    ));
+                            JSONArray jsonArray = jsonObject.getJSONArray("list");
+
+                            if(jsonArray.length() > 0){
+
+                                lists.clear();
+                                for (int i=0; i < jsonArray.length(); i++){
+
+                                    JSONObject object = jsonArray.getJSONObject(i);
+                                    String status = object.optString("status");
+
+                                    if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
+                                        lists.add(new List(
+                                                object.optString("id")
+                                                ,object.optString("type")
+                                                ,object.optString("imei")
+                                                ,object.optString("date")
+                                                ,object.optString("retailer_id")
+                                                ,object.optString("time")
+                                                ,object.optString("product_id")
+                                                ,object.optString("model")
+                                                ,object.optString("check_status")
+                                                ,object.optString("status")
+                                                ,object.optString("price_drop_id")
+                                                ,object.optString("price_drop_name")
+                                                ,object.optString("qty")
+                                                ,object.optString("price")
+                                        ));
+                                    }
                                 }
+
+                                if(lists.size() > 0){
+                                    sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
+                                    binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
+                                    binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
+                                    binding.progressbar.setVisibility(View.GONE);
+                                    binding.noStock.setVisibility(View.GONE);
+                                    return;
+                                }
+
                             }
 
-                            if(lists.size() > 0){
-                                sellOutPendingVerificationAdapter = new SellOutPendingVerificationAdapter(lists);
-                                binding.ImeiRecyclerView.setAdapter(sellOutPendingVerificationAdapter);
-                                binding.ImeiRecyclerView.setVisibility(View.VISIBLE);
-                                binding.progressbar.setVisibility(View.GONE);
-                                binding.noStock.setVisibility(View.GONE);
-                                return;
-                            }
-
+                            binding.ImeiRecyclerView.setVisibility(View.GONE);
+                            binding.noStock.setVisibility(View.VISIBLE);
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
                         }
-
-                        binding.ImeiRecyclerView.setVisibility(View.GONE);
-                        binding.noStock.setVisibility(View.VISIBLE);
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         binding.progressbar.setVisibility(View.GONE);
+                        binding.noStock.setVisibility(View.VISIBLE);
+                        binding.ImeiRecyclerView.setVisibility(View.GONE);
                         return;
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                        Log.e(TAG, "onResponse: " + e.getMessage() );
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    if(binding != null){
+                        binding.progressbar.setVisibility(View.GONE);
+                        binding.noStock.setVisibility(View.VISIBLE);
+                        binding.ImeiRecyclerView.setVisibility(View.GONE);
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+                    Log.e(TAG, "onFailure: " + t.getMessage());
                     binding.progressbar.setVisibility(View.GONE);
                     binding.noStock.setVisibility(View.VISIBLE);
-                    binding.ImeiRecyclerView.setVisibility(View.GONE);
-                    return;
-                }catch (NullPointerException e){
-                    e.printStackTrace();
-                    Log.e(TAG, "onResponse: " + e.getMessage() );
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                binding.progressbar.setVisibility(View.GONE);
-                binding.noStock.setVisibility(View.VISIBLE);
-                binding.ImeiRecyclerView.setVisibility(View.GONE);
+            });
 
-            }
 
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                Log.e(TAG, "onFailure: " + t.getMessage());
-                binding.progressbar.setVisibility(View.GONE);
-                binding.noStock.setVisibility(View.VISIBLE);
-                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }catch (NullPointerException e){
+            e.printStackTrace();
+            Log.e(TAG, "StockList: " + e.getMessage() );
+        }
 
     }
 
