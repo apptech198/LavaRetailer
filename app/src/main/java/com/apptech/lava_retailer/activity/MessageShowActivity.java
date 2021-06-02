@@ -226,7 +226,9 @@ public class MessageShowActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<NotificationModel> call, Throwable t) {
-
+                binding.progressbar.setVisibility(View.GONE);
+                binding.nomsg.setVisibility(View.VISIBLE);
+                Toast.makeText(MessageShowActivity.this, "Time out", Toast.LENGTH_SHORT).show();
             }
         });
 

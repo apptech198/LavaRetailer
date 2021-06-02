@@ -49,7 +49,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SellOutReportCategoryFilter extends BottomSheetDialogFragment {
+public class SellOutReportCategoryFilter extends BottomSheetDialogFragment implements SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface {
 
 
     FragmentSellOutReportCategoryFilterBinding binding;
@@ -57,7 +57,7 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment {
     SessionManage sessionManage;
     ProgressDialog progressDialog;
     OnClickBackPress comodityLists;
-    List<ComodityLists> categoryLists =new ArrayList<>();
+    List<ComodityLists> categoryLists;
     JSONObject MainObject = new JSONObject();
     private static final String TAG = "SellOutReportCategoryFi";
     SellOutReportCategoryFilterAdapter sellOutReportCategoryFilterAdapter;
@@ -65,8 +65,9 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment {
     boolean AllBTN_CLICK = false;
 
 
-    public SellOutReportCategoryFilter(OnClickBackPress comodityLists) {
+    public SellOutReportCategoryFilter(OnClickBackPress comodityLists , List<ComodityLists> categoryLists) {
         this.comodityLists = comodityLists;
+        this.categoryLists = categoryLists;
     }
 
     @Override
@@ -87,41 +88,45 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment {
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
 
-        onItemClickInterface = new SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface() {
-            @Override
-            public void OnItemClick() {
+//        onItemClickInterface = new SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface() {
+//            @Override
+//            public void OnItemClick() {
+//
+//            }
+//
+//            @Override
+//            public void AddItem(ComodityLists lists) {
+//
+//                JSONObject jsonObject = new JSONObject();
+//                try {
+//                    jsonObject.put(lists.getId() , lists.getId());
+//                    jsonObject.put("name" , lists.getName());
+//                    MainObject.put(lists.getId() , jsonObject);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                Log.e(TAG, "AddItem: " + MainObject);
+//
+//            }
+//
+//            @Override
+//            public void RemoveItem(ComodityLists lists) {
+//                MainObject.remove(lists.getId());
+//                Log.e(TAG, "RemoveItem: " + MainObject.toString() );
+//            }
+//        };
 
-            }
+//        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+//                getCategory();
+//        }else {
+//            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+//        }
 
-            @Override
-            public void AddItem(ComodityLists lists) {
 
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(lists.getId() , lists.getId());
-                    jsonObject.put("name" , lists.getName());
-                    MainObject.put(lists.getId() , jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(this , categoryLists , AllBTN_CLICK);
+        binding.categoryRecyclerView.setAdapter(sellOutReportCategoryFilterAdapter);
 
-                Log.e(TAG, "AddItem: " + MainObject);
-
-            }
-
-            @Override
-            public void RemoveItem(ComodityLists lists) {
-                MainObject.remove(lists.getId());
-                Log.e(TAG, "RemoveItem: " + MainObject.toString() );
-            }
-        };
-
-        if (new NetworkCheck().haveNetworkConnection(getActivity())){
-                getCategory();
-
-        }else {
-            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-        }
 
 
         binding.checkBoxtAllClick.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -207,6 +212,24 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment {
             }
         });
 
+    }
+
+
+    @Override
+    public void AddItem(ComodityLists lists) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(lists.getId() , lists.getId());
+            jsonObject.put("name" , lists.getName());
+            MainObject.put(lists.getId() , jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void RemoveItem(ComodityLists lists) {
+        MainObject.remove(lists.getId());
     }
 
 

@@ -242,6 +242,13 @@ public interface LavaInterface{
     Call<Object> SELLOUT_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date , @Field("end_date") String end_date );
 
 
+    @POST("pricedrop_report")
+    @FormUrlEncoded
+    Call<Object> PRICE_DROP_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date , @Field("end_date") String end_date
+            , @Field("ano_start_date") String start_dates , @Field("ano_end_date") String end_dates
+    );
+
+
     @POST("price_drop_annoucment")
     Call<Object> GetAnnounceList();
 

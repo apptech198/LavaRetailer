@@ -33,9 +33,11 @@ import com.apptech.lava_retailer.databinding.ReportsFragmentBinding;
 import com.apptech.lava_retailer.databinding.RowPriceDropReportBinding;
 import com.apptech.lava_retailer.databinding.RowSellOutReportBinding;
 import com.apptech.lava_retailer.list.announcelist.PriceDrop;
+import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
 import com.apptech.lava_retailer.list.sell_out_report.SellOutReportList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomCategoryList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomModalList;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -84,7 +86,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
     SessionManage sessionManage;
     ProgressDialog progressDialog;
-
+    String ID = "";
     SellOutReportCategoryFilter sellOutReportCategoryFilter;
     SellOutReportModalFilter sellOutReportModalFilter;
     List<SellOutReportList> pricedropMainlist = new ArrayList<>();
@@ -93,7 +95,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     JSONObject PriceDropReportModalObject = new JSONObject();
     List<SellOutCustomCategoryList> PriceDropCustomCategoryLists = new ArrayList<>();
 
-
+    List<String> modalList = new ArrayList<>();
+    List<ComodityLists> categoryLists =new ArrayList<>();
 
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
@@ -118,6 +121,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
+
+        ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
 
         String[] TodayDate = TodayDate().split("#");
         StartDate = TodayDate[0];
@@ -165,12 +170,12 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
         binding.filterModel.setOnClickListener(v -> {
-            sellOutReportModalFilter = new SellOutReportModalFilter(this);
+            sellOutReportModalFilter = new SellOutReportModalFilter(this , modalList);
             sellOutReportModalFilter.show(getChildFragmentManager(), "modal bottom sheet");
         });
 
         binding.filterCategory.setOnClickListener(v -> {
-            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this);
+            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this , categoryLists);
             sellOutReportCategoryFilter.show(getChildFragmentManager(), "category filter");
         });
 
@@ -309,7 +314,14 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         Log.e(TAG, "GerReport end date: " + End_Date );
         binding.noData.setVisibility(View.GONE);
         binding.progressbar.setVisibility(View.GONE);
-        getselloutReport();
+
+        if(new NetworkCheck().haveNetworkConnection(getActivity())){
+            getModel();
+            getPriceDropReport();
+        }else {
+            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
+
 
 //        binding.PriceDropReportRecyclerView.setAdapter(new PriceDropReportadapter());
 //        binding.PriceDropReportRecyclerView.setAdapter(new PriceDropReportAdapter());
@@ -429,7 +441,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     }
 
 
-
     @Override
     public void CategoryResult(JSONObject object) {
         Log.e(TAG, "CategoryResult: " + object );
@@ -441,19 +452,81 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     }
 
 
-    private void getselloutReport() {
+    private void getModel() {
+
+        progressDialog.show();
+        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                if(response.isSuccessful()){
+                    try {
+                        JSONObject jsonObject  = new JSONObject(new Gson().toJson(response.body()));
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+
+                        if(error.equalsIgnoreCase("FALSE")){
+                            JSONArray model_list = jsonObject.getJSONArray("model_list");
+                            modalList.clear();
+                            categoryLists.clear();
+
+                            for (int i=0; i<model_list.length(); i++){
+                                JSONObject op = model_list.getJSONObject(i);
+                                modalList.add(op.optString("model"));
+                            }
 
 
+                            JSONArray comodity_list = jsonObject.getJSONArray("comodity_list");
+                            for (int i=0; i<comodity_list.length(); i++){
+                                JSONObject op = comodity_list.getJSONObject(i);
+                                categoryLists.add(new ComodityLists(
+                                        op.optString("id")
+                                        ,op.optString("name")
+                                        ,op.optString("name_ar")
+                                        ,op.optString("name_fr")
+                                        ,op.optString("brand_id")
+                                        ,op.optString("brand_name")
+                                        ,op.optString("form_type")
+                                        ,op.optString("time")
+                                ));
+                            }
 
 
-//        Log.e(TAG, "getselloutReport: " + StartDate);
-//        Log.e(TAG, "getselloutReport: " + End_Date);
+                            progressDialog.dismiss();
+                            return;
+                        }
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    progressDialog.dismiss();
+                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
+    private void getPriceDropReport() {
+
+
 
         binding.noData.setVisibility(View.GONE);
         progressDialog.show();
 
-//            lavaInterface.SELLOUT_REPORT(ID, StartDate, End_Date).enqueue(new Callback<Object>() {
-        lavaInterface.SELLOUT_REPORT("ff2326e2cf317a74fef52f267662a1ef", "01-01-2020", "01-01-2022").enqueue(new Callback<Object>() {
+        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" ).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

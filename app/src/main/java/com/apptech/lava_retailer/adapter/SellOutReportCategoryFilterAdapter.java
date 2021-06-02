@@ -94,7 +94,6 @@ public class SellOutReportCategoryFilterAdapter extends RecyclerView.Adapter<Sel
 
 
     public interface OnItemClickCategoryInterface{
-        void OnItemClick();
         void AddItem(ComodityLists lists);
         void RemoveItem(ComodityLists lists);
     }

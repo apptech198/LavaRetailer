@@ -27,6 +27,7 @@ import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.apptech.lava_retailer.ui.sell_out.report_sell_out_report.ReportSellOutReportFragment;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -44,7 +45,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class SellOutReportModalFilter extends BottomSheetDialogFragment {
+public class SellOutReportModalFilter extends BottomSheetDialogFragment implements SellOutReportModalFilterAdapter.OnItemClickInterface{
 
 
     FragmentSellOutReportModalFilterBinding binding;
@@ -52,15 +53,17 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment {
     SessionManage sessionManage;
     ProgressDialog progressDialog;
     OnItemClickBackPress onItemClickBackPress;
-    List<String> modalList = new ArrayList<>();
-    SellOutReportModalFilterAdapter.OnItemClickInterface onItemClickInterface;
+    List<String> modalList;
     JSONObject MainObject = new JSONObject();
     private static final String TAG = "SellOutReportModalFilte";
     SellOutReportModalFilterAdapter sellOutReportModalFilterAdapter;
 
-    public SellOutReportModalFilter(OnItemClickBackPress onItemClickBackPress) {
+    public SellOutReportModalFilter(OnItemClickBackPress onItemClickBackPress ,     List<String> modalList) {
         this.onItemClickBackPress = onItemClickBackPress;
+        this.modalList = modalList;
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,32 +85,23 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment {
         progressDialog.setCancelable(false);
 
 
-        if (new NetworkCheck().haveNetworkConnection(getActivity())){
-            getModel();
+/*        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+            if (modalList.isEmpty()){
+                getModel();
+            }else {
+                sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(onItemClickInterface , modalList);
+                binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
+            }
         }else {
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-        }
+        }*/
 
 
-        onItemClickInterface = new SellOutReportModalFilterAdapter.OnItemClickInterface() {
-            @Override
-            public void AddItem(String l) {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put(l, l);
-                    jsonObject.put("name" , l);
-                    MainObject.put(l , jsonObject);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
+                sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
+                binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
 
-            @Override
-            public void RemoveItem(String l) {
-                MainObject.remove(l);
 
-            }
-        };
+
 
         binding.Filterbtn.setOnClickListener(v -> {
             onItemClickBackPress.Onitem(MainObject);
@@ -252,8 +246,8 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment {
                                 modalList.add(op.optString("model"));
                             }
 
-                            sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(onItemClickInterface , modalList);
-                            binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
+//                            sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
+//                            binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
 
                             progressDialog.dismiss();
                             return;
@@ -279,6 +273,22 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment {
 
     }
 
+    @Override
+    public void AddItem(String l) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(l, l);
+            jsonObject.put("name" , l);
+            MainObject.put(l , jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void RemoveItem(String l) {
+        MainObject.remove(l);
+    }
 
 
     public interface OnItemClickBackPress{

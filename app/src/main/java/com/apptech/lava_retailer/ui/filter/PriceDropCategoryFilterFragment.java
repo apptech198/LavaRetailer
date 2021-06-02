@@ -87,10 +87,7 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
 
 
         onItemClickInterface = new SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface() {
-            @Override
-            public void OnItemClick() {
 
-            }
 
             @Override
             public void AddItem(ComodityLists lists) {

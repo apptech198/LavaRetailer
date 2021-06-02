@@ -233,6 +233,7 @@
     <string name="Report_sell_through">Report Sell Through</string>
     <string name="n_a">N/A</string>
     <string name="handset_replacement">Handset Replacements</string>
+    <string name="dashboard">Dashboard</string>
 
 
 </resources>
