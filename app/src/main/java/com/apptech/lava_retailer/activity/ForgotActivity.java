@@ -52,9 +52,11 @@ public class ForgotActivity extends AppCompatActivity {
                     ForgotPassword();
                     return;
                 }
+            }else {
+                Toast.makeText(ForgotActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
             }
 
-            Toast.makeText(ForgotActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+
 
         });
 

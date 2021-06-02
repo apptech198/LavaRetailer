@@ -140,22 +140,25 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         binding.Confirmpassword.setBoxStrokeColorStateList(myColorList);
 
 
+        Log.e(TAG, "onCreate: "+signup_type );
+        if(signup_type.equals("GOOGLE")){
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+            if (acct != null) {
+                String personName = acct.getDisplayName();
+                String personGivenName = acct.getGivenName();
+                String personFamilyName = acct.getFamilyName();
+                String personEmail = acct.getEmail();
+                String personId = acct.getId();
+                Uri personPhoto = acct.getPhotoUrl();
 
-        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-        if (acct != null) {
-            String personName = acct.getDisplayName();
-            String personGivenName = acct.getGivenName();
-            String personFamilyName = acct.getFamilyName();
-            String personEmail = acct.getEmail();
-            String personId = acct.getId();
-            Uri personPhoto = acct.getPhotoUrl();
 
-
-            binding.name.setText(personGivenName);
-            binding.email.setText(personEmail);
-            binding.email.setEnabled(false);
-            social_auth_token = personId;
+                binding.name.setText(personGivenName);
+                binding.email.setText(personEmail);
+                binding.email.setEnabled(false);
+                social_auth_token = personId;
+            }
         }
+
 
 //        if(getIntent() != null){
 //            if(getIntent().getStringExtra("TYPE").equalsIgnoreCase("FACEBOOK")){

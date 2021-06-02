@@ -198,7 +198,7 @@ public class SocialActivity extends AppCompatActivity {
     }
 
     private void SendOTP() {
-
+        binding.SendotpBtn.setEnabled(false);
         binding.progressbar.setVisibility(View.VISIBLE);
 
 
@@ -215,20 +215,25 @@ public class SocialActivity extends AppCompatActivity {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
                     String error = jsonObject.getString("error");
                     String message = jsonObject.getString("message");
+                    binding.SendotpBtn.setEnabled(true);
                     if (error.equalsIgnoreCase("false")) {
                         String otp = jsonObject.getString("otp");
                         startActivity(new Intent(SocialActivity.this , OtpActivity.class).putExtra("otp" , otp).putExtra("mobile" , binding.EditEmail.getText().toString().trim()));
+                        binding.SendotpBtn.setEnabled(true);
                         binding.progressbar.setVisibility(View.GONE);
                         return;
                     }
 
                     Toast.makeText(SocialActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                    binding.SendotpBtn.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    binding.SendotpBtn.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
                 }
+                binding.SendotpBtn.setEnabled(true);
                 binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(SocialActivity.this, "" + getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
@@ -236,6 +241,7 @@ public class SocialActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                binding.SendotpBtn.setEnabled(true);
                 Toast.makeText(SocialActivity.this, "Time out", Toast.LENGTH_SHORT).show();
                 binding.progressbar.setVisibility(View.GONE);
             }

@@ -51,17 +51,24 @@ public class WarrantyPendingReplacementAdapter extends RecyclerView.Adapter<Warr
 
             holder.binding.orderDate.setText(l.getTime().toString().trim().split(" ")[0]);
 
-//            if(l.getSrno().isEmpty()){
-                holder.binding.SNOR.setText(" : " + l.getSrno());
-//            }else {
-//                holder.binding.SNOR.setText(context.getString(R.string.n_a));
-//            }
 
-//            if(l.getImei() !){
-                holder.binding.imei.setText(" : " + l.getImei());
-//            }else {
-//                holder.binding.imei.setText(context.getString(R.string.n_a));
-//            }
+            if(l.getSrno()!=null){
+                if(!l.getSrno().equals("")){
+                    holder.binding.SNOR.setText(" : " + l.getSrno());
+                }else {
+                    holder.binding.SNOR.setText(" : " + context.getString(R.string.n_a));
+                }
+            }else {
+                holder.binding.SNOR.setText(" : " + context.getString(R.string.n_a));
+            }
+
+            if(l.getImei() != null){
+                if(!l.getImei().equals("")){
+                    holder.binding.imei.setText(" : " + l.getImei());
+                }else {
+                    holder.binding.imei.setText(" : " + context.getString(R.string.n_a));
+                }
+            }else {  holder.binding.imei.setText(" : " + context.getString(R.string.n_a));}
 
            holder.binding.modalName.setText(" : " + l.getHandestReplace());
             holder.binding.status.setText(l.getStatus());

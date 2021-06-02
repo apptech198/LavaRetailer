@@ -70,7 +70,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     String USER_ID;
     String StartDate1 = null, EndDate = null;
     Button searchBtn;
-    java.util.List<List> lists;
+    java.util.List<List> lists = new ArrayList<>();
     SellOutPendingVerificationAdapter sellOutPendingVerificationAdapter;
     PopupWindow mypopupWindow;
     String StartDate ="" , End_Date = "" , TYPE = "";

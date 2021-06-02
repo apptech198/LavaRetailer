@@ -49,7 +49,7 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@+id/lblListHeader"
         app:layout_constraintBottom_toBottomOf="@+id/lblListHeader"
-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintLeft_toRightOf="@id/lblListItem"
         android:layout_marginStart="24dp"
         android:src="@drawable/ic_down"/>
 

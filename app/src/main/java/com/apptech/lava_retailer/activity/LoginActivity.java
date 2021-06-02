@@ -119,6 +119,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
 
         binding.Login.setOnClickListener(v -> {
+
             if (new NetworkCheck().haveNetworkConnection(this)) {
 
                 if (NumberCheck(binding.NumberInputLayout.getEditText().getText().toString().trim()) && PasswordCheck(binding.PasswordInputLayout.getEditText().getText().toString().trim())) {
@@ -242,7 +243,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
     }
 
     private void SignIn() {
-
+        binding.Login.setEnabled(false);
         binding.progressbar.setVisibility(View.VISIBLE);
 
         Call call = lavaInterface.Login(binding.NumberInputLayout.getEditText().getText().toString().trim(), binding.PasswordInputLayout.getEditText().getText().toString().trim());
@@ -262,7 +263,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
                             String user_detail = jsonObject.getString("user_detail");
                             JSONObject jsonObject1 = new JSONObject(user_detail);
-
+                            binding.Login.setEnabled(true);
                             if(jsonObject1.optString("name").isEmpty()){
                                 ErrorDilaog(getResources().getString(R.string.name_fiels_missing));
                                 binding.progressbar.setVisibility(View.GONE);
@@ -393,14 +394,17 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                             finish();
 
                             binding.progressbar.setVisibility(View.GONE);
+                            binding.Login.setEnabled(true);
                             return;
                         }
+                        binding.Login.setEnabled(true);
                         binding.progressbar.setVisibility(View.GONE);
                         Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         return;
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    binding.Login.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
                     Toast.makeText(LoginActivity.this, "" + getResources().getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
@@ -410,6 +414,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             public void onFailure(Call call, Throwable t) {
                 Log.e(TAG, "onFailure: " + t.getMessage());
                 Toast.makeText(LoginActivity.this, "Time out", Toast.LENGTH_SHORT).show();
+                binding.Login.setEnabled(true);
                 binding.progressbar.setVisibility(View.GONE);
             }
         });

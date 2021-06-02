@@ -79,6 +79,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     List<PriceDrop>announcelist= new ArrayList<>();
     PriceDrop selectAnnounce;
     String announce_start_date ="" , announce_end_date ="" ,  announce_drop_amount ="" ,   announce_active ="";
+    JSONObject jsonArray = new JSONObject();
 
 
     public static PriceDropEntryFragment newInstance() {
@@ -107,6 +108,10 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         TodayDate = getCurrentDate();
         binding.addBtn.setOnClickListener(v -> {
+            if(binding.ImeiEdittext.getText().toString().isEmpty()){
+                binding.ImeiEdittext.setError("Enter IMEI");
+                return;
+            }
             addImei();
         });
 
@@ -128,6 +133,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
         binding.scanBtn.setOnClickListener(v -> {
             onetime = true;
+            binding.ImeiEdittext.setError(null);
             loadfragment(barCodeScannerFragment);
         });
 
@@ -265,7 +271,15 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     }
 
     private void addView(Drawable drawable , int type , String modals , String imeis , String distributor_name , String mess ) {
-
+        if(!jsonArray.optString(imeis).isEmpty()){
+            Toast.makeText(getActivity(), "Imei Already Added", Toast.LENGTH_SHORT).show();
+           return;
+        }
+        try {
+            jsonArray.put(imeis,imeis);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         int a = imeiCount += 1;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         rowView = inflater.inflate(R.layout.add_view, null);
@@ -353,7 +367,9 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
             binding.addLayout.removeAllViews();
         });
         no.setOnClickListener(view -> {alertDialog.dismiss();
-            binding.progressbar.setVisibility(View.GONE);});
+            binding.progressbar.setVisibility(View.GONE);
+            binding.submitBtn.setEnabled(true);
+            binding.submitBtn.setClickable(true);});
 
 
 
@@ -479,6 +495,11 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     void IMEI_CHECK(){
 
         binding.progressbar.setVisibility(View.VISIBLE);
+        if(announcelist.isEmpty()){
+            Toast.makeText(getActivity(), "No price drop announcement found!", Toast.LENGTH_SHORT).show();
+            binding.progressbar.setVisibility(View.GONE);
+            return;
+        }
         String ano_start = announcelist.get(0).getStartDate();
         String ano_end = announcelist.get(0).getStartDate();
 
@@ -639,6 +660,12 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
                                         }
                                     });
+                                }else {
+                                    binding.announce.setVisibility(View.GONE);
+                                    binding.anouncelayout.setOnClickListener(v -> {
+                                        Toast.makeText(getActivity(), "No price Announcement Found!", Toast.LENGTH_SHORT).show();
+                                    });
+
                                 }
 
                                 binding.progressbar.setVisibility(View.GONE);

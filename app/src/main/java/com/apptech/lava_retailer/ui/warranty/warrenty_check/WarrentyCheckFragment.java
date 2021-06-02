@@ -46,7 +46,7 @@ import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 
-public class WarrentyCheckFragment extends Fragment implements ScannerFragment.BackPress , BarCodeScannerFragment.BackPressBarCode{
+public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.BackPress , BarCodeScannerFragment.BackPressBarCode{
 
     private WarrentyCheckViewModel mViewModel;
     WarrentyCheckFragmentBinding binding;
@@ -86,6 +86,7 @@ public class WarrentyCheckFragment extends Fragment implements ScannerFragment.B
         binding.scanBtn.setOnClickListener(v -> {
             onetime = true;
 //            loadfragment(scannerFragment);
+            binding.ImeiEdittext.setError(null);
             loadfragment(barCodeScannerFragment);
         });
 
@@ -116,6 +117,8 @@ public class WarrentyCheckFragment extends Fragment implements ScannerFragment.B
                 binding.ImeiEdittext.setError("Enter IMEI");
                 Snackbar.make(binding.getRoot(),"Enter IMEI",5000).show();
             }else {
+                binding.addBtn.setClickable(false);
+                binding.addBtn.setFocusable(false);
                 binding.ImeiEdittext.setError(null);
                 CheckWarrenty(binding.ImeiEdittext.getText().toString());
             }
@@ -161,7 +164,8 @@ public class WarrentyCheckFragment extends Fragment implements ScannerFragment.B
           @Override
           public void onResponse(Call<Object> call, Response<Object> response) {
               Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
+              binding.addBtn.setClickable(false);
+              binding.addBtn.setFocusable(false);
               JSONObject jsonObject = null;
               try {
                   jsonObject = new JSONObject(new Gson().toJson(response.body()));
@@ -206,13 +210,16 @@ public class WarrentyCheckFragment extends Fragment implements ScannerFragment.B
               } catch (JSONException e) {
                   e.printStackTrace();
               }
-              binding.submitBtn.setClickable(true);
-              binding.submitBtn.setEnabled(true);
+
+              binding.addBtn.setClickable(true);
+              binding.addBtn.setFocusable(true);
               binding.progressbar.setVisibility(View.GONE);
           }
 
           @Override
           public void onFailure(Call<Object> call, Throwable t) {
+              binding.addBtn.setClickable(false);
+              binding.addBtn.setFocusable(false);
               binding.progressbar.setVisibility(View.GONE);
               Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
               Log.e(TAG, "onFailure: " + t.getMessage());

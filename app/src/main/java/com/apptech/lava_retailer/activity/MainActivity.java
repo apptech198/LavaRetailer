@@ -356,6 +356,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(loadFragment instanceof CartFragment){
             navController.navigate(R.id.cartFragment);
         }
+        if(loadFragment instanceof PendingReplacementRequestFragment){
+            navController.navigate(R.id.pendingreplacementFragmnet);
+        }
+//        if(loadFragment instanceof SerializeFragment){
+//            navController.navigate(R.id.serializeFragment);
+//        }
+//        if(loadFragment instanceof UnSerializeFragment){
+//            navController.navigate(R.id.unSerializeFragment);
+//        }
+        if(loadFragment instanceof WarrentyCheckFragment){
+            navController.navigate(R.id.warrentycheckFragment);
+        }
 
 
         Log.e(TAG, "getCurrentVisibleFragment: " + loadFragment.toString() );
@@ -602,9 +614,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         *   New att Start
         *
         * */
-
-
-
 
 //        profile
 
@@ -1082,15 +1091,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     binding.expandableListView.setClickable(true);
                     binding.expandableListView.setEnabled(true);
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+//                    binding.drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 binding.expandableListView.setClickable(true);
                 binding.expandableListView.setEnabled(true);
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
+//                binding.drawerLayout.closeDrawer(GravityCompat.START);
             }
             binding.expandableListView.setClickable(true);
             binding.expandableListView.setEnabled(true);
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+//            binding.drawerLayout.closeDrawer(GravityCompat.START);
             return false;
         });
     }

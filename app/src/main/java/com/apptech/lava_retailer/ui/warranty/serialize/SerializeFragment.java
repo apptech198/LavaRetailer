@@ -130,6 +130,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         });
 
         binding.scanBtn.setOnClickListener(v -> {
+            binding.ImeiEdittext.setError(null);
             loadfragment(barCodeScannerFragment);
         });
 

@@ -70,6 +70,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     LinearLayout mainLayout;
     BarCodeScannerFragment barCodeScannerFragment;
     String CHECK_STATUS =""  , STATUS = "";
+    JSONObject jsonArray = new JSONObject();
 
 
 
@@ -107,6 +108,10 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
 
         binding.addBtn.setOnClickListener(v -> {
+            if(binding.ImeiEdittext.getText().toString().isEmpty()){
+                binding.ImeiEdittext.setError("Enter IMEI");
+                return;
+            }
             addImei();
         });
 
@@ -129,6 +134,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         binding.scanBtn.setOnClickListener(v -> {
             onetime = true;
+            binding.ImeiEdittext.setError(null);
 //            loadfragment(scannerFragment);
             loadfragment(barCodeScannerFragment);
         });
@@ -216,6 +222,8 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             submit.setEnabled(true);
             submit.setClickable(true);
             alertDialog.dismiss();
+            binding.submitBtn.setClickable(true);
+            binding.submitBtn.setEnabled(true);
         binding.progressbar.setVisibility(View.GONE);});
 
 
@@ -349,6 +357,17 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     }
 
     private void addView(Drawable drawable , int type , String modals , String imeis , String distributor_name , String mess ) {
+
+        if(!jsonArray.optString(imeis).isEmpty()){
+            Toast.makeText(getActivity(), "Imei Already Added", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        try {
+            jsonArray.put(imeis,imeis);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
         int a = imeiCount += 1;
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);

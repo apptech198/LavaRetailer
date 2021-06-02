@@ -120,6 +120,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 if(TYPE.equals("SERIALIZE")){
                     if(!binding.ImeiEdittext.getText().toString().isEmpty()){
                         if(!SELECT_DATE.isEmpty()){
+                            binding.submit.setCheckable(false);
+                            binding.submit.setFocusable(false);
                             submit();
                         }else {
                             Snackbar.make(binding.getRoot(),"Select Date",5000).show();
@@ -130,6 +132,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         binding.selectDatePicker.setError(null);
                         if(filePart!=null){
                             binding.PhotoSelect.setError(null);
+                            binding.submit.setCheckable(false);
+                            binding.submit.setFocusable(false);
                             submit();
                         }else {
                             binding.PhotoSelect.setError("Upload invoice");
@@ -184,13 +188,18 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         binding.scanBtn.setOnClickListener(v -> {
             onetime = true;
             Log.e(TAG, "onActivityCreated: " + "clicked" );
+            binding.ImeiEdittext.setError(null);
             loadfragment(barCodeScannerFragment);
         });
 
         binding.addBtn.setOnClickListener(v -> {
             if(binding.ImeiEdittext.getText().toString().isEmpty()){
+                binding.ImeiEdittext.setError("Entet serial number");
               Snackbar.make(binding.getRoot(),"Enter Serial Number",5000).show();
             }else {
+                binding.ImeiEdittext.setError(null);
+                binding.addBtn.setFocusable(false);
+                binding.addBtn.setClickable(false);
                 CheckWarrenty(binding.ImeiEdittext.getText().toString());
             }
         });
@@ -325,7 +334,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-
+                binding.submit.setCheckable(true);
+                binding.submit.setFocusable(true);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
@@ -356,6 +366,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
                 }
 
+                binding.submit.setCheckable(true);
+                binding.submit.setFocusable(true);
                 binding.progressbar.setVisibility(View.GONE);
 //                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
@@ -363,6 +375,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                binding.submit.setCheckable(true);
+                binding.submit.setFocusable(true);
                 Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
                 binding.progressbar.setVisibility(View.VISIBLE);
             }
@@ -406,7 +420,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
+                binding.addBtn.setFocusable(true);
+                binding.addBtn.setClickable(true);
                 JSONObject jsonObject = null;
                 try {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
@@ -454,12 +469,16 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 }
 //                binding.submitBtn.setClickable(true);
 //                binding.submitBtn.setEnabled(true);
+                binding.addBtn.setFocusable(true);
+                binding.addBtn.setClickable(true);
                 binding.progressbar.setVisibility(View.GONE);
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
+                binding.addBtn.setFocusable(true);
+                binding.addBtn.setClickable(true);
                 Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
                 Log.e(TAG, "onFailure: " + t.getMessage());
             }
