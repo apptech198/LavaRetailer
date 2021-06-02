@@ -92,7 +92,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 int dd = Integer.parseInt(list.getDis_price());
                 int xx = dd*cc;
                 int bb = Integer.parseInt(new NumberConvertArabic().arabicNumberCovert(xx));
-                holder.AmountCal.setText(aa +" x " + bb);
+                holder.AmountCal.setText(aa +" x " + dd);
 
             }catch (NumberFormatException e){
                 e.printStackTrace();
@@ -108,7 +108,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             int a = Integer.parseInt(list.getQty());
             int b = Integer.parseInt(list.getDis_price());
             int c = a*b;
-            holder.AmountCal.setText(list.getQty() +" x " + c);
+            holder.AmountCal.setText(list.getQty() +" x " + b);
 
         }else {
             if(list.getMarketing_name_fr().isEmpty()){
@@ -125,7 +125,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             int a = Integer.parseInt(list.getQty());
             int b = Integer.parseInt(list.getDis_price());
             int c = a*b;
-            holder.AmountCal.setText(list.getQty() +" x " + c);
+            holder.AmountCal.setText(list.getQty() +" x " + b);
 
         }
 

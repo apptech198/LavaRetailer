@@ -117,7 +117,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
                 MainjsonObject = new JSONObject(json);
                 ProductJsonObject = MainjsonObject.getJSONObject(BRAND_ID);
-
+                cardData.clear();
                 Iterator iterator = ProductJsonObject.keys();
                 while (iterator.hasNext()) {
                     String key = (String) iterator.next();
@@ -417,6 +417,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     private void CalCart(TextView AmoutCal , String qty){
 
         int TotalproductAmt = 0 , DisAmt = 0 , item = 0 , DeliveryTotalAmt = 0 , ProductQty =0 ;
+        String MainDiscount= "";
 
 
         String json = sessionManage.getUserDetails().get("CARD_DATA");
@@ -438,6 +439,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     String _pubKey = issue.optString("id");
                     JSONObject jo = ProductJsonObject.getJSONObject(_pubKey);
                     try {
+                        MainDiscount = jo.getString("dis_price");
                         int amt = Integer.parseInt(jo.getString("actual_price")) * Integer.parseInt(jo.getString("qty"));
                         int disamt = Integer.parseInt(jo.getString("dis_price")) * Integer.parseInt(jo.getString("qty"));
                         ProductQty = disamt;
@@ -466,7 +468,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     binding.ItemQty.setText(itemnum);
 
                     if(AmoutCal != null){
-                        AmoutCal.setText(qty + "x" + ProductQty);
+                        AmoutCal.setText(qty + "x" + MainDiscount);
                     }
                 }else {
                     try {
@@ -481,7 +483,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
                         if(AmoutCal != null){
                             String a = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(qty));
-                            String b = new NumberConvertArabic().NumberConvertArabic(ProductQty);
+                            String b = new NumberConvertArabic().NumberConvertArabic(Double.parseDouble(MainDiscount));
                             AmoutCal.setText( a + "x" + b );
                         }
 

@@ -97,7 +97,8 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="6dp"
-                android:textColor="@color/black"
+                android:background="@color/back_all"
+                android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:fontFamily="@font/lato_semi_bold" />
 

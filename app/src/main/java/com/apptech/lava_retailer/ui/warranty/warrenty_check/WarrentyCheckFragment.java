@@ -164,8 +164,8 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
           @Override
           public void onResponse(Call<Object> call, Response<Object> response) {
               Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-              binding.addBtn.setClickable(false);
-              binding.addBtn.setFocusable(false);
+              binding.addBtn.setClickable(true);
+              binding.addBtn.setFocusable(true);
               JSONObject jsonObject = null;
               try {
                   jsonObject = new JSONObject(new Gson().toJson(response.body()));
@@ -218,8 +218,8 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
 
           @Override
           public void onFailure(Call<Object> call, Throwable t) {
-              binding.addBtn.setClickable(false);
-              binding.addBtn.setFocusable(false);
+              binding.addBtn.setClickable(true);
+              binding.addBtn.setFocusable(true);
               binding.progressbar.setVisibility(View.GONE);
               Snackbar.make(binding.getRoot(),t.getMessage(),5000).show();
               Log.e(TAG, "onFailure: " + t.getMessage());

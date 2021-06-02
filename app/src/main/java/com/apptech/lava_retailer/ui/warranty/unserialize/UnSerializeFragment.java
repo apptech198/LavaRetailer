@@ -347,12 +347,16 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         switch (error_code){
                             case 200:
                                 AlertDialogfailure(message);
+                                break;
                             case 301:
                                 AlertDialogfailure(message);
+                                break;
                             case 500:
                                 AlertDialogfailure(message);
+                                break;
                         }
-
+                        binding.submit.setCheckable(true);
+                        binding.submit.setFocusable(true);
 //                        startActivity(new Intent(getContext() , MainActivity.class));
                         binding.progressbar.setVisibility(View.GONE);
                         return;
