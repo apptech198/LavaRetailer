@@ -94,13 +94,12 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
             }
         }else {
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-        }*/
+        }
+*/
 
 
                 sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
                 binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
-
-
 
 
         binding.Filterbtn.setOnClickListener(v -> {

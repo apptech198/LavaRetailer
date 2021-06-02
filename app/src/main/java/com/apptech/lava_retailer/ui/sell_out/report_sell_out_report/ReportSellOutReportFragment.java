@@ -57,6 +57,7 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -427,7 +428,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 //      File Create
         String root_path = Environment.getExternalStorageDirectory() + File.separator;
         File file = new File(root_path + "PDFCreate.pdf");
-        FileOutputStream out = null;
+        FileOutputStream out;
         try {
             out = new FileOutputStream(file);
             Document document = new Document();
@@ -568,11 +569,11 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
 
                 if(response.isSuccessful()){
+                    JSONObject jsonObject;
                     try {
-                        JSONObject jsonObject  = new JSONObject(new Gson().toJson(response.body()));
                         jsonObject = new JSONObject(new Gson().toJson(response.body()));
                         String error = jsonObject.getString("error");
                         String message = jsonObject.getString("message");
@@ -621,8 +622,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
+                progressDialog.dismiss();
+                Toast.makeText(getContext(), "Time out" , Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -630,20 +632,18 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
     private void getselloutReport() {
 
-
-
         binding.noData.setVisibility(View.GONE);
         progressDialog.show();
 
          lavaInterface.SELLOUT_REPORT(ID, StartDate, End_Date).enqueue(new Callback<Object>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
                 if (response.isSuccessful()) {
-                    JSONObject jsonObject = null;
+                    JSONObject jsonObject;
                     try {
 
-                        Log.e(TAG, "onResponse: " + response.body().toString() );
+//                        Log.e(TAG, "onResponse: " + response.body().toString() );
 
                         jsonObject = new JSONObject(new Gson().toJson(response.body()));
 
@@ -754,8 +754,12 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
+            public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
+                progressDialog.dismiss();
+                binding.ReportselloutRecyclerView.setVisibility(View.GONE);
+                binding.tablayout.setVisibility(View.GONE);
+                binding.noData.setVisibility(View.VISIBLE);
+                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -770,9 +774,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                 SelloutReportObject = new JSONObject();
                 sellOutReportFilterLists .clear();
 
-                Iterator iterator = CategoryJsonObject.keys();
+                Iterator<String> iterator = CategoryJsonObject.keys();
                 while (iterator.hasNext()) {
-                    String key = (String) iterator.next();
+                    String key = iterator.next();
                     try {
                         JSONObject issue = CategoryJsonObject.getJSONObject(key);
                         String Categoryname = issue.optString("name");
@@ -842,16 +846,15 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                 JSONObject object = new JSONObject();
                 try {
                     SelloutReportObject = new JSONObject(CategoryjJsonobject.toString()) ;
-
                 } catch (JSONException jsonException) {
                     jsonException.printStackTrace();
                 }
 
 
 
-                Iterator iterator = ModalJsonObject.keys();
+                Iterator<String> iterator = ModalJsonObject.keys();
                 while (iterator.hasNext()) {
-                    String key = (String) iterator.next();
+                    String key = iterator.next();
                     try {
                         JSONObject issue = ModalJsonObject.getJSONObject(key);
                         String Modalname = issue.optString("name");
@@ -868,7 +871,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put("model", sell.getModel());
                                 jsonObject.put("model_ar", sell.getModelAr());
-                                if(!ModelCheck.equalsIgnoreCase(sell.getCommodity().toString())) {
+                                if(!ModelCheck.equalsIgnoreCase(sell.getCommodity())) {
                                     jsonObject.put("qty", sell.getQty());
                                     jsonObject.put("value", sell.getDisPrice());
                                 }else {
@@ -884,12 +887,12 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
 
 
-                                JSONObject object1 = null;
+                                JSONObject object1;
 
                                 try {
 
                                     object1 = SelloutReportObject.getJSONObject(sell.getCommodity()).getJSONObject(sell.getCommodity() + "_" + sell.getModel());
-                                    if(ModelCheck.equalsIgnoreCase(sell.getCommodity().toString())){
+                                    if(ModelCheck.equalsIgnoreCase(sell.getCommodity())){
 
 
                                         int getQty = Integer.parseInt(String.valueOf(object1.get("qty")));
@@ -951,9 +954,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         Grandtotal_Value = 0;
 
 
-        Iterator iterator = SelloutReportObject.keys();
+        Iterator<String> iterator = SelloutReportObject.keys();
         while (iterator.hasNext()) {
-            String key = (String) iterator.next();
+            String key =  iterator.next();
             try {
 
                 List<SellOutCustomModalList> sellOutCustomModalLists = new ArrayList<>();

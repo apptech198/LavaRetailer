@@ -98,6 +98,13 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     List<String> modalList = new ArrayList<>();
     List<ComodityLists> categoryLists =new ArrayList<>();
 
+    JSONObject CategoryjJsonobject = new JSONObject();
+
+
+    int Grandtotal_Qty = 0;
+    int Grandtotal_Value = 0;
+
+
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
     }
@@ -661,6 +668,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                 if (CategoryObject.length() > 0) {
 
                     PriceDropReportCategoryObject = new JSONObject();
+                    PriceDropReportFilterLists.clear();
 
                     Iterator iterator = CategoryObject.keys();
                     while (iterator.hasNext()) {
@@ -669,9 +677,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                             JSONObject issue = CategoryObject.getJSONObject(key);
                             String Categoryname = issue.optString("name");
 
-                            int Countqty = 0;
-                            int CountValue = 0;
-                            int Count = 0;
 
                             for (SellOutReportList sell : pricedropMainlist){
 
@@ -688,26 +693,15 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                                     object.put("count" , "1");
                                     PriceDropReportCategoryObject.putOpt(sell.getCommodity() , object);
 
-                                    try {
-
-                                        JSONObject a = PriceDropReportCategoryObject.getJSONObject(sell.getCommodity());
-                                        int getcount = Integer.parseInt(a.optString("count"));
-                                        int qty = Integer.parseInt(a.optString("qty"));
-                                        int value = Integer.parseInt(a.optString("value"));
-
-                                        Count = getcount + 1;
-                                        Countqty = Countqty +  qty;
-                                        CountValue = CountValue + value;
-
-                                        a.put("value" , String.valueOf(CountValue));
-                                        a.put("qty" , String.valueOf(Countqty));
-                                        a.put("count" , String.valueOf(Count));
-
-                                    }catch (JSONException e){
-                                        e.printStackTrace();
-                                    }
-
+                                }else {
+                                    binding.ReportselloutRecyclerView.setVisibility(View.GONE);
+                                    binding.tablayout.setVisibility(View.GONE);
+                                    binding.noData.setVisibility(View.VISIBLE);
                                 }
+
+                                CategoryjJsonobject = new JSONObject(PriceDropReportCategoryObject.toString());
+
+
 
                             }
                         } catch (JSONException e) {
@@ -719,8 +713,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                     if(PriceDropReportModalObject.length() > 0){
                         FilterMainObjec();
                     }
-//                    Log.e(TAG, "PriceDropCategoryFilterObject: " + PriceDropReportCategoryObject .toString());
-//                    Log.e(TAG, "PriceDropCategoryFilterObject: " + PriceDropReportCategoryObject .toString());
 
                 }else {
                     binding.ReportselloutRecyclerView.setVisibility(View.GONE);
@@ -756,6 +748,13 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
             if (modalObject.length() > 0){
 
                 PriceDropReportModalObject = new JSONObject();
+                JSONObject object = new JSONObject();
+                try {
+                    PriceDropReportCategoryObject = new JSONObject(CategoryjJsonobject.toString()) ;
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
+
 
                 Iterator iterator = modalObject.keys();
                 while (iterator.hasNext()) {
@@ -763,24 +762,56 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                     try {
                         JSONObject issue = modalObject.getJSONObject(key);
                         String Modalname = issue.optString("name");
-                        Log.e(TAG, "filterloop: " + Modalname);
+
+                        String ModelCheck = "";
+
                         for (SellOutReportList sell : PriceDropReportFilterLists){
                             if(Modalname.trim().toUpperCase().contains(sell.getModel().trim().toUpperCase())){
+
+                                JSONObject aa = PriceDropReportCategoryObject.getJSONObject(sell.getCommodity());
 
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put( "model" , sell.getModel());
                                 jsonObject.put( "model_ar" , sell.getModelAr());
-                                jsonObject.put( "qty" , "");
-                                jsonObject.put( "value" , "");
+                                if(!ModelCheck.equalsIgnoreCase(sell.getCommodity().toString())) {
+                                    jsonObject.put("qty", "");
+                                    jsonObject.put("value", "");
+                                }else {
+                                    JSONObject  ob = PriceDropReportCategoryObject.getJSONObject(sell.getCommodity()).getJSONObject(sell.getCommodity() + "_" + sell.getModel());
+                                    jsonObject.put("qty", ob.get("qty"));
+                                    jsonObject.put("value", ob.get("value"));
+                                }
                                 jsonObject.put( "count" , "1");
+                                aa.put(sell.getCommodity() + "_" + sell.getModel(), jsonObject);
+                                object.put(sell.getCommodity() + "_" + sell.getModel() , sell.getCommodity() + "_" + sell.getModel() );
+                                aa.put("Modal", object);
                                 PriceDropReportModalObject.put(sell.getModel() , jsonObject);
 
+                                JSONObject object1 = null;
+
                                 try {
-                                    JSONObject a = PriceDropReportModalObject.getJSONObject(sell.getModel());
-                                    int getcount = Integer.parseInt(a.getString("count"));
-                                    int plus = getcount + 1;
-                                    a.put("count" , String.valueOf(plus));
-                                }catch (JSONException e){
+
+                                    object1 = PriceDropReportCategoryObject.getJSONObject(sell.getCommodity()).getJSONObject(sell.getCommodity() + "_" + sell.getModel());
+                                    if(ModelCheck.equalsIgnoreCase(sell.getCommodity().toString())){
+
+                                        int getQty = Integer.parseInt(String.valueOf(object1.get("qty")));
+                                        int addQty = Integer.parseInt(sell.getQty());
+
+                                        int addBothQty = getQty + addQty;
+                                        object1.put("qty" , addBothQty);
+
+                                        int getValue = Integer.parseInt(String.valueOf(object1.get("value")));
+                                        int addValue = Integer.parseInt(sell.getDisPrice());
+
+                                        int addBothValue = getValue + addValue;
+                                        object1.put("value" , addBothValue);
+
+                                    }
+
+                                    ModelCheck = sell.getCommodity();
+
+
+                                } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
 
@@ -792,6 +823,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                     }
                 }
 
+
+                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportModalObject.toString() );
 
                 if(PriceDropReportCategoryObject.length() > 0){
                     FilterMainObjec();
@@ -821,91 +854,89 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
         PriceDropCustomCategoryLists.clear();
+        Grandtotal_Qty = 0;
+        Grandtotal_Value = 0;
 
         Iterator iterator = PriceDropReportCategoryObject.keys();
         while (iterator.hasNext()) {
             String key = (String) iterator.next();
-
-
-
-            Iterator iterator1 = PriceDropReportModalObject.keys();
-            List<SellOutCustomModalList> sellOutCustomModalLists = new ArrayList<>();
-
-            sellOutCustomModalLists.add(new SellOutCustomModalList(
-                    "Modal"
-                    ,""
-                    ,"Qty"
-                    ,"Value"
-                    ,""
-            ));
-
-            while (iterator1.hasNext()) {
-                JSONObject issue = null;
-                try {
-                    String key1 = (String) iterator1.next();
-                    issue = PriceDropReportModalObject.getJSONObject(key1);
-                    String model1 = issue.getString("model");
-                    JSONObject object = PriceDropReportModalObject.getJSONObject(model1);
-
-                    String model = object.getString("model");
-
-                    Log.e(TAG, "SetFilterDatModalaAdapter: " + model );
-                    Log.e(TAG, "SetFilterDatModalaAdapter: " + model );
-
-                    String model_ar = object.getString("model_ar");
-                    String qty = object.getString("qty");
-                    String value = object.getString("value");
-                    String count = object.getString("count");
-
-
-                    sellOutCustomModalLists.add(new SellOutCustomModalList(
-                            model
-                            ,model_ar
-                            ,qty
-                            ,value
-                            ,count
-                    ));
-
-                } catch (JSONException jsonException) {
-                    jsonException.printStackTrace();
-                }
-            }
-
             try {
-                JSONObject issue = PriceDropReportCategoryObject.getJSONObject(key);
-                String commodity = issue.getString("commodity");
-                String commodity_ar = issue.getString("commodity_ar");
-                String model = issue.getString("model");
-                String model_ar = issue.getString("model_ar");
-                String count = issue.getString("count");
-                String value = issue.getString("value");
-                String qty = issue.getString("qty");
 
-//                PriceDropCustomCategoryLists.add(new SellOutCustomCategoryList(
-//                        commodity
-//                        ,commodity_ar
-//                        ,model
-//                        ,model_ar
-//                        ,qty
-//                        ,value
-//                        ,count
-//                        ,sellOutCustomModalLists
-//                ));
+                List<SellOutCustomModalList> sellOutCustomModalLists = new ArrayList<>();
+
+                JSONObject Model_jsonObject = PriceDropReportCategoryObject.getJSONObject(key).getJSONObject("Modal");
+
+                int Qty = 0;
+                int Value = 0;
+
+                sellOutCustomModalLists.add(new SellOutCustomModalList(
+                        "Model"
+                        ,""
+                        ,"Qty"
+                        ,"Value"
+                        ,""
+                ));
+
+
+                Iterator<String> iter = Model_jsonObject.keys();
+                while (iter.hasNext()) {
+                    String keys = iter.next();
+                    try {
+                        Object value = Model_jsonObject.get(keys);
+                        String modalFind = value.toString();
+                        try {
+                            JSONObject MODELFetch =  PriceDropReportCategoryObject.getJSONObject(key).getJSONObject(modalFind);
+
+                            String qtyGet = MODELFetch.get("qty").toString();
+                            String ValueGet = MODELFetch.get("value").toString();
+
+                            Qty =+ Integer.parseInt(qtyGet ) + Qty;
+                            Value =+ Integer.parseInt(ValueGet) + Value;
+
+                            sellOutCustomModalLists.add(new SellOutCustomModalList(
+                                    MODELFetch.getString("model")
+                                    ,MODELFetch.getString("model_ar")
+                                    ,MODELFetch.getString("qty")
+                                    ,MODELFetch.getString("value")
+                                    ,MODELFetch.getString("category")
+                            ));
+                        }catch (JSONException ex){
+                            ex.printStackTrace();
+                        }
+
+                    } catch (JSONException e) {
+                        // Something went wrong!
+                    }
+                }
+
+                PriceDropReportCategoryObject.getJSONObject(key).put("qty" , String.valueOf(Qty));
+                PriceDropReportCategoryObject.getJSONObject(key).put("value" , String.valueOf(Value));
+
+                PriceDropCustomCategoryLists.add(new SellOutCustomCategoryList(
+                        PriceDropReportCategoryObject.getJSONObject(key).optString("commodity")
+                        ,PriceDropReportCategoryObject.getJSONObject(key).optString("commodity_ar")
+                        ,PriceDropReportCategoryObject.getJSONObject(key).optString("model")
+                        ,PriceDropReportCategoryObject.getJSONObject(key).optString("model_ar")
+                        ,PriceDropReportCategoryObject.getJSONObject(key).optString("qty")
+                        ,PriceDropReportCategoryObject.getJSONObject(key).optString("value")
+                        ,PriceDropReportCategoryObject.getJSONObject(key).optString("count")
+                        ,sellOutCustomModalLists
+                ));
+
+
+                Grandtotal_Qty += Qty;
+                Grandtotal_Value += Value;
+
 
             } catch (JSONException jsonException) {
                 jsonException.printStackTrace();
             }
 
-
-
         }
 
 
-        Log.e(TAG, "FilterMainObjec: " + PriceDropCustomCategoryLists );
-        Log.e(TAG, "FilterMainObjec: " + PriceDropCustomCategoryLists );
 
         if(PriceDropCustomCategoryLists.size() > 0){
-
 
             binding.ReportselloutRecyclerView.setAdapter(new PriceDropReportAdapter(PriceDropCustomCategoryLists));
             binding.ReportselloutRecyclerView.setVisibility(View.VISIBLE);
@@ -913,6 +944,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
             binding.tablayout.setVisibility(View.VISIBLE);
             binding.noData.setVisibility(View.GONE);
 
+            binding.qty.setText(String.valueOf(Grandtotal_Qty));
+            binding.value.setText(String.valueOf(Grandtotal_Value));
 
         }else {
             binding.ReportselloutRecyclerView.setVisibility(View.GONE);
@@ -923,6 +956,9 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
     }
+
+
+
 
 
     private class PriceDropReportAdapter extends RecyclerView.Adapter<ReportsFragment.Viewholder>{
