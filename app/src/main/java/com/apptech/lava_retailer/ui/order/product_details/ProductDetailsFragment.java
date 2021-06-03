@@ -156,7 +156,7 @@ public class ProductDetailsFragment extends Fragment {
             }
 
 
-
+//sdfsdfdsgfdsgds
 
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
             binding.modelName.setText("Model - "+list.getModel());
