@@ -248,14 +248,16 @@ public interface LavaInterface{
             , @Field("ano_start_date") String start_dates , @Field("ano_end_date") String end_dates
     );
 
-
     @POST("price_drop_annoucment")
     Call<Object> GetAnnounceList();
-
 
     @POST("order_cancel")
     @FormUrlEncoded
     Call<Object> CENCEL_ORDER(@Field("id") String id);
+
+    @POST("email_check")
+    @FormUrlEncoded
+    Call<Object> EMAIL_CHECK(@Field("email") String email);
 
 }
 

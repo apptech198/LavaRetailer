@@ -237,6 +237,8 @@
     <string name="report">Report</string>
     <string name="Cencel_order">Cancel Order</string>
     <string name="Already_exists">Email Already Exists</string>
+    <string name="please_confirm_your_order">Please confirm your order</string>
+    <string name="profile_not_verify">Profile not verify</string>
 
 
 </resources>

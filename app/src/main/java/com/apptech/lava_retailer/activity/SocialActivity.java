@@ -11,7 +11,9 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
@@ -37,6 +39,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -329,7 +332,7 @@ public class SocialActivity extends AppCompatActivity {
 
 
     private void emailVerify(String email){
-        startActivity(new Intent(SocialActivity.this , SignUpActivity.class).putExtra("TYPE" , "GOOGLE"));
+        GmailCheck(email);
     }
 
     private void ErrorDilaog(String errormsg){
@@ -361,8 +364,9 @@ public class SocialActivity extends AppCompatActivity {
 
 
 
-    private void GmailCheck(String unqId){
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+    private void GmailCheck(String email){
+
+        lavaInterface.EMAIL_CHECK(email).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -373,10 +377,12 @@ public class SocialActivity extends AppCompatActivity {
                         String message = jsonObject.getString("message");
                         binding.SendotpBtn.setEnabled(true);
                         if (error.equalsIgnoreCase("false")) {
-
+                            String Msgerror = String.valueOf(R.string.Already_exists);
+                            AlertDialogfailure(Msgerror);
                             return;
                         }
-                        Toast.makeText(SocialActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SocialActivity.this , SignUpActivity.class).putExtra("TYPE" , "GOOGLE"));
+//                        Toast.makeText(SocialActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         binding.progressbar.setVisibility(View.GONE);
                         return;
                     } catch (JSONException jsonException) {
@@ -396,6 +402,49 @@ public class SocialActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+    private void AlertDialogfailure(String msg){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+        MaterialTextView Title = v.findViewById(R.id.Title);
+        Title.setText("Alert");
+        des.setText(msg);
+
+
+        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+
+        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+
+        } else {
+
+        }
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+
+
+    }
+
+
+
+
+
 
 
 

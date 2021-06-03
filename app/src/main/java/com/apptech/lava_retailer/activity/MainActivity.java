@@ -13,15 +13,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ExpandableListAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
@@ -82,6 +85,7 @@ import com.apptech.lava_retailer.ui.warranty.warrenty_check.WarrentyCheckFragmen
 import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -940,6 +944,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("YES")) {
                                 navController.navigate(R.id.tradeProgramFragment);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            }else {
+                                int msg = R.string.profile_not_verify;
+                                AlertDialogfailure(msg);
                             }
                             break;
                         case "CHANGE_LANGUAGE":
@@ -962,7 +969,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             binding.drawerLayout.closeDrawer(GravityCompat.START);
                             break;
                     }
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
+//                    binding.drawerLayout.closeDrawer(GravityCompat.START);
                 }
             }
             return false;
@@ -1038,6 +1045,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            }else {
+                                int msg = R.string.profile_not_verify;
+                                AlertDialogfailure(msg);
+
                             }
                             break;
                         case "TRADE_PROGRAM_SEELING_PROGRAM":
@@ -1046,6 +1057,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            }else {
+                                int msg = R.string.profile_not_verify;
+                                AlertDialogfailure(msg);
                             }
                             break;
                         case "TRADE_PROGRAM_SELLOUT_PROGRAM":
@@ -1054,6 +1068,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            }else {
+                                int msg = R.string.profile_not_verify;
+                                AlertDialogfailure(msg);
                             }
                             break;
                         case "TRADE_PROGRAM_LOYALTY_SCHEME":
@@ -1062,6 +1079,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            }else {
+                                int msg = R.string.profile_not_verify;
+                                AlertDialogfailure(msg);
                             }
                             break;
                         case "SERIALIZE":
@@ -1142,6 +1162,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
+
+
+    private void AlertDialogfailure(int msg){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+        MaterialTextView Title = v.findViewById(R.id.Title);
+        Title.setText("Alert");
+        des.setText(msg);
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+    }
+
+
+
+
+
+
 }
 
 

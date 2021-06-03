@@ -302,57 +302,7 @@ public class ClientDatashowActivity extends AppCompatActivity {
         }
     }
 
-/*
-    private void getCountry(){
-        countryLists.clear();
-        lavaInterface.Country().enqueue(new Callback<Object>() {
 
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String message = jsonObject.getString("message");
-                    if (error.equalsIgnoreCase("false")) {
-
-                        JSONArray array = jsonObject.getJSONArray("country_list");
-
-                        for (int i=0; i < array.length(); i++){
-
-                            JSONObject object = array.getJSONObject(i);
-                            countryLists.add(new Country_list(
-                                    object.getString("id")
-                                    ,object.getString("name")
-                                    ,object.getString("name_ar")
-                                    ,object.getString("name_fr")
-                                    ,object.getString("time")
-                            ));
-                        }
-                        SelectSmaertCountry();
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
-                    }
-                    Toast.makeText(ClientDatashowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(ClientDatashowActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                binding.progressbar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(ClientDatashowActivity.this, "Time out", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-*/
 
     private void getCountry(){
         countryLists.clear();
@@ -483,59 +433,6 @@ public class ClientDatashowActivity extends AppCompatActivity {
 
     }
 
-/*
-    private void getGovernate() {
-
-        governatelist.clear();
-        Call call = lavaInterface.Governate(Languages , CountryID);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-                        if (error.equalsIgnoreCase("false")) {
-                            JSONArray jsonArray = jsonObject.getJSONArray("governate_list");
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject json_data = jsonArray.getJSONObject(i);
-                                governatelist.add(new GovernateList(
-                                        json_data.getString("id")
-                                        ,json_data.getString("country_id")
-                                        ,json_data.getString("country_name")
-                                        ,json_data.getString("name")
-                                        ,json_data.getString("name_ar")
-                                        ,json_data.optString("name_fr")
-                                        ,json_data.getString("time")
-                                ));
-                            }
-
-                            SelectSmartSearchGovernate();
-                            binding.progressbar.setVisibility(View.GONE);
-                            return;
-                        }
-                        Toast.makeText(ClientDatashowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    return;
-                }
-                Toast.makeText(ClientDatashowActivity.this, "", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-
-            }
-        });
-
-    }
-*/
 
     private void SelectSmartSearchGovernate(){
 

@@ -1,6 +1,7 @@
 package com.apptech.lava_retailer.ui.message_centre;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,16 +19,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.apptech.lava_retailer.R;
+import com.apptech.lava_retailer.activity.ClientDatashowActivity;
+import com.apptech.lava_retailer.activity.LoginActivity;
 import com.apptech.lava_retailer.adapter.ExpansisAdapter;
 import com.apptech.lava_retailer.adapter.MessageAdapter;
 import com.apptech.lava_retailer.databinding.MessageCentreFragmentBinding;
 import com.apptech.lava_retailer.modal.message.MessageList;
 import com.apptech.lava_retailer.modal.message.NotificationListBrandWise;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,7 +98,20 @@ public class MessageCentreFragment extends Fragment  {
         String[] date = TodayDate().split("#");
         StartDate = date[0];
         End_Date = date[1];
-        MessageCenter();
+
+        if(new NetworkCheck().haveNetworkConnection(requireActivity())){
+            MessageCenter();
+
+            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")) {
+                CheckProfileverify();
+            }
+        }else {
+            binding.progressbar.setVisibility(View.GONE);
+            binding.noDatafound.setVisibility(View.VISIBLE);
+            Toast.makeText(requireContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
+
+
 
         MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
         builder.setTitleText("Select date");
@@ -326,6 +346,79 @@ public class MessageCentreFragment extends Fragment  {
         super.onDestroyView();
         binding = null;
     }
+
+
+
+
+    private void CheckProfileverify(){
+
+        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get("USER_UNIQUE_ID")).enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+
+                try {
+
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+
+                        Log.e(TAG, "onResponse: " + new Gson().toJson(response.toString()) );
+
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        if (error.equalsIgnoreCase("false")) {
+
+                            JSONObject jsonObject1 = jsonObject.getJSONObject("user_detail");
+
+                            String backend_register = jsonObject1.getString("backend_register");
+                            String backend_verify = jsonObject1.getString("backend_verify");
+
+                            if(
+                                    backend_register.equalsIgnoreCase("YES") && backend_verify.equalsIgnoreCase("NO")
+                                    || backend_register.equalsIgnoreCase("NO") && backend_verify.equalsIgnoreCase("NO")
+                            ){
+                                sessionManage.PROFILE_VERIFY_CHECK(backend_verify);
+                                return;
+                            }
+
+                            binding.progressbar.setVisibility(View.GONE);
+                            return;
+                        }
+                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    binding.progressbar.setVisibility(View.GONE);
+
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                    Log.e(TAG, "onResponse: " + e.getMessage() );
+                    binding.progressbar.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
 }
 
 
