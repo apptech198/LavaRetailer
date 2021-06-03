@@ -120,7 +120,7 @@ public interface LavaInterface{
 
     @POST("forget_pass_otp_send")
     @FormUrlEncoded
-    Call<Object> FORGOT_PASSWORD (@Field("mobile") String mobile);
+    Call<Object> FORGOT_PASSWORD (@Field("mobile") String mobile , @Field("country") String country);
 
     @POST("forget_otp_verify")
     @FormUrlEncoded

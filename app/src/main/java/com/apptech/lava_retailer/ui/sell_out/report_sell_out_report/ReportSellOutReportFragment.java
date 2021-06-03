@@ -656,6 +656,14 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                             for (int i = 0; i < model_list.length(); i++) {
                                 JSONObject op = model_list.getJSONObject(i);
 
+                                String QtySet = "";
+                                if( op.optString("qty").isEmpty()){
+                                    QtySet = "0";
+                                }else {
+                                    QtySet = op.optString("qty");
+                                }
+
+
                                 sellOutReportLists.add(new SellOutReportList(
                                         op.optString("id")
                                         , op.optString("product_id")
@@ -716,7 +724,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                                         , op.optString("locality")
                                         , op.optString("imei2")
                                         , op.optString("srno")
-                                        , op.optString("qty")
+                                        , QtySet
                                         , op.optString("order_no")
                                         , op.optString("price_drop")
                                         , op.optString("sellout")

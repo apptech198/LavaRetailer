@@ -175,7 +175,16 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         }
 
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
-            binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                case "fr":
+                    binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+                    break;
+                case "ar":
+                    binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME_AR"));
+                    break;
+            }
+
         }
 
         binding.SelectCountry.setOnClickListener(v -> {
@@ -183,16 +192,25 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
                 int pos = item.getGroupId();
 
+                Log.d(TAG, "onCreate: " + countryLists);
+                Log.d(TAG, "onCreate: " + countryLists);
 
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
+                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
 
-//                Log.e(TAG, "onCreate: " +  ""+ countryLists.get(pos).getCurrency_symbol()+"" );
-//                Log.e(TAG, "onCreate: " +  ""+countryLists.get(pos).getCurrency_symbol()+"" );
+                Log.d(TAG, "onCreate: " + countryLists.get(pos).getName_fr());
 
+                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                    case "en":
+                    case "fr":
+                        binding.countryName.setText(countryLists.get(pos).getName());
+                        break;
+                    case "ar":
+                        String ar = countryLists.get(pos).getName_ar();
+                        binding.countryName.setText(ar);
+                        break;
+                }
 
-                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString() , countryLists.get(pos).getCurrency()
-                        , countryLists.get(pos).getCurrency_symbol());
-
-                binding.countryName.setText(item.getTitle());
                 return false;
             });
             popupMenu.show();
@@ -473,8 +491,22 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
                         try {
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){
-                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()  ,  countryLists.get(0).getCurrency_symbol());
-                                binding.countryName.setText(countryLists.get(0).getName());
+
+                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
+                                        ,  countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
+
+
+                                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                    case "en":
+                                    case "fr":
+                                        binding.countryName.setText(countryLists.get(0).getName());
+                                        break;
+                                    case "ar":
+                                        binding.countryName.setText(countryLists.get(0).getName_fr());
+                                        break;
+                                }
+
+
                             }
                         }catch (IndexOutOfBoundsException e){
                             e.printStackTrace();

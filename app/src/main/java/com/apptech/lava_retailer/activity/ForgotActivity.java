@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.ActivityForgotBinding;
 import com.apptech.lava_retailer.other.NetworkCheck;
+import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.gson.Gson;
@@ -31,6 +32,7 @@ public class ForgotActivity extends AppCompatActivity {
     ActivityForgotBinding binding;
     LavaInterface lavaInterface;
     private static final String TAG = "ForgotActivity";
+    SessionManage sessionManage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class ForgotActivity extends AppCompatActivity {
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        sessionManage = SessionManage.getInstance(this);
 
 
         binding.forgotBtn.setOnClickListener(v -> {
@@ -93,7 +95,7 @@ public class ForgotActivity extends AppCompatActivity {
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.FORGOT_PASSWORD(binding.NumberInputLayout.getText().toString().trim()).enqueue(new Callback<Object>() {
+        lavaInterface.FORGOT_PASSWORD(binding.NumberInputLayout.getText().toString().trim() ,sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) ).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

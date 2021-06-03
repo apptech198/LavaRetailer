@@ -1,5 +1,6 @@
 package com.apptech.lava_retailer.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -62,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     List<Country_list> countryLists = new ArrayList<>();
     boolean doubleBackToExitPressedOnce = false;
     PopupMenu popupMenu1;
-
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("");
+        progressDialog.setCancelable(true);
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
@@ -160,17 +164,32 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         }
 
 
-//        if(getIntent() != null){
-//            if(getIntent().getStringExtra("TYPE").equalsIgnoreCase("FACEBOOK")){
-//                social_auth_token = getIntent().getStringExtra("UserId");
-//            }
-//        }
 
         Context wrapper1 = new ContextThemeWrapper(this, R.style.YOURSTYLE);
         popupMenu1 = new PopupMenu(wrapper1, binding.SelectCountrytop);
-        getCountry();
+
+        if(new NetworkCheck().haveNetworkConnection(this)){
+            getCountry();
+        }else {
+            Toast.makeText(wrapper1, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
+
+
+
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
-            binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+//            binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+            CountryName = sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME");
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                case "fr":
+                    binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+                    binding.SelectCountry.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+                    break;
+                case "ar":
+                    binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME_AR"));
+                    binding.SelectCountry.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME_AR"));
+                    break;
+            }
         }
 
         binding.Signup.setOnClickListener(v -> {
@@ -207,18 +226,55 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             });
             popupMenu.show();//showing popup menu
         });
+
         Hideerror();
 
-
         binding.SelectCountrytop.setOnClickListener(v -> {
+
             popupMenu1.setOnMenuItemClickListener(item -> {
 
-                int pos = item.getGroupId();
 
-                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , item.getTitle().toString() , countryLists.get(pos).getCurrency()
-                        , countryLists.get(pos).getCurrency_symbol());
+                Log.e(TAG, "onCreate: " + countryLists );
+                Log.e(TAG, "onCreate: " + countryLists );
+                int pos = item.getItemId();
+                Log.e(TAG, "onCreate: " +  pos);
 
-                binding.countryName.setText(item.getTitle());
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
+                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
+
+                Log.d(TAG, "onCreate: " + countryLists.get(pos).getName_fr());
+
+                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                    case "en":
+                    case "fr":
+                        binding.countryName.setText(countryLists.get(pos).getName());
+                        break;
+                    case "ar":
+                        String ar = countryLists.get(pos).getName_ar();
+                        binding.countryName.setText(ar);
+                        break;
+                }
+
+
+
+////                sessionManage.LOGIN_COUNTRY(l.getId() , l.getName() , countryLists.get(pos).getCurrency()
+//                        , countryLists.get(pos).getCurrency_symbol() , l.getName_ar());
+
+//                CountryName = countryLists.get(pos).getName();
+//
+//                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+//                    case "en":
+//                    case "fr":
+//                        binding.countryName.setText(countryLists.get(pos).getName());
+//                        binding.SelectCountry.setText(countryLists.get(pos).getName());
+//                        break;
+//                    case "ar":
+//                        binding.countryName.setText(countryLists.get(pos).getName_ar());
+//                        binding.SelectCountry.setText(countryLists.get(pos).getName_ar());
+//                        break;
+//                }
+
+
                 return false;
             });
             popupMenu1.show();
@@ -544,6 +600,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     }
 
     private void getCountry(){
+
+        progressDialog.show();
+
         countryLists.clear();
         lavaInterface.Country().enqueue(new Callback<Object>() {
 
@@ -576,17 +635,17 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                             int id = Integer.parseInt(object.getString("id"));
                             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                                 case "en":
-                                    popupMenu1.getMenu().add(i, id, i ,object.getString("name"));
+                                    popupMenu1.getMenu().add(i, i, i ,object.getString("name"));
                                     break;
                                 case "fr":
                                     if(countryLists.get(0).getName_fr().isEmpty()){
-                                        popupMenu1.getMenu().add(i, id, i ,object.getString("name"));
+                                        popupMenu1.getMenu().add(i, i, i ,object.getString("name"));
                                     }else {
-                                        popupMenu1.getMenu().add(i, id, i ,object.getString("name_fr"));
+                                        popupMenu1.getMenu().add(i, i, i ,object.getString("name_fr"));
                                     }
                                     break;
                                 case "ar":
-                                    popupMenu1.getMenu().add(i, id, i ,object.getString("name_ar"));
+                                    popupMenu1.getMenu().add(i, i, i ,object.getString("name_ar"));
                                     break;
                             }
 
@@ -594,16 +653,14 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
                         }
 
-
-
-
-
                         SelectSmaertCountry();
                         binding.progressbar.setVisibility(View.GONE);
+                        progressDialog.dismiss();
                         return;
                     }
                     Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                     binding.progressbar.setVisibility(View.GONE);
+                    progressDialog.dismiss();
                     return;
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -611,7 +668,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
                 Toast.makeText(SignUpActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 binding.progressbar.setVisibility(View.GONE);
-
+                progressDialog.dismiss();
             }
 
             @Override
