@@ -91,8 +91,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
                 int cc = Integer.parseInt(list.getQty());
                 int dd = Integer.parseInt(list.getDis_price());
                 int xx = dd*cc;
-                int bb = Integer.parseInt(new NumberConvertArabic().arabicNumberCovert(xx));
-                holder.AmountCal.setText(aa +" x " + dd);
+                String dd_ar = new NumberConvertArabic().NumberConvertArabic(dd);
+                String bb_ar = new NumberConvertArabic().NumberConvertArabic(xx);
+                holder.AmountCal.setText(aa +" x " + dd_ar + " = "+ bb_ar);
 
             }catch (NumberFormatException e){
                 e.printStackTrace();
@@ -108,7 +109,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             int a = Integer.parseInt(list.getQty());
             int b = Integer.parseInt(list.getDis_price());
             int c = a*b;
-            holder.AmountCal.setText(list.getQty() +" x " + b);
+            holder.AmountCal.setText(list.getQty() +" x " + b + " = " + c);
 
         }else {
             if(list.getMarketing_name_fr().isEmpty()){
@@ -125,7 +126,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             int a = Integer.parseInt(list.getQty());
             int b = Integer.parseInt(list.getDis_price());
             int c = a*b;
-            holder.AmountCal.setText(list.getQty() +" x " + b);
+            holder.AmountCal.setText(list.getQty() +" x " + b+ " = " + c);
 
         }
 

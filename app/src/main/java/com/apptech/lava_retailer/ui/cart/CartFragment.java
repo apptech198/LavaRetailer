@@ -468,7 +468,7 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                     binding.ItemQty.setText(itemnum);
 
                     if(AmoutCal != null){
-                        AmoutCal.setText(qty + "x" + MainDiscount);
+                        AmoutCal.setText(qty + " x " + MainDiscount +" = "+ ProductQty );
                     }
                 }else {
                     try {
@@ -484,7 +484,8 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                         if(AmoutCal != null){
                             String a = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(qty));
                             String b = new NumberConvertArabic().NumberConvertArabic(Double.parseDouble(MainDiscount));
-                            AmoutCal.setText( a + "x" + b );
+                            String c = new NumberConvertArabic().NumberConvertArabic(Double.parseDouble(String.valueOf(ProductQty)));
+                            AmoutCal.setText( a + " x " + b +" = "+ c );
                         }
 
                     }catch (NumberFormatException e){
@@ -622,6 +623,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         String ret_name = sessionManage.getUserDetails().get("NAME");
         String ret_mobile = sessionManage.getUserDetails().get("MOBILE");
         String address = sessionManage.getUserDetails().get("ADDRESS");
+        String locality = sessionManage.getUserDetails().get(SessionManage.LOCALITY);
+        String locality_id = sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID);
+        String country_id = sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME);
 
 //        String pretotal = binding.totalPrice.getText().toString().trim();
         String pretotal = String.valueOf(PRODUCT_TOTAL_AMT);
@@ -643,6 +648,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         orderPlace.addProperty("pretotal" , pretotal);
         orderPlace.addProperty("order_total" , order_total);
         orderPlace.addProperty("discount" , discount);
+        orderPlace.addProperty("locality_name" , locality);
+        orderPlace.addProperty("locality_id" , locality_id);
+        orderPlace.addProperty("country_id" , country_id);
+        orderPlace.addProperty("country_name" , country_name);
         orderPlace.add("items" , OPjsonArray);
         OrderPlaceAddData();
 

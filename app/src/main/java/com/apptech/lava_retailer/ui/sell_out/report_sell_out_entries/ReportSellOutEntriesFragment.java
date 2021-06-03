@@ -249,6 +249,8 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         mainJsonObject.addProperty("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         mainJsonObject.addProperty("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
         mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        mainJsonObject.addProperty("country_id",  sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
+        mainJsonObject.addProperty("country_name",  sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
 
         mainJsonObject.add("imei_list", jsonElements);
 
@@ -319,8 +321,9 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 //        Wrongdatra = false;
 //    }
 
-    private void removeView() {
+    private void removeView(String imei) {
         removeBtn.setOnClickListener(v -> {
+            jsonArray.remove(imei);
             binding.addLayout.removeView((View) v.getParent().getParent().getParent());
             if (binding.addLayout.getChildCount() == 0) {
                 NoData = true;
@@ -410,7 +413,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         imei.setText(imeis);
         binding.submitBtn.setVisibility(View.VISIBLE);
 
-        removeView();
+        removeView(imeis);
         binding.ImeiEdittext.setText(null);
         NoData = true;
         Wrongdatra = true;
@@ -424,7 +427,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         if (imei.length() != 15) {
 
 //            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();
-            AlertDialogfailure("Imei Code Invalid");
+            AlertDialogfailure("Imei Must be 15 Digit");
             return false;
         }
         return true;

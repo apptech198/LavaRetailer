@@ -252,6 +252,11 @@ public interface LavaInterface{
     @POST("price_drop_annoucment")
     Call<Object> GetAnnounceList();
 
+
+    @POST("order_cancel")
+    @FormUrlEncoded
+    Call<Object> CENCEL_ORDER(@Field("id") String id);
+
 }
 
 

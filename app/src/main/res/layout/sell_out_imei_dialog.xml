@@ -77,7 +77,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/ImeiTitle"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/imei"
             android:fontFamily="@font/lato_semi_bold"
@@ -102,7 +102,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/ModalTitle"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/Model_colon"
             android:fontFamily="@font/lato_semi_bold"
@@ -127,7 +127,7 @@
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/skuTitle"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/Sku"
             android:fontFamily="@font/lato_semi_bold"

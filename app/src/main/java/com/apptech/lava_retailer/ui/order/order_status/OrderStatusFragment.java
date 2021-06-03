@@ -311,7 +311,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
 
                             Log.e(TAG, "onResponse: " + orderStatusLists.size());
 
-                            orderStatusAdapter = new OrderStatusAdapter(orderStatusLists);
+                            orderStatusAdapter = new OrderStatusAdapter(orderStatusLists, type);
                             binding.OrderStatusRecyclerView.setAdapter(orderStatusAdapter);
                             orderStatusAdapter.notifyDataSetChanged();
                             binding.noData.setVisibility(View.GONE);
@@ -350,7 +350,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getResources().getString(R.string.Order_Status));
+        title.setText(getResources().getString(R.string.My_Orders));
     }
 
 

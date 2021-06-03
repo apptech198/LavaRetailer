@@ -191,6 +191,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         mainJsonObject.addProperty("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         mainJsonObject.addProperty("locality_name",  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
         mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        mainJsonObject.addProperty("country_id",  sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
+        mainJsonObject.addProperty("country_name",  sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
 
         mainJsonObject.add("imei_list", jsonElements);
 
@@ -249,15 +251,16 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
     }
 
-    private void removeView() {
+    private void removeView(String imei) {
         removeBtn.setOnClickListener(v -> {
+            jsonArray.remove(imei);
             binding.addLayout.removeView((View) v.getParent().getParent().getParent());
             if (binding.addLayout.getChildCount() == 0) {
                 NoData = true;
                 Wrongdatra = true;
                 imeiCount = 0;
                 binding.msgShowWrongImei.setVisibility(View.GONE);
-                binding.scanBtn.setVisibility(View.GONE);
+                binding.submitBtn.setVisibility(View.GONE);
 
             }
         });
@@ -316,7 +319,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         imei.setText(imeis);
         binding.submitBtn.setVisibility(View.VISIBLE);
 
-        removeView();
+        removeView(imeis);
         binding.ImeiEdittext.setText(null);
         NoData = true;
         Wrongdatra = true;
@@ -431,7 +434,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         textView.setText(imei);
         textView.setTag(String.valueOf(a));
         removeBtn = rowView.findViewById(R.id.remove);
-        removeView();
+        removeView(imei);
         binding.ImeiEdittext.setText(null);
         Wrongdatra = false;
     }
@@ -442,7 +445,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
             return false;
         } else if (imei.length() != 15) {
 //            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();
-            AlertDialogfailure("Imei Code Invalid");
+            AlertDialogfailure("Imei Must be 15 Digit");
             return false;
         }
         return true;

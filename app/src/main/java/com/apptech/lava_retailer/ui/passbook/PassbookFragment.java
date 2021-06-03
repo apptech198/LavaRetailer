@@ -96,6 +96,8 @@ public class PassbookFragment extends Fragment {
     List<com.apptech.lava_retailer.list.passbook.List>lists= new ArrayList<>();
     List<ClaimTypeList>claimTypeLists= new ArrayList<>();
     PassbookAdapter.getCount getCount;
+    Boolean first= true;
+    String CurrentSearch="";
 
 
 
@@ -244,7 +246,7 @@ public class PassbookFragment extends Fragment {
 
     }
 
-    void getClaimtype(PassbookAdapter adapter){
+    void getClaimtype(){
 
         lavaInterface.GETCLAIMTYPE().enqueue(new Callback<Object>() {
             @Override
@@ -288,7 +290,7 @@ public class PassbookFragment extends Fragment {
 //                                            binding.recycle.setVisibility(View.VISIBLE);
 //                                            binding.noData.setVisibility(View.GONE);
 //                                        }
-
+                                            CurrentSearch = claimTypeLists.get(position).getClaim_type().trim().toUpperCase();
                                             List<com.apptech.lava_retailer.list.passbook.List> ClaiList = new ArrayList<>();
                                             for (com.apptech.lava_retailer.list.passbook.List lisr : lists) {
                                                 if (lisr.getClaimType().trim().toUpperCase().contains(claimTypeLists.get(position).getClaim_type().trim().toUpperCase())) {
@@ -310,7 +312,7 @@ public class PassbookFragment extends Fragment {
 
                                         @Override
                                         public void onNothingSelected(AdapterView<?> parent) {
-                                            adapter.getFilter().filter("Select ClaimType");
+//                                            adapter.getFilter().filter("Select ClaimType");
                                         }
                                     });
                                 }
@@ -383,11 +385,34 @@ public class PassbookFragment extends Fragment {
                                     }
                                 }else {
                                     if (binding != null) {
-                                        binding.noData.setVisibility(View.GONE);
-                                        binding.recycle.setVisibility(View.GONE);
-                                        PassbookAdapter adapter = new PassbookAdapter(lists, getCount);
-                                        binding.recycle.setAdapter(adapter);
-                                        getClaimtype(adapter);
+
+                                        if(!CurrentSearch.equals("")){
+                                            List<com.apptech.lava_retailer.list.passbook.List> ClaiList = new ArrayList<>();
+                                            for (com.apptech.lava_retailer.list.passbook.List lisr : lists) {
+                                                if (lisr.getClaimType().trim().toUpperCase().contains(CurrentSearch.trim().toUpperCase())) {
+                                                    ClaiList.add(lisr);
+                                                }
+                                            }
+                                            if (ClaiList.isEmpty()) {
+                                                binding.recycle.setVisibility(View.GONE);
+                                                binding.noData.setVisibility(View.VISIBLE);
+                                            } else {
+                                                PassbookAdapter passbookAdapter = new PassbookAdapter(ClaiList, getCount);
+                                                binding.recycle.setAdapter(passbookAdapter);
+                                                binding.recycle.setVisibility(View.VISIBLE);
+                                                binding.noData.setVisibility(View.GONE);
+                                            }
+                                        }
+
+//                                        binding.noData.setVisibility(View.GONE);
+//                                        binding.recycle.setVisibility(View.GONE);
+//                                        PassbookAdapter adapter = new PassbookAdapter(lists, getCount);
+//                                        binding.recycle.setAdapter(adapter);
+                                        if(first){
+                                            first = false;
+                                            getClaimtype();
+                                        }
+
                                     }
                                 }
                                 if (binding != null) {
