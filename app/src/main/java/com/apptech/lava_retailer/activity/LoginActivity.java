@@ -149,14 +149,27 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
             PopupMenu popupMenu = new PopupMenu(wrapper, binding.SelectLanguage);
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
+
+
             popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getTitle().equals("English")) {
-                    sessionManage.setlanguage("en");
-                } else if (item.getTitle().equals("French")){
-                    sessionManage.setlanguage("fr");
-                }else {
-                    sessionManage.setlanguage("ar");
+                switch (item.getItemId()){
+                    case R.id.one:
+                        sessionManage.setlanguage("en");
+                        break;
+                    case R.id.two:
+                        sessionManage.setlanguage("ar");
+                        break;
+                    case R.id.three:
+                        sessionManage.setlanguage("fr");
+                        break;
                 }
+//                if (item.getTitle().equals("English")) {
+//                    sessionManage.setlanguage("en");
+//                } else if (item.getTitle().equals("French")){
+//                    sessionManage.setlanguage("fr");
+//                }else {
+//                    sessionManage.setlanguage("ar");
+//                }
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;

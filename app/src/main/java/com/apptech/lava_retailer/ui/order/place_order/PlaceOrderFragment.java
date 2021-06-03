@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.other.SpacesItemDecoration;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -789,6 +791,7 @@ public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSh
             }
         }
     }
+
 
 
 }

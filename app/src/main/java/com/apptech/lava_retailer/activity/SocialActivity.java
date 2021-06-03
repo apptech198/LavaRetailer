@@ -377,7 +377,7 @@ public class SocialActivity extends AppCompatActivity {
                         String message = jsonObject.getString("message");
                         binding.SendotpBtn.setEnabled(true);
                         if (error.equalsIgnoreCase("false")) {
-                            String Msgerror = String.valueOf(R.string.Already_exists);
+                            int Msgerror = R.string.Already_exists;
                             AlertDialogfailure(Msgerror);
                             return;
                         }
@@ -405,7 +405,7 @@ public class SocialActivity extends AppCompatActivity {
 
 
 
-    private void AlertDialogfailure(String msg){
+    private void AlertDialogfailure(int msg){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View v = LayoutInflater.from(this).inflate(R.layout.dialog_imei_not_exits , null );

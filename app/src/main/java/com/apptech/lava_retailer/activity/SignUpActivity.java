@@ -62,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     String Languages = "EN";
     String signup_type ="" , social_auth_token = "" , MOB = "";
     List<Country_list> countryLists = new ArrayList<>();
+    List<Country_list> topconty = new ArrayList<>();
     boolean doubleBackToExitPressedOnce = false;
     PopupMenu popupMenu1;
     ProgressDialog progressDialog;
@@ -179,6 +180,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
 //            binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
             CountryName = sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME");
+            getGovernate();
             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                 case "en":
                 case "fr":
@@ -210,13 +212,27 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 
             popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getTitle().equals("English")) {
-                    sessionManage.setlanguage("en");
-                } else if (item.getTitle().equals("French")){
-                    sessionManage.setlanguage("fr");
-                }else {
-                    sessionManage.setlanguage("ar");
+
+
+                switch (item.getItemId()){
+                    case R.id.one:
+                        sessionManage.setlanguage("en");
+                        break;
+                    case R.id.two:
+                        sessionManage.setlanguage("ar");
+                        break;
+                    case R.id.three:
+                        sessionManage.setlanguage("fr");
+                        break;
                 }
+
+//                if (item.getTitle().equals("English")) {
+//
+//                } else if (item.getTitle().equals("French")){
+//
+//                }else {
+//
+//                }
                 Intent intent = new Intent(new Intent(this, SignUpActivity.class));
                 intent.putExtra("MOB" , MOB);
                 intent.putExtra("TYPE" , getIntent().getStringExtra("TYPE"));
@@ -234,23 +250,20 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             popupMenu1.setOnMenuItemClickListener(item -> {
 
 
-                Log.e(TAG, "onCreate: " + countryLists );
-                Log.e(TAG, "onCreate: " + countryLists );
                 int pos = item.getItemId();
-                Log.e(TAG, "onCreate: " +  pos);
 
-                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
-                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
 
-                Log.d(TAG, "onCreate: " + countryLists.get(pos).getName_fr());
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , topconty.get(pos).getName() , topconty.get(pos).getCurrency()
+                        , topconty.get(pos).getCurrency_symbol() , topconty.get(pos).getName_ar());
+
 
                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                     case "en":
                     case "fr":
-                        binding.countryName.setText(countryLists.get(pos).getName());
+                        binding.countryName.setText(topconty.get(pos).getName());
                         break;
                     case "ar":
-                        String ar = countryLists.get(pos).getName_ar();
+                        String ar = topconty.get(pos).getName_ar();
                         binding.countryName.setText(ar);
                         break;
                 }
@@ -633,6 +646,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                             ));
 
 
+
                             int id = Integer.parseInt(object.getString("id"));
                             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                                 case "en":
@@ -653,6 +667,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
 
                         }
+
+                        topconty.addAll(countryLists);
 
                         SelectSmaertCountry();
                         binding.progressbar.setVisibility(View.GONE);
@@ -1125,6 +1141,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             governatelist.clear();
             localityList.clear();
             getGovernate();
+
+            Log.e(TAG, "SelectSmaertCountry: "+  countryLists.size() );
         };
 
         CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);

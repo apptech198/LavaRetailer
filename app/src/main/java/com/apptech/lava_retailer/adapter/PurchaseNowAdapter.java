@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -38,6 +39,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.google.android.material.textview.MaterialTextView;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -384,7 +386,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             switch (v.getId()) {
                 case R.id.addBtnLayout:
                     if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
-                        Toast.makeText(context, "Your Account is not Verify", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "Your Account is not Verify", Toast.LENGTH_SHORT).show();
+                        AlertDialogfailure(context.getString(R.string.profile_not_verify));
                         return;
                     }
                     purchaseNowIterface.addItem(list, getAdapterPosition(), countTextView);
@@ -484,6 +487,30 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
     }
 
 
+    private void AlertDialogfailure(String msg){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View v = LayoutInflater.from(context).inflate(R.layout.dialog_imei_not_exits , null );
+        builder.setView(v);
+
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView des = v.findViewById(R.id.des);
+        MaterialTextView Title = v.findViewById(R.id.Title);
+        Title.setText("Alert");
+        des.setText(msg);
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+    }
 
 }
 
