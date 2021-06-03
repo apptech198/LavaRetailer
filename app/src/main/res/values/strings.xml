@@ -236,6 +236,7 @@
     <string name="dashboard">Dashboard</string>
     <string name="report">Report</string>
     <string name="Cencel_order">Cancel Order</string>
+    <string name="Already_exists">Email Already Exists</string>
 
 
 </resources>
