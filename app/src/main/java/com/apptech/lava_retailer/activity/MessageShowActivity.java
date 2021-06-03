@@ -2,6 +2,7 @@ package com.apptech.lava_retailer.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class MessageShowActivity extends AppCompatActivity {
     int NEXTACTITIVY = 0;
     AlertDialog alertDialog1;
     private List<com.apptech.lava_retailer.list.notificationList.List> Newslist;
+    private boolean isFirstBackPressed = false;
 
 
     @Override
@@ -128,8 +130,6 @@ public class MessageShowActivity extends AppCompatActivity {
 
 
     }
-
-
 
 
     private void MessageShow1() {
@@ -234,7 +234,6 @@ public class MessageShowActivity extends AppCompatActivity {
 
     }
 
-
     private void OtpVerificationDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -269,6 +268,31 @@ public class MessageShowActivity extends AppCompatActivity {
         alertDialog1.show();
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (isFirstBackPressed) {
+
+//            super.onBackPressed();
+
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory( Intent.CATEGORY_HOME );
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+            finish();
+            System.exit(0);
+
+        } else {
+            isFirstBackPressed = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                    public void run() {
+                        isFirstBackPressed = false;
+                    }
+                }, 1500);
+        }
+    }
 }
 
 

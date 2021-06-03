@@ -34,6 +34,7 @@ import com.apptech.lava_retailer.databinding.RowPriceDropReportBinding;
 import com.apptech.lava_retailer.databinding.RowSellOutReportBinding;
 import com.apptech.lava_retailer.list.announcelist.PriceDrop;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
+import com.apptech.lava_retailer.list.price_drop_report.PriceDropReportList;
 import com.apptech.lava_retailer.list.sell_out_report.SellOutReportList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomCategoryList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomModalList;
@@ -89,8 +90,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     String ID = "";
     SellOutReportCategoryFilter sellOutReportCategoryFilter;
     SellOutReportModalFilter sellOutReportModalFilter;
-    List<SellOutReportList> pricedropMainlist = new ArrayList<>();
-    List<SellOutReportList> PriceDropReportFilterLists = new ArrayList<>();
+    List<PriceDropReportList> pricedropMainlist = new ArrayList<>();
+    List<PriceDropReportList> PriceDropReportFilterLists = new ArrayList<>();
     JSONObject PriceDropReportCategoryObject = new JSONObject();
     JSONObject PriceDropReportModalObject = new JSONObject();
     List<SellOutCustomCategoryList> PriceDropCustomCategoryLists = new ArrayList<>();
@@ -533,7 +534,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         binding.noData.setVisibility(View.GONE);
         progressDialog.show();
 
-        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" ).enqueue(new Callback<Object>() {
+//        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" ).enqueue(new Callback<Object>() {
+        lavaInterface.PRICE_DROP_REPORT("0216d15a0c80fe463b30ea94fa492f89", "2019-01-01", "2023-12-01" ,"","" ).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -551,72 +553,34 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                             for (int i = 0; i < model_list.length(); i++) {
                                 JSONObject op = model_list.getJSONObject(i);
 
-                                pricedropMainlist.add(new SellOutReportList(
+                                String Qtyset = "0";
+                                if (op.optString("qty").isEmpty()){
+                                    Qtyset = "0";
+                                }else {
+                                    Qtyset =  op.optString("qty");
+                                }
+
+                                pricedropMainlist.add(new PriceDropReportList(
                                         op.optString("id")
-                                        ,op.optString("product_id")
-                                        ,op.optString("distributor_id")
-                                        ,op.optString("distributor_name")
+                                        ,op.optString("type")
                                         ,op.optString("imei")
+                                        ,op.optString("date")
                                         ,op.optString("retailer_id")
                                         ,op.optString("retailer_name")
-                                        ,op.optString("country_id")
-                                        ,op.optString("country_name")
-                                        ,op.optString("marketing_name")
-                                        ,op.optString("marketing_name_ar")
-                                        ,op.optString("marketing_name_fr")
-                                        ,op.optString("des_fr")
-                                        ,op.optString("des")
-                                        ,op.optString("des_ar")
-                                        ,op.optString("actual_price")
-                                        ,op.optString("dis_price")
-                                        ,op.optString("thumb")
-                                        ,op.optString("thumb_ar")
-                                        ,op.optString("sku")
-                                        ,op.optString("commodity_id")
-                                        ,op.optString("format")
-                                        ,op.optString("commodity")
-                                        ,op.optString("commodity_ar")
-                                        ,op.optString("brand_id")
-                                        ,op.optString("brand")
-                                        ,op.optString("brand_ar")
-                                        ,op.optString("model")
-                                        ,op.optString("model_ar")
-                                        ,op.optString("category")
-                                        ,op.optString("serialized")
-                                        ,op.optString("video")
-                                        ,op.optString("video_ar")
-                                        ,op.optString("warranty_type")
-                                        ,op.optString("prowar")
-                                        ,op.optString("pro_war_days")
-                                        ,op.optString("battery_war")
-                                        ,op.optString("battery_war_days")
-                                        ,op.optString("charging_adapter_war")
-                                        ,op.optString("charging_adapter_war_days")
-                                        ,op.optString("charger_war")
-                                        ,op.optString("charger_war_days")
-                                        ,op.optString("usb_war")
-                                        ,op.optString("usb_war_days")
-                                        ,op.optString("wired_earphone_war")
-                                        ,op.optString("wired_earphone_war_days")
-                                        ,op.optString("available_qty")
-                                        ,op.optString("hide")
-                                        ,op.optString("total_sale")
-                                        ,op.optString("seller_id")
-                                        ,op.optString("seller_name")
                                         ,op.optString("time")
-                                        ,op.optString("sold_date")
-                                        ,op.optString("warranty_start_date")
-                                        ,op.optString("warranty_end_date")
+                                        ,op.optString("product_id")
+                                        ,op.optString("model")
+                                        ,op.optString("commodity_id")
+                                        ,op.optString("commodity")
+                                        ,op.optString("check_status")
+                                        ,op.optString("status")
+                                        ,op.optString("price_drop_id")
+                                        ,op.optString("price_drop_name")
+                                        ,Qtyset
+                                        ,op.optString("price")
+                                        ,op.optString("drop_amount")
                                         ,op.optString("locality_id")
-                                        ,op.optString("locality")
-                                        ,op.optString("imei2")
-                                        ,op.optString("srno")
-                                        ,op.optString("qty")
-                                        ,op.optString("order_no")
-                                        ,op.optString("price_drop")
-                                        ,op.optString("sellout")
-                                        ,op.optString("order_dispatch_date")
-                                        ,op.optString("order_date")
+                                        ,op.optString("locality_name")
                                 ));
                             }
                             binding.tablayout.setVisibility(View.GONE);
@@ -678,18 +642,18 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                             String Categoryname = issue.optString("name");
 
 
-                            for (SellOutReportList sell : pricedropMainlist){
+                            for (PriceDropReportList sell : pricedropMainlist){
 
                                 if(Categoryname.trim().toUpperCase().contains(sell.getCommodity().trim().toUpperCase())){
 
                                     PriceDropReportFilterLists.add(sell);
                                     JSONObject object = new JSONObject();
                                     object.put("commodity" , sell.getCommodity());
-                                    object.put("commodity_ar" , sell.getCommodityAr());
+                                    object.put("commodity_ar" , "");
                                     object.put("model" , sell.getModel());
-                                    object.put("model_ar" , sell.getModelAr());
+                                    object.put("model_ar" , "");
                                     object.put("qty" , sell.getQty());
-                                    object.put("value" , sell.getDisPrice());
+                                    object.put("value" , sell.getDrop_amount());
                                     object.put("count" , "1");
                                     PriceDropReportCategoryObject.putOpt(sell.getCommodity() , object);
 
@@ -701,13 +665,14 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
                                 CategoryjJsonobject = new JSONObject(PriceDropReportCategoryObject.toString());
 
-
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
+
+                    Log.e(TAG, "PriceDropCategoryFilterObject: " + PriceDropReportCategoryObject.toString() );
 
 
                     if(PriceDropReportModalObject.length() > 0){
@@ -747,6 +712,9 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
             if (modalObject.length() > 0){
 
+                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
+                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
+
                 PriceDropReportModalObject = new JSONObject();
                 JSONObject object = new JSONObject();
                 try {
@@ -765,17 +733,17 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
                         String ModelCheck = "";
 
-                        for (SellOutReportList sell : PriceDropReportFilterLists){
+                        for (PriceDropReportList sell : PriceDropReportFilterLists){
                             if(Modalname.trim().toUpperCase().contains(sell.getModel().trim().toUpperCase())){
 
                                 JSONObject aa = PriceDropReportCategoryObject.getJSONObject(sell.getCommodity());
 
                                 JSONObject jsonObject = new JSONObject();
                                 jsonObject.put( "model" , sell.getModel());
-                                jsonObject.put( "model_ar" , sell.getModelAr());
+                                jsonObject.put( "model_ar" , "");
                                 if(!ModelCheck.equalsIgnoreCase(sell.getCommodity().toString())) {
-                                    jsonObject.put("qty", "");
-                                    jsonObject.put("value", "");
+                                    jsonObject.put("qty", sell.getQty());
+                                    jsonObject.put("value", sell.getDrop_amount());
                                 }else {
                                     JSONObject  ob = PriceDropReportCategoryObject.getJSONObject(sell.getCommodity()).getJSONObject(sell.getCommodity() + "_" + sell.getModel());
                                     jsonObject.put("qty", ob.get("qty"));
@@ -801,7 +769,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                                         object1.put("qty" , addBothQty);
 
                                         int getValue = Integer.parseInt(String.valueOf(object1.get("value")));
-                                        int addValue = Integer.parseInt(sell.getDisPrice());
+                                        int addValue = Integer.parseInt(sell.getDrop_amount());
 
                                         int addBothValue = getValue + addValue;
                                         object1.put("value" , addBothValue);
@@ -824,7 +792,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                 }
 
 
-                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportModalObject.toString() );
+                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
+                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
 
                 if(PriceDropReportCategoryObject.length() > 0){
                     FilterMainObjec();
@@ -849,8 +818,10 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
     private void FilterMainObjec(){
+
         Log.e(TAG, "FilterMainObjec: " + PriceDropReportCategoryObject.toString() );
-        Log.e(TAG, "FilterMainObjec: " + PriceDropReportModalObject.toString() );
+        Log.e(TAG, "FilterMainObjec: " + PriceDropReportCategoryObject.toString() );
+
 
 
         PriceDropCustomCategoryLists.clear();
@@ -885,7 +856,11 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                         Object value = Model_jsonObject.get(keys);
                         String modalFind = value.toString();
                         try {
+
                             JSONObject MODELFetch =  PriceDropReportCategoryObject.getJSONObject(key).getJSONObject(modalFind);
+
+                            Log.e(TAG, "FilterMainObjec: " + MODELFetch.toString() );
+                            Log.e(TAG, "FilterMainObjec: " + MODELFetch.toString() );
 
                             String qtyGet = MODELFetch.get("qty").toString();
                             String ValueGet = MODELFetch.get("value").toString();
@@ -898,7 +873,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                                     ,MODELFetch.getString("model_ar")
                                     ,MODELFetch.getString("qty")
                                     ,MODELFetch.getString("value")
-                                    ,MODELFetch.getString("category")
+                                    ,"MODELFetch.getString(Categor)"
                             ));
                         }catch (JSONException ex){
                             ex.printStackTrace();
@@ -937,6 +912,10 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
         if(PriceDropCustomCategoryLists.size() > 0){
+
+
+            Log.e(TAG, "FilterMainObjec: " + PriceDropCustomCategoryLists.toString() );
+            Log.e(TAG, "FilterMainObjec: " + PriceDropCustomCategoryLists.toString() );
 
             binding.ReportselloutRecyclerView.setAdapter(new PriceDropReportAdapter(PriceDropCustomCategoryLists));
             binding.ReportselloutRecyclerView.setVisibility(View.VISIBLE);
@@ -1016,7 +995,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Report");
+        title.setText(getString(R.string.report));
     }
 
 

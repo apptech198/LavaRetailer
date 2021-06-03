@@ -142,7 +142,7 @@ public class ClientDatashowActivity extends AppCompatActivity {
         binding.Confirmpassword.setBoxStrokeColorStateList(myColorList);
         binding.Mobile.setBoxStrokeColorStateList(myColorList);
 
-        getCountry();
+//        getCountry();
 
         binding.UpdateProfile.setOnClickListener(v -> {
             if (new NetworkCheck().haveNetworkConnection(this)) {
@@ -564,13 +564,13 @@ public class ClientDatashowActivity extends AppCompatActivity {
             Locality = "";
             Locality_id = "";
             Locality_ar = "";
-            getLocality();
+//            getLocality();
         };
 
         GovernateAdapter governateAdapter1 = new GovernateAdapter(governateInterface , governatelist);
         binding.GovernateRecyclerView.setAdapter(governateAdapter1);
 
-        getLocality();
+//        getLocality();
 
         binding.SelectGovernate.setOnFocusChangeListener((v, hasFocus) -> {
             if(hasFocus){
@@ -991,14 +991,14 @@ public class ClientDatashowActivity extends AppCompatActivity {
             Locality = "";
             Locality_id = "";
             Locality_ar = "";
-            getGovernate();
+//            getGovernate();
 
         };
 
         CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);
         binding.CountryRecyclerView.setAdapter(countryAdapter);
 
-        getGovernate();
+//        getGovernate();
 
 
 

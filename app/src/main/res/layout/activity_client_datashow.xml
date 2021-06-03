@@ -232,6 +232,7 @@
             android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="#525662"
+            android:focusable="false"
             android:textCursorDrawable="@drawable/color_cursor"
             app:layout_constraintTop_toBottomOf="@+id/address" />
 
@@ -267,6 +268,7 @@
             android:hint="@string/Governate"
             android:includeFontPadding="true"
             android:inputType="text"
+            android:focusable="false"
             android:textColor="@color/white"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textColorHint="#525662"
@@ -305,6 +307,7 @@
             android:includeFontPadding="true"
             android:inputType="text"
             android:textColor="@color/white"
+            android:focusable="false"
             android:textColorHint="#525662"
             android:textCursorDrawable="@drawable/color_cursor"
             app:layout_constraintTop_toBottomOf="@+id/SelectGovernate"

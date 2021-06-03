@@ -361,6 +361,44 @@ public class SocialActivity extends AppCompatActivity {
 
 
 
+    private void GmailCheck(String unqId){
+        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()){
+                    try {
+                        JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
+                        binding.SendotpBtn.setEnabled(true);
+                        if (error.equalsIgnoreCase("false")) {
+
+                            return;
+                        }
+                        Toast.makeText(SocialActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                        binding.progressbar.setVisibility(View.GONE);
+                        return;
+                    } catch (JSONException jsonException) {
+                        jsonException.printStackTrace();
+                    }
+                }
+                binding.progressbar.setVisibility(View.GONE);
+                Toast.makeText(SocialActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+                Toast.makeText(SocialActivity.this, "Time out", Toast.LENGTH_SHORT).show();
+                binding.progressbar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+
+
 }
 
 

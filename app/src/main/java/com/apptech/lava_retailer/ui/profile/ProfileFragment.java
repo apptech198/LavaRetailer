@@ -140,14 +140,18 @@ public class ProfileFragment extends Fragment {
         binding.outletname.setBoxStrokeColorStateList(myColorList);
         binding.address.setBoxStrokeColorStateList(myColorList);
 
-        Profile_details();
+        if (new NetworkCheck().haveNetworkConnection(requireActivity())){
+            Profile_details();
+        }else {
+            Toast.makeText(requireContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
 
-        try {
+/*        try {
             getCountry();
             getGovernate();
         }catch (NullPointerException e){
             Log.e(TAG, "onActivityCreated: " , e);
-        }
+        }*/
 
 
         binding.UpdateProfile.setOnClickListener(v -> {
