@@ -54,8 +54,8 @@
         app:layout_constraintTop_toBottomOf="@+id/headtitle"
         app:layout_constraintEnd_toStartOf="@+id/DeliveredLayout"
         android:background="@drawable/red_order_status"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:layout_marginTop="16dp">
@@ -79,8 +79,8 @@
         app:layout_constraintTop_toTopOf="@+id/ProcessingLayout"
         app:layout_constraintBottom_toBottomOf="@+id/ProcessingLayout"
         app:layout_constraintStart_toEndOf="@+id/ProcessingLayout"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:paddingTop="4dp"
         android:background="@drawable/blac_order_status"
         android:paddingBottom="4dp">
@@ -103,8 +103,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/ProcessingLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         android:paddingTop="4dp"
         android:background="@drawable/blac_order_status"
         android:paddingBottom="4dp">

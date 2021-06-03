@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.R;
@@ -69,6 +70,21 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         holder.binding.Imei.setText(list.getImei());
         holder.binding.orderDate.setText(list.getTime().substring(0 , 10));
         holder.binding.orderNumber.setText("order No : " + list.getOrder_no());
+
+
+        switch (list.getStatus()){
+            case "DELIVERED":
+                holder.binding.status.setTextColor(context.getResources().getColor(R.color.green));
+                break;
+            case "PENDING":
+                holder.binding.status.setTextColor(context.getResources().getColor(R.color.yellow));
+                break;
+            case "CANCEL":
+                holder.binding.status.setTextColor(context.getResources().getColor(R.color.red));
+                break;
+        }
+
+
         try {
             int disAmt = Integer.parseInt(list.getDiscount_price()) * Integer.parseInt(list.getQty());
             holder.binding.productamt.setText(currency + disAmt);

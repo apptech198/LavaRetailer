@@ -260,6 +260,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:clickable="false"
+                    android:checked="true"
                     android:enabled="false"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -278,6 +279,8 @@
                     app:layout_constraintBottom_toBottomOf="@+id/ValueCheckbox"
                     app:layout_constraintStart_toStartOf="parent"
                     android:text="Value"
+                    android:checked="true"
+                    android:clickable="false"
                     android:layout_marginStart="4dp"
                     android:textColor="@color/white"
                     android:fontFamily="@font/lato_semi_bold"/>

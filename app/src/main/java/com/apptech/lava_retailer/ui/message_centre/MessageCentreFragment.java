@@ -352,7 +352,7 @@ public class MessageCentreFragment extends Fragment  {
 
     private void CheckProfileverify(){
 
-        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get("USER_UNIQUE_ID")).enqueue(new Callback<Object>() {
+        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -365,8 +365,8 @@ public class MessageCentreFragment extends Fragment  {
 
                         Log.e(TAG, "onResponse: " + new Gson().toJson(response.toString()) );
 
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
+                        String error = jsonObject.optString("error");
+                        String message = jsonObject.optString("message");
                         if (error.equalsIgnoreCase("false")) {
 
                             JSONObject jsonObject1 = jsonObject.getJSONObject("user_detail");
@@ -375,8 +375,8 @@ public class MessageCentreFragment extends Fragment  {
                             String backend_verify = jsonObject1.getString("backend_verify");
 
                             if(
-                                    backend_register.equalsIgnoreCase("YES") && backend_verify.equalsIgnoreCase("NO")
-                                    || backend_register.equalsIgnoreCase("NO") && backend_verify.equalsIgnoreCase("NO")
+                                    backend_register.equalsIgnoreCase("YES") && backend_verify.equalsIgnoreCase("YES")
+                                    || backend_register.equalsIgnoreCase("NO") && backend_verify.equalsIgnoreCase("YES")
                             ){
                                 sessionManage.PROFILE_VERIFY_CHECK(backend_verify);
                                 return;
