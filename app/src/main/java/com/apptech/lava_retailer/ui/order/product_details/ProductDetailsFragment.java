@@ -139,8 +139,9 @@ public class ProductDetailsFragment extends Fragment {
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-                binding.ProductAdd.setClickable(false);
-                binding.ProductAdd.setEnabled(false);
+//                binding.ProductAdd.setClickable(false);
+//                binding.ProductAdd.setEnabled(false);
+
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
@@ -148,7 +149,7 @@ public class ProductDetailsFragment extends Fragment {
                 binding.productAmtDic.setText(string);
 
                 SpannableString string1 = new SpannableString(list.getDis_price());
-                MaskFilter blurMask1 = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
+                MaskFilter blurMask1 = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string1.setSpan(new MaskFilterSpan(blurMask1), 0, list.getDis_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 binding.productAmt.setText(string);
 
@@ -197,8 +198,8 @@ public class ProductDetailsFragment extends Fragment {
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-                binding.ProductAdd.setClickable(false);
-                binding.ProductAdd.setEnabled(false);
+//                binding.ProductAdd.setClickable(false);
+//                binding.ProductAdd.setEnabled(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -249,8 +250,8 @@ public class ProductDetailsFragment extends Fragment {
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-                binding.ProductAdd.setClickable(false);
-                binding.ProductAdd.setEnabled(false);
+//                binding.ProductAdd.setClickable(false);
+//                binding.ProductAdd.setEnabled(false);
 
                 SpannableString string = new SpannableString(Actual_price);
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -382,6 +383,12 @@ public class ProductDetailsFragment extends Fragment {
         });
 
         binding.ProductAdd.setOnClickListener(v -> {
+
+            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+                Toast.makeText(getContext(), "Your Account is not Verify", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
 
             try {
                 if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {

@@ -52,7 +52,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PlaceOrderFragment extends Fragment implements ShortFilterBottomSheetFragment.ShortItemClck , CategoryFilterBottomSheetFragment.CategoryInterface {
+public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSheetFragment.ShortItemClck , CategoryFilterBottomSheetFragment.CategoryInterface {
 
     private PlaceOrderViewModel mViewModel;
     SessionManage sessionManage;

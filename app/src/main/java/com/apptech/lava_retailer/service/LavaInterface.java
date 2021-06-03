@@ -39,7 +39,8 @@ public interface LavaInterface{
                 @Field("social_auth_token") String social_auth_token,
                 @Field("outlet_name") String outlet_name,
                 @Field("locality_id") String locality_id,
-                @Field("locality_ar") String locality_ar
+                @Field("locality_ar") String locality_ar,
+                @Field("governate_id") String governate_id
             );
 
     @POST("login")

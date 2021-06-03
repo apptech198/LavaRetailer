@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     List<GovernateList> governatelist = new ArrayList<>();
     List<String> citylist = new ArrayList<>();
     List<LocalityList> localityList = new ArrayList<>();
-    String CountryName = "" , GovernateSelect = "", CitySelect = "", Locality = "" , Locality_id ="" , Locality_ar = "";
+    String CountryName = "" , GovernateSelect = "", CitySelect = "", Locality = "" , Locality_id ="" , Locality_ar = "",Governate_name="";
     String Languages = "EN";
     String signup_type ="" , social_auth_token = "" , MOB = "";
     List<Country_list> countryLists = new ArrayList<>();
@@ -441,13 +441,14 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                 ,binding.password.getEditText().getText().toString().trim()
                 ,binding.email.getText().toString().trim()
                 ,Locality
-                ,GovernateSelect
+                ,Governate_name
                 ,binding.address.getText().toString().trim()
                 ,signup_type
                 ,social_auth_token
                 ,binding.outletName.getText().toString().trim()
                 ,Locality_id
                 ,Locality_ar
+                ,GovernateSelect
         );
         call.enqueue(new Callback() {
             @Override
@@ -1189,6 +1190,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             }
 
             GovernateSelect = list.getId();
+            Governate_name = list.getName();
             binding.GovernateRecyclerViewLayout.setVisibility(View.GONE);
             binding.progressbar.setVisibility(View.VISIBLE);
             binding.SelectLocality.setText("");

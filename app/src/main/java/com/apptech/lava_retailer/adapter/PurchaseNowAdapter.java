@@ -17,6 +17,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -133,8 +134,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-                holder.addBtnLayout1.setEnabled(false);
-                holder.addBtnLayout1.setClickable(false);
+//                holder.addBtnLayout1.setEnabled(false);
+//                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
@@ -181,8 +182,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
 
-                holder.addBtnLayout1.setEnabled(false);
-                holder.addBtnLayout1.setClickable(false);
+//                holder.addBtnLayout1.setEnabled(false);
+//                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(Actual_price);
                 MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
@@ -235,8 +236,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
 
-                holder.addBtnLayout1.setEnabled(false);
-                holder.addBtnLayout1.setClickable(false);
+//                holder.addBtnLayout1.setEnabled(false);
+//                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
@@ -382,6 +383,10 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
             switch (v.getId()) {
                 case R.id.addBtnLayout:
+                    if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+                        Toast.makeText(context, "Your Account is not Verify", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     purchaseNowIterface.addItem(list, getAdapterPosition(), countTextView);
                     plus_minusLayout.setVisibility(View.VISIBLE);
                     addBtnLayout1.setVisibility(View.GONE);
