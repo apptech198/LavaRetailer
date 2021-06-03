@@ -399,9 +399,9 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
                             if(
                                     jsonObject1.getString("backend_register").equalsIgnoreCase("YES") && jsonObject1.getString("backend_verify").equalsIgnoreCase("NO")
-                                    || jsonObject1.getString("backend_register").equalsIgnoreCase("NO") && jsonObject1.getString("backend_verify").equalsIgnoreCase("NO")
+//                                    || jsonObject1.getString("backend_register").equalsIgnoreCase("NO") && jsonObject1.getString("backend_verify").equalsIgnoreCase("NO")
                             ){
-                                sessionManage.PROFILE_VERIFICATION("true");
+//                                sessionManage.PROFILE_VERIFICATION("true");
                                 startActivity(new Intent(LoginActivity.this, ClientDatashowActivity.class));
                                 return;
                             }

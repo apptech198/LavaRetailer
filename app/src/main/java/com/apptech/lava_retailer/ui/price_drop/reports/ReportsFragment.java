@@ -534,8 +534,8 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         binding.noData.setVisibility(View.GONE);
         progressDialog.show();
 
-//        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" ).enqueue(new Callback<Object>() {
-        lavaInterface.PRICE_DROP_REPORT("0216d15a0c80fe463b30ea94fa492f89", "2019-01-01", "2023-12-01" ,"","" ).enqueue(new Callback<Object>() {
+        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" ).enqueue(new Callback<Object>() {
+//        lavaInterface.PRICE_DROP_REPORT("0216d15a0c80fe463b30ea94fa492f89", "2019-01-01", "2023-12-01" ,"","" ).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
