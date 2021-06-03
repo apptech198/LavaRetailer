@@ -52,7 +52,6 @@ import retrofit2.Response;
 
 public class CartFragment extends Fragment implements CardAdapter.CardInterface {
 
-    private CartViewModel mViewModel;
     CartFragmentBinding binding;
     private static final String TAG = "CartFragment";
 
@@ -88,7 +87,6 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(CartViewModel.class);
 
         sessionManage = SessionManage.getInstance(getContext());
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);

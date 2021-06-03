@@ -44,7 +44,6 @@ import retrofit2.Response;
 
 public class OrderStatusFragment extends Fragment implements View.OnClickListener {
 
-    private OrderStatusViewModel mViewModel;
     OrderStatusFragmentBinding binding;
     LavaInterface lavaInterface;
     SessionManage sessionManage;
@@ -70,7 +69,6 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(OrderStatusViewModel.class);
         // TODO: Use the ViewModel
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);

@@ -87,6 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:padding="2dp"
             android:background="@drawable/order_place_btn">
 
             <com.google.android.material.textview.MaterialTextView
@@ -97,7 +98,6 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="6dp"
-                android:background="@color/back_all"
                 android:textColor="@color/white"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:fontFamily="@font/lato_semi_bold" />

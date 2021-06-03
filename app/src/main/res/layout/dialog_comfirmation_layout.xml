@@ -109,6 +109,7 @@
             android:paddingEnd="16dp"
             android:paddingBottom="4dp"
             app:fontFamily="@font/lato_semi_bold"
+            android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             android:fontFamily="@font/lato_semi_bold" />
 

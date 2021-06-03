@@ -112,6 +112,7 @@
                 android:paddingTop="4dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:textColor="@color/white"
                 android:paddingBottom="4dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:fontFamily="@font/lato_semi_bold" />
@@ -130,6 +131,7 @@
                 android:layout_height="wrap_content"
                 android:text="Place order"
                 android:paddingTop="4dp"
+                android:textColor="@color/white"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
                 android:paddingBottom="4dp"

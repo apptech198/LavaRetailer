@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:background="@color/dialog_back">
 
 
     <com.google.android.material.textview.MaterialTextView
@@ -14,6 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:fontFamily="@font/lato_bold"
+        android:textColor="@color/dialog_heading"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"/>
 
 
@@ -93,6 +95,7 @@
                 android:paddingTop="4dp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:textColor="@color/white"
                 android:paddingBottom="4dp"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
                 android:fontFamily="@font/lato_semi_bold" />
