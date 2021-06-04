@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.adapter.PriceDropCategoryFilterAdapter;
 import com.apptech.lava_retailer.adapter.SellOutReportCategoryFilterAdapter;
 import com.apptech.lava_retailer.databinding.FragmentProceDropCategoryFilterBinding;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
@@ -46,7 +45,6 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
 
 
     private static final String TAG = "ProceDropCategoryFilter";
-    PriceDropCategoryFilterAdapter priceDropCategoryFilterAdapter;
     FragmentProceDropCategoryFilterBinding binding;
     LavaInterface lavaInterface;
     SessionManage sessionManage;
@@ -144,7 +142,7 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
                             }
 
                             sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(onItemClickInterface , categoryLists , true );
-                            binding.categoryRecyclerView.setAdapter(priceDropCategoryFilterAdapter);
+                            binding.categoryRecyclerView.setAdapter(sellOutReportCategoryFilterAdapter);
 
                             progressDialog.dismiss();
                             return;

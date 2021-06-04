@@ -37,7 +37,7 @@
         android:paddingEnd="?attr/listPreferredItemPaddingRight"
         android:textColor="#1f2124"
         android:textSize="16sp"
-        android:fontFamily="@font/montserrat_black"
+        android:fontFamily="@font/lato_black"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/icon" />
 

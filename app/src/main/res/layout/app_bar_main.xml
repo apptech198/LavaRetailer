@@ -43,7 +43,7 @@
             android:id="@+id/Actiontitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_semibold"
+            android:fontFamily="@font/lato_semi_bold"
             android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"

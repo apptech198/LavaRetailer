@@ -43,7 +43,7 @@
         android:id="@+id/noproduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_semibold"
+        android:fontFamily="@font/lato_semi_bold"
         android:text="@string/data_not_found"
         android:textColor="@color/white"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"

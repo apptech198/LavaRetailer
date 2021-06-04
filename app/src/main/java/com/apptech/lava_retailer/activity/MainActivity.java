@@ -39,9 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.BrandsTopAdapter;
 import com.apptech.lava_retailer.databinding.ActivityMainBinding;
-import com.apptech.lava_retailer.fragment.check_entries.CheckEntriesFragment;
-import com.apptech.lava_retailer.fragment.check_entries.sellout.CheckEntriesSellOutFragment;
-import com.apptech.lava_retailer.fragment.check_entries_price_drop_valid_imei.CheckEntriesPriceDropValidImeiFragment;
 import com.apptech.lava_retailer.list.brand.Brandlist;
 import com.apptech.lava_retailer.ui.cart.CartFragment;
 import com.apptech.lava_retailer.ui.language.LanguageChangeFragment;
@@ -52,15 +49,6 @@ import com.apptech.lava_retailer.ui.order.order_status.OrderStatusFragment;
 import com.apptech.lava_retailer.ui.order.place_order.PlaceOrderFragment;
 import com.apptech.lava_retailer.ui.order.product_details.ProductDetailsFragment;
 import com.apptech.lava_retailer.ui.passbook.PassbookFragment;
-import com.apptech.lava_retailer.fragment.price_drop.PriceDropFragment;
-import com.apptech.lava_retailer.fragment.purchase_request_now.PurchaseRequestNowFragment;
-import com.apptech.lava_retailer.fragment.sellOut_PendingVerification.SellOut_PendingVerificationFragment;
-import com.apptech.lava_retailer.fragment.sellout.SellOutFragment;
-import com.apptech.lava_retailer.fragment.trade.loyalty_scheme.LoyaltySchemeTradeFragment;
-import com.apptech.lava_retailer.fragment.trade.priceList.PriceListTradeFragment;
-import com.apptech.lava_retailer.fragment.trade.selling_program.SellingProgramTradeFragment;
-import com.apptech.lava_retailer.fragment.trade.sellout_program.SelloutProgramTradeFragment;
-import com.apptech.lava_retailer.fragment.warranty.ReportsSellOutReportFragment;
 import com.apptech.lava_retailer.ui.price_drop.entry_pending_verification.EntryPendingVerificationFragment;
 import com.apptech.lava_retailer.ui.price_drop.price_drop_entry.PriceDropEntryFragment;
 import com.apptech.lava_retailer.ui.price_drop.reports.ReportsFragment;
@@ -74,7 +62,6 @@ import com.apptech.lava_retailer.ui.trade_program.price_list.PricelistFragment;
 import com.apptech.lava_retailer.ui.trade_program.selling_program.SellingProgramFragment;
 import com.apptech.lava_retailer.ui.trade_program.sellout_program.SellOutProgramFragment;
 import com.apptech.lava_retailer.ui.warranty.ocr_warranty.OCR_WarrantyFragment;
-import com.apptech.lava_retailer.fragment.warrantys.warranty2.Warranty2Fragment;
 import com.apptech.lava_retailer.modal.MenuModel;
 import com.apptech.lava_retailer.other.LanguageChange;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -112,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
     private static final String TAG = "MainActivity";
     FragmentManager fragmentManager;
-    CheckEntriesPriceDropValidImeiFragment checkEntriesPriceDropValidImeiFragment;
     SessionManage sessionManage;
     NavController navController;
     LavaInterface lavaInterface;
@@ -802,134 +788,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void populateExpandableList() {
 
-        expandableListAdapter = new com.apptech.lava_retailer.adapter.ExpandableListAdapter(this, headerList, childList);
-        binding.expandableListView.setAdapter(expandableListAdapter);
-
-        binding.expandableListView.setOnGroupClickListener((parent, v, groupPosition, id) -> {
-
-            if (headerList.get(groupPosition).isGroup) {
-
-                Log.e("aa1", headerList.get(groupPosition).fragmentname);
-
-                if (!headerList.get(groupPosition).hasChildren) {
-
-                    switch (headerList.get(groupPosition).fragmentname) {
-                        case "CHECK_ENTRIES":
-                            loadfragment(new CheckEntriesFragment());
-                            binding.appBarMain.Actiontitle.setText("Check Entry");
-                            break;
-                        case "MESSAGE_CENTRE":
-                            loadfragment(new MessageCentreFragment());
-                            binding.appBarMain.Actiontitle.setText("Message Centre");
-                            break;
-                        case "PASSBOOK":
-                            loadfragment(new PassbookFragment());
-                            binding.appBarMain.Actiontitle.setText("Passbook");
-                            break;
-                        case "CHANGE_LANGUAGE":
-                            loadfragment(new LanguageChangeFragment());
-                            binding.appBarMain.Actiontitle.setText("Language");
-                            break;
-                        case "LOGOUT":
-                            sessionManage.logout();
-                            Intent intent = new Intent(this, LoginActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            startActivity(intent);
-                            finish();
-                            break;
-                    }
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
-                }
-            }
-            return false;
-        });
-
-        binding.expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-
-            if (childList.get(headerList.get(groupPosition)) != null) {
-                MenuModel model = childList.get(headerList.get(groupPosition)).get(childPosition);
-
-                Log.e("aa", model.fragmentname);
-
-                if (!model.fragmentname.isEmpty()) {
-                    switch (model.fragmentname) {
-                        case "SELL_OUT":
-                            loadfragment(new SellOutFragment());
-                            binding.appBarMain.Actiontitle.setText("Report Sell out Entries");
-                            break;
-                        case "PRICE_DROP":
-                            loadfragment(new PriceDropFragment());
-                            binding.appBarMain.Actiontitle.setText("Pending Verification");
-                            break;
-                        case "WARRANTY":
-                            loadfragment(new ReportsSellOutReportFragment());
-                            binding.appBarMain.Actiontitle.setText("Reports sell out report");
-                            break;
-                        case "CHECK_ENTRIES_SELL_OUT":
-                            loadfragment(new CheckEntriesSellOutFragment());
-                            binding.appBarMain.Actiontitle.setText("Price Drop");
-                            break;
-                        case "CHECK_ENTRIES_PRICE_DROP":
-//                            loadfragment(new CheckEntriesPriceDrop());
-                            checkEntriesPriceDropValidImeiFragment = new CheckEntriesPriceDropValidImeiFragment();
-                            loadfragment(checkEntriesPriceDropValidImeiFragment);
-                            binding.appBarMain.Actiontitle.setText("Price Drop Entry");
-                            break;
-                        case "PURCHASE_REQUEST":
-//                            loadfragment(new PurchaseRequestFragment());
-                            loadfragment(new PurchaseRequestNowFragment());
-                            binding.appBarMain.Actiontitle.setText("Place Order");
-                            break;
-                        case "ORDER_ORDER_STATUS":
-//                            loadfragment(new OrderStatusFragment());
-                            binding.appBarMain.Actiontitle.setText("Order Status");
-                            break;
-                        case "TRADE_PRICE_LIST":
-                            loadfragment(new PriceListTradeFragment());
-                            binding.appBarMain.Actiontitle.setText("Price List");
-                            break;
-                        case "TRADE_SEELING_PROGRAM":
-                            loadfragment(new SellingProgramTradeFragment());
-                            binding.appBarMain.Actiontitle.setText("Selling Program");
-                            break;
-                        case "SELLOUT_PROGRAM":
-                            loadfragment(new SelloutProgramTradeFragment());
-                            binding.appBarMain.Actiontitle.setText("Sellout Program");
-                            break;
-                        case "TRADE_LOYALTY_SCHEME":
-                            loadfragment(new LoyaltySchemeTradeFragment());
-                            binding.appBarMain.Actiontitle.setText("Loyalty scheme");
-                            break;
-                        case "OCR_WARRANTY":
-                            loadfragment(new OCR_WarrantyFragment());
-                            binding.appBarMain.Actiontitle.setText("OCR Warranty");
-                            break;
-                        case "WARRANTY_2":
-                            loadfragment(new Warranty2Fragment());
-                            binding.appBarMain.Actiontitle.setText("Warranty");
-                            break;
-                        case "PRICE_DROP_PENDING_VERIFICATION":
-                            loadfragment(new SellOut_PendingVerificationFragment());
-                            binding.appBarMain.Actiontitle.setText("Entery pending verification");
-                            break;
-                        case "WARRENTY_CHECK":
-                            loadfragment(new WarrentyCheckFragment());
-                            binding.appBarMain.Actiontitle.setText("Warrenty Chack");
-                            break;
-                        case "PENDING_REPLACEMENT_REQUEST":
-                            loadfragment(new PendingReplacementRequestFragment());
-                            binding.appBarMain.Actiontitle.setText(getResources().getString(R.string.Pending_replace_process));
-                            break;
-
-                    }
-                    binding.drawerLayout.closeDrawer(GravityCompat.START);
-                }
-            }
-            return false;
-        });
-    }
 
     private void populateExpandableList1() {
 

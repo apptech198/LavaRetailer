@@ -29,7 +29,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.adapter.CheckEntriesSellOutInvalidAdapter;
 import com.apptech.lava_retailer.adapter.SellOutReportModalFilterAdapter;
 import com.apptech.lava_retailer.adapter.SelloutReportAdapter;
 import com.apptech.lava_retailer.bottomsheet.category_filter.CategoryFilterBottomSheetFragment;

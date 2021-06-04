@@ -26,7 +26,6 @@ import com.apptech.lava_retailer.adapter.PurchaseNowAdapter;
 import com.apptech.lava_retailer.bottomsheet.category_filter.CategoryFilterBottomSheetFragment;
 import com.apptech.lava_retailer.bottomsheet.short_filter.ShortFilterBottomSheetFragment;
 import com.apptech.lava_retailer.databinding.PlaceOrderFragmentBinding;
-import com.apptech.lava_retailer.fragment.purchase_request_now.PurchaseRequestNowFragment;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
 import com.apptech.lava_retailer.modal.product.ProductList;
 import com.apptech.lava_retailer.other.NetworkCheck;
@@ -59,7 +58,6 @@ public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSh
     private PlaceOrderViewModel mViewModel;
     SessionManage sessionManage;
     String json;
-    PurchaseRequestNowFragment.onbackFragmentLoad onbackFragmentLoad;
     JSONObject MainjsonObject = new JSONObject();
     private static final String TAG = "PlaceOrderFragment";
     List<ProductList> productLists = new ArrayList<>();

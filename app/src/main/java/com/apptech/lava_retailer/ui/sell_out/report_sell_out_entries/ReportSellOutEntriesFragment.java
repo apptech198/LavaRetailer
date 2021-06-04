@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.ReportSellOutEntriesFragmentBinding;
-import com.apptech.lava_retailer.fragment.ScannerFragment;
+import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;

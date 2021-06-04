@@ -1,2 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Global Retailer App</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="sell_out">SELL-OUT</string>
+    <string name="price_drop">PRICE DROP</string>
+    <string name="pending">PENDING</string>
+    <string name="warranty">WARRANTY</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="global_business_nresearch">Global Business \nResearch</string>
+
+    <string name="check_internet">Please Check Internet</string>
+    <string name="field_required">This fiels is required</string>
+    <string name="otp_four_digit">Please enter 4 digits OTP</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="psw_short">This password is too short</string>
+    <string name="egp">\u00a3</string>
+    <string name="rs_symbol">\u20B9</string>
+    <string name="or_scan">Scan</string>
+    <string name="verify">Verify</string>
+    <string name="mobile_number">Mobile Number/Login Id</string>
+    <string name="password">Password</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="submit">Submit</string>
+    <string name="change_language">Change Language</string>
+    <string name="logout">Logout</string>
+
+    <string name="message_center">Message Centre</string>
+    <string name="sell_outs">Sell Out</string>
+    <string name="report_sell_out_entries">Report Sell Through</string>
+    <string name="price_drop1">Price Drop</string>
+    <string name="passbook">Passbook</string>
+    <string name="order">Order</string>
+    <string name="trade_program">Trade Program</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="imei_allready_exists">Imei allready exists</string>
+    <string name="remove_first_invalid_imei">Remove first invalid imei</string>
+    <string name="data_not_found">No data found</string>
+    <string name="start_date">Start Date</string>
+    <string name="add">Add</string>
+    <string name="psw_not_match">Password not match</string>
+    <string name="bobile_number">Mobile Number</string>
+    <string name="name_fiels_missing">Name field is missing</string>
+    <string name="user_unique_id_fiels_missing">User unique id field is missing</string>
+    <string name="email_fiels_missing">Email field is missing</string>
+    <string name="phone_number_fiels_missing">Phone Number field is missing</string>
+    <string name="governate__fiels_missing">Governate field is missing</string>
+    <string name="locality_fiels_missing">Locality field is missing</string>
+    <string name="locality_ar_fiels_missing">Locality Arabic is missing</string>
+    <string name="address_fiels_missing">Address is missing</string>
+    <string name="locality_id_fiels_missing">Locality id is missing</string>
+    <string name="outline_fiels_missing">Outlet Name is missing</string>
+    <string name="imei_fiels_missing">Imei Name is missing</string>
+    <string name="backend_register_fiels_missing">Backend Register is missing</string>
+    <string name="backend_verify_fiels_missing">Backend Verify is missing</string>
+    <string name="country_name_fiels_missing">Country Name is missing</string>
+    <string name="country_id_fiels_missing">Country Id is missing</string>
+
+
+    <string-array name="qtyArray">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
+    <string-array name="language">
+        <item>Select language</item>
+        <item>English</item>
+        <item>Arabic</item>
+    </string-array>
+
+    <string-array name="valid_Invalid_imei">
+        <item>APPROVED</item>
+        <item>REJECTED</item>
+        <item>PENDING</item>
+    </string-array>
+
+    <string name="facebook_app_id">4482161495132131</string>
+    <string name="fb_login_protocol_scheme">fb4482161495132131</string>
+
+
+    <string name="language">Language</string>
+    <string name="country">Switch Country</string>
+    <string name="global_business_retail_partner">Global Business Retail Partner</string>
+    <string name="login">Login</string>
+    <string name="log_in">Log in</string>
+    <string name="rememberme">Remember me</string>
+    <string name="forgetpass">Forgot Password</string>
+    <string name="or">Or</string>
+    <string name="signup">Sign up</string>
+    <string name="signup_with_otp">Sign up with OTP</string>
+    <string name="send_otp">Send Otp</string>
+    <string name="gmail">Signup with Gmail</string>
+    <string name="full_name">Name</string>
+    <string name="email">email id</string>
+    <string name="outletname">Outlet Name</string>
+    <string name="address">Address</string>
+    <string name="select_country">Country </string>
+    <string name="Governate">Governate </string>
+    <string name="Locality">Muncipal Division </string>
+    <string name="resend_otp">Resend Otp </string>
+    <string name="latest_news">Latest News</string>
+    <string name="next">Next</string>
+    <string name="brand">Brand</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="forgot">Forgot</string>
+    <string name="change_password">Change password</string>
+    <string name="otp">OTP</string>
+    <string name="Send_otp_to_verify_your_profile">Send otp to verify your profile</string>
+    <string name="select_brand">Select Brand</string>
+    <string name="success_order_places">Congratulations!! You have sucessfully placed your order</string>
+    <string name="Success">Success</string>
+    <string name="Request_amount">Request amount</string>
+    <string name="DONE">DONE</string>
+    <string name="No_Cart_Item">No Cart Item</string>
+    <string name="Payable_amount">Total Amount</string>
+    <string name="Place_Order">Place Order</string>
+    <string name="Price_Details">Price Details</string>
+    <string name="price_1_item">Price (1 Item)</string>
+    <string name="Total_Amount">Total Amount</string>
+    <string name="Category_By">Category By</string>
+    <string name="Sell_Out">Sell-Out</string>
+    <string name="Price_Drop">Price Drop</string>
+    <string name="VALID_IMEI">VALID IMEI</string>
+    <string name="INVALID_IMEI">INVALID IMEI</string>
+    <string name="PENDING_VERIFICATION">PENDING VERIFICATION</string>
+    <string name="Start_Date">Start Date</string>
+    <string name="Add">Add</string>
+    <string name="Submit">Submit</string>
+    <string name="Pending_Verification">Pending Verification</string>
+    <string name="Approved">APPROVED</string>
+    <string name="Rejected">REJECTED</string>
+    <string name="French">French</string>
+    <string name="Sort">Sort</string>
+    <string name="price">Price</string>
+    <string name="No_Barcode_Detected">No Barcode Detected</string>
+    <string name="Loyalty_scheme">Loyalty scheme</string>
+    <string name="My_Orders">My Orders</string>
+    <string name="Processing">Processing</string>
+    <string name="Delivered">Delivered</string>
+    <string name="Cancelled">Cancelled</string>
+    <string name="Order_Status">Order Status</string>
+    <string name="Buy_More">Buy More</string>
+    <string name="Sr.No">Sr.No</string>
+    <string name="type">Type</string>
+    <string name="IMEI">IMEI</string>
+    <string name="imei">IMEI :</string>
+    <string name="date">Date</string>
+    <string name="Action">Action</string>
+    <string name="Category">Category</string>
+    <string name="Local_search">Local search</string>
+    <string name="Last_day">Last 7 day</string>
+    <string name="This_month">This month</string>
+    <string name="Last_month">Last month</string>
+    <string name="Custome_day">Custome day</string>
+    <string name="Select_status">Select status</string>
+    <string name="Price_List">Price List</string>
+    <string name="Marketing_Name">Marketing Name</string>
+    <string name="Product_Sepecification">Product Sepecification</string>
+    <string name="Update">Update</string>
+    <string name="Report_sell_out">Report sell out</string>
+    <string name="Model">Model</string>
+    <string name="Price_Drop_Report">Price Drop Report</string>
+    <string name="Change_Address">Change Address</string>
+    <string name="Remove">Remove</string>
+    <string name="Please_confirm">Please confirm your order</string>
+    <string name="Confirm">Confirm</string>
+    <string name="Alert">Alert</string>
+    <string name="Status">Status</string>
+    <string name="Quantity">Quantity</string>
+    <string name="Value">Value</string>
+    <string name="Handset">Handset</string>
+    <string name="Return_Handset">Return_Handset</string>
+    <string name="ProductName">ProductName</string>
+    <string name="Distributor_Name">Distributor Name</string>
+    <string name="Model_colon">Model :</string>
+    <string name="Sku">SKU :</string>
+    <string name="date_colon">Date :</string>
+    <string name="Selling_Program">Selling Program</string>
+    <string name="INVOICE">INVOICE</string>
+    <string name="Earphone">Earphone</string>
+    <string name="Battery">Battery</string>
+    <string name="USB">USB</string>
+    <string name="Adaptor">Adaptor</string>
+    <string name="Issue_Date">Issue Date</string>
+    <string name="Warranty_Date">Warranty Date</string>
+    <string name="Charger">Charger</string>
+    <string name="Mobile_Phone">Mobile Phone</string>
+    <string name="Replacement_process">Replacement process</string>
+    <string name="Pending_replace_process">Pending Replacement Request</string>
+    <string name="Sort_By">Sort By</string>
+    <string name="Popularity">Popularity</string>
+    <string name="Description">Description</string>
+    <string name="Photo">Photo</string>
+    <string name="Profile">Profile</string>
+    <string name="Forgot_Password">Forgot Password</string>
+    <string name="select_Date">select Date</string>
+    <string name="Trade_Program">Trade Program</string>
+    <string name="Newest_First">Newest First</string>
+    <string name="Price_l_h">Price -- Low to High</string>
+    <string name="Price_h_l">Price -- High to Low</string>
+    <string name="Dashboard">Dashboard</string>
+    <string name="Sell_Through">Sell Through</string>
+    <string name="Price_Protection">Price Protection</string>
+    <string name="Claim_Statement">Claim Statement</string>
+    <string name="Buy_Product">Buy Product</string>
+    <string name="Warranty">Warranty</string>
+    <string name="Serialized">Serialized</string>
+    <string name="Unserialized">Unserialized</string>
+    <string name="Report">Report</string>
+    <string name="Latest_News">Latest News</string>
+    <string name="Price_Drop_Entry">Price Drop Entry</string>
+    <string name="Entery_pending_verification">Entery pending verification</string>
+    <string name="Serialize_Warranty">Serialize Warranty</string>
+    <string name="Cart">Cart</string>
+    <string name="Passbook">Passbook</string>
+    <string name="Accessories">Accessories</string>
+    <string name="UnSerialize_Warranty">UnSerialize Warranty</string>
+    <string name="Serial_no">Serial Number</string>
+    <string name="Report_sell_through">Report Sell Through</string>
+    <string name="n_a">N/A</string>
+    <string name="handset_replacement">Handset Replacements</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="report">Report</string>
+    <string name="Cencel_order">Cancel Order</string>
+    <string name="Already_exists">Email Already Exists</string>
+    <string name="please_confirm_your_order">Please confirm your order</string>
+    <string name="profile_not_verify">Your Profile is not verified</string>
+    <string name="pending_verification">Pending Verification</string>
+
+
+</resources>

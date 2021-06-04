@@ -26,9 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.adapter.PassbookAdapter;
 import com.apptech.lava_retailer.databinding.PriceDropEntryFragmentBinding;
-import com.apptech.lava_retailer.fragment.ScannerFragment;
+import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.list.announcelist.PriceDrop;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -48,9 +47,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.BaseStream;
 
 import retrofit2.Call;
 import retrofit2.Callback;

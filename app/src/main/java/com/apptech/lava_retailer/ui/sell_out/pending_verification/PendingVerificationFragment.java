@@ -85,8 +85,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Pending Verification");
 
         binding = PendingVerificationFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
@@ -374,79 +372,13 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     }
 
 
-    private void dilogclick() {
-
-
-        fromTextView = view.findViewById(R.id.fromTextView);
-        toTextView = view.findViewById(R.id.toTextView);
-        closeImg = view.findViewById(R.id.closeImg);
-        searchBtn = view.findViewById(R.id.searchBtn);
-
-        closeImg.setOnClickListener(v -> {
-            alertDialog.dismiss();
-        });
-
-        searchBtn.setOnClickListener(v -> {
-            if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
-                if (fromTextView.getText().toString().trim().equalsIgnoreCase("From")) {
-                    Snackbar snackbar = Snackbar
-                            .make(binding.getRoot(), "from date", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    return;
-                }
-                if (toTextView.getText().toString().trim().equalsIgnoreCase("To")) {
-                    Snackbar snackbar = Snackbar
-                            .make(binding.getRoot(), "to dater", Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                    return;
-                }
-//                dateFilter1(fromTextView.getText().toString().trim(), toTextView.getText().toString().trim());
-                alertDialog.dismiss();
-                return;
-            }
-            Toast.makeText(requireContext(), "", Toast.LENGTH_SHORT).show();
-        });
-
-
-        fromDatetitle.setOnClickListener(v -> {
-            final Calendar cldr = Calendar.getInstance();
-            int day = cldr.get(Calendar.DAY_OF_MONTH);
-            int month = cldr.get(Calendar.MONTH);
-            int year = cldr.get(Calendar.YEAR);
-            // date picker dialog
-            picker = new DatePickerDialog(requireContext(),
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-//                            eText.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                        fromTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
-                        StartDate = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                    }, year, month, day);
-            picker.show();
-        });
-
-        toDatetitle.setOnClickListener(v -> {
-            final Calendar cldr = Calendar.getInstance();
-            int day = cldr.get(Calendar.DAY_OF_MONTH);
-            int month = cldr.get(Calendar.MONTH);
-            int year = cldr.get(Calendar.YEAR);
-            // date picker dialog
-            picker = new DatePickerDialog(requireContext(),
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-                        toTextView.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
-                        End_Date = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                    }, year, month, day);
-            picker.show();
-        });
-
-    }
 
 
     @Override
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Pending Verification");
+        title.setText(getString(R.string.pending_verification));
     }
 
 

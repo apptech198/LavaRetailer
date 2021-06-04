@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/select"
             android:textStyle="bold"
-            android:fontFamily="@font/montserrat_regular"
+            android:fontFamily="@font/lato_semi_bold"
             android:textColor="@color/black"
             android:gravity="center_horizontal" />
 

@@ -34,9 +34,9 @@
         android:paddingTop="4dp"
         android:paddingRight="10dp"
         android:paddingBottom="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/PaymentTypeSpinnerLayout"
+        app:layout_constraintBottom_toBottomOf="@+id/headtitle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/PaymentTypeSpinnerLayout">
+        app:layout_constraintTop_toTopOf="@+id/headtitle">
 
         <ImageView
             android:layout_width="wrap_content"

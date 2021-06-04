@@ -5,7 +5,6 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,7 +25,7 @@ import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.SerializeFragmentBinding;
-import com.apptech.lava_retailer.fragment.ScannerFragment;
+import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -52,8 +50,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class SerializeFragment extends Fragment implements ScannerFragment.BackPress  , BarCodeScannerFragment.BackPressBarCode{
 

@@ -22,7 +22,6 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.activity.ClientDatashowActivity;
 import com.apptech.lava_retailer.activity.LoginActivity;
 import com.apptech.lava_retailer.adapter.ExpansisAdapter;
-import com.apptech.lava_retailer.adapter.MessageAdapter;
 import com.apptech.lava_retailer.databinding.MessageCentreFragmentBinding;
 import com.apptech.lava_retailer.modal.message.MessageList;
 import com.apptech.lava_retailer.modal.message.NotificationListBrandWise;
@@ -53,7 +52,6 @@ public class MessageCentreFragment extends Fragment  {
     MessageCentreFragmentBinding binding;
     List<MessageList> messageLists = new ArrayList<>();
     private static final String TAG = "MessageCentreFragment";
-    MessageAdapter messageAdapter;
     SessionManage sessionManage;
     LavaInterface lavaInterface;
     PopupWindow mypopupWindow;

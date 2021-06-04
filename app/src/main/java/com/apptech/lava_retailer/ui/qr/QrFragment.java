@@ -22,7 +22,6 @@ import android.view.ViewGroup;
 
 import com.apptech.lava_retailer.MobileNavigationDirections;
 import com.apptech.lava_retailer.databinding.QrFragmentBinding;
-import com.apptech.lava_retailer.fragment.ScannerFragment;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;

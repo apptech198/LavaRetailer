@@ -25,14 +25,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.activity.MainActivity;
 import com.apptech.lava_retailer.databinding.UnSerializeFragmentBinding;
-import com.apptech.lava_retailer.fragment.ScannerFragment;
+import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -50,7 +48,6 @@ import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -58,8 +55,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class UnSerializeFragment extends Fragment implements ScannerFragment.BackPress , BarCodeScannerFragment.BackPressBarCode {
 

@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_color"
                 android:backgroundTint="@color/white"
-                android:fontFamily="@font/montserrat_medium"
+                android:fontFamily="@font/lato_semi_bold"
                 android:inputType="number"
                 android:padding="10dp"
                 android:layout_marginStart="10dp"

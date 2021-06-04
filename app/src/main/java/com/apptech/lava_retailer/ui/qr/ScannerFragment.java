@@ -1,4 +1,4 @@
-package com.apptech.lava_retailer.fragment;
+package com.apptech.lava_retailer.ui.qr;
 
 import android.Manifest;
 import android.content.pm.PackageManager;

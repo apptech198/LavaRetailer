@@ -130,7 +130,7 @@
                         android:paddingEnd="15dp"
                         android:paddingTop="3dp"
                         android:paddingBottom="3dp"
-                        android:fontFamily="@font/montserrat_regular"
+                        android:fontFamily="@font/lato_semi_bold"
                         android:textSize="12sp"
                         android:textColor="#c8c9cb"
                         app:layout_constraintEnd_toEndOf="parent"

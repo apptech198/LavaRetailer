@@ -23,8 +23,7 @@ import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.WarrentyCheckFragmentBinding;
-import com.apptech.lava_retailer.fragment.ScannerFragment;
-import com.apptech.lava_retailer.other.LanguageChange;
+import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
