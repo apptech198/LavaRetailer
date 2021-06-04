@@ -175,17 +175,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView mobile = headerView.findViewById(R.id.mobile);
         TextView Email = headerView.findViewById(R.id.Email);
         ImageView profile_image = headerView.findViewById(R.id.profile_image);
+        ImageView check = headerView.findViewById(R.id.check);
 
         name.setText(sessionManage.getUserDetails().get("NAME"));
         mobile.setText(sessionManage.getUserDetails().get("MOBILE"));
         Email.setText(sessionManage.getUserDetails().get("EMAIL"));
+
+        if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+              check.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_yellow));
+        }else {
+            check.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green));
+        }
+
 
         Glide.with(this).load(ApiClient.Image_URL + sessionManage.getUserDetails().get("USER_IMG")).placeholder(R.drawable.ic_user__1_).into(profile_image);
 
         fragmentManager = getSupportFragmentManager();
 
         binding.appBarMain.sideBarIcon.setOnClickListener(v -> {
+            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+                check.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_yellow));
+            }else {
+                check.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green));
+            }
             openDrawer();
+
         });
 
 
@@ -688,7 +702,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         childModel = new MenuModel(getResources().getString(R.string.Place_Order), false, false, "ORDER_PLACE_ORDER");
         childModelsList.add(childModel);
 
-        childModel = new MenuModel(getResources().getString(R.string.Order_Status), false, false, "ORDER_ORDER_STATUS");
+        childModel = new MenuModel(getResources().getString(R.string.My_Orders), false, false, "ORDER_ORDER_STATUS");
         childModelsList.add(childModel);
 
         if (menuModel.hasChildren) {

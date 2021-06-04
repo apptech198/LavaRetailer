@@ -5,19 +5,24 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.ActivitySocialBinding;
+import com.apptech.lava_retailer.list.country.Country_list;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -42,10 +47,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +71,9 @@ public class SocialActivity extends AppCompatActivity {
     private static GoogleApiClient mGoogleApiClient;
     private static final String EMAIL = "email";
     private CallbackManager callbackManager;
+    List<Country_list> countryLists = new ArrayList<>();
+    PopupMenu popupMenu;
+    ProgressDialog progressDialog;
 
 
     @Override
@@ -71,6 +82,8 @@ public class SocialActivity extends AppCompatActivity {
         binding = ActivitySocialBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         getSupportActionBar().hide();
+        Context wrapper1 = new ContextThemeWrapper(this, R.style.YOURSTYLE);
+        popupMenu = new PopupMenu(wrapper1, binding.SelectCountry);
 
 
         LoginManager.getInstance().logOut();
@@ -78,9 +91,32 @@ public class SocialActivity extends AppCompatActivity {
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Please wait...");
 
         binding.loginButton.setReadPermissions(Arrays.asList(EMAIL));
+
+
+        if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                case "fr":
+                    binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
+                    break;
+                case "ar":
+                    binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME_AR"));
+                    break;
+            }
+        }
+
+
+        if (new NetworkCheck().haveNetworkConnection(this)){
+            getCountry();
+        }else {
+            Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+        }
+
+
 
         binding.loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -194,11 +230,134 @@ public class SocialActivity extends AppCompatActivity {
             }
         });
 
+        binding.SelectCountry.setOnClickListener(v -> {
+            popupMenu.setOnMenuItemClickListener(item -> {
+
+                int pos = item.getGroupId();
+                Log.d(TAG, "onCreate: " + countryLists);
+                Log.d(TAG, "onCreate: " + countryLists);
+
+                sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
+                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
+
+                Log.d(TAG, "onCreate: " + countryLists.get(pos).getName_fr());
+
+                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                    case "en":
+                    case "fr":
+                        binding.countryName.setText(countryLists.get(pos).getName());
+                        break;
+                    case "ar":
+                        String ar = countryLists.get(pos).getName_ar();
+                        binding.countryName.setText(ar);
+                        break;
+                }
+
+                return false;
+            });
+            popupMenu.show();
+
+        });
 
 
-//        binding.loginButton.
+
 
     }
+
+
+    private void getCountry(){
+
+
+        lavaInterface.Country().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String message = jsonObject.getString("message");
+                    if (error.equalsIgnoreCase("false")) {
+
+                        JSONArray array = jsonObject.getJSONArray("country_list");
+
+                        for (int i=0; i < array.length(); i++){
+                            JSONObject object = array.getJSONObject(i);
+                            countryLists.add(new Country_list(
+                                    object.getString("id")
+                                    ,object.getString("name")
+                                    ,object.getString("name_ar")
+                                    ,object.optString("name_fr")
+                                    ,object.getString("time")
+                                    ,object.getString("currency")
+                                    ,object.optString("currency_symbol")
+                            ));
+
+                            int id = Integer.parseInt(object.getString("id"));
+
+                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                case "en":
+                                    popupMenu.getMenu().add(i, id, i ,object.getString("name"));
+                                    break;
+                                case "fr":
+                                    if(countryLists.get(0).getName_fr().isEmpty()){
+                                        popupMenu.getMenu().add(i, id, i ,object.getString("name"));
+                                    }else {
+                                        popupMenu.getMenu().add(i, id, i ,object.getString("name_fr"));
+                                    }
+                                    break;
+                                case "ar":
+                                    popupMenu.getMenu().add(i, id, i ,object.getString("name_ar"));
+                                    break;
+                            }
+
+
+                        }
+
+
+                        try {
+                            if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){
+
+                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
+                                        ,  countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
+
+
+                                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                                    case "en":
+                                    case "fr":
+                                        binding.countryName.setText(countryLists.get(0).getName());
+                                        break;
+                                    case "ar":
+                                        binding.countryName.setText(countryLists.get(0).getName_fr());
+                                        break;
+                                }
+
+
+                            }
+                        }catch (IndexOutOfBoundsException e){
+                            e.printStackTrace();
+                        }
+                        progressDialog.cancel();
+                        return;
+                    }
+                    Toast.makeText(SocialActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                    progressDialog.cancel();
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(SocialActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                progressDialog.cancel();
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                progressDialog.cancel();
+            }
+        });
+    }
+
 
     private void SendOTP() {
         binding.SendotpBtn.setEnabled(false);
