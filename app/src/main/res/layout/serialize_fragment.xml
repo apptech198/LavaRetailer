@@ -232,7 +232,9 @@
                         android:fontFamily="@font/lato_regular"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="@string/Issue_Date"
+                        android:text="New IMEI - "
+                        android:drawablePadding="5dp"
+                        android:drawableLeft="@drawable/ic_edit_white"
                         android:visibility="gone"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="@color/white"
@@ -252,9 +254,11 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:textColor="@color/white"
                         android:textSize="12sp"
+                        android:layout_marginTop="8dp"
                         android:layout_marginStart="12dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/IssueDateTitle"/>
+                        app:layout_constraintTop_toTopOf="@+id/IssueDateTitle"
+                        app:layout_constraintBottom_toBottomOf="@+id/IssueDateTitle"
+                        app:layout_constraintLeft_toRightOf="@+id/IssueDateTitle"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/WarrantyDateTitle"
@@ -934,7 +938,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="10dp"
                         android:paddingBottom="10dp"
-                        android:text="Close"
+                        android:text="@string/Submit"
                         android:textColor="@color/white"
                         android:textSize="16sp" />
 

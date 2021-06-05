@@ -189,6 +189,7 @@ public class TradeProgramFragment extends Fragment {
         map.put("trading_cat",pos);
         map.put("start_date",StartDate);
         map.put("end_date",End_Date);
+        map.put("end_date",End_Date);
 
 
         lavaInterface.GETTRADEDATALIST(map).enqueue(new Callback<Object>() {

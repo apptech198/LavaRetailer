@@ -133,33 +133,993 @@
             android:textColor="@color/white"/>
 
 
-        <ScrollView
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ProductLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toTopOf="@+id/submitBtn"
-            app:layout_constraintTop_toBottomOf="@+id/msgShowWrongImei"
-            android:padding="8dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/warrenty_check_green"
+            android:padding="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/msgShowWrongImei"
+            app:layout_constraintLeft_toLeftOf="parent"
+            >
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/desview">
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/des"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Please confirm your order"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/lato_regular"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    tools:ignore="MissingConstraints" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/sku"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Sku"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/des"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/lato_bold"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/skuName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Please"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/des"
+                    app:layout_constraintLeft_toRightOf="@id/sku"
+                    android:fontFamily="@font/lato_regular"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/model"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Model_colon"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/des"
+                    app:layout_constraintRight_toLeftOf="@id/modelName"
+                    android:fontFamily="@font/lato_bold"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/modelName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Y31"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/des"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:fontFamily="@font/lato_regular"
+                    android:textColor="@color/white"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"/>
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Please confirm your order"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/lato_regular"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/sku"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    tools:ignore="MissingConstraints" />
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Please confirm your order"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/lato_regular"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/type"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    tools:ignore="MissingConstraints" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Please confirm your order"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:fontFamily="@font/lato_regular"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/status"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                    tools:ignore="MissingConstraints" />
+
+
+
+
+
+
+
+
+
+                <View
+                    android:id="@+id/line1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/gray"
+                    app:layout_constraintTop_toBottomOf="@+id/message"/>
 
                 <LinearLayout
-                    android:id="@+id/addLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:id="@+id/no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/order_place_btn"
+                    app:layout_constraintTop_toTopOf="@+id/submit"
+                    app:layout_constraintBottom_toBottomOf="@+id/submit"
+                    app:layout_constraintEnd_toStartOf="@+id/submit"
+                    android:visibility="gone">
 
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cancel"
+                        android:paddingTop="4dp"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="4dp"
+                        app:fontFamily="@font/lato_semi_bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:fontFamily="@font/lato_semi_bold" />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/order_place_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintTop_toBottomOf="@+id/line1">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Confirm"
+                        android:paddingTop="4dp"
+                        android:visibility="gone"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingBottom="4dp"
+                        app:fontFamily="@font/lato_semi_bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                        android:fontFamily="@font/lato_semi_bold" />
+
+                </LinearLayout>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </ScrollView>
+
+
+
+
+
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/MobLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/desview">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/Mobile"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="@string/Mobile_Phone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/MobCheckbox"
+                    app:layout_constraintTop_toTopOf="@+id/MobCheckbox"/>
+
+
+
+
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/MobCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Issue_Date"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Mobile"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateMob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="8dp"
+                    android:text="15-06-2021"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateTitle"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:visibility="gone"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Warranty_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Mobile"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateMob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="0dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintBottom_toBottomOf="@id/MobCheckbox"
+                    app:layout_constraintTop_toTopOf="@id/MobCheckbox"
+                    app:layout_constraintEnd_toEndOf="@+id/MobCheckbox"/>
+
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/MobMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Message"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateMob"
+                    app:layout_constraintStart_toStartOf="@+id/Mobile" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Chargerayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/MobLayout">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/Charger"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="@string/Charger"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/ChargerCheckbox"
+                    app:layout_constraintTop_toTopOf="@+id/ChargerCheckbox"/>
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/ChargerCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ChargeDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Issue_Date"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Charger"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateChar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ChargeDateTitle"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ChargeWarrantyDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Warranty_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Charger"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateChar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="0dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintTop_toTopOf="@id/ChargerCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@id/ChargerCheckbox"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="@+id/ChargerCheckbox"/>
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/ChargerMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Message"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateChar"
+                    app:layout_constraintStart_toStartOf="@+id/Charger"
+                    />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/EarphoneLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/Chargerayout">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/Earphone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="@string/Earphone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/EarphoneCheckbox"
+                    app:layout_constraintTop_toTopOf="@+id/EarphoneCheckbox"/>
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/EarphoneCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/EarphoneDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:text="@string/Issue_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Earphone"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateEar"
+                    android:layout_width="0dp"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="8dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/EarphoneDateTitle"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/EarphoneWarrantyDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:visibility="gone"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Warranty_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Earphone"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateEar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="0dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintTop_toTopOf="@id/EarphoneCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@id/EarphoneCheckbox"
+                    app:layout_constraintEnd_toEndOf="@id/EarphoneCheckbox"/>
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/EarphoneMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Message"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateEar"
+                    app:layout_constraintStart_toStartOf="@+id/Earphone"
+                    />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/BatteryLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/EarphoneLayout">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/Battery"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="@string/Battery"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/BatteryCheckbox"
+                    app:layout_constraintTop_toTopOf="@+id/BatteryCheckbox"/>
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/BatteryCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/BatteryDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Issue_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Battery"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateBat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/BatteryDateTitle"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/BatteryWarrantyDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:text="@string/Warranty_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Battery"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateBat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="0dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintTop_toTopOf="@id/BatteryCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@id/BatteryCheckbox"
+                    app:layout_constraintEnd_toEndOf="@id/BatteryCheckbox"
+                    />
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/BatteryMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Message"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateBat"
+                    app:layout_constraintStart_toStartOf="@+id/Battery"
+                    />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/USBLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/BatteryLayout">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/USB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="@string/USB"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/USBCheckbox"
+                    app:layout_constraintTop_toTopOf="@+id/USBCheckbox"/>
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/USBCheckbox"
+                    android:visibility="invisible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/USBDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Issue_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/USB"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateUSB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="8dp"
+                    android:text="15-06-2021"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/USBDateTitle"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/USBWarrantyDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone"
+                    android:text="@string/Warranty_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/USB"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateUSB"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="0dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintTop_toTopOf="@+id/USBCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@id/USBCheckbox"
+                    app:layout_constraintEnd_toEndOf="@id/USBCheckbox"
+
+                    />
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/USBMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Message"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateUSB"
+                    app:layout_constraintStart_toStartOf="@+id/USB"
+                    />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/AdapterLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:layout_constraintTop_toBottomOf="@+id/USBLayout">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/Adapter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="@string/Adaptor"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/AdapterCheckbox"
+                    app:layout_constraintTop_toTopOf="@+id/AdapterCheckbox"/>
+
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/AdapterCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/AdapterDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Issue_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Adapter"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/IssueDateAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="8dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/AdapterDateTitle"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/AdapterWarrantyDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/Warranty_Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/Adapter"/>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/WarrantyDateAdapter"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:paddingBottom="0dp"
+                    android:text="15-06-2021"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="12dp"
+                    app:layout_constraintTop_toTopOf="@id/AdapterCheckbox"
+                    app:layout_constraintBottom_toBottomOf="@id/AdapterCheckbox"
+                    app:layout_constraintEnd_toEndOf="@+id/AdapterCheckbox"/>
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/AdapterMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_regular"
+                    android:text="Message"
+                    android:visibility="gone"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="4dp"
+                    app:layout_constraintTop_toBottomOf="@+id/IssueDateAdapter"
+                    app:layout_constraintStart_toStartOf="@+id/Adapter"
+
+                    />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/NoWaranty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:text="Message"
+                android:visibility="gone"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/red"
+                android:layout_marginEnd="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+
+
+
+
+
+
+
+
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--        <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:id="@+id/scrollView"-->
+<!--            android:fillViewport="true"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/submitBtn"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/msgShowWrongImei"-->
+<!--            android:padding="8dp">-->
+
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/addLayout"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
+
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+
+
+
+
+<!--        </ScrollView>-->
+
+
+
+
 
 
 
