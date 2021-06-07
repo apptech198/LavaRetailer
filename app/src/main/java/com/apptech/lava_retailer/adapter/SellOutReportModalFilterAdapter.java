@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.databinding.RowSellOutCategoryFilterBinding;
+import com.apptech.lava_retailer.list.modelList.ModelList;
 import com.apptech.lava_retailer.other.SessionManage;
 
 import java.util.List;
@@ -18,9 +19,9 @@ public class SellOutReportModalFilterAdapter extends RecyclerView.Adapter<SellOu
     OnItemClickInterface onItemClickInterface;
     SessionManage sessionManage;
     Context context;
-    List<String> modalList;
+    List<ModelList> modalList;
 
-    public SellOutReportModalFilterAdapter(OnItemClickInterface onItemClickInterface, List<String> modalList) {
+    public SellOutReportModalFilterAdapter(OnItemClickInterface onItemClickInterface, List<ModelList> modalList) {
         this.onItemClickInterface = onItemClickInterface;
         this.modalList = modalList;
     }
@@ -36,17 +37,22 @@ public class SellOutReportModalFilterAdapter extends RecyclerView.Adapter<SellOu
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
-        String l = modalList.get(position);
+        ModelList l = modalList.get(position);
 
-        holder.binding.CategoryName.setText(l);
+        holder.binding.CategoryName.setText(l.getModel());
+
+
+        if(l.isCheckable()){
+            holder.binding.CheckBtn.setChecked(true);
+        }
 
         holder.binding.Mainlayouot.setOnClickListener(v -> {
             if (holder.binding.CheckBtn.isChecked()){
                 holder.binding.CheckBtn.setChecked(false);
-                onItemClickInterface.RemoveItem(l);
+                onItemClickInterface.RemoveItem(l.getModel() , position);
                 return;
             }
-            onItemClickInterface.AddItem(l);
+            onItemClickInterface.AddItem(l.getModel() , position);
             holder.binding.CheckBtn.setChecked(true);
         });
 
@@ -70,8 +76,8 @@ public class SellOutReportModalFilterAdapter extends RecyclerView.Adapter<SellOu
 
 
     public interface OnItemClickInterface{
-        void AddItem(String l);
-        void RemoveItem(String l);
+        void AddItem(String l , int pos);
+        void RemoveItem(String l , int pos);
     }
 
 

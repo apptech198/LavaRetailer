@@ -35,6 +35,7 @@ import com.apptech.lava_retailer.bottomsheet.category_filter.CategoryFilterBotto
 import com.apptech.lava_retailer.bottomsheet.short_filter.ShortFilterBottomSheetFragment;
 import com.apptech.lava_retailer.databinding.ReportSellOutReportFragmentBinding;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
+import com.apptech.lava_retailer.list.modelList.ModelList;
 import com.apptech.lava_retailer.list.sell_out_report.SellOutReportList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomCategoryList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomModalList;
@@ -101,6 +102,8 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     List<SellOutReportList> sellOutReportLists = new ArrayList<>();
     List<SellOutReportList> sellOutReportFilterLists = new ArrayList<>();
     JSONObject CategoryJsonObject = new JSONObject();
+    JSONObject ReturnCategoryJsonObject = new JSONObject();
+    JSONObject ReturnModelJsonObject = new JSONObject();
     JSONObject ModalJsonObject = new JSONObject();
     String QTYSelect = "", VALUESelect = "";
     List<SellOutCustomCategoryList> sellOutCustomCategoryLists = new ArrayList<>();
@@ -109,7 +112,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     JSONObject SelloutReportModalObject = new JSONObject();
     JSONObject CategoryjJsonobject = new JSONObject();
 
-    List<String> modalList = new ArrayList<>();
+    List<ModelList> modalList = new ArrayList<>();
     List<ComodityLists> categoryLists =new ArrayList<>();
 
 
@@ -166,15 +169,21 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         });
 
 
+
+
+        binding.filterCategory.setOnClickListener(v -> {
+
+            Log.e(TAG, "onActivityCreated: " +  ReturnCategoryJsonObject.toString());
+
+            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this , categoryLists ,ReturnCategoryJsonObject);
+            sellOutReportCategoryFilter.show(getChildFragmentManager(), "category filter");
+        });
+
         binding.filterModel.setOnClickListener(v -> {
-            sellOutReportModalFilter = new SellOutReportModalFilter(this , modalList);
+            sellOutReportModalFilter = new SellOutReportModalFilter(this , modalList , ReturnModelJsonObject);
             sellOutReportModalFilter.show(getChildFragmentManager(), "modal bottom sheet");
         });
 
-        binding.filterCategory.setOnClickListener(v -> {
-            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this , categoryLists );
-            sellOutReportCategoryFilter.show(getChildFragmentManager(), "category filter");
-        });
 
 
         setupRadioFilter();
@@ -186,6 +195,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         binding.PendingLayout.setOnClickListener(this);
         binding.ApprovedLayout.setOnClickListener(this);
         binding.CancelledLayout.setOnClickListener(this);
+
+        binding.QtyCheckbox.setChecked(true);
+        binding.ValueCheckbox.setChecked(true);
 
         binding.FilterQtyLayout.setOnClickListener(v -> {
             if (binding.QtyCheckbox.isChecked()) {
@@ -538,7 +550,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         sellOutReportCategoryFilter.dismiss();
         CategoryjJsonobject = new JSONObject();
         progressDialog.show();
+
         try {
+            ReturnCategoryJsonObject = new JSONObject(o.toString());
             CategoryJsonObject = new JSONObject(String.valueOf(o));
             filterCategoryloop();
         } catch (JSONException e) {
@@ -552,10 +566,11 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     @Override
     public void Onitem(JSONObject o) {
         sellOutReportModalFilter.dismiss();
+
         try {
             progressDialog.show();
             ModalJsonObject = new JSONObject(String.valueOf(o));
-//            Log.e(TAG, "Onitem: " + ModalJsonObject.toString());
+            ReturnModelJsonObject = new JSONObject(String.valueOf(o));
             filterModalloop();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -584,7 +599,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
                             for (int i=0; i<model_list.length(); i++){
                                 JSONObject op = model_list.getJSONObject(i);
-                                modalList.add(op.optString("model"));
+                                modalList.add(new ModelList(op.optString("model")));
                             }
 
 
@@ -651,6 +666,8 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
                         if (error.equalsIgnoreCase("FALSE")) {
                             model_list = jsonObject.getJSONArray("fetch_list");
+
+                            sellOutReportLists.clear();
 
                             for (int i = 0; i < model_list.length(); i++) {
                                 JSONObject op = model_list.getJSONObject(i);

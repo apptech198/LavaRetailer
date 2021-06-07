@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,11 +89,12 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
 
 
             @Override
-            public void AddItem(ComodityLists lists) {
+            public void AddItem(ComodityLists lists , int pos) {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put(lists.getId() , lists.getId());
                     jsonObject.put("name" , lists.getName());
+                    jsonObject.put("pos" , String.valueOf(pos));
                     MainObject.put(lists.getId() , jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -100,8 +102,13 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void RemoveItem(ComodityLists lists) {
+            public void RemoveItem(ComodityLists lists , int pos) {
+                categoryLists.get(pos).setCheckable(false);
                 MainObject.remove(lists.getId());
+
+                Log.e(TAG, "RemoveItem: " + MainObject.toString() );
+                Log.e(TAG, "RemoveItem: " + MainObject.toString() );
+
             }
         };
 

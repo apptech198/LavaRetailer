@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.facebook.internal.LockOnGetVariable;
 import com.google.android.gms.common.api.Api;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -42,6 +44,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -65,9 +68,10 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
     boolean AllBTN_CLICK = false;
 
 
-    public SellOutReportCategoryFilter(OnClickBackPress comodityLists , List<ComodityLists> categoryLists) {
+    public SellOutReportCategoryFilter(OnClickBackPress comodityLists , List<ComodityLists> categoryLists , JSONObject PriceDropReportReturnCategoryObject) {
         this.comodityLists = comodityLists;
         this.categoryLists = categoryLists;
+        this.MainObject =  PriceDropReportReturnCategoryObject;
     }
 
     @Override
@@ -88,45 +92,31 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
 
-//        onItemClickInterface = new SellOutReportCategoryFilterAdapter.OnItemClickCategoryInterface() {
-//            @Override
-//            public void OnItemClick() {
-//
-//            }
-//
-//            @Override
-//            public void AddItem(ComodityLists lists) {
-//
-//                JSONObject jsonObject = new JSONObject();
-//                try {
-//                    jsonObject.put(lists.getId() , lists.getId());
-//                    jsonObject.put("name" , lists.getName());
-//                    MainObject.put(lists.getId() , jsonObject);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                Log.e(TAG, "AddItem: " + MainObject);
-//
-//            }
-//
-//            @Override
-//            public void RemoveItem(ComodityLists lists) {
-//                MainObject.remove(lists.getId());
-//                Log.e(TAG, "RemoveItem: " + MainObject.toString() );
-//            }
-//        };
 
-//        if (new NetworkCheck().haveNetworkConnection(getActivity())){
-//                getCategory();
-//        }else {
-//            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
-//        }
+
+        if (MainObject.length() > 0){
+
+            binding.checkBoxtAllClick.setChecked(MainObject.length() == categoryLists.size());
+
+            Iterator<String> iterator = MainObject.keys();
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                try {
+                    JSONObject object = MainObject.getJSONObject(key);
+                    int pos = Integer.parseInt(object.get("pos").toString());
+                    ComodityLists l = categoryLists.get(pos);
+                    l.setCheckable(true);
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
+            }
+
+        }
+
 
 
         sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(this , categoryLists , AllBTN_CLICK);
         binding.categoryRecyclerView.setAdapter(sellOutReportCategoryFilterAdapter);
-
 
 
         binding.checkBoxtAllClick.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -141,6 +131,7 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
                         try {
                             jsonObject.put(lists.getId() , lists.getId());
                             jsonObject.put("name" , lists.getName());
+                            jsonObject.put("pos" , String.valueOf(i));
                             MainObject.put(lists.getId() , jsonObject);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -154,7 +145,12 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
         });
 
 
-        binding.Filterbtn.setOnClickListener(v -> comodityLists.OnClickItem(MainObject));
+        binding.Filterbtn.setOnClickListener(v -> {
+            comodityLists.OnClickItem(MainObject);
+        });
+
+
+
 
     }
 
@@ -216,11 +212,14 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
 
 
     @Override
-    public void AddItem(ComodityLists lists) {
+    public void AddItem(ComodityLists lists , int pos) {
+
+
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(lists.getId() , lists.getId());
             jsonObject.put("name" , lists.getName());
+            jsonObject.put("pos" , String.valueOf(pos));
             MainObject.put(lists.getId() , jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -228,8 +227,11 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
     }
 
     @Override
-    public void RemoveItem(ComodityLists lists) {
-        MainObject.remove(lists.getId());
+    public void RemoveItem(ComodityLists lists , int pos) {
+
+
+        categoryLists.get(pos).setCheckable(false);
+        MainObject.remove(lists.getId());;
     }
 
 
@@ -271,100 +273,6 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
     }
 
 
-
-/*
-    public class RecentItems {
-
-
-
-        // This four methods are used for maintaining favorites.
-        public void saveFavorites(Context context, List<Datum> favorites) {
-            SharedPreferences settings;
-            SharedPreferences.Editor editor;
-
-            settings = context.getSharedPreferences(PREFS_NAME,
-                    Context.MODE_PRIVATE);
-            editor = settings.edit();
-
-            Gson gson = new Gson();
-            String jsonFavorites = gson.toJson(favorites);
-
-            editor.putString(FAVORITES, jsonFavorites);
-
-            editor.commit();
-        }
-
-        public void addFavorite(Context context, Datum product) {
-            if(!checkFavoriteItem(product, context)){
-                List<Datum> favorites = getFavorites(context);
-                if (favorites == null)
-                    favorites = new ArrayList<Datum>();
-                favorites.add(product);
-                saveFavorites(context, favorites);
-            }
-        }
-
-        public void removeFavorite(Context context, Datum product) {
-            ArrayList<Datum> favorites = getFavorites(context);
-            if (favorites != null) {
-                favorites.remove(product);
-                saveFavorites(context, favorites);
-            }
-        }
-
-        public ArrayList<Datum> getFavorites(Context context) {
-            SharedPreferences settings;
-            List<Datum> favorites = new ArrayList<>();
-
-            settings = context.getSharedPreferences(PREFS_NAME,
-                    Context.MODE_PRIVATE);
-
-            if (settings.contains(FAVORITES)) {
-                String jsonFavorites = settings.getString(FAVORITES, null);
-                Gson gson = new Gson();
-                Datum[] favoriteItems = gson.fromJson(jsonFavorites,
-                        Datum[].class);
-
-                favorites = Arrays.asList(favoriteItems);
-                favorites = new ArrayList<Datum>(favorites);
-            } else
-                return (ArrayList<Datum>) favorites;
-
-            return (ArrayList<Datum>) favorites;
-        }
-
-
-
-
-        public boolean checkFavoriteItem(Datum checkProduct,Context context) {
-            SharedPreferences settings;
-            SharedPreferences.Editor editor;
-            settings = context.getSharedPreferences(PREFS_NAME,
-                    Context.MODE_PRIVATE);
-            editor = settings.edit();
-            boolean check = false;
-            List<Datum> favorites = getFavorites(context);
-            if (favorites != null) {
-                for (Datum product : favorites) {
-                    if (product.getId().equals(checkProduct.getId())) {
-                        check = true;
-                        break;
-                    }
-                }
-                if(favorites.size()>4){
-                    favorites.remove(0);
-                    Gson gson = new Gson();
-                    String jsonFavorites = gson.toJson(favorites);
-                    editor.putString(FAVORITES, jsonFavorites);
-                    editor.commit();
-                }
-            }
-            return check;
-        }
-
-    }
-
- */
 
 }
 
