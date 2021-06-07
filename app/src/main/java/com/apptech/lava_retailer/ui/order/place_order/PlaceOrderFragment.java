@@ -324,11 +324,12 @@ public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSh
         String brandid = sessionManage.getUserDetails().get("BRAND_ID");
         String retailer_id = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         String locality_id = sessionManage.getUserDetails().get("LOCALITY_ID");
+
         if(sessionManage.getUserDetails().get("LOGIN_COUNTRY_ID") != null){
             Country_id =  sessionManage.getUserDetails().get("LOGIN_COUNTRY_ID");
         }
 
-        lavaInterface.PRODUCT_LIST2(brandid , retailer_id,locality_id , Country_id).enqueue(new Callback<Object>() {
+        lavaInterface.PRODUCT_LIST2(brandid , retailer_id,locality_id , Country_id , sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME)).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

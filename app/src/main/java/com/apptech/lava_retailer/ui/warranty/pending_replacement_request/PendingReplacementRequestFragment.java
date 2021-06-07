@@ -124,8 +124,10 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
 
         Log.e(TAG, "getPendinfReplacement: " + StartDate );
         Log.e(TAG, "getPendinfReplacement: " + End_Date );
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-        lavaInterface.WARRANTY_PENDING(USER_ID, StartDate, End_Date).enqueue(new Callback<PendingWarrentyList>() {
+        lavaInterface.WARRANTY_PENDING(USER_ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<PendingWarrentyList>() {
             @Override
             public void onResponse(Call<PendingWarrentyList> call, Response<PendingWarrentyList> response) {
 

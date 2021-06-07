@@ -20,6 +20,7 @@ import com.apptech.lava_retailer.databinding.CategoryFilterBottomSheetFragmentBi
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
 import com.apptech.lava_retailer.modal.category.CategoryList;
 import com.apptech.lava_retailer.other.NetworkCheck;
+import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -45,6 +46,7 @@ public class CategoryFilterBottomSheetFragment extends BottomSheetDialogFragment
     ProgressDialog progressDialog;
     CategoryAdapter.CategoryItemClickInterface categoryItemClickInterface;
     CategoryInterface categoryInterface;
+    SessionManage sessionManage;
 
     public CategoryFilterBottomSheetFragment(CategoryInterface categoryInterface) {
         this.categoryInterface = categoryInterface;
@@ -68,6 +70,7 @@ public class CategoryFilterBottomSheetFragment extends BottomSheetDialogFragment
         // TODO: Use the ViewModel
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
+        sessionManage = SessionManage.getInstance(getContext());
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("Please wait...");
         progressDialog.setCancelable(false);
@@ -83,7 +86,11 @@ public class CategoryFilterBottomSheetFragment extends BottomSheetDialogFragment
 
 
     private void GetComodity_list(){
-        lavaInterface.GRT_COMODITY().enqueue(new Callback<Object>() {
+
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.GRT_COMODITY(country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

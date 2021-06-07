@@ -154,61 +154,6 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
 
     }
 
-    private void getCategory(){
-
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
-
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if(response.isSuccessful()){
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-
-                        if(error.equalsIgnoreCase("FALSE")){
-
-                        JSONArray comodity_list = jsonObject.getJSONArray("comodity_list");
-                        for (int i=0; i<comodity_list.length(); i++){
-                            JSONObject op = comodity_list.getJSONObject(i);
-                            categoryLists.add(new ComodityLists(
-                                    op.optString("id")
-                                    ,op.optString("name")
-                                    ,op.optString("name_ar")
-                                    ,op.optString("name_fr")
-                                    ,op.optString("brand_id")
-                                    ,op.optString("brand_name")
-                                    ,op.optString("form_type")
-                                    ,op.optString("time")
-                            ));
-                        }
-                        sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(onItemClickInterface , categoryLists , AllBTN_CLICK);
-                        binding.categoryRecyclerView.setAdapter(sellOutReportCategoryFilterAdapter);
-
-                        progressDialog.dismiss();
-                        return;
-                        }
-                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                        return;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                progressDialog.dismiss();
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
 
 
     @Override

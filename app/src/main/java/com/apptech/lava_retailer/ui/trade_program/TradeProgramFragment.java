@@ -121,8 +121,11 @@ public class TradeProgramFragment extends Fragment {
 
     private void GetTab() throws NullPointerException{
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
             progressDialog.show();
-            lavaInterface.TAB().enqueue(new Callback<Object>() {
+            lavaInterface.TAB(country_id , country_name).enqueue(new Callback<Object>() {
 
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
@@ -190,6 +193,8 @@ public class TradeProgramFragment extends Fragment {
         map.put("start_date",StartDate);
         map.put("end_date",End_Date);
         map.put("end_date",End_Date);
+        map.put("country_name", sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
+        map.put("country_id", sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
 
 
         lavaInterface.GETTRADEDATALIST(map).enqueue(new Callback<Object>() {

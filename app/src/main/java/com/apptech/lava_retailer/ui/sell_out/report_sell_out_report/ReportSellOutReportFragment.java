@@ -579,8 +579,11 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
     private void getModel() {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         progressDialog.show();
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER(country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
@@ -646,10 +649,13 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
     private void getselloutReport() {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         binding.noData.setVisibility(View.GONE);
         progressDialog.show();
 
-         lavaInterface.SELLOUT_REPORT(ID, StartDate, End_Date).enqueue(new Callback<Object>() {
+         lavaInterface.SELLOUT_REPORT(ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
@@ -839,6 +845,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                     }
                 }
 
+                Log.e(TAG, "filterCategoryloop: " + SelloutReportObject.toString());
 
                 if (SelloutReportModalObject.length() > 0) {
                     filterModalloop();
@@ -861,8 +868,8 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
     private void filterModalloop() {
 
+        if (SelloutReportObject.length() > 0) {
 
-        if (sellOutReportLists.size() > 0) {
             if (ModalJsonObject.length() > 0) {
 
                 SelloutReportModalObject = new JSONObject();
@@ -875,7 +882,6 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                 }
 
 
-
                 Iterator<String> iterator = ModalJsonObject.keys();
                 while (iterator.hasNext()) {
                     String key = iterator.next();
@@ -883,11 +889,17 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                         JSONObject issue = ModalJsonObject.getJSONObject(key);
                         String Modalname = issue.optString("name");
 
-                        String ModelCheck = "";
+                        Log.e(TAG, "filterModalloop: " + Modalname);
+                        Log.e(TAG, "filterModalloop: " + sellOutReportFilterLists.size());
 
+                        String ModelCheck = "";
                         for (SellOutReportList sell : sellOutReportFilterLists) {
 
                             if (Modalname.trim().toUpperCase().contains(sell.getModel().trim().toUpperCase())) {
+
+
+                                Log.e(TAG, "filterModalloop: " + sell.getModel() );
+                                Log.e(TAG, "filterModalloop: " + sell.getModel() );
 
 
                                 JSONObject aa = SelloutReportObject.getJSONObject(sell.getCommodity());
@@ -948,6 +960,10 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                         e.printStackTrace();
                     }
                 }
+
+
+                Log.e(TAG, "filterCategoryloop: " + SelloutReportObject.toString());
+                Log.e(TAG, "filterCategoryloop: " + SelloutReportObject.toString());
 
                 if (SelloutReportObject.length() > 0) {
                     SetFilterDatModalaAdapter();

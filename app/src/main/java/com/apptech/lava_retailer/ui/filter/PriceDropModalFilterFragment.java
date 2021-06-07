@@ -83,22 +83,22 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
 
         onItemClickInterface = new SellOutReportModalFilterAdapter.OnItemClickInterface() {
             @Override
-            public void AddItem(String l , int pos) {
+            public void AddItem(ModelList l , int pos) {
                 JSONObject jsonObject = new JSONObject();
                 try {
-                    jsonObject.put(l, l);
-                    jsonObject.put("name" , l);
+                    jsonObject.put(l.getModel(), l.getModel());
+                    jsonObject.put("name" , l.getModel());
                     jsonObject.put("pos" , String.valueOf(pos));
-                    MainObject.put(l , jsonObject);
+                    MainObject.put(l.getModel() , jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void RemoveItem(String l , int pos) {
+            public void RemoveItem(ModelList l , int pos) {
                 modalList.get(pos).setCheckable(false);
-                MainObject.remove(l);
+                MainObject.remove(l.getModel());
             }
         };
 
@@ -119,56 +119,6 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
     }
 
 
-    private void getModel() {
-
-        progressDialog.show();
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
-
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                if(response.isSuccessful()){
-                    try {
-                        JSONObject jsonObject  = new JSONObject(new Gson().toJson(response.body()));
-                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-
-                        if(error.equalsIgnoreCase("FALSE")){
-                            JSONArray model_list = jsonObject.getJSONArray("model_list");
-                            modalList.clear();
-
-                            for (int i=0; i<model_list.length(); i++){
-                                JSONObject op = model_list.getJSONObject(i);
-                                modalList.add(new ModelList(op.optString("model")));
-                            }
-
-                            sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(onItemClickInterface , modalList);
-                            binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
-
-                            progressDialog.dismiss();
-                            return;
-                        }
-                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    progressDialog.dismiss();
-                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressDialog.dismiss();
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
-
-    }
 
 
 

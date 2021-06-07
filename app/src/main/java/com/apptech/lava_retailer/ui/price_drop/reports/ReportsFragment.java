@@ -370,7 +370,11 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
     void getAnnounceList(){
-        lavaInterface.GetAnnounceList().enqueue(new Callback<Object>() {
+
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.GetAnnounceList(country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){
@@ -460,8 +464,12 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
     private void getModel() {
 
+
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         progressDialog.show();
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER(country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -527,12 +535,13 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
     private void getPriceDropReport() {
 
-
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
         binding.noData.setVisibility(View.GONE);
         progressDialog.show();
 
-        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" ).enqueue(new Callback<Object>() {
+        lavaInterface.PRICE_DROP_REPORT(ID, StartDate, End_Date ,"","" , country_id , country_name).enqueue(new Callback<Object>() {
 //        lavaInterface.PRICE_DROP_REPORT("0216d15a0c80fe463b30ea94fa492f89", "2019-01-01", "2023-12-01" ,"","" ).enqueue(new Callback<Object>() {
 
             @Override

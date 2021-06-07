@@ -306,6 +306,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
         binding.progressbar.setVisibility(View.VISIBLE);
 
+
         RequestBody srno = RequestBody.create(MediaType.parse("multipart/form-data"),binding.ImeiEdittext.getText().toString());
         RequestBody sell_date = RequestBody.create(MediaType.parse("multipart/form-data"), SELECT_DATE);
         RequestBody type = RequestBody.create(MediaType.parse("multipart/form-data"), TYPE);
@@ -313,6 +314,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         RequestBody retailer_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.NAME));
         RequestBody locality_id = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
         RequestBody locality_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
+        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
 
 
 
@@ -325,7 +328,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
         Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
 
-        lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart , sell_date ,type , srno,retailer_id, retailer_name,locality_id,locality_name).enqueue(new Callback<Object>() {
+        lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart , sell_date ,type , srno,retailer_id, retailer_name,locality_id,locality_name , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -414,6 +417,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         Map<String , String> map = new HashMap<>();
         map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
         map.put("srno",imei);
+        map.put("country_id",sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
+        map.put("country_name",sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
         binding.progressbar.setVisibility(View.VISIBLE);
         lavaInterface.ACCESORIES_WARENTY_CHECK(map).enqueue(new Callback<Object>() {
             @Override

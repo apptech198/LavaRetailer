@@ -279,9 +279,10 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 //        Log.e(TAG, "StockList: " + End_Date );
 
         binding.progressbar.setVisibility(View.VISIBLE);
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-
-        lavaInterface.PRICE_DROP_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<SellOutPendingVerificationList>() {
+        lavaInterface.PRICE_DROP_IMEI_LIST(USER_ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<SellOutPendingVerificationList>() {
             @Override
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
 

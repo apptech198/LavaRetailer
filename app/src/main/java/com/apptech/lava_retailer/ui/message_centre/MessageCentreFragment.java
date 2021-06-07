@@ -269,8 +269,9 @@ public class MessageCentreFragment extends Fragment  {
         binding.progressbar.setVisibility(View.VISIBLE);
 
         Log.e(TAG, "MessageCenter: " + Country_id);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-        lavaInterface.NotificationListBrandWise(sessionManage.getUserDetails().get("BRAND_ID") , Country_id ,StartDate ,End_Date).enqueue(new Callback<NotificationListBrandWise>() {
+        lavaInterface.NotificationListBrandWise(sessionManage.getUserDetails().get("BRAND_ID") , Country_id ,StartDate ,End_Date , country_name).enqueue(new Callback<NotificationListBrandWise>() {
             @Override
             public void onResponse(Call<NotificationListBrandWise> call, Response<NotificationListBrandWise> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
@@ -350,7 +351,10 @@ public class MessageCentreFragment extends Fragment  {
 
     private void CheckProfileverify(){
 
-        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)).enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID) , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

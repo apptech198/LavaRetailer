@@ -406,7 +406,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 BrandRecyclerView.setAdapter(brandsTopAdapter);
                 dialog.show();
             }   else {
-                lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)).enqueue(new Callback<Object>() {
+
+                String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+                String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+                lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME) , country_id , country_name).enqueue(new Callback<Object>() {
 
                     @Override
                     public void onResponse(Call<Object> call, Response<Object> response) {

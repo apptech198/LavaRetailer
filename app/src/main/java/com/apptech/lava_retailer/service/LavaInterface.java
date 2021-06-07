@@ -40,38 +40,46 @@ public interface LavaInterface{
                 @Field("outlet_name") String outlet_name,
                 @Field("locality_id") String locality_id,
                 @Field("locality_ar") String locality_ar,
-                @Field("governate_id") String governate_id
+                @Field("governate_id") String governate_id ,
+                @Field("country_id") String country_id
+             , @Field("country_name") String country_name
             );
 
     @POST("login")
     @FormUrlEncoded
-    Call<Object> Login(@Field("mobile") String mobile, @Field("password") String password);
+    Call<Object> Login(@Field("mobile") String mobile, @Field("password") String password , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("brand_list")
     @FormUrlEncoded
-    Call<Object> Brand(@Field("country_name") String mobile);
+    Call<Object> Brand(@Field("country_name") String mobile , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("country")
     Call<Object> Country();
 
     @POST("passbook_filter")
-    Call<Object> GETCLAIMTYPE();
+    @FormUrlEncoded
+    Call<Object> GETCLAIMTYPE(@Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("passbook_list")
     @FormUrlEncoded
-    Call<Object> GetPASSBOOK(@Field("start_date") String mobile,@Field("end_date") String mobile1);
+    Call<Object> GetPASSBOOK(@Field("start_date") String mobile,@Field("end_date") String mobile1 , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("governate")
     @FormUrlEncoded
-    Call<Object> Governate(@Field("lang") String lang , @Field("Country_name") String Country_name);
+    Call<Object> Governate(@Field("lang") String lang , @Field("Country_name") String Country_name , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("city")
     @FormUrlEncoded
-    Call<Object> getcity(@Field("lang") String lang, @Field("governate") String governate);
+    Call<Object> getcity(@Field("lang") String lang, @Field("governate") String governate , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("locality")
     @FormUrlEncoded
-    Call<Object> getlocality(@Field("lang") String lang, @Field("governate_id") String governate_id);
+    Call<Object> getlocality(@Field("lang") String lang, @Field("governate_id") String governate_id , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
+
+
+
+
+
 
     @Headers({
             "Accept: application/json",
@@ -84,48 +92,53 @@ public interface LavaInterface{
     @POST("pricedrop_imei")
     Call<Object> PRICE_DROP_IMEI(@Body JsonObject imei);
 
+
     @POST("pricedrop_imei_list_pending_block")
     @FormUrlEncoded
-    Call<SellOutPendingVerificationList> PRICE_DROP_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
+    Call<SellOutPendingVerificationList> PRICE_DROP_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("warranty_pending_list")
     @FormUrlEncoded
-    Call<PendingWarrentyList> WARRANTY_PENDING (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
+    Call<PendingWarrentyList> WARRANTY_PENDING (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("sellout_imei_list_pending_block")
     @FormUrlEncoded
-    Call<Object> SELL_OUT_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date);
+    Call<Object> SELL_OUT_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("notification_list_latest")
     Call<Object> NotificationList();
 
     @POST("notification_list_latest")
-    Call<NotificationModel> NotificationList1();
+    @FormUrlEncoded
+    Call<NotificationModel> NotificationList1(@Field("country_id") String country_id ,  @Field("country_name") String country_name);
+
 
     @POST("notification_list_brand_wise")
     @FormUrlEncoded
     Call<NotificationListBrandWise> NotificationListBrandWise(@Field("brand_id") String brand_id , @Field("country_id") String country_id
-        , @Field("start_date") String start_date, @Field("end_date") String end_date  );
+        , @Field("start_date") String start_date, @Field("end_date") String end_date ,   @Field("country_name") String country_name );
 
     @POST("send_otp")
     @FormUrlEncoded
-    Call<Object> SEND_OTP (@Field("mobile") String mobile , @Field("country") String country);
+    Call<Object> SEND_OTP (@Field("mobile") String mobile , @Field("country") String country , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("otp_verify")
     @FormUrlEncoded
-    Call<Object> VERIFY_OTP (@Field("mobile") String mobile , @Field("otp") String otp);
+    Call<Object> VERIFY_OTP (@Field("mobile") String mobile , @Field("otp") String otp , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("resend_otp")
     @FormUrlEncoded
-    Call<Object> RESEND_OTP (@Field("mobile") String mobile , @Field("country") String country );
+    Call<Object> RESEND_OTP (@Field("mobile") String mobile , @Field("country") String country , @Field("country_id") String country_id ,  @Field("country_name") String country_name );
 
     @POST("forget_pass_otp_send")
     @FormUrlEncoded
-    Call<Object> FORGOT_PASSWORD (@Field("mobile") String mobile , @Field("country") String country);
+    Call<Object> FORGOT_PASSWORD (@Field("mobile") String mobile , @Field("country") String country , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
     @POST("forget_otp_verify")
     @FormUrlEncoded
-    Call<Object> FORGOT_PASS_OTP_SEND (@Field("mobile") String mobile , @Field("otp") String otp , @Field("password") String password );
+    Call<Object> FORGOT_PASS_OTP_SEND (@Field("mobile") String mobile , @Field("otp") String otp , @Field("password") String password
+    , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
+
 
     @POST("get_products")
     @FormUrlEncoded
@@ -133,7 +146,8 @@ public interface LavaInterface{
 
     @POST("get_products")
     @FormUrlEncoded
-    Call<Object> PRODUCT_LIST2 (@Field("brand_id") String brand_id , @Field("retailer_id") String retailer_id , @Field("locality_id") String locality_id  , @Field("country_id") String country_id );
+    Call<Object> PRODUCT_LIST2 (@Field("brand_id") String brand_id , @Field("retailer_id") String retailer_id , @Field("locality_id") String locality_id
+            , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
 
     @POST("get_products")
@@ -145,13 +159,16 @@ public interface LavaInterface{
     Call<Object> BuyProduct(@Body JsonObject jsonObject);
 
 
+
     @POST("my_orders")
     @FormUrlEncoded
-    Call<OrderStatusList> ORDER_STATUS_LIST_CALL(@Field("ret_id") String ret_id  , @Field("start_date") String start_date, @Field("end_date") String end_date );
+    Call<OrderStatusList> ORDER_STATUS_LIST_CALL(@Field("ret_id") String ret_id  , @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("product_gallary")
     @FormUrlEncoded
-    Call<ProductGalleryList> GetGallery (@Field("product_id") String product_id );
+    Call<ProductGalleryList> GetGallery (@Field("product_id") String product_id , @Field("country_id") String country_id  , @Field("country_name") String country_name  );
+
+
 
     @POST("profile_update")
     @Multipart
@@ -161,7 +178,8 @@ public interface LavaInterface{
         , @Part("locality_id") RequestBody locality_id
         , @Part("locality_ar") RequestBody locality_ar
         , @Part("country_id") RequestBody country_id
-        );
+        , @Part("country_name") RequestBody country_name
+    );
 
     @POST("profile_update_first_time")
     @Multipart
@@ -172,7 +190,8 @@ public interface LavaInterface{
             , @Part("country_id") RequestBody country_id
             , @Part("password") RequestBody password
             , @Part("number") RequestBody number
-        );
+            , @Part("country_name") RequestBody country_name
+    );
 
 
     @POST("warranty_check_nonseries")
@@ -185,7 +204,8 @@ public interface LavaInterface{
     @Multipart
     Call<Object> ACCESORIES_REPLACEMENT_WARRENTY (@Part MultipartBody.Part img_url , @Part("sell_date") RequestBody sell_date , @Part("type") RequestBody type
         , @Part("srno") RequestBody srno, @Part("retailer_id") RequestBody retailer_id, @Part("retailer_name") RequestBody retailer_name
-            , @Part("locality_id") RequestBody locality_id, @Part("locality_name") RequestBody locality_name);
+            , @Part("locality_id") RequestBody locality_id, @Part("locality_name") RequestBody locality_name , @Part("country_id") RequestBody country_id , @Part("country_name") RequestBody country_name );
+
 
     @POST("warranty_check_series")
     @FormUrlEncoded
@@ -203,11 +223,11 @@ public interface LavaInterface{
 
     @POST("price_drop_check_imei")
     @FormUrlEncoded
-    Call<Object> PROOCE_DROP_IMEI_CHECK(@Field("imei") String imei , @Field("ret_id") String ret_id , @Field("start_date") String start_date , @Field("end_date") String end_date );
+    Call<Object> PROOCE_DROP_IMEI_CHECK(@Field("imei") String imei , @Field("ret_id") String ret_id , @Field("start_date") String start_date , @Field("end_date") String end_date , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("profile_detail")
     @FormUrlEncoded
-    Call<Object> PROFILE_DETAILS(@Field("user_id") String user_id);
+    Call<Object> PROFILE_DETAILS(@Field("user_id") String user_id , @Field("country_id") String country_id  , @Field("country_name") String country_name);
 
     @POST("warranty_check")
     @FormUrlEncoded
@@ -219,10 +239,11 @@ public interface LavaInterface{
 
     @POST("send_otp_auth")
     @FormUrlEncoded
-    Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile , @Field("country") String country );
+    Call<Object> SEND_OTP_AUTH(@Field("mobile") String mobile , @Field("country") String country , @Field("country_id") String country_id  , @Field("country_name") String country_name);
 
     @POST("trading_scheme_category")
-    Call<Object> TAB();
+    @FormUrlEncoded
+    Call<Object> TAB(@Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("trading_scheme_list")
     @FormUrlEncoded
@@ -233,32 +254,36 @@ public interface LavaInterface{
     Call<Object> REPLACEMENT_WARENTY(@FieldMap Map<String,String> params);
 
     @POST("comodity_list")
-    Call<Object> GRT_COMODITY();
+    @FormUrlEncoded
+    Call<Object> GRT_COMODITY(@Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("sellout_report_filters")
-    Call<Object> SELL_OUT_CATEGORY_MODAL_FILTER();
+    @FormUrlEncoded
+    Call<Object> SELL_OUT_CATEGORY_MODAL_FILTER(@Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("sellout_report")
     @FormUrlEncoded
-    Call<Object> SELLOUT_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date , @Field("end_date") String end_date );
+    Call<Object> SELLOUT_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date
+            , @Field("end_date") String end_date , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
 
     @POST("pricedrop_report")
     @FormUrlEncoded
     Call<Object> PRICE_DROP_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date , @Field("end_date") String end_date
-            , @Field("ano_start_date") String start_dates , @Field("ano_end_date") String end_dates
+            , @Field("ano_start_date") String start_dates , @Field("ano_end_date") String end_dates , @Field("country_id") String country_id  , @Field("country_name") String country_name
     );
 
     @POST("price_drop_annoucment")
-    Call<Object> GetAnnounceList();
+    @FormUrlEncoded
+    Call<Object> GetAnnounceList(@Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("order_cancel")
     @FormUrlEncoded
-    Call<Object> CENCEL_ORDER(@Field("id") String id);
+    Call<Object> CENCEL_ORDER(@Field("id") String id , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
     @POST("email_check")
     @FormUrlEncoded
-    Call<Object> EMAIL_CHECK(@Field("email") String email);
+    Call<Object> EMAIL_CHECK(@Field("email") String email , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
 }
 

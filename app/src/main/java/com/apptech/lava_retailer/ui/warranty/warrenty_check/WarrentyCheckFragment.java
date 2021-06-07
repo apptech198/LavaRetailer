@@ -172,6 +172,9 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
         Map<String , String> map = new HashMap<>();
         map.put("imei",imei);
         map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        map.put("country_id",sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
+        map.put("country_name",sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
+
         binding.progressbar.setVisibility(View.VISIBLE);
         lavaInterface.WARRENTYCHECK(map).enqueue(new Callback<Object>() {
             @Override

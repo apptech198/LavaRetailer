@@ -479,7 +479,10 @@ public class ProductDetailsFragment extends Fragment {
 
     private void getGallary(String productId) {
 
-        lavaInterface.GetGallery(productId).enqueue(new Callback<ProductGalleryList>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.GetGallery(productId , country_id , country_name).enqueue(new Callback<ProductGalleryList>() {
             @Override
             public void onResponse(Call<ProductGalleryList> call, Response<ProductGalleryList> response) {
 

@@ -446,6 +446,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         Log.e(TAG, "SignUp: " + social_auth_token  );
 
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
 
 
         Call call = lavaInterface.Signup(
@@ -462,6 +465,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                 ,Locality_id
                 ,Locality_ar
                 ,GovernateSelect
+                ,country_id
+                ,country_name
         );
         call.enqueue(new Callback() {
             @Override
@@ -489,11 +494,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                 return;
                             }
 
-//                            if(jsonObject1.optString("email").isEmpty()){
-//                                ErrorDilaog(getResources().getString(R.string.email_fiels_missing));
-//                                binding.progressbar.setVisibility(View.GONE);
-//                                return;
-//                            }
 
                             if(jsonObject1.optString("mobile").isEmpty()){
                                 ErrorDilaog(getResources().getString(R.string.phone_number_fiels_missing));
@@ -616,6 +616,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     private void getCountry(){
 
         progressDialog.show();
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
         countryLists.clear();
         lavaInterface.Country().enqueue(new Callback<Object>() {
@@ -697,9 +699,14 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     }
 
     private void getGovernate() {
+
+
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         governatelist.clear();
         Log.e(TAG, "getGovernate: " + Languages);
-        Call call = lavaInterface.Governate(Languages , CountryName);
+        Call call = lavaInterface.Governate(Languages , CountryName , country_id , country_name);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -772,110 +779,15 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
     }
 
-    private void getcity() {
-
-        citylist.clear();
-
-        Call call = lavaInterface.getcity(Languages, GovernateSelect);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-                if (response.isSuccessful()) {
-
-
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-                        if (error.equalsIgnoreCase("false")) {
-                            JSONArray jsonArray = jsonObject.getJSONArray("city_list");
-                            JSONObject objec = jsonArray.getJSONObject(0);
-                            Iterator iterator = objec.keys();
-                            String key = "";
-                            while (iterator.hasNext()) {
-                                key = (String) iterator.next();
-                                Log.e(TAG, "onResponse: " + key);
-                                break;
-                            }
-
-                            if (key.equals("city_en")) {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject json_data = jsonArray.getJSONObject(i);
-                                    citylist.add(json_data.getString("city_en"));
-                                }
-                            } else {
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject json_data = jsonArray.getJSONObject(i);
-                                    citylist.add(json_data.getString("city_ar"));
-                                }
-                            }
-
-//                            SelectSmartSearchCity();
-
-                   /*         cityAdapter.addAll(citylist);
-                            cityAdapter.add("Select City");
-                            binding.city.setAdapter(cityAdapter);
-                            binding.city.setSelection(cityAdapter.getCount());
-
-
-                    */
-                            binding.progressbar.setVisibility(View.GONE);
-
-
-                            return;
-                        }
-                        Toast.makeText(SignUpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        binding.progressbar.setVisibility(View.GONE);
-                    }
-
-                    binding.progressbar.setVisibility(View.GONE);
-                    Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(SignUpActivity.this, "", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                binding.progressbar.setVisibility(View.GONE);
-                Log.e(TAG, "onFailure: " + t.getMessage());
-            }
-        });
-
-/*
-        binding.city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (CITY) {
-                    binding.progressbar.setVisibility(View.VISIBLE);
-                    Object item = parent.getItemAtPosition(position);
-                    CitySelect = item.toString().trim();
-                    getLocality();
-                }
-                CITY = true;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-*/
-
-
-    }
 
     private void getLocality() {
 
         localityList.clear();
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
 //        Call call = lavaInterface.getlocality(Languages, CitySelect);
-        Call call = lavaInterface.getlocality(Languages, GovernateSelect);
+        Call call = lavaInterface.getlocality(Languages, GovernateSelect , country_id , country_name);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {

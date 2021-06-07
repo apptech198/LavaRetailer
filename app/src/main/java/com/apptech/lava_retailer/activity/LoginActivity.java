@@ -277,7 +277,10 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         binding.Login.setEnabled(false);
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        Call call = lavaInterface.Login(binding.NumberInputLayout.getEditText().getText().toString().trim(), binding.PasswordInputLayout.getEditText().getText().toString().trim());
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        Call call = lavaInterface.Login(binding.NumberInputLayout.getEditText().getText().toString().trim(), binding.PasswordInputLayout.getEditText().getText().toString().trim() , country_id , country_name);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {

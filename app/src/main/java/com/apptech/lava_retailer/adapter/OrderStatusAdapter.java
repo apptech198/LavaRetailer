@@ -120,9 +120,13 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
     
     
     void CencelOrder(String id, int pos){
+
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         dialog.show();
         LavaInterface lavaInterface = ApiClient.getClient().create(LavaInterface.class);
-        lavaInterface.CENCEL_ORDER(id).enqueue(new Callback<Object>() {
+        lavaInterface.CENCEL_ORDER(id , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){

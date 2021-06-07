@@ -265,9 +265,11 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
         binding.progressbar.setVisibility(View.VISIBLE);
 
         String RetId = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
         Log.e(TAG, "getOrderStatus: " + RetId );
 
-        lavaInterface.ORDER_STATUS_LIST_CALL(RetId ,endDate , strDate).enqueue(new Callback<OrderStatusList>() {
+        lavaInterface.ORDER_STATUS_LIST_CALL(RetId ,endDate , strDate , country_id , country_name).enqueue(new Callback<OrderStatusList>() {
             @Override
             public void onResponse(Call<OrderStatusList> call, Response<OrderStatusList> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));

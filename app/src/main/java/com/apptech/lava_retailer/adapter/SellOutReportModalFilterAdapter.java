@@ -49,10 +49,10 @@ public class SellOutReportModalFilterAdapter extends RecyclerView.Adapter<SellOu
         holder.binding.Mainlayouot.setOnClickListener(v -> {
             if (holder.binding.CheckBtn.isChecked()){
                 holder.binding.CheckBtn.setChecked(false);
-                onItemClickInterface.RemoveItem(l.getModel() , position);
+                onItemClickInterface.RemoveItem(l , position);
                 return;
             }
-            onItemClickInterface.AddItem(l.getModel() , position);
+            onItemClickInterface.AddItem(l , position);
             holder.binding.CheckBtn.setChecked(true);
         });
 
@@ -76,8 +76,8 @@ public class SellOutReportModalFilterAdapter extends RecyclerView.Adapter<SellOu
 
 
     public interface OnItemClickInterface{
-        void AddItem(String l , int pos);
-        void RemoveItem(String l , int pos);
+        void AddItem(ModelList l , int pos);
+        void RemoveItem(ModelList l , int pos);
     }
 
 

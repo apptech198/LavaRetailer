@@ -134,7 +134,10 @@ public class MessageShowActivity extends AppCompatActivity {
 
     private void MessageShow1() {
 
-        lavaInterface.NotificationList1().enqueue(new Callback<NotificationModel>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.NotificationList1(country_id , country_name).enqueue(new Callback<NotificationModel>() {
             @Override
             public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
 

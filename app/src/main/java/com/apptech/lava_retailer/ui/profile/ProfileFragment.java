@@ -181,7 +181,10 @@ public class ProfileFragment extends Fragment {
     void Profile_details(){
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get("USER_UNIQUE_ID")).enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get("USER_UNIQUE_ID") , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -337,200 +340,8 @@ public class ProfileFragment extends Fragment {
 
 
 
-    private void getCountry() throws NullPointerException{
-        countryLists.clear();
-        lavaInterface.Country().enqueue(new Callback<Object>() {
-
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String message = jsonObject.getString("message");
-                    if (error.equalsIgnoreCase("false")) {
-
-                        JSONArray array = jsonObject.getJSONArray("country_list");
-
-                        for (int i=0; i < array.length(); i++){
-
-                            JSONObject object = array.getJSONObject(i);
-                            countryLists.add(new Country_list(
-                                    object.optString("id")
-                                    ,object.optString("name")
-                                    ,object.optString("name_ar")
-                                    ,object.optString("name_fr")
-                                    ,object.optString("time")
-                                    ,object.getString("currency")
-                                    ,object.optString("currency_symbol")
-                            ));
-                        }
-                        SelectSmaertCountry();
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
-                    }
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                binding.progressbar.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                binding.progressbar.setVisibility(View.GONE);
-
-            }
-        });
-    }
 
 
-    private void SelectSmaertCountry(){
-
-        try {
-
-            binding.progressbar.setVisibility(View.GONE);
-
-            CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
-                binding.SelectCountry.setText(text);
-                CountryName = list.getName();
-                binding.SelectGovernate.setText("");
-                binding.SelectLocality.setText("");
-                binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
-                binding.progressbar.setVisibility(View.VISIBLE);
-
-                GovernateSelect ="";
-                Locality ="";
-
-                getGovernate();
-
-            };
-
-            CountryAdapter countryAdapter =  new CountryAdapter(countryLists , countryInterface);
-            binding.CountryRecyclerView.setAdapter(countryAdapter);
-
-
-
-            binding.SelectCountry.setOnFocusChangeListener((v, hasFocus) -> {
-                if(hasFocus){
-                    binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
-                    return;
-                }
-                binding.CountryRecyclerViewLayout.setVisibility(View.GONE);
-            });
-
-            binding.SelectCountry.setOnClickListener(v -> {
-                binding.CountryRecyclerViewLayout.setVisibility(View.VISIBLE);
-            });
-
-
-            binding.SelectCountry.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if(countryAdapter != null){
-                        countryAdapter.getFilter().filter(s.toString());
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-        }catch (NullPointerException e){
-            e.printStackTrace();
-            Log.e(TAG, "SelectSmaertCountry: ",e );
-        }
-
-
-    }
-
-    private void getGovernate() throws NullPointerException{
-        governatelist.clear();
-        Log.e(TAG, "getGovernate: " + Languages);
-        Call call = lavaInterface.Governate(Languages , CountryName);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-
-
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String message = jsonObject.getString("message");
-                    if (error.equalsIgnoreCase("false")) {
-                        JSONArray jsonArray = jsonObject.getJSONArray("governate_list");
-                        governatelist.clear();
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject json_data = jsonArray.getJSONObject(i);
-                            governatelist.add(new GovernateList(
-                                    json_data.optString("id")
-                                    ,json_data.optString("country_id")
-                                    ,json_data.optString("country_name")
-                                    ,json_data.optString("name")
-                                    ,json_data.optString("name_ar")
-                                    ,json_data.optString("name_fr")
-                                    ,json_data.optString("time")
-                            ));
-                        }
-
-                        SelectSmartSearchGovernate();
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
-                    }
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-
-            }
-        });
-
-
-/*        binding.governate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (GOVERNATE) {
-                    binding.progressbar.setVisibility(View.VISIBLE);
-                    Object item = parent.getItemAtPosition(position);
-                    GovernateSelect = item.toString();
-                    getcity();
-
-                }
-                GOVERNATE = true;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-    }
 
     private void SelectSmartSearchGovernate(){
 
@@ -606,10 +417,13 @@ public class ProfileFragment extends Fragment {
 
     private void getLocality() {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         localityList.clear();
 
 //        Call call = lavaInterface.getlocality(Languages, CitySelect);
-        Call call = lavaInterface.getlocality(Languages, GovernateSelect);
+        Call call = lavaInterface.getlocality(Languages, GovernateSelect , country_id , country_name);
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -758,9 +572,10 @@ public class ProfileFragment extends Fragment {
         RequestBody locality_ar = RequestBody.create(MediaType.parse("multipart/form-data"),Locality_ar);
         RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),CountryName);
         RequestBody id = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)));
+        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
 
 
-        lavaInterface.PROFILE_UPDATE(filePart , id , name ,email ,locality ,governate,address,outlet,locality_id,locality_ar , country_id).enqueue(new Callback<Object>() {
+        lavaInterface.PROFILE_UPDATE(filePart , id , name ,email ,locality ,governate,address,outlet,locality_id,locality_ar , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

@@ -93,9 +93,12 @@ public class ForgotActivity extends AppCompatActivity {
 
     private void ForgotPassword() {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.FORGOT_PASSWORD(binding.NumberInputLayout.getText().toString().trim() ,sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) ).enqueue(new Callback<Object>() {
+        lavaInterface.FORGOT_PASSWORD(binding.NumberInputLayout.getText().toString().trim() ,sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) , country_id , country_name ).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

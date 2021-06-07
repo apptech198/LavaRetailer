@@ -363,11 +363,12 @@ public class SocialActivity extends AppCompatActivity {
         binding.SendotpBtn.setEnabled(false);
         binding.progressbar.setVisibility(View.VISIBLE);
 
-
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
         String login_country_name = sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME");
 
 
-        lavaInterface.SEND_OTP(binding.EditEmail.getText().toString().trim() ,login_country_name).enqueue(new Callback<Object>() {
+        lavaInterface.SEND_OTP(binding.EditEmail.getText().toString().trim() ,login_country_name , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -525,7 +526,10 @@ public class SocialActivity extends AppCompatActivity {
 
     private void GmailCheck(String email){
 
-        lavaInterface.EMAIL_CHECK(email).enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.EMAIL_CHECK(email , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

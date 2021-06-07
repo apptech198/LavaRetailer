@@ -503,8 +503,10 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         String ano_start = announcelist.get(0).getStartDate();
         String ano_end = announcelist.get(0).getStartDate();
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-        lavaInterface.PROOCE_DROP_IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID ,ano_start ,ano_end).enqueue(new Callback<Object>() {
+        lavaInterface.PROOCE_DROP_IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID ,ano_start ,ano_end , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
@@ -606,7 +608,11 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     void getAnnounceList(){
 
         if (binding != null){
-            lavaInterface.GetAnnounceList().enqueue(new Callback<Object>() {
+
+            String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+            String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+            lavaInterface.GetAnnounceList(country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){

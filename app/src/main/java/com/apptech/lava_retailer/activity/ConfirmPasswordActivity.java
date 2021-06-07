@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.ActivityConfirmPasswordBinding;
 import com.apptech.lava_retailer.other.NetworkCheck;
+import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.gson.Gson;
@@ -34,6 +35,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
     LavaInterface lavaInterface;
     private static final String TAG = "ConfirmPasswordActivity";
     String mob = "" , otp ="";
+    SessionManage sessionManage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
+        sessionManage = SessionManage.getInstance(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         int[][] states = new int[][] {
@@ -148,8 +151,12 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
     }
 
     private void Changepassword() {
+
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         binding.progressbar.setVisibility(View.VISIBLE);
-        lavaInterface.FORGOT_PASS_OTP_SEND(mob , binding.OtpInputLayout.getText().toString().trim(),binding.password.getEditText().getText().toString().trim()).enqueue(new Callback<Object>() {
+        lavaInterface.FORGOT_PASS_OTP_SEND(mob , binding.OtpInputLayout.getText().toString().trim(),binding.password.getEditText().getText().toString().trim(), country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

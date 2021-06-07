@@ -120,7 +120,10 @@ public class PriceDropCategoryFilterFragment extends BottomSheetDialogFragment {
 
     private void getCategory(){
 
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER(country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

@@ -248,7 +248,10 @@ public class PassbookFragment extends Fragment {
 
     void getClaimtype(){
 
-        lavaInterface.GETCLAIMTYPE().enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.GETCLAIMTYPE(country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if(response.isSuccessful()){
@@ -348,9 +351,10 @@ public class PassbookFragment extends Fragment {
     private void getPassbook(){
 
             binding.progressbar.setVisibility(View.VISIBLE);
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-
-            lavaInterface.GetPASSBOOK(StartDate,End_Date).enqueue(new Callback<Object>() {
+            lavaInterface.GetPASSBOOK(StartDate,End_Date , country_id , country_name).enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
 

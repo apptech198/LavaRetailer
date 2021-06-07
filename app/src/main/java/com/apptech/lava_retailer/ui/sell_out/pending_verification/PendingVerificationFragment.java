@@ -271,8 +271,10 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
             Log.e(TAG, "StockList: " + USER_ID );
             Log.e(TAG, "StockList: " + StartDate );
             Log.e(TAG, "StockList: " + End_Date );
+            String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+            String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-            lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date).enqueue(new Callback<Object>() {
+            lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
 

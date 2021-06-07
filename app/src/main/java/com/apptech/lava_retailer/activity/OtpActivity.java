@@ -125,8 +125,11 @@ public class OtpActivity extends AppCompatActivity   {
 
     private void ResendOtp() {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         binding.progressbar.setVisibility(View.VISIBLE);
-        lavaInterface.RESEND_OTP(mob , sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME")).enqueue(new Callback<Object>() {
+        lavaInterface.RESEND_OTP(mob , sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -166,9 +169,12 @@ public class OtpActivity extends AppCompatActivity   {
 
     private void VerifyOtp() {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.VERIFY_OTP(mob ,binding.OtpInputLayout.getText().toString().trim()).enqueue(new Callback<Object>() {
+        lavaInterface.VERIFY_OTP(mob ,binding.OtpInputLayout.getText().toString().trim() , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.e(TAG, "onResponse: " + response.body().toString() );

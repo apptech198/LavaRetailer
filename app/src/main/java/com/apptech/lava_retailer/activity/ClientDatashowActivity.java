@@ -233,9 +233,11 @@ public class ClientDatashowActivity extends AppCompatActivity {
 
     private void VerifyOtp(String otp) {
 
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.VERIFY_OTP(binding.Mobile.getEditText().getText().toString().trim() ,otp).enqueue(new Callback<Object>() {
+        lavaInterface.VERIFY_OTP(binding.Mobile.getEditText().getText().toString().trim() ,otp , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.e(TAG, "onResponse: " + response.body().toString() );
@@ -304,134 +306,7 @@ public class ClientDatashowActivity extends AppCompatActivity {
 
 
 
-    private void getCountry(){
-        countryLists.clear();
-        lavaInterface.Country().enqueue(new Callback<Object>() {
 
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String message = jsonObject.getString("message");
-                    if (error.equalsIgnoreCase("false")) {
-
-                        JSONArray array = jsonObject.getJSONArray("country_list");
-
-                        for (int i=0; i < array.length(); i++){
-
-                            JSONObject object = array.getJSONObject(i);
-                            countryLists.add(new Country_list(
-                                    object.optString("id")
-                                    ,object.optString("name")
-                                    ,object.optString("name_ar")
-                                    ,object.optString("name_fr")
-                                    ,object.optString("time")
-                                    ,object.getString("currency")
-                                    ,object.optString("currency_symbol")
-                            ));
-                        }
-                        SelectSmaertCountry();
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
-                    }
-                    Toast.makeText(ClientDatashowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                Toast.makeText(ClientDatashowActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                binding.progressbar.setVisibility(View.GONE);
-
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                binding.progressbar.setVisibility(View.GONE);
-
-            }
-        });
-    }
-
-    private void getGovernate() {
-        governatelist.clear();
-        Log.e(TAG, "getGovernate: " + Languages);
-        Call call = lavaInterface.Governate(Languages , CountryName);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-
-
-                Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                    String error = jsonObject.getString("error");
-                    String message = jsonObject.getString("message");
-                    if (error.equalsIgnoreCase("false")) {
-                        JSONArray jsonArray = jsonObject.getJSONArray("governate_list");
-                        governatelist.clear();
-
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject json_data = jsonArray.getJSONObject(i);
-                            governatelist.add(new GovernateList(
-                                    json_data.optString("id")
-                                    ,json_data.optString("country_id")
-                                    ,json_data.optString("country_name")
-                                    ,json_data.optString("name")
-                                    ,json_data.optString("name_ar")
-                                    ,json_data.optString("name_fr")
-                                    ,json_data.optString("time")
-                            ));
-                        }
-
-                        SelectSmartSearchGovernate();
-                        binding.progressbar.setVisibility(View.GONE);
-                        return;
-                    }
-                    Toast.makeText(ClientDatashowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(ClientDatashowActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                binding.progressbar.setVisibility(View.GONE);
-            }
-        });
-
-
-/*        binding.governate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (GOVERNATE) {
-                    binding.progressbar.setVisibility(View.VISIBLE);
-                    Object item = parent.getItemAtPosition(position);
-                    GovernateSelect = item.toString();
-                    getcity();
-
-                }
-                GOVERNATE = true;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-    }
 
 
     private void SelectSmartSearchGovernate(){
@@ -503,106 +378,6 @@ public class ClientDatashowActivity extends AppCompatActivity {
 
     }
 
-    private void getLocality() {
-
-        localityList.clear();
-
-//        Call call = lavaInterface.getlocality(Languages, CitySelect);
-        Call call = lavaInterface.getlocality(Languages, GovernateSelect);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                if (response.isSuccessful()) {
-                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
-                    JSONObject jsonObject = null;
-                    try {
-                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-                        if (error.equalsIgnoreCase("false")) {
-                            JSONArray jsonArray = jsonObject.getJSONArray("locality_list");
-
-                            localityList.clear();
-
-                            for (int i=0; i< jsonArray.length(); i++){
-
-                                JSONObject jo = jsonArray.getJSONObject(i);
-
-                                localityList.add(new LocalityList(
-                                        jo.optString("id")
-                                        ,jo.optString("governate_id")
-                                        ,jo.optString("governate_name")
-                                        ,jo.optString("name")
-                                        ,jo.optString("name_ar")
-                                        ,jo.optString("name_fr")
-                                        ,jo.optString("time")
-                                ));
-                            }
-
-//                            JSONObject objec = jsonArray.getJSONObject(0);
-//                            Iterator iterator = objec.keys();
-//                            String key = "";
-//                            while (iterator.hasNext()) {
-//                                key = (String) iterator.next();
-//                                Log.e(TAG, "onResponse: " + key);
-//                                break;
-//                            }
-//
-//                            if (key.equals("locality_en")) {
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject json_data = jsonArray.getJSONObject(i);
-//                                    localityList.add(json_data.getString("locality_en"));
-//                                }
-//                            } else {
-//                                for (int i = 0; i < jsonArray.length(); i++) {
-//                                    JSONObject json_data = jsonArray.getJSONObject(i);
-//                                    localityList.add(json_data.getString("locality_ar"));
-//                                }
-//                            }
-
-                            SelectSmartSearchLocality();
-                            binding.progressbar.setVisibility(View.GONE);
-
-                            return;
-                        }
-                        Toast.makeText(ClientDatashowActivity.this, "" + message, Toast.LENGTH_SHORT).show();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        binding.progressbar.setVisibility(View.GONE);
-                    }
-                    binding.progressbar.setVisibility(View.GONE);
-                    return;
-                }
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(ClientDatashowActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                binding.progressbar.setVisibility(View.GONE);
-                Toast.makeText(ClientDatashowActivity.this, "Time out", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-/*        binding.locality.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (LOCALITY) {
-                    Object item = parent.getItemAtPosition(position);
-                    Locality = item.toString().trim();
-                }
-                LOCALITY = true;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-    }
 
     private void SelectSmartSearchLocality(){
 
@@ -678,9 +453,10 @@ public class ClientDatashowActivity extends AppCompatActivity {
         RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),CountryName);
         RequestBody id = RequestBody.create(MediaType.parse("multipart/form-data"), Objects.requireNonNull(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)));
         RequestBody number = RequestBody.create(MediaType.parse("multipart/form-data"), binding.Mobile.getEditText().getText().toString());
+        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
 
 //        PROFILE_UPDATE_FIRST_TIME
-        lavaInterface.PROFILE_UPDATE_FIRST_TIME(filePart , id , name ,email ,locality ,governate,address,outlet,locality_id,locality_ar , country_id , password , number).enqueue(new Callback<Object>() {
+        lavaInterface.PROFILE_UPDATE_FIRST_TIME(filePart , id , name ,email ,locality ,governate,address,outlet,locality_id,locality_ar , country_id , password , number , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -829,10 +605,14 @@ public class ClientDatashowActivity extends AppCompatActivity {
 
     private void OTP_SEND_AUTH(String num){
 
-        Log.e(TAG, "OTP_SEND_AUTH: " + num );
+
         binding.progressbar.setVisibility(View.VISIBLE);
 
-        lavaInterface.SEND_OTP_AUTH(num , sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME)).enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+
+        lavaInterface.SEND_OTP_AUTH(num , sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

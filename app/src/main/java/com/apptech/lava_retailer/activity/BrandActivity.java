@@ -94,7 +94,10 @@ public class BrandActivity extends AppCompatActivity {
 
     void brand() {
 
-        lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)).enqueue(new Callback<Object>() {
+        String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+        String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+        lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME) , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 JSONObject jsonObject = null;

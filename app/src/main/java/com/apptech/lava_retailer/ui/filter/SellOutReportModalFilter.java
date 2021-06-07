@@ -134,7 +134,7 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
                         JSONObject jsonObject = new JSONObject();
                         try {
                             jsonObject.put(lists.getModel() , lists.getModel());
-                            jsonObject.put("name" , lists);
+                            jsonObject.put("name" , lists.getModel());
                             jsonObject.put("pos" , String.valueOf(i));
                             MainObject.put(lists.getModel() , jsonObject);
                         } catch (JSONException e) {
@@ -153,22 +153,22 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
 
 
     @Override
-    public void AddItem(String l ,  int pos) {
+    public void AddItem(ModelList l ,  int pos) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put(l, l);
-            jsonObject.put("name" , l);
+            jsonObject.put(l.getModel(), l.getModel());
+            jsonObject.put("name" , l.getModel());
             jsonObject.put("pos" , String.valueOf(pos));
-            MainObject.put(l , jsonObject);
+            MainObject.put(l.getModel() , jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void RemoveItem(String l , int pos) {
+    public void RemoveItem(ModelList l , int pos) {
         modalList.get(pos).setCheckable(false);
-        MainObject.remove(l);
+        MainObject.remove(l.getModel());
     }
 
 
