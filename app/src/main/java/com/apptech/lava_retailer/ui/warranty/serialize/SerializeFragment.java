@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -73,12 +74,12 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     LinearLayout removeBtn;
     String SELL_DATE="", HANDSET_REPLACE="", REPLACE_ITEM= "";
     private boolean NoData = true, Wrongdatra = true;
-    String NEW_IMEI="";
+    String NEW_IMEI="", Replace_Imei="";
     String IMEI ="" , WARRANTY_TYPE_MOB = "", WARRANTY_TYPE_CHAR = "", WARRANTY_TYPE_EAR = "" , WARRANTY_PERIOD_MOB ="" , WARRANTY_PERIOD_CHAR ="" , WARRANTY_PERIOD_EAR ="" , ITEM_PURCHASE_DATE_date ="";
     JsonObject mainObject = new JsonObject();
     boolean WARRANTY_TYPE_MOB1 = false , WARRANTY_TYPE_EAR1 =false , WARRANTY_TYPE_CHAR1 = false;
     boolean WarrantyMob = false , WarrantyPhone = false , WarrantyEarPhone = false;
-    JSONObject jsonObject;
+    JSONObject Replace_item;
     int k=0;
 
     public static SerializeFragment newInstance() {
@@ -108,7 +109,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         sessionManage = SessionManage.getInstance(getContext());
         scannerFragment = new ScannerFragment(this);
         barCodeScannerFragment = new BarCodeScannerFragment(this);
-        jsonObject= new JSONObject();
+        Replace_item= new JSONObject();
 
 
 
@@ -117,7 +118,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if (new NetworkCheck().haveNetworkConnection(requireActivity())) {
                 if (validation()) {
                     WarrantyCheck(binding.ImeiEdittext.getText().toString().trim());
-                    jsonObject= new JSONObject();
+                    Replace_item= new JSONObject();
                     return;
                 }
                 return;
@@ -126,10 +127,11 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
         });
         binding.submitBtn.setOnClickListener(v -> {
-            Log.e(TAG, "onActivityCreated: " +  jsonObject.length() );
-            if(jsonObject.length()!=0){
+            Log.e(TAG, "onActivityCreated: " +  Replace_item.length() );
+            if(Replace_item.length()!=0){
                 if(binding.MobCheckbox.isChecked()){
-                    CheckIMei(NEW_IMEI , 1);
+                    withouthandset();
+//                    CheckIMei(NEW_IMEI , 1);
                 }else {
                     withouthandset();
                 }
@@ -198,7 +200,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 //               CheckIMei(binding.ImeiEdittext.getText().toString(),1);
 //               binding.MobCheckbox.setEnabled(false);
             }else {
-                jsonObject.remove("1");
+                Replace_item.remove("1");
             }
         });
 
@@ -206,16 +208,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="BATTERY";
-                NEW_IMEI ="";
+//                NEW_IMEI ="";
 //                Submit(2);
                 try {
-                    jsonObject.putOpt("2","BATTERY");
+                    Replace_item.putOpt("2","BATTERY");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.BatteryCheckbox.setEnabled(false);
             }else {
-                jsonObject.remove("2");
+                Replace_item.remove("2");
 
             }
         });
@@ -224,16 +226,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="ADAPTER";
-                NEW_IMEI ="";
+//                NEW_IMEI ="";
 //                Submit(3);
                 try {
-                    jsonObject.putOpt("3","ADAPTER");
+                    Replace_item.putOpt("3","ADAPTER");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.AdapterCheckbox.setEnabled(false);
             }else {
-                jsonObject.remove("3");
+                Replace_item.remove("3");
             }
         });
 
@@ -241,16 +243,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="EARPHONE";
-                NEW_IMEI ="";
+//                NEW_IMEI ="";
 //                Submit(4);
                 try {
-                    jsonObject.putOpt("4","EARPHONE");
+                    Replace_item.putOpt("4","EARPHONE");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.EarphoneCheckbox.setEnabled(false);
             }else {
-                jsonObject.remove("4");
+                Replace_item.remove("4");
             }
         });
 
@@ -258,16 +260,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="CHARGER";
-                NEW_IMEI ="";
+//                NEW_IMEI ="";
 //                Submit(5);
                 try {
-                    jsonObject.putOpt("5","CHARGER");
+                    Replace_item.putOpt("5","CHARGER");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.ChargerCheckbox.setEnabled(false);
             }else {
-                jsonObject.remove("5");
+                Replace_item.remove("5");
             }
         });
 
@@ -275,16 +277,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="USB";
-                NEW_IMEI ="";
+//                NEW_IMEI ="";
 //                Submit(6);
                 try {
-                    jsonObject.putOpt("6","USB");
+                    Replace_item.putOpt("6","USB");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.ChargerCheckbox.setEnabled(false);
             }else {
-                jsonObject.remove("6");
+                Replace_item.remove("6");
             }
         });
 
@@ -1004,7 +1006,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                 getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
                 WarrantyCheck(imei);
-                jsonObject= new JSONObject();
+                Replace_item= new JSONObject();
             }
         }
         onetime = false;
@@ -1019,7 +1021,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 binding.ImeiEdittext.setText(imei);
                 getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
                 WarrantyCheck(imei);
-                jsonObject= new JSONObject();
+                Replace_item= new JSONObject();
             }
         }
         onetime = false;
@@ -1035,7 +1037,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         View view = LayoutInflater.from(getContext()).inflate(R.layout.row_warrant_imei_replace , null);
         LinearLayout close = view.findViewById(R.id.close);
         LinearLayout submit = view.findViewById(R.id.submit);
-
+        TextView msg= view.findViewById(R.id.msg);
         TextInputLayout addressEdittext = view.findViewById(R.id.addressEdittext);
         addressEdittext.getEditText().setText(imei);
         close.setOnClickListener(v -> {
@@ -1072,6 +1074,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             if(addressEdittext.getEditText().getText().toString().trim().isEmpty() || addressEdittext.getEditText().getText().length()!=15){
                 addressEdittext.setError(getResources().getString(R.string.INVALID_IMEI));
                 addressEdittext.setErrorEnabled(true);
+                msg.setVisibility(View.GONE);
                 return;
             }
             addressEdittext.setError(null);
@@ -1084,9 +1087,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             binding.IssueDateTitle.setOnClickListener(v1 -> {
                 HandsetReturn(i ,NEW_IMEI);
             });
-            CheckIMei(imei, i);
+            CheckIMei(addressEdittext.getEditText().getText().toString(), i ,alertDialog1, msg);
 
-            alertDialog1.dismiss();
+//            alertDialog1.dismiss();
         });
 
         builder.setView(view);
@@ -1219,7 +1222,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         map.put("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         map.put("locality_id", sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
         map.put("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
-        map.put("imei", NEW_IMEI);
+        map.put("imei", Replace_Imei);
         map.put("sell_date", SELL_DATE);
         map.put("handest_replace", HANDSET_REPLACE);
         map.put("item_name", REPLACE_ITEM);
@@ -1240,6 +1243,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                     if (error.equalsIgnoreCase("false")) {
                         if(alert){
                             AlertDialogfailure(message);
+                            binding.submitBtn.setVisibility(View.GONE);
                         }
                         switch (i) {
                             case 1:
@@ -1326,28 +1330,32 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     }
 
     void withouthandset(){
-        Iterator<String> keys = jsonObject.keys();
+        Iterator<String> keys = Replace_item.keys();
         k=0;
         while(keys.hasNext()) {
             String key = keys.next();
             k++;
             if (key.equals("1")) {
                 HANDSET_REPLACE = "YES";
+                Replace_Imei = NEW_IMEI;
             } else {
                 HANDSET_REPLACE = "NO";
+                Replace_Imei= "";
+
             }
-            if(jsonObject.length()==k){
-                REPLACE_ITEM = jsonObject.optString(key);
+            Log.e(TAG, "withouthandset: "+ k+ "  ===  "+ Replace_item.length() );
+            if(Replace_item.length()==k){
+                REPLACE_ITEM = Replace_item.optString(key);
                 Submit(Integer.parseInt(key),true);
             }else {
-                REPLACE_ITEM = jsonObject.optString(key);
+                REPLACE_ITEM = Replace_item.optString(key);
                 Submit(Integer.parseInt(key),false);
             }
         }
     }
 
 
-    void CheckIMei(String imei , int i){
+    void CheckIMei(String imei , int i , Dialog dialog, TextView msg){
         lavaInterface.IMEI_CHECK(imei, sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)
         ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)
                 ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID))
@@ -1365,38 +1373,43 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                     if(error.equalsIgnoreCase("false")){
-                        jsonObject.putOpt("1","MOBILE");
+                        Replace_item.putOpt("1","MOBILE");
+                        Replace_Imei = NEW_IMEI;
                         NEW_IMEI = imei;
 
-                        k=0;
-                        Iterator<String> keys = jsonObject.keys();
 
-                        while(keys.hasNext()) {
-                            String key = keys.next();
-                            k++;
-                            if (key.equals("1")) {
-                                HANDSET_REPLACE = "YES";
-                            } else {
-                                HANDSET_REPLACE = "NO";
-                            }
-                            if(jsonObject.length()==k){
-                                REPLACE_ITEM = jsonObject.optString(key);
-                                Submit(Integer.parseInt(key),true);
-                            }else {
-                                REPLACE_ITEM = jsonObject.optString(key);
-                                Submit(Integer.parseInt(key),false);
-                            }
-                        }
+                        msg.setVisibility(View.GONE);
+                        dialog.cancel();
+//                        k=0;
+//                        Iterator<String> keys = jsonObject.keys();
+//
+//                        while(keys.hasNext()) {
+//                            String key = keys.next();
+//                            k++;
+//                            if (key.equals("1")) {
+//                                HANDSET_REPLACE = "YES";
+//                            } else {
+//                                HANDSET_REPLACE = "NO";
+//                            }
+//                            if(jsonObject.length()==k){
+//                                REPLACE_ITEM = jsonObject.optString(key);
+//                                Submit(Integer.parseInt(key),true);
+//                            }else {
+//                                REPLACE_ITEM = jsonObject.optString(key);
+//                                Submit(Integer.parseInt(key),false);
+//                            }
+//                        }
 
 //                        HandsetReturn(i);
                         return;
                     }
 
-                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                     binding.submit.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
-
-                    AlertDialogfailure(message);
+                    msg.setText(message);
+                    msg.setVisibility(View.VISIBLE);
+//                    AlertDialogfailure(message);
                     switch (i){
                         case 1:
 //                            binding.MobCheckbox.setChecked(false);
