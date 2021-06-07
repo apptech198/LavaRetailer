@@ -501,7 +501,9 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
         String a = "123456789123458";
 
-        lavaInterface.IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID).enqueue(new Callback<Object>() {
+        lavaInterface.IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID
+                ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)
+                ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID)).enqueue(new Callback<Object>() {
 //        lavaInterface.IMEI_CHECK(a , "13").enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {

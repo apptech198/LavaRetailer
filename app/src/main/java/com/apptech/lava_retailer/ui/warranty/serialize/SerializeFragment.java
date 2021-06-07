@@ -451,6 +451,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         map.put("imei",imei);
 //        map.put("retailer_id","ff2326e2cf317a74fef52f267662a1ef");
         map.put("retailer_id",sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        map.put("country_name",sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
+        map.put("country_id",sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
 
 //        lavaInterface.WARRANTY_CHECK(id,imei).enqueue(new Callback<Object>() {
         lavaInterface.WARRENTYCHECK(map).enqueue(new Callback<Object>() {
@@ -1082,6 +1084,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             binding.IssueDateTitle.setOnClickListener(v1 -> {
                 HandsetReturn(i ,NEW_IMEI);
             });
+            CheckIMei(imei, i);
+
             alertDialog1.dismiss();
         });
 
@@ -1209,6 +1213,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
         Map<String, String> map = new HashMap<>();
+        map.put("country_name", sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
+        map.put("country_id", sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
         map.put("retailer_id", sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
         map.put("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         map.put("locality_id", sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
@@ -1342,7 +1348,10 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
     void CheckIMei(String imei , int i){
-        lavaInterface.IMEI_CHECK(imei, sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)).enqueue(new Callback<Object>() {
+        lavaInterface.IMEI_CHECK(imei, sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)
+        ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)
+                ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID))
+                .enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.e(TAG, "onResponse: "  + response.body().toString());

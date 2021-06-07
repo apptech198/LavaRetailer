@@ -656,7 +656,7 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
 
                         binding.submit.setEnabled(true);
                         binding.progressbar.setVisibility(View.GONE);
-
+                        binding.submitBtn.setVisibility(View.GONE);
 
 
 

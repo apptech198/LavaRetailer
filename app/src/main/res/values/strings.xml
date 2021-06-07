@@ -182,7 +182,7 @@
     <string name="Status">Status</string>
     <string name="Quantity">Quantity</string>
     <string name="Value">Value</string>
-    <string name="Handset">Handset</string>
+    <string name="Handset">Enter Replacement IMEI</string>
     <string name="Return_Handset">Return_Handset</string>
     <string name="ProductName">ProductName</string>
     <string name="Distributor_Name">Distributor Name</string>
