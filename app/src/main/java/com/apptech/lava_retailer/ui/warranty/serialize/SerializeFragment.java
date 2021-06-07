@@ -190,17 +190,17 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 //            Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 //        });
 
-         binding.MobCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
-             if(isChecked){
-                 HANDSET_REPLACE="YES";
-                 REPLACE_ITEM="HANDSET";
-                 HandsetReturn(1, NEW_IMEI);
+        binding.MobCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if(isChecked){
+                HANDSET_REPLACE="YES";
+                REPLACE_ITEM="HANDSET";
+                HandsetReturn(1, NEW_IMEI);
 //               CheckIMei(binding.ImeiEdittext.getText().toString(),1);
 //               binding.MobCheckbox.setEnabled(false);
-             }else {
-                 jsonObject.remove("1");
-             }
-         });
+            }else {
+                jsonObject.remove("1");
+            }
+        });
 
         binding.BatteryCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
@@ -215,7 +215,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 }
 //                binding.BatteryCheckbox.setEnabled(false);
             }else {
-                    jsonObject.remove("2");
+                jsonObject.remove("2");
 
             }
         });
@@ -303,7 +303,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     private void WarrantySubmit() {
 
-    binding.progressbar.setVisibility(View.VISIBLE);
+        binding.progressbar.setVisibility(View.VISIBLE);
 
         String id = sessionManage.getUserDetails().get("ID");
         String name = sessionManage.getUserDetails().get("NAME");
@@ -531,16 +531,16 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         binding.IssueDateMob.setVisibility(View.GONE);
                         binding.MobCheckbox.setChecked(false);
                         binding.MobCheckbox.setEnabled(true);
-                            binding.BatteryCheckbox.setChecked(false);
-                            binding.BatteryCheckbox.setEnabled(true);
-                            binding.AdapterCheckbox.setChecked(false);
-                            binding.AdapterCheckbox.setEnabled(true);
-                            binding.EarphoneCheckbox.setChecked(false);
-                            binding.EarphoneCheckbox.setEnabled(true);
-                            binding.ChargerCheckbox.setChecked(false);
-                            binding.ChargerCheckbox.setEnabled(true);
-                            binding.USBCheckbox.setChecked(false);
-                            binding.USBCheckbox.setEnabled(true);
+                        binding.BatteryCheckbox.setChecked(false);
+                        binding.BatteryCheckbox.setEnabled(true);
+                        binding.AdapterCheckbox.setChecked(false);
+                        binding.AdapterCheckbox.setEnabled(true);
+                        binding.EarphoneCheckbox.setChecked(false);
+                        binding.EarphoneCheckbox.setEnabled(true);
+                        binding.ChargerCheckbox.setChecked(false);
+                        binding.ChargerCheckbox.setEnabled(true);
+                        binding.USBCheckbox.setChecked(false);
+                        binding.USBCheckbox.setEnabled(true);
 
 
 
@@ -717,7 +717,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
                         }else {
                             binding.Chargerayout.setVisibility(View.GONE);
-                           WarrantyPhone = true ;
+                            WarrantyPhone = true ;
                         }
 
 
@@ -947,8 +947,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                         }else {
-                         WarrantyEarPhone = true;
-                         binding.EarphoneLayout.setVisibility(View.GONE);
+                            WarrantyEarPhone = true;
+                            binding.EarphoneLayout.setVisibility(View.GONE);
                         }
 
                         if(WarrantyMob && WarrantyPhone && WarrantyEarPhone){
@@ -1189,134 +1189,134 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 .setTitle("Message")
                 .setMessage("Do You Wan't replace All Items!")
                 .setPositiveButton("Yes", (dialogInterface, i) -> {
-                  binding.MobCheckbox.setChecked(true);
-                  binding.AdapterCheckbox.setChecked(true);
-                  binding.BatteryCheckbox.setChecked(true);
-                  binding.EarphoneCheckbox.setChecked(true);
-                  binding.ChargerCheckbox.setChecked(true);
-                  binding.USBCheckbox.setChecked(true);
-                  dialogInterface.cancel();
+                    binding.MobCheckbox.setChecked(true);
+                    binding.AdapterCheckbox.setChecked(true);
+                    binding.BatteryCheckbox.setChecked(true);
+                    binding.EarphoneCheckbox.setChecked(true);
+                    binding.ChargerCheckbox.setChecked(true);
+                    binding.USBCheckbox.setChecked(true);
+                    dialogInterface.cancel();
                 })
                 .setNegativeButton("No", (dialogInterface, i) -> {
-                     dialogInterface.cancel();
+                    dialogInterface.cancel();
                 })
                 .show();
     }
-    
-    
+
+
     void Submit(int i,boolean alert){
 
 
 
-            Map<String, String> map = new HashMap<>();
-            map.put("retailer_id", sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
-            map.put("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
-            map.put("locality_id", sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
-            map.put("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
-            map.put("imei", NEW_IMEI);
-            map.put("sell_date", SELL_DATE);
-            map.put("handest_replace", HANDSET_REPLACE);
-            map.put("item_name", REPLACE_ITEM);
-            map.put("imei_original", binding.ImeiEdittext.getText().toString());
-            lavaInterface.REPLACEMENT_WARENTY(map).enqueue(new Callback<Object>() {
-                @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-                    Log.e(TAG, "onResponse: " + response.body().toString());
+        Map<String, String> map = new HashMap<>();
+        map.put("retailer_id", sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        map.put("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
+        map.put("locality_id", sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        map.put("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        map.put("imei", NEW_IMEI);
+        map.put("sell_date", SELL_DATE);
+        map.put("handest_replace", HANDSET_REPLACE);
+        map.put("item_name", REPLACE_ITEM);
+        map.put("imei_original", binding.ImeiEdittext.getText().toString());
+        lavaInterface.REPLACEMENT_WARENTY(map).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                Log.e(TAG, "onResponse: " + response.body().toString());
 
-                    try {
-                        JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                try {
+                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
 
-                        String error = jsonObject.optString("error");
-                        String message = jsonObject.optString("message");
-                        int error_code = jsonObject.getInt("error_code");
+                    String error = jsonObject.optString("error");
+                    String message = jsonObject.optString("message");
+                    int error_code = jsonObject.getInt("error_code");
 
 
-                        if (error.equalsIgnoreCase("false")) {
-                             if(alert){
-                                 AlertDialogfailure(message);
-                             }
-                             switch (i) {
-                                case 1:
-                                    binding.MobCheckbox.setChecked(true);
-                                    binding.MobCheckbox.setEnabled(false);
-                                    break;
-                                case 2:
-                                    binding.BatteryCheckbox.setChecked(true);
-                                    binding.BatteryCheckbox.setEnabled(false);
-                                    break;
-                                case 3:
-                                    binding.AdapterCheckbox.setChecked(true);
-                                    binding.AdapterCheckbox.setEnabled(false);
-                                    break;
-                                case 4:
-                                    binding.EarphoneCheckbox.setChecked(true);
-                                    binding.EarphoneCheckbox.setEnabled(false);
-                                    break;
-                                case 5:
-                                    binding.ChargerCheckbox.setChecked(true);
-                                    binding.ChargerCheckbox.setEnabled(false);
-                                    break;
-                                case 6:
-                                    binding.USBCheckbox.setChecked(true);
-                                    binding.USBCheckbox.setEnabled(false);
-                                    break;
-
-                            }
-                            return;
+                    if (error.equalsIgnoreCase("false")) {
+                        if(alert){
+                            AlertDialogfailure(message);
                         }
-
-                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                        binding.submit.setEnabled(true);
-                        binding.progressbar.setVisibility(View.GONE);
-                        AlertDialogfailure(message);
                         switch (i) {
                             case 1:
-                                binding.MobCheckbox.setChecked(false);
-                                binding.MobCheckbox.setEnabled(true);
+                                binding.MobCheckbox.setChecked(true);
+                                binding.MobCheckbox.setEnabled(false);
                                 break;
                             case 2:
-                                binding.BatteryCheckbox.setChecked(false);
-                                binding.BatteryCheckbox.setEnabled(true);
+                                binding.BatteryCheckbox.setChecked(true);
+                                binding.BatteryCheckbox.setEnabled(false);
                                 break;
                             case 3:
-                                binding.AdapterCheckbox.setChecked(false);
-                                binding.AdapterCheckbox.setEnabled(true);
+                                binding.AdapterCheckbox.setChecked(true);
+                                binding.AdapterCheckbox.setEnabled(false);
                                 break;
                             case 4:
-                                binding.EarphoneCheckbox.setChecked(false);
-                                binding.EarphoneCheckbox.setEnabled(true);
+                                binding.EarphoneCheckbox.setChecked(true);
+                                binding.EarphoneCheckbox.setEnabled(false);
                                 break;
                             case 5:
-                                binding.ChargerCheckbox.setChecked(false);
-                                binding.ChargerCheckbox.setEnabled(true);
+                                binding.ChargerCheckbox.setChecked(true);
+                                binding.ChargerCheckbox.setEnabled(false);
                                 break;
                             case 6:
-                                binding.USBCheckbox.setChecked(false);
-                                binding.USBCheckbox.setEnabled(true);
+                                binding.USBCheckbox.setChecked(true);
+                                binding.USBCheckbox.setEnabled(false);
                                 break;
 
                         }
                         return;
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "onResponse: " + e.getMessage());
                     }
 
-                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                     binding.submit.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
+                    AlertDialogfailure(message);
+                    switch (i) {
+                        case 1:
+                            binding.MobCheckbox.setChecked(false);
+                            binding.MobCheckbox.setEnabled(true);
+                            break;
+                        case 2:
+                            binding.BatteryCheckbox.setChecked(false);
+                            binding.BatteryCheckbox.setEnabled(true);
+                            break;
+                        case 3:
+                            binding.AdapterCheckbox.setChecked(false);
+                            binding.AdapterCheckbox.setEnabled(true);
+                            break;
+                        case 4:
+                            binding.EarphoneCheckbox.setChecked(false);
+                            binding.EarphoneCheckbox.setEnabled(true);
+                            break;
+                        case 5:
+                            binding.ChargerCheckbox.setChecked(false);
+                            binding.ChargerCheckbox.setEnabled(true);
+                            break;
+                        case 6:
+                            binding.USBCheckbox.setChecked(false);
+                            binding.USBCheckbox.setEnabled(true);
+                            break;
 
+                    }
+                    return;
 
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "onResponse: " + e.getMessage());
                 }
 
-                @Override
-                public void onFailure(Call<Object> call, Throwable t) {
-                    Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
-                    binding.submit.setEnabled(true);
-                    binding.progressbar.setVisibility(View.GONE);
-                }
-            });
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.submit.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
+                binding.submit.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+            }
+        });
     }
 
     void withouthandset(){
@@ -1356,8 +1356,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                     if(error.equalsIgnoreCase("false")){
-                          jsonObject.putOpt("1","MOBILE");
-                          NEW_IMEI = imei;
+                        jsonObject.putOpt("1","MOBILE");
+                        NEW_IMEI = imei;
 
                         k=0;
                         Iterator<String> keys = jsonObject.keys();

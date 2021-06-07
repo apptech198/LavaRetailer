@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.SellOutReportCategoryFilterAdapter;
 import com.apptech.lava_retailer.adapter.SellOutReportModalFilterAdapter;
 import com.apptech.lava_retailer.databinding.FragmentSellOutReportModalFilterBinding;
+import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
+import com.apptech.lava_retailer.list.modelList.ModelList;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -38,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,14 +57,15 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
     SessionManage sessionManage;
     ProgressDialog progressDialog;
     OnItemClickBackPress onItemClickBackPress;
-    List<String> modalList;
+    List<ModelList> modalList;
     JSONObject MainObject = new JSONObject();
     private static final String TAG = "SellOutReportModalFilte";
     SellOutReportModalFilterAdapter sellOutReportModalFilterAdapter;
 
-    public SellOutReportModalFilter(OnItemClickBackPress onItemClickBackPress ,     List<String> modalList) {
+    public SellOutReportModalFilter(OnItemClickBackPress onItemClickBackPress , List<ModelList> modalList , JSONObject ReturnModelJsonObject) {
         this.onItemClickBackPress = onItemClickBackPress;
         this.modalList = modalList;
+        MainObject = ReturnModelJsonObject;
     }
 
 
@@ -85,21 +90,31 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
         progressDialog.setCancelable(false);
 
 
-/*        if (new NetworkCheck().haveNetworkConnection(getActivity())){
-            if (modalList.isEmpty()){
-                getModel();
-            }else {
-                sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(onItemClickInterface , modalList);
-                binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
+
+
+        if (MainObject.length() > 0){
+
+            binding.MaterialChecKall.setChecked(MainObject.length() == modalList.size());
+
+            Iterator<String> iterator = MainObject.keys();
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                try {
+                    JSONObject object = MainObject.getJSONObject(key);
+                    int pos = Integer.parseInt(object.get("pos").toString());
+                    ModelList l = modalList.get(pos);
+                    l.setCheckable(true);
+                } catch (JSONException jsonException) {
+                    jsonException.printStackTrace();
+                }
             }
-        }else {
-            Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
+
         }
-*/
 
 
-                sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
-                binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
+
+        sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
+        binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
 
 
         binding.Filterbtn.setOnClickListener(v -> {
@@ -114,18 +129,19 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
                     SellOutReportModalFilterAdapter.Viewholder  viewholder = (SellOutReportModalFilterAdapter.Viewholder) binding.ModalRecyclerView.findViewHolderForAdapterPosition(i);
                     CheckBox checkBox = viewholder.itemView.findViewById(R.id.CheckBtn);
                     checkBox.setChecked(isChecked);
-                    String lists = modalList.get(i);
+                    ModelList lists = modalList.get(i);
                     if(isChecked){
                         JSONObject jsonObject = new JSONObject();
                         try {
-                            jsonObject.put(lists , lists);
+                            jsonObject.put(lists.getModel() , lists.getModel());
                             jsonObject.put("name" , lists);
-                            MainObject.put(lists , jsonObject);
+                            jsonObject.put("pos" , String.valueOf(i));
+                            MainObject.put(lists.getModel() , jsonObject);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }else {
-                        MainObject.remove(lists);
+                        MainObject.remove(lists.getModel());
                     }
                 }
             }
@@ -135,149 +151,14 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
 
     }
 
-    private void getModel() {
-
-        String josn = "{\n" +
-                "  \"comodity_list\": [\n" +
-                "    {\n" +
-                "      \"id\": \"1\",\n" +
-                "      \"name\": \"SMART PHONE\",\n" +
-                "      \"name_ar\": \"هاتف ذكي\",\n" +
-                "      \"name_fr\": \"\",\n" +
-                "      \"brand_id\": null,\n" +
-                "      \"brand_name\": null,\n" +
-                "      \"form_type\": null,\n" +
-                "      \"time\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": \"2\",\n" +
-                "      \"name\": \"USB CABLE\",\n" +
-                "      \"name_ar\": \"كابل USB\",\n" +
-                "      \"name_fr\": \"\",\n" +
-                "      \"brand_id\": null,\n" +
-                "      \"brand_name\": null,\n" +
-                "      \"form_type\": null,\n" +
-                "      \"time\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": \"5\",\n" +
-                "      \"name\": \"FEATURE PHONE\",\n" +
-                "      \"name_ar\": \"مواصفات الهاتف\",\n" +
-                "      \"name_fr\": \"\",\n" +
-                "      \"brand_id\": null,\n" +
-                "      \"brand_name\": null,\n" +
-                "      \"form_type\": null,\n" +
-                "      \"time\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": \"6\",\n" +
-                "      \"name\": \"WIRED EARPHONE\",\n" +
-                "      \"name_ar\": \"سماعة سلكية\",\n" +
-                "      \"name_fr\": \"\",\n" +
-                "      \"brand_id\": null,\n" +
-                "      \"brand_name\": null,\n" +
-                "      \"form_type\": null,\n" +
-                "      \"time\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": \"7\",\n" +
-                "      \"name\": \"BLUETOOTH EARPHONE\",\n" +
-                "      \"name_ar\": \"سماعة بلوتوث\",\n" +
-                "      \"name_fr\": \"\",\n" +
-                "      \"brand_id\": null,\n" +
-                "      \"brand_name\": null,\n" +
-                "      \"form_type\": null,\n" +
-                "      \"time\": null\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"id\": \"8\",\n" +
-                "      \"name\": \"EARPHONE\",\n" +
-                "      \"name_ar\": \"سماعة الأذن\",\n" +
-                "      \"name_fr\": \"\",\n" +
-                "      \"brand_id\": null,\n" +
-                "      \"brand_name\": null,\n" +
-                "      \"form_type\": null,\n" +
-                "      \"time\": null\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"model_list\": [\n" +
-                "    {\n" +
-                "      \"model\": \"Y30\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"model\": \"Y31\"\n" +
-                "    }\n" +
-                "    ,\n" +
-                "    {\n" +
-                "      \"model\": \"Y32\"\n" +
-                "    }\n" +
-                "    ,\n" +
-                "    {\n" +
-                "      \"model\": \"Y33\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"error\": false,\n" +
-                "  \"error_code\": 200,\n" +
-                "  \"message\": \" all IMEI   \"\n" +
-                "}";
-
-
-        progressDialog.show();
-        lavaInterface.SELL_OUT_CATEGORY_MODAL_FILTER().enqueue(new Callback<Object>() {
-
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-
-                if(response.isSuccessful()){
-                    try {
-                        JSONObject jsonObject  = new JSONObject(new Gson().toJson(response.body()));
-//                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                        jsonObject = new JSONObject(josn);
-                        String error = jsonObject.getString("error");
-                        String message = jsonObject.getString("message");
-
-                        if(error.equalsIgnoreCase("FALSE")){
-                            JSONArray model_list = jsonObject.getJSONArray("model_list");
-                            modalList.clear();
-
-                            for (int i=0; i<model_list.length(); i++){
-                                JSONObject op = model_list.getJSONObject(i);
-                                modalList.add(op.optString("model"));
-                            }
-
-//                            sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
-//                            binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
-
-                            progressDialog.dismiss();
-                            return;
-                        }
-                        Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    progressDialog.dismiss();
-                    Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressDialog.dismiss();
-                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-
-            }
-        });
-
-    }
 
     @Override
-    public void AddItem(String l) {
+    public void AddItem(String l ,  int pos) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put(l, l);
             jsonObject.put("name" , l);
+            jsonObject.put("pos" , String.valueOf(pos));
             MainObject.put(l , jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -285,7 +166,8 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
     }
 
     @Override
-    public void RemoveItem(String l) {
+    public void RemoveItem(String l , int pos) {
+        modalList.get(pos).setCheckable(false);
         MainObject.remove(l);
     }
 

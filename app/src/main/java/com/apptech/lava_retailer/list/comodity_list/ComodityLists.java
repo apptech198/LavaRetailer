@@ -10,6 +10,7 @@ public class ComodityLists {
     String brand_name;
     String form_type;
     String time;
+    boolean Checkable = false;
 
     public ComodityLists(String id, String name, String name_ar, String name_fr, String brand_id, String brand_name, String form_type, String time) {
         this.id = id;
@@ -84,5 +85,13 @@ public class ComodityLists {
 
     public void setTime(String time) {
         this.time = time;
+    }
+
+    public boolean isCheckable() {
+        return Checkable;
+    }
+
+    public void setCheckable(boolean checkable) {
+        Checkable = checkable;
     }
 }

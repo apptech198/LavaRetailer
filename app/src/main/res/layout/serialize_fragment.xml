@@ -521,7 +521,7 @@
                         android:layout_marginStart="12dp"
                         app:layout_constraintTop_toTopOf="@id/EarphoneCheckbox"
                         app:layout_constraintBottom_toBottomOf="@id/EarphoneCheckbox"
-                       app:layout_constraintRight_toLeftOf="@id/EarphoneCheckbox"/>
+                        app:layout_constraintRight_toLeftOf="@id/EarphoneCheckbox"/>
 
 
 
@@ -539,7 +539,7 @@
                         android:layout_marginEnd="4dp"
                         app:layout_constraintTop_toBottomOf="@+id/IssueDateEar"
                         app:layout_constraintStart_toStartOf="@+id/Earphone"
-                         />
+                        />
 
 
 
@@ -915,7 +915,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                />
+                    />
 
 
 

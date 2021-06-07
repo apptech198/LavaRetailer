@@ -30,6 +30,7 @@ import com.apptech.lava_retailer.databinding.ReportsFragmentBinding;
 import com.apptech.lava_retailer.databinding.RowSellOutReportBinding;
 import com.apptech.lava_retailer.list.announcelist.PriceDrop;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
+import com.apptech.lava_retailer.list.modelList.ModelList;
 import com.apptech.lava_retailer.list.price_drop_report.PriceDropReportList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomCategoryList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomModalList;
@@ -86,10 +87,13 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     List<PriceDropReportList> pricedropMainlist = new ArrayList<>();
     List<PriceDropReportList> PriceDropReportFilterLists = new ArrayList<>();
     JSONObject PriceDropReportCategoryObject = new JSONObject();
+    JSONObject PriceDropReportReturnCategoryObject = new JSONObject();
     JSONObject PriceDropReportModalObject = new JSONObject();
+    JSONObject PriceDropReportReturnModalObject = new JSONObject();
+
     List<SellOutCustomCategoryList> PriceDropCustomCategoryLists = new ArrayList<>();
 
-    List<String> modalList = new ArrayList<>();
+    List<ModelList> modalList = new ArrayList<>();
     List<ComodityLists> categoryLists =new ArrayList<>();
 
     JSONObject CategoryjJsonobject = new JSONObject();
@@ -139,7 +143,10 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         binding.PendingLayout.setOnClickListener(this);
         binding.ApprovedLayout.setOnClickListener(this);
         binding.CancelledLayout.setOnClickListener(this);
+        binding.QtyCheckbox.setChecked(true);
+        binding.ValueCheckbox.setChecked(true);
 
+/*
 
         binding.FilterQtyLayout.setOnClickListener(v -> {
             if (binding.QtyCheckbox.isChecked()){
@@ -149,9 +156,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
             }
             binding.QtyCheckbox.setChecked(true);
             QTYSelect = "YES";
-
-
-
 
         });
 
@@ -167,16 +171,17 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         });
 
 
+*/
 
 
 
         binding.filterModel.setOnClickListener(v -> {
-            sellOutReportModalFilter = new SellOutReportModalFilter(this , modalList);
+            sellOutReportModalFilter = new SellOutReportModalFilter(this , modalList , PriceDropReportReturnModalObject);
             sellOutReportModalFilter.show(getChildFragmentManager(), "modal bottom sheet");
         });
 
         binding.filterCategory.setOnClickListener(v -> {
-            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this , categoryLists);
+            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this , categoryLists , PriceDropReportReturnCategoryObject);
             sellOutReportCategoryFilter.show(getChildFragmentManager(), "category filter");
         });
 
@@ -475,7 +480,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
                             for (int i=0; i<model_list.length(); i++){
                                 JSONObject op = model_list.getJSONObject(i);
-                                modalList.add(op.optString("model"));
+                                modalList.add(new ModelList(op.optString("model")));
                             }
 
 
@@ -544,6 +549,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                             JSONArray model_list = jsonObject.getJSONArray("fetch_list");
                             pricedropMainlist.clear();
                             for (int i = 0; i < model_list.length(); i++) {
+
                                 JSONObject op = model_list.getJSONObject(i);
 
                                 String Qtyset = "0";
@@ -617,6 +623,11 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     public void OnClickItem(JSONObject jsonObject) {
         Log.e(TAG, "OnClickItem: " + jsonObject );
         sellOutReportCategoryFilter.dismiss();
+        try {
+            PriceDropReportReturnCategoryObject = new JSONObject(String.valueOf(jsonObject));
+        } catch (JSONException jsonException) {
+            jsonException.printStackTrace();
+        }
         PriceDropCategoryFilterObject(jsonObject);
     }
 
@@ -696,6 +707,11 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
     public void Onitem(JSONObject object) {
         sellOutReportModalFilter.dismiss();
         Log.e(TAG, "OnClickItem: " + object );
+        try {
+            PriceDropReportReturnModalObject = new JSONObject(String.valueOf(object));
+        } catch (JSONException jsonException) {
+            jsonException.printStackTrace();
+        }
         PriceDropModalFilterObject(object);
     }
 
@@ -821,7 +837,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         Grandtotal_Qty = 0;
         Grandtotal_Value = 0;
 
-        Iterator iterator = PriceDropReportCategoryObject.keys();
+        Iterator<String> iterator = PriceDropReportCategoryObject.keys();
         while (iterator.hasNext()) {
             String key = (String) iterator.next();
             try {

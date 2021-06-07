@@ -58,15 +58,19 @@ public class SellOutReportCategoryFilterAdapter extends RecyclerView.Adapter<Sel
                 break;
         }
 
+        if (l.isCheckable()){
+            holder.binding.CheckBtn.setChecked(true);
+        }
+
 
 
         holder.binding.Mainlayouot.setOnClickListener(v -> {
             if (holder.binding.CheckBtn.isChecked()){
                 holder.binding.CheckBtn.setChecked(false);
-                onItemClickInterface.RemoveItem(l);
+                onItemClickInterface.RemoveItem(l , position);
                 return;
             }
-            onItemClickInterface.AddItem(l);
+            onItemClickInterface.AddItem(l , position);
             holder.binding.CheckBtn.setChecked(true);
         });
 
@@ -94,8 +98,8 @@ public class SellOutReportCategoryFilterAdapter extends RecyclerView.Adapter<Sel
 
 
     public interface OnItemClickCategoryInterface{
-        void AddItem(ComodityLists lists);
-        void RemoveItem(ComodityLists lists);
+        void AddItem(ComodityLists lists , int pos);
+        void RemoveItem(ComodityLists lists ,int pos);
     }
 
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.SellOutReportModalFilterAdapter;
 import com.apptech.lava_retailer.databinding.FragmentProceDropModalFilterBinding;
+import com.apptech.lava_retailer.list.modelList.ModelList;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
@@ -49,7 +50,7 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
     SessionManage sessionManage;
     ProgressDialog progressDialog;
     SellOutReportModalFilterAdapter sellOutReportModalFilterAdapter;
-    List<String> modalList = new ArrayList<>();
+    List<ModelList> modalList = new ArrayList<>();
     SellOutReportModalFilterAdapter.OnItemClickInterface onItemClickInterface;
     JSONObject MainObject = new JSONObject();
     PriceDropModalInterFace priceDropModalInterFace;
@@ -82,11 +83,12 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
 
         onItemClickInterface = new SellOutReportModalFilterAdapter.OnItemClickInterface() {
             @Override
-            public void AddItem(String l) {
+            public void AddItem(String l , int pos) {
                 JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put(l, l);
                     jsonObject.put("name" , l);
+                    jsonObject.put("pos" , String.valueOf(pos));
                     MainObject.put(l , jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -94,9 +96,9 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
             }
 
             @Override
-            public void RemoveItem(String l) {
+            public void RemoveItem(String l , int pos) {
+                modalList.get(pos).setCheckable(false);
                 MainObject.remove(l);
-
             }
         };
 
@@ -138,7 +140,7 @@ public class PriceDropModalFilterFragment extends BottomSheetDialogFragment {
 
                             for (int i=0; i<model_list.length(); i++){
                                 JSONObject op = model_list.getJSONObject(i);
-                                modalList.add(op.optString("model"));
+                                modalList.add(new ModelList(op.optString("model")));
                             }
 
                             sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(onItemClickInterface , modalList);
