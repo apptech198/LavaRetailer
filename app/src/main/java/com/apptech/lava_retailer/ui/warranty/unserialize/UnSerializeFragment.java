@@ -191,6 +191,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                     TYPE= "NONSERIALIZE";
                     binding.ImeiEdittext.setText("");
                     SELECT_DATE ="";
+                    binding.selectDatePicker.setText("Select Date");
                     binding.submit.setVisibility(View.VISIBLE);
                     break;
             }
@@ -460,6 +461,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         RequestBody locality_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOCALITY));
         RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
         RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"), sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
+        RequestBody origional_srno = RequestBody.create(MediaType.parse("multipart/form-data"),NEW_IMEI);
 
 
 
@@ -502,6 +504,12 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         binding.submit.setFocusable(true);
                         binding.progressbar.setVisibility(View.GONE);
                         AlertDialogfailure(message);
+                        if(!TYPE.equals("SERIALIZE")){
+                           binding.selectDatePicker.setText("Select Date");
+                           binding.ImageLayout.setVisibility(View.GONE);
+                            SELECT_DATE="";
+                            filePart=null;
+                        }
                         return;
                     }
 

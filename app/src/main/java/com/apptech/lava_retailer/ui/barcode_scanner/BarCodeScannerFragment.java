@@ -105,6 +105,7 @@ public class BarCodeScannerFragment extends Fragment {
                             backPressBarCode.OnbackpressBarcode(intentData);
                             cameraSource.release();
                         }
+                        getActivity().getSupportFragmentManager().popBackStack();
 
                     });
                 }

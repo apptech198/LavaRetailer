@@ -496,7 +496,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                                         addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name") ,message);
                                         break;
                                     case "ar":
-                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"), message);
+                                        addView(ResourcesCompat.getDrawable(getResources(), R.drawable.btn_edit, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"), message);
                                         break;
                                 }
                                 binding.progressbar.setVisibility(View.GONE);

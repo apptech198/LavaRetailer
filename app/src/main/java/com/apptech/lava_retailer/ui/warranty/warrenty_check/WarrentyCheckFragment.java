@@ -149,7 +149,6 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
         if (onetime) {
             binding.ImeiEdittext.setText(imei);
             getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
-
             CheckWarrenty(imei);
         }
         onetime = false;
@@ -188,7 +187,7 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
                     String error = jsonObject.getString("error");
                     String message = jsonObject.optString("message");
                     int error_code = jsonObject.getInt("error_code");
-
+                    binding.ProductLayout.setVisibility(View.GONE);
                     if (error.equalsIgnoreCase("false")) {
 
                         JSONObject object = jsonObject.getJSONObject("detail");
