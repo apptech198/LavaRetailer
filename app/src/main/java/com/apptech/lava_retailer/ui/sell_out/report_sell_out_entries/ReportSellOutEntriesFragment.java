@@ -272,7 +272,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
                         imeiCount = 0;
                         binding.addLayout.removeAllViews();
-
+                        jsonArray= new JSONObject();
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         binding.submitBtn.setClickable(true);
                         binding.submitBtn.setEnabled(true);

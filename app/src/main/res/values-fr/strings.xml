@@ -184,6 +184,9 @@
     <string name="Quantity">Quantity</string>
     <string name="Value">Value</string>
     <string name="Handset">Handset</string>
+    <string name="Srno">Enter Replacement Serial no.</string>
+    <string name="INVALID_SRNO">INVALID Serial no.</string>
+    <string name="Handset_name">Handset</string>
     <string name="Return_Handset">Return_Handset</string>
     <string name="ProductName">ProductName</string>
     <string name="Distributor_Name">Distributor Name</string>

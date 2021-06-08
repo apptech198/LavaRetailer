@@ -386,6 +386,10 @@ public class PassbookFragment extends Fragment {
                                     if (binding != null) {
                                         binding.noData.setVisibility(View.VISIBLE);
                                         binding.recycle.setVisibility(View.GONE);
+                                        if(first){
+                                            first = false;
+                                            getClaimtype();
+                                        }
                                     }
                                 }else {
                                     if (binding != null) {

@@ -136,6 +136,7 @@
     <string name="Price_Drop">Price Drop</string>
     <string name="VALID_IMEI">VALID IMEI</string>
     <string name="INVALID_IMEI">INVALID IMEI</string>
+    <string name="INVALID_SRNO">INVALID Serial no.</string>
     <string name="PENDING_VERIFICATION">PENDING VERIFICATION</string>
     <string name="Start_Date">Start Date</string>
     <string name="Add">Add</string>
@@ -183,6 +184,9 @@
     <string name="Quantity">Quantity</string>
     <string name="Value">Value</string>
     <string name="Handset">Enter Replacement IMEI</string>
+    <string name="Handset_name">Handset</string>
+
+    <string name="Srno">Enter Replacement Serial no.</string>
     <string name="Return_Handset">Return_Handset</string>
     <string name="ProductName">ProductName</string>
     <string name="Distributor_Name">Distributor Name</string>

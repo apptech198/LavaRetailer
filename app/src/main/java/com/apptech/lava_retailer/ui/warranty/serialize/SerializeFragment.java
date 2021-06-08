@@ -1000,9 +1000,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     public void Onbackpress(String imei) {
         binding.ImeiEdittext.setText(imei);
         if (onetime) {
+            getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
             if(validation()){
-
-                getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
                 WarrantyCheck(imei);
                 Replace_item= new JSONObject();
             }
@@ -1015,9 +1014,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     public void OnbackpressBarcode(String imei) {
         binding.ImeiEdittext.setText(imei);
         if (onetime) {
+            getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
             if(validation()){
                 binding.ImeiEdittext.setText(imei);
-                getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
                 WarrantyCheck(imei);
                 Replace_item= new JSONObject();
             }
