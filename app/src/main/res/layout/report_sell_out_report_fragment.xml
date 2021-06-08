@@ -236,11 +236,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/FilterQtyLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/PendingLayout"
-                android:background="@color/back_all"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:background="@drawable/order_status_design"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/FilterValueLayout">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
@@ -267,10 +270,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/FilterValueLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/FilterQtyLayout"
-                android:background="@color/back_all">
+                app:layout_constraintTop_toTopOf="@+id/FilterQtyLayout"
+                app:layout_constraintBottom_toBottomOf="@+id/FilterQtyLayout"
+                android:background="@drawable/order_status_design"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@+id/FilterQtyLayout"
+                app:layout_constraintEnd_toEndOf="parent">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"

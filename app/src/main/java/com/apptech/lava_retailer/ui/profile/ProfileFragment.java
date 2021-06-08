@@ -11,6 +11,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -68,9 +70,7 @@ public class ProfileFragment extends Fragment {
     List<LocalityList> localityList = new ArrayList<>();
     private Uri fileUri;
     MultipartBody.Part filePart= null;
-    boolean firstTime = true;
-    List<Country_list> countryLists = new ArrayList<>();
-
+    NavController navController;
 
     public static ProfileFragment newInstance() {
         return new ProfileFragment();
@@ -81,6 +81,12 @@ public class ProfileFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = ProfileFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
     }
 
     @Override
@@ -143,6 +149,7 @@ public class ProfileFragment extends Fragment {
         if (new NetworkCheck().haveNetworkConnection(requireActivity())){
             Profile_details();
         }else {
+            CheckInternetAleart();
             Toast.makeText(requireContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -175,6 +182,26 @@ public class ProfileFragment extends Fragment {
                     .start();
             title.setText(getActivity().getString(R.string.Profile));
         });
+
+    }
+
+    void CheckInternetAleart(){
+
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.profileFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
 
     }
 

@@ -177,7 +177,6 @@ public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSh
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-
     }
 
 

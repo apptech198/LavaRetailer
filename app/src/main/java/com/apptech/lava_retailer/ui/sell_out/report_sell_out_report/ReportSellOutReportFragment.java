@@ -197,27 +197,27 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
         binding.QtyCheckbox.setChecked(true);
         binding.ValueCheckbox.setChecked(true);
-
-        binding.FilterQtyLayout.setOnClickListener(v -> {
-            if (binding.QtyCheckbox.isChecked()) {
-                binding.QtyCheckbox.setChecked(false);
-                QTYSelect = "";
-                return;
-            }
-            binding.QtyCheckbox.setChecked(true);
-            QTYSelect = "YES";
-        });
-
-
-        binding.FilterValueLayout.setOnClickListener(v -> {
-            if (binding.ValueCheckbox.isChecked()) {
-                VALUESelect = "";
-                binding.ValueCheckbox.setChecked(false);
-                return;
-            }
-            binding.ValueCheckbox.setChecked(true);
-            VALUESelect = "YES";
-        });
+//
+//        binding.FilterQtyLayout.setOnClickListener(v -> {
+//            if (binding.QtyCheckbox.isChecked()) {
+//                binding.QtyCheckbox.setChecked(false);
+//                QTYSelect = "";
+//                return;
+//            }
+//            binding.QtyCheckbox.setChecked(true);
+//            QTYSelect = "YES";
+//        });
+//
+//
+//        binding.FilterValueLayout.setOnClickListener(v -> {
+//            if (binding.ValueCheckbox.isChecked()) {
+//                VALUESelect = "";
+//                binding.ValueCheckbox.setChecked(false);
+//                return;
+//            }
+//            binding.ValueCheckbox.setChecked(true);
+//            VALUESelect = "YES";
+//        });
 
     }
 

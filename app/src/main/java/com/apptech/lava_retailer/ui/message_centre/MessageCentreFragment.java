@@ -99,7 +99,6 @@ public class MessageCentreFragment extends Fragment  {
 
         if(new NetworkCheck().haveNetworkConnection(requireActivity())){
             MessageCenter();
-
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")) {
                 CheckProfileverify();
             }
@@ -123,6 +122,8 @@ public class MessageCentreFragment extends Fragment  {
 
 
     }
+
+
 
 
 

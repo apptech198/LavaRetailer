@@ -33,6 +33,7 @@ import com.apptech.lava_retailer.databinding.ProductDetailsFragmentBinding;
 import com.apptech.lava_retailer.list.product_gallery.ProductGalleryLists;
 import com.apptech.lava_retailer.modal.product.ProductList;
 import com.apptech.lava_retailer.modal.productgallery.ProductGalleryList;
+import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.NumberConvertArabic;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -101,7 +102,11 @@ public class ProductDetailsFragment extends Fragment {
         assert getArguments() != null;
          list = ProductDetailsFragmentArgs.fromBundle(getArguments()).getProductList();
 
-        getGallary(list.getId());
+         if(new NetworkCheck().haveNetworkConnection(requireActivity())){
+             getGallary(list.getId());
+         }else {
+             CheckInternetAleart();
+         }
 
         qtyset1();
         cardQuntyUpdate();
@@ -465,6 +470,27 @@ public class ProductDetailsFragment extends Fragment {
         binding.viewCardFloat.setOnClickListener(v -> {
             navController.navigate(R.id.action_global_cartFragment);
         });
+    }
+
+
+    void CheckInternetAleart(){
+
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.productDetailsFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
     }
 
     @Override

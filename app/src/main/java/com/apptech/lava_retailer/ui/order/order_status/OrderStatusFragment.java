@@ -10,6 +10,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,6 +56,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     PopupWindow mypopupWindow;
     OrderStatusAdapter orderStatusAdapter;
     List<com.apptech.lava_retailer.list.OrderStatusList> orderStatusLists = new ArrayList<>();
+    NavController navController;
 
     public static OrderStatusFragment newInstance() {
         return new OrderStatusFragment();
@@ -86,6 +89,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
             binding.progressbar.setVisibility(View.GONE);
             binding.noData.setVisibility(View.VISIBLE);
             binding.OrderStatusRecyclerView.setVisibility(View.GONE);
+            CheckInternetAleart();
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -103,6 +107,32 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+    }
+
+
+    void CheckInternetAleart(){
+
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.orderPlaceSuccessFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
 
     private void setPopUpWindow() {
         LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
