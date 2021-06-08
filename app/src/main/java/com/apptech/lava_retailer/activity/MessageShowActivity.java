@@ -78,6 +78,8 @@ public class MessageShowActivity extends AppCompatActivity {
             MessageShow1();
         }else {
             binding.noproduct.setVisibility(View.VISIBLE);
+            binding.progressbar.setVisibility(View.GONE);
+            CheckInternetAleart();
             Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -296,6 +298,34 @@ public class MessageShowActivity extends AppCompatActivity {
                 }, 1500);
         }
     }
+
+
+
+    void CheckInternetAleart(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    startActivity(new Intent(MessageShowActivity.this, MessageShowActivity.class));
+                    finish();
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
+
+
+
+
+
+
 }
 
 

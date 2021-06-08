@@ -105,10 +105,6 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         TodayDate = getCurrentDate();
         binding.addBtn.setOnClickListener(v -> {
-            if(binding.ImeiEdittext.getText().toString().isEmpty()){
-                binding.ImeiEdittext.setError("Enter IMEI");
-                return;
-            }
             addImei();
         });
 
@@ -188,8 +184,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         mainJsonObject.addProperty("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
         mainJsonObject.addProperty("locality_name",  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
         mainJsonObject.addProperty("locality_id",  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
-        mainJsonObject.addProperty("country_id",  sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
-        mainJsonObject.addProperty("country_name",  sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
+        mainJsonObject.addProperty("country_id",  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
+        mainJsonObject.addProperty("country_name",  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
 
         mainJsonObject.add("imei_list", jsonElements);
 
@@ -212,14 +208,12 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
                         imeiCount = 0;
                         binding.addLayout.removeAllViews();
-
-
                         Toast.makeText(getContext(), "" + message, Toast.LENGTH_SHORT).show();
                         binding.submitBtn.setClickable(true);
                         binding.submitBtn.setEnabled(true);
                         binding.progressbar.setVisibility(View.GONE);
                         binding.submitBtn.setVisibility(View.GONE);
-
+                        jsonArray = new JSONObject();
 
                         return;
                     }
@@ -233,7 +227,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                 binding.submitBtn.setClickable(true);
                 binding.submitBtn.setEnabled(true);
                 binding.progressbar.setVisibility(View.GONE);
-
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -354,6 +348,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                     jsonObject.addProperty("drop_amount", announce_drop_amount);
                     jsonObject.addProperty("check_status", textView.getHint().toString());
                     jsonObject.addProperty("status",  textView.getHint().toString());
+                    jsonObject.addProperty("price_drop_id",  "");
+                    jsonObject.addProperty("price_drop_name",  "");
 
 
                     jsonElements.add(jsonObject);
@@ -364,7 +360,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
             alertDialog.dismiss();
             submitImei();
-            binding.addLayout.removeAllViews();
+//            binding.addLayout.removeAllViews();
         });
         no.setOnClickListener(view -> {alertDialog.dismiss();
             binding.progressbar.setVisibility(View.GONE);
@@ -439,6 +435,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     private boolean ImeiValid(String imei) {
         if (imei.isEmpty()) {
             Toast.makeText(requireContext(), getResources().getString(R.string.field_required), Toast.LENGTH_SHORT).show();
+            binding.ImeiEdittext.setError("Enter IMEI");
             return false;
         } else if (imei.length() != 15) {
 //            Toast.makeText(requireContext(), "Invalid Imei code", Toast.LENGTH_SHORT).show();

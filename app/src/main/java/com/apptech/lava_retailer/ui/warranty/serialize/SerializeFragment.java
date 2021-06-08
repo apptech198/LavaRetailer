@@ -126,6 +126,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 
         });
+
         binding.submitBtn.setOnClickListener(v -> {
             Log.e(TAG, "onActivityCreated: " +  Replace_item.length() );
             if(Replace_item.length()!=0){
@@ -437,6 +438,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         return date.getTime();
     }
 
+
     public static String getNormalDate(long timeInMillies) {
         String date = null;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -444,6 +446,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         System.out.println("Today is " + date);
         return date;
     }
+
 
     private void WarrantyCheck(String imei) {
 
@@ -524,7 +527,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         }
 
 
-//           sell out of this imei is not reported.
+//                       sell out of this imei is not reported.
                         if(order_detail.optString("sell_out_date").equals("")){
                             binding.progressbar.setVisibility(View.GONE);
                             AlertDialogfailure("Tertiary Date or Sell out Date Not found in our System Please Contact to Distributer!");
@@ -597,6 +600,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         int Battery_War = 0;
                         int USB_War = 0;
                         int Adapter_War = 0;
+
                         try {
                             MobWar = Integer.parseInt(acce_mobile_war);
                             Charge_War = Integer.parseInt(acce_charger_war);
@@ -895,12 +899,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
 
-
-
-
-
-
-
                         if(acce_earphone.equalsIgnoreCase("YES")){
 
                             binding.EarphoneLayout.setVisibility(View.VISIBLE);
@@ -1029,8 +1027,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
 
-
-
     private void HandsetReturn(int i , String imei){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -1100,8 +1096,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         alertDialog1.show();
 
     };
-
-
 
     private void addView(Drawable drawable , int type , String modals , String imeis , String distributor_name , String mess ) {
 
@@ -1210,7 +1204,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 .show();
     }
 
-
     void Submit(int i,boolean alert){
 
 
@@ -1244,6 +1237,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         if(alert){
                             AlertDialogfailure(message);
                             binding.submitBtn.setVisibility(View.GONE);
+                            binding.ProductLayout.setVisibility(View.GONE);
+                            binding.ImeiEdittext.setText("");
                         }
                         switch (i) {
                             case 1:

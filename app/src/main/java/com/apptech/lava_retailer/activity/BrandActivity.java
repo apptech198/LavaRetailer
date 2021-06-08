@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -73,6 +74,7 @@ public class BrandActivity extends AppCompatActivity {
             brand();
         }else {
             binding.noproduct.setVisibility(View.VISIBLE);
+            CheckInternetAleart();
             Toast.makeText(this, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -157,6 +159,29 @@ public class BrandActivity extends AppCompatActivity {
 
 
     }
+
+
+
+    void CheckInternetAleart(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    startActivity(new Intent(BrandActivity.this, BrandActivity.class));
+                    finish();
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
+
 
 
 }

@@ -93,6 +93,9 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
         progressDialog.setCancelable(false);
 
 
+        sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(this , categoryLists , AllBTN_CLICK);
+        binding.categoryRecyclerView.setAdapter(sellOutReportCategoryFilterAdapter);
+
 
         if (MainObject.length() > 0){
 
@@ -111,12 +114,17 @@ public class SellOutReportCategoryFilter extends BottomSheetDialogFragment imple
                 }
             }
 
+        }else {
+            for (int i=0; i< categoryLists.size(); i++){
+                ComodityLists lists = categoryLists.get(i);
+               lists.setCheckable(false);
+                MainObject.remove(lists.getId());;
+            }
         }
 
 
 
-        sellOutReportCategoryFilterAdapter = new SellOutReportCategoryFilterAdapter(this , categoryLists , AllBTN_CLICK);
-        binding.categoryRecyclerView.setAdapter(sellOutReportCategoryFilterAdapter);
+
 
 
         binding.checkBoxtAllClick.setOnCheckedChangeListener((buttonView, isChecked) -> {

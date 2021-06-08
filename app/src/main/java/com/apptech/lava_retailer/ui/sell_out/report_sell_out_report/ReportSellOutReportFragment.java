@@ -170,7 +170,6 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
 
 
 
-
         binding.filterCategory.setOnClickListener(v -> {
 
             Log.e(TAG, "onActivityCreated: " +  ReturnCategoryJsonObject.toString());
@@ -648,6 +647,10 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
     }
 
     private void getselloutReport() {
+
+        ReturnCategoryJsonObject = new JSONObject();
+        ReturnModelJsonObject = new JSONObject();
+
 
         String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
         String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);

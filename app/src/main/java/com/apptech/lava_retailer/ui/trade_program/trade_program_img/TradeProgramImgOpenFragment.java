@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,40 +65,52 @@ public class TradeProgramImgOpenFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(TradeProgramImgOpenViewModel.class);
         // TODO: Use the ViewModel
 
+/*
+        String url= "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
+        binding.pdfOpen.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = binding.pdfOpen.getSettings();
+        settings.setJavaScriptEnabled(true);
+        binding.pdfOpen.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        binding.pdfOpen.getSettings().setBuiltInZoomControls(true);
+        binding.pdfOpen.getSettings().setUseWideViewPort(true);
+        binding.pdfOpen.getSettings().setLoadWithOverviewMode(true);
+        binding.pdfOpen.loadUrl("https://docs.google.com/gview?embedded=true&url=" + url);
+        binding.pdfOpen.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
 
-        Log.e(TAG, "onActivityCreated: "  + ApiClient.Image_URL +getArguments().getString("image") );
-//        Bitmap bitmap = getBitmapfromUrl(ApiClient.Image_URL + "uploads/1051e8590a9bb77577396b58292bce3a.jpg");
-//        Uri uri = getImageUri(getContext() , bitmap);
-//        binding.imageView.setImageResource(R.drawable.a1);
-//        binding.imageView.setImageURI(uri);
+            @Override
+            public void onPageFinished(WebView view, String url) {
+//                progressbar.setVisibility(View.GONE);
+//                webView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                Toast.makeText(requireActivity() , "Error:" + description, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+*/
 
 
-//
-//        binding.imageView.loadUrl(mStringUrl);
-//        binding.imageView.getSettings().setBuiltInZoomControls(true);
-//        binding.imageView.setBackgroundColor(Color.TRANSPARENT);
+
         if(getArguments()!=null){
             binding.materialTextView.setText(getArguments().getString("name"));
             String mStringUrl = ApiClient.Image_URL +getArguments().getString("image");
-
-//            Glide.with(getActivity()).load(mStringUrl).dontAnimate().into(binding.imageView);
-
 
 
             Glide.with(getActivity()).load(mStringUrl).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                    binding.imageView.setImageResource(R.drawable.a1);
-                    Log.e(TAG, "onLoadFailed: "+ e.getMessage());
-//                    Toast.makeText(getActivity(), "nhi ho rahi load ", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
                 @Override
                 public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                holder.binding.GipLoader.setVisibility(View.GONE);
-//                    binding.imageView.setImageResource(R.drawable.a1);
-//                    Toast.makeText(getActivity(), "ready ho gyi", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             }).into(binding.imageView);

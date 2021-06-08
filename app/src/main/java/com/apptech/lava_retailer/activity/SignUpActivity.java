@@ -261,13 +261,16 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                     case "en":
                     case "fr":
                         binding.countryName.setText(topconty.get(pos).getName());
+                        binding.SelectCountry.setText(topconty.get(pos).getName());
                         break;
                     case "ar":
                         String ar = topconty.get(pos).getName_ar();
                         binding.countryName.setText(ar);
+                        binding.SelectCountry.setText(ar);
                         break;
                 }
-
+                CountryName = topconty.get(pos).getName();
+                getGovernate();
 
 
 ////                sessionManage.LOGIN_COUNTRY(l.getId() , l.getName() , countryLists.get(pos).getCurrency()
@@ -700,6 +703,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
     private void getGovernate() {
 
+        binding.progressbar.setVisibility(View.VISIBLE);
 
         String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
         String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
@@ -1022,8 +1026,9 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         binding.progressbar.setVisibility(View.GONE);
 
         CountryAdapter.CountryInterface  countryInterface = (text , list)  -> {
-            binding.SelectCountry.setText(text);
 
+
+            binding.SelectCountry.setText(text);
             CountryName = list.getName();
 
 //            switch (sessionManage.getUserDetails().get("LANGUAGE")){
@@ -1050,10 +1055,23 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             Locality = "";
             Locality_id = "";
             Locality_ar = "";
+
+            switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                case "en":
+                case "fr":
+                    binding.countryName.setText(list.getName());
+                    break;
+                case "ar":
+                    String ar = list.getName_ar();
+                    binding.countryName.setText(ar);
+                    break;
+            }
+
+            sessionManage.LOGIN_COUNTRY(list.getId() , list.getName() , list.getCurrency(), list.getCurrency_symbol() , list.getName_ar());
+
             governatelist.clear();
             localityList.clear();
             getGovernate();
-
             Log.e(TAG, "SelectSmaertCountry: "+  countryLists.size() );
         };
 

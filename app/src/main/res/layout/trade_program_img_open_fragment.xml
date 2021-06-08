@@ -49,6 +49,18 @@
             tools:ignore="WebViewLayout">
 
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Trading_scheme_listRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                android:visibility="gone"/>
+
+
             <com.github.chrisbanes.photoview.PhotoView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
@@ -59,15 +71,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <!--            <com.jsibbold.zoomage.ZoomageView-->
-            <!--                android:id="@+id/imageView"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                android:src="@drawable/logo"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--/>-->
+            <WebView
+                android:id="@+id/pdfOpen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

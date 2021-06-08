@@ -109,6 +109,12 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
                 }
             }
 
+        }else {
+            for (int i=0; i< modalList.size(); i++){
+                ModelList lists = modalList.get(i);
+                lists.setCheckable(false);
+                MainObject.remove(lists.getModel());;
+            }
         }
 
 
