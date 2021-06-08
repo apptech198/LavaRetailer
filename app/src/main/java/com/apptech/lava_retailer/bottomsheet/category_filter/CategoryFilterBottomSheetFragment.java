@@ -15,10 +15,8 @@ import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.CategoryAdapter;
-import com.apptech.lava_retailer.adapter.TradeProgramTabAdapter;
 import com.apptech.lava_retailer.databinding.CategoryFilterBottomSheetFragmentBinding;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
-import com.apptech.lava_retailer.modal.category.CategoryList;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;

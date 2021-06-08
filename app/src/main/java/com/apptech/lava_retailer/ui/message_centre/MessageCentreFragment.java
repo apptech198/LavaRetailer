@@ -1,7 +1,6 @@
 package com.apptech.lava_retailer.ui.message_centre;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,11 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.activity.ClientDatashowActivity;
-import com.apptech.lava_retailer.activity.LoginActivity;
+
 import com.apptech.lava_retailer.adapter.ExpansisAdapter;
 import com.apptech.lava_retailer.databinding.MessageCentreFragmentBinding;
-import com.apptech.lava_retailer.modal.message.MessageList;
 import com.apptech.lava_retailer.modal.message.NotificationListBrandWise;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -36,10 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -50,7 +45,6 @@ public class MessageCentreFragment extends Fragment  {
 
     private MessageCentreViewModel mViewModel;
     MessageCentreFragmentBinding binding;
-    List<MessageList> messageLists = new ArrayList<>();
     private static final String TAG = "MessageCentreFragment";
     SessionManage sessionManage;
     LavaInterface lavaInterface;
@@ -118,7 +112,6 @@ public class MessageCentreFragment extends Fragment  {
             mypopupWindow.showAsDropDown(v,-153,0);
         });
 
-        binding.msgCount.setText(String.valueOf(messageLists.size()));
 
 
     }

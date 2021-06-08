@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.Utils.CartDiffUtils;
-import com.apptech.lava_retailer.modal.QtyList;
 import com.apptech.lava_retailer.modal.card.CardList;
 import com.apptech.lava_retailer.other.NumberConvertArabic;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -25,7 +24,6 @@ import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
@@ -34,8 +32,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private static final String TAG = "CardAdapter";
     Context context;
     CardInterface cardInterface;
-    ArrayList<QtyList> qtyLists = new ArrayList<>();
-    boolean openQty = false;
     SessionManage sessionManage;
     String currency;
 
@@ -60,8 +56,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
         CardList list = cardLists.get(position);
 
-
-
         try {
             int Actual_price = Integer.parseInt(list.getActual_price());
             int Dis_price = Integer.parseInt(list.getDis_price());
@@ -72,8 +66,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
             e.printStackTrace();
             Log.e(TAG, "onActivityCreated: " + e.getMessage());
         }
-
-
 
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("ar")) {
@@ -150,7 +142,7 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         this.cardLists.addAll(newData);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView img ;
         TextView ProductName, ProductAmt, ProductAmtDis , cartQty  , ModalName , AmountCal;

@@ -39,7 +39,6 @@ import com.apptech.lava_retailer.list.modelList.ModelList;
 import com.apptech.lava_retailer.list.sell_out_report.SellOutReportList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomCategoryList;
 import com.apptech.lava_retailer.list.sellout_custom_list.SellOutCustomModalList;
-import com.apptech.lava_retailer.modal.CheckEntriesSellOutImeiMonthYearsList;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;

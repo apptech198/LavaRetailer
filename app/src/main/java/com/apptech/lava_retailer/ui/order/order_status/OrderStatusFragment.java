@@ -239,16 +239,6 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
     }
 
 
-    private void DateFilter() {
-        PopupMenu popup = new PopupMenu(getContext(), binding.DatpickerRange);
-        popup.getMenuInflater().inflate(R.menu.date_select, popup.getMenu());
-        popup.setOnMenuItemClickListener(item -> {
-            Toast.makeText(getContext(),"You Clicked : " + item.getTitle(), Toast.LENGTH_SHORT).show();
-            return true;
-        });
-        popup.show();//showing popup menu
-
-    }
 
     private void datePicker() {
         builder.setTitleText("Select date");

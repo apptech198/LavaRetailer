@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.apptech.lava_retailer.bottomsheet.category_filter.CategoryFilterBottomSheetFragment;
 import com.apptech.lava_retailer.databinding.RowCategoryBinding;
 import com.apptech.lava_retailer.list.comodity_list.ComodityLists;
-import com.apptech.lava_retailer.modal.category.CategoryList;
 import com.apptech.lava_retailer.other.SessionManage;
 
 import org.jetbrains.annotations.NotNull;

@@ -498,6 +498,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         if (onetime) {
             binding.ImeiEdittext.setText(imei);
             getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
+
             if(new NetworkCheck().haveNetworkConnection(requireActivity())){
                 IMEI_CHECK();
             }else {
@@ -609,21 +610,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         });
     }
 
-    private void MessageDilaog(String errormsg){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Error Message");
-        builder.setMessage(errormsg);
-//        builder.setNegativeButton("" , (dialog, which) -> {
-//            dialog.dismiss();
-//        });
-        builder.setPositiveButton("Close" , (dialog, which) -> {
-            dialog.dismiss();
-        });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-
-    }
 
 
 

@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.SellOutPendingVerificationAdapter;
 import com.apptech.lava_retailer.databinding.EntryPendingVerificationFragmentBinding;
+import com.apptech.lava_retailer.list.ClaimTypeList;
 import com.apptech.lava_retailer.modal.sellOutPendingVerification.List;
 import com.apptech.lava_retailer.modal.sellOutPendingVerification.SellOutPendingVerificationList;
 import com.apptech.lava_retailer.other.NetworkCheck;
@@ -49,6 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,12 +63,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     private static final String TAG = "EntryPendingVerificatio";
 
 
-    AlertDialog alertDialog;
-    View view;
-    LinearLayout fromDatetitle, toDatetitle;
-    TextView fromTextView, toTextView;
-    ImageView closeImg;
-    DatePickerDialog picker;
     LavaInterface lavaInterface;
     SessionManage sessionManage;
     String USER_ID;
@@ -78,7 +74,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     String StartDate ="" , End_Date = "" , TYPE = "";
     MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
-    java.util.List<List> DuplicateList = new ArrayList<>();
     NavController navController;
 
 
@@ -106,14 +101,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 
         setPopUpWindow();
         binding.datetimefilter.setOnClickListener(v -> {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog);
-//            view = LayoutInflater.from(requireContext()).inflate(R.layout.row_dialog_open, null);
-//            builder.setView(view);
-//            alertDialog = builder.create();
-//            alertDialog.show();
-//            fromDatetitle = view.findViewById(R.id.fromDatetitle);
-//            toDatetitle = view.findViewById(R.id.toDatetitle);
-//            dilogclick();
             mypopupWindow.showAsDropDown(v,-153,0);
         });
 
@@ -130,10 +117,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
             Toast.makeText(requireContext(), getContext().getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
-//        binding.validsipnner.setOnSpinnerItemSelectedListener((i, o, i1, t1) -> {
-//            Log.e(TAG, "onActivityCreated: " + t1.toString().trim());
-//            filtervalid(t1.toString());
-//        });
 
         binding.PendingLayout.setOnClickListener(this);
         binding.RejectedLayout.setOnClickListener(this);
@@ -284,10 +267,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
 
     private void StockList() {
 
-//        Log.e(TAG, "onActivityCreated: " + USER_ID);
-//        Log.e(TAG, "StockList: " + StartDate );
-//        Log.e(TAG, "StockList: " + End_Date );
-
         binding.progressbar.setVisibility(View.VISIBLE);
         String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
         String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
@@ -297,7 +276,6 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
             public void onResponse(Call<SellOutPendingVerificationList> call, Response<SellOutPendingVerificationList> response) {
 
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
 
                 try {
 
@@ -317,7 +295,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
                                 String status = object.optString("status");
                                 if(TYPE.toUpperCase().equalsIgnoreCase(status.trim().toUpperCase())){
                                     lists.add(new List(
-                                            object.optString("id")
+                                             object.optString("id")
                                             ,object.optString("type")
                                             ,object.optString("imei")
                                             ,object.optString("date")
