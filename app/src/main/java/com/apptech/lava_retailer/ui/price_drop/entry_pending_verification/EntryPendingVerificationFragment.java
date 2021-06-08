@@ -12,6 +12,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -77,6 +79,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
     MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
     java.util.List<List> DuplicateList = new ArrayList<>();
+    NavController navController;
 
 
     public static EntryPendingVerificationFragment newInstance() {
@@ -123,6 +126,7 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
         } else {
             binding.progressbar.setVisibility(View.GONE);
             binding.noStock.setVisibility(View.GONE);
+            CheckInternetAleart();
             Toast.makeText(requireContext(), getContext().getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -134,6 +138,12 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
         binding.PendingLayout.setOnClickListener(this);
         binding.RejectedLayout.setOnClickListener(this);
 
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
     }
 
     private void setPopUpWindow() {
@@ -439,4 +449,29 @@ public class EntryPendingVerificationFragment extends Fragment implements View.O
         }
 
     }
+
+
+
+
+    void CheckInternetAleart(){
+
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.entryPendingVerificationFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
+
+
 }

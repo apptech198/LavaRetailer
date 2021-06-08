@@ -7,12 +7,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
+import com.apptech.lava_retailer.activity.LoginActivity;
 import com.apptech.lava_retailer.databinding.PriceDropEntryFragmentBinding;
 import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.list.announcelist.PriceDrop;
@@ -77,7 +81,7 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     PriceDrop selectAnnounce;
     String announce_start_date ="" , announce_end_date ="" ,  announce_drop_amount ="" ,   announce_active ="";
     JSONObject jsonArray = new JSONObject();
-
+    NavController navController;
 
     public static PriceDropEntryFragment newInstance() {
         return new PriceDropEntryFragment();
@@ -101,7 +105,15 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         barCodeScannerFragment = new BarCodeScannerFragment(this);
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
-        getAnnounceList();
+
+        if(new NetworkCheck().haveNetworkConnection(requireActivity())){
+            getAnnounceList();
+        }else {
+            CheckInternetAleart();
+            binding.progressbar.setVisibility(View.GONE);
+        }
+
+
         USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
         TodayDate = getCurrentDate();
         binding.addBtn.setOnClickListener(v -> {
@@ -165,6 +177,12 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         TextView title = getActivity().findViewById(R.id.Actiontitle);
@@ -175,7 +193,6 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
 
         binding.progressbar.setVisibility(View.VISIBLE);
-
 
         mainJsonObject.addProperty("date", binding.startDatetime.getText().toString().trim());
         mainJsonObject.addProperty("start_date", announce_start_date);
@@ -260,7 +277,11 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
 
     private void addImei() {
         if (ImeiValid(binding.ImeiEdittext.getText().toString().trim())) {
-            IMEI_CHECK();
+            if(new NetworkCheck().haveNetworkConnection(requireActivity())){
+                IMEI_CHECK();
+            }else {
+                CheckInternetAleartWithReloadFragment();
+            }
         }
     }
 
@@ -477,7 +498,11 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         if (onetime) {
             binding.ImeiEdittext.setText(imei);
             getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
-            IMEI_CHECK();
+            if(new NetworkCheck().haveNetworkConnection(requireActivity())){
+                IMEI_CHECK();
+            }else {
+                CheckInternetAleartWithReloadFragment();
+            }
         }
         onetime = false;
     }
@@ -768,8 +793,48 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         no.setOnClickListener(view -> {alertDialog.dismiss();});
 
 
+    }
+
+
+    void CheckInternetAleart(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.priceDropEntryFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
 
     }
+
+    void CheckInternetAleartWithReloadFragment(){
+
+        AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    addImei();
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
+
 
 
 }

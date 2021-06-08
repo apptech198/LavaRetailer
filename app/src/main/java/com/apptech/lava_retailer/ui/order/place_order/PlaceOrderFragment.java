@@ -121,11 +121,12 @@ public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSh
         productLists.clear();
         adapterinterface();
 
-        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+        if (new NetworkCheck().haveNetworkConnection(requireActivity())){
             getProduct();
         }else {
             binding.noproduct.setVisibility(View.VISIBLE);
             binding.progressbar.setVisibility(View.GONE);
+            CheckInternetAleart();
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -178,6 +179,28 @@ public class  PlaceOrderFragment extends Fragment implements ShortFilterBottomSh
         navController = Navigation.findNavController(view);
 
     }
+
+
+    void CheckInternetAleart(){
+
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.placeOrderFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
+
 
     void cardQuntyUpdate() {
 

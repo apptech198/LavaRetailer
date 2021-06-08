@@ -76,11 +76,6 @@ public interface LavaInterface{
     @FormUrlEncoded
     Call<Object> getlocality(@Field("lang") String lang, @Field("governate_id") String governate_id , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
-
-
-
-
-
     @Headers({
             "Accept: application/json",
             "Content-Type: application/json"
@@ -91,7 +86,6 @@ public interface LavaInterface{
 
     @POST("pricedrop_imei")
     Call<Object> PRICE_DROP_IMEI(@Body JsonObject imei);
-
 
     @POST("pricedrop_imei_list_pending_block")
     @FormUrlEncoded
@@ -149,16 +143,12 @@ public interface LavaInterface{
     Call<Object> PRODUCT_LIST2 (@Field("brand_id") String brand_id , @Field("retailer_id") String retailer_id , @Field("locality_id") String locality_id
             , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
-
     @POST("get_products")
     @FormUrlEncoded
     Call<ProductList> PRODUCT_LIST1 (@Field("brand_id") String brand_id , @Field("retailer_id") String retailer_id , @Field("locality_id") String locality_id );
 
-
     @POST("buy_products")
     Call<Object> BuyProduct(@Body JsonObject jsonObject);
-
-
 
     @POST("my_orders")
     @FormUrlEncoded
@@ -167,8 +157,6 @@ public interface LavaInterface{
     @POST("product_gallary")
     @FormUrlEncoded
     Call<ProductGalleryList> GetGallery (@Field("product_id") String product_id , @Field("country_id") String country_id  , @Field("country_name") String country_name  );
-
-
 
     @POST("profile_update")
     @Multipart
@@ -193,12 +181,10 @@ public interface LavaInterface{
             , @Part("country_name") RequestBody country_name
     );
 
-
     @POST("warranty_check_nonseries")
     @Multipart
     Call<Object> WARRANTY_NO_SERIALIZED (@Part MultipartBody.Part img_url , @Part("retailer_id") RequestBody retailer_id , @Part("retailer_name") RequestBody retailer_name
         , @Part("date_sale") RequestBody date_sale, @Part("des") RequestBody des);
-
 
     @POST("accesories_replacement_warranty")
     @Multipart
@@ -206,16 +192,12 @@ public interface LavaInterface{
         , @Part("srno") RequestBody srno, @Part("retailer_id") RequestBody retailer_id, @Part("retailer_name") RequestBody retailer_name
             , @Part("locality_id") RequestBody locality_id, @Part("locality_name") RequestBody locality_name , @Part("country_id") RequestBody country_id , @Part("country_name") RequestBody country_name );
 
-
     @POST("warranty_check_series")
     @FormUrlEncoded
     Call<Object> WARRANTY_CHECK (@Field("retailer_id") String retailer_id , @Field("imei") String imei );
 
     @POST("warranty_check_series_submit")
     Call<Object> SUBMIT_SERI(@Body JsonObject jsonObject);
-
-
-
 
     @POST("check_imei")
     @FormUrlEncoded
@@ -266,7 +248,6 @@ public interface LavaInterface{
     Call<Object> SELLOUT_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date
             , @Field("end_date") String end_date , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
-
     @POST("pricedrop_report")
     @FormUrlEncoded
     Call<Object> PRICE_DROP_REPORT(@Field("retailer_id") String retailer_id , @Field("start_date") String start_date , @Field("end_date") String end_date
@@ -286,6 +267,13 @@ public interface LavaInterface{
     Call<Object> EMAIL_CHECK(@Field("email") String email , @Field("country_id") String country_id  , @Field("country_name") String country_name );
 
 }
+
+
+
+
+
+
+
 
 
 

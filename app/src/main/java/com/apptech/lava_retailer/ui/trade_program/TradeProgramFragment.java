@@ -218,6 +218,7 @@ public class TradeProgramFragment extends Fragment {
                                         object.optString("id")
                                         ,object.optString("trading_cat")
                                         ,object.optString("trading_cat_name")
+                                        ,object.optString("file_type")
                                         ,object.optString("name")
                                         ,object.optString("name_ar")
                                         ,object.optString("name_fr")
@@ -226,7 +227,6 @@ public class TradeProgramFragment extends Fragment {
                                         ,object.optString("img_fr")
                                         ,object.optString("time")
                                         ,object.optString("date")
-
                                 ));
                             }
 

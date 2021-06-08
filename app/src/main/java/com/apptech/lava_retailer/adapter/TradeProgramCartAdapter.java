@@ -67,6 +67,7 @@ public class TradeProgramCartAdapter extends RecyclerView.Adapter<TradeProgramCa
             bundle.putString("namear", lists.get(position).getNameAr());
             bundle.putString("namefr", lists.get(position).getNameFr());
             bundle.putString("image", lists.get(position).getImgEn());
+            bundle.putString("file_type", lists.get(position).getFileType());
             NavController navController= Navigation.findNavController(v);
             navController.navigate(R.id.tradeProgramImgOpenFragment, bundle);
         });

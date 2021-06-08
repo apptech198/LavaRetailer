@@ -17,6 +17,9 @@ public class List {
     @SerializedName("trading_cat_name")
     @Expose
     private String tradingCatName;
+    @SerializedName("file_type")
+    @Expose
+    private String fileType;
     @SerializedName("name")
     @Expose
     private String name;
@@ -42,11 +45,11 @@ public class List {
     @Expose
     private String date;
 
-
-    public List(String id, String tradingCat, String tradingCatName, String name, String nameAr, String nameFr, String imgEn, String imgAr, String imgFr, String time, String date) {
+    public List(String id, String tradingCat, String tradingCatName, String fileType, String name, String nameAr, String nameFr, String imgEn, String imgAr, String imgFr, String time, String date) {
         this.id = id;
         this.tradingCat = tradingCat;
         this.tradingCatName = tradingCatName;
+        this.fileType = fileType;
         this.name = name;
         this.nameAr = nameAr;
         this.nameFr = nameFr;
@@ -56,6 +59,7 @@ public class List {
         this.time = time;
         this.date = date;
     }
+
 
     public String getId() {
         return id;
@@ -79,6 +83,14 @@ public class List {
 
     public void setTradingCatName(String tradingCatName) {
         this.tradingCatName = tradingCatName;
+    }
+
+    public String getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
     }
 
     public String getName() {
@@ -144,5 +156,4 @@ public class List {
     public void setDate(String date) {
         this.date = date;
     }
-
 }

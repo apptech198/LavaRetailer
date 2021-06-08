@@ -29,8 +29,7 @@ public class CustomGifView extends View {
         init(context);
     }
 
-    public CustomGifView(Context context, AttributeSet attrs,
-                         int defStyleAttr) {
+    public CustomGifView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -74,21 +73,55 @@ public class CustomGifView extends View {
         }
 
         if (gifMovie != null) {
-
             int dur = gifMovie.duration();
             if (dur == 0) {
                 dur = 1000;
             }
-
             int relTime = (int)((now - mMovieStart) % dur);
-
             gifMovie.setTime(relTime);
-
             gifMovie.draw(canvas, 0, 0);
             invalidate();
-
         }
-
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

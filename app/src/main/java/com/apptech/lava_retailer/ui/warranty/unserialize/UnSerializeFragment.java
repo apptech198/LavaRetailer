@@ -365,7 +365,6 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
 
 
-
     }
 
     private void loadfragment(Fragment fragment) {

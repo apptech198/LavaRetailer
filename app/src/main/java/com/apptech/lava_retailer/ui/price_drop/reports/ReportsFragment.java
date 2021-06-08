@@ -11,6 +11,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -101,7 +103,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
     int Grandtotal_Qty = 0;
     int Grandtotal_Value = 0;
-
+    NavController navController;
 
     public static ReportsFragment newInstance() {
         return new ReportsFragment();
@@ -133,8 +135,12 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         StartDate = TodayDate[0];
         End_Date = TodayDate[1];
 
-        getAnnounceList();
-        GerReport();
+        if(new NetworkCheck().haveNetworkConnection(requireActivity())){
+            getAnnounceList();
+            GerReport();
+        }else {
+            CheckInternetAleart();
+        }
 
         setPopUpWindow();
         binding.DatpickerRange.setOnClickListener(v -> mypopupWindow.showAsDropDown(v,-153,0));
@@ -190,13 +196,19 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+    }
+
     private void setPopUpWindow() {
         LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.popup, null);
-        TextView last_7_day = (TextView) view.findViewById(R.id.last_7_day);
-        TextView this_month = (TextView) view.findViewById(R.id.this_month);
-        TextView last_month = (TextView) view.findViewById(R.id.last_month);
-        TextView CustomDate = (TextView) view.findViewById(R.id.CustomDate);
+        TextView last_7_day = view.findViewById(R.id.last_7_day);
+        TextView this_month = view.findViewById(R.id.this_month);
+        TextView last_month = view.findViewById(R.id.last_month);
+        TextView CustomDate = view.findViewById(R.id.CustomDate);
         mypopupWindow = new PopupWindow(view, 300, RelativeLayout.LayoutParams.WRAP_CONTENT, true);
 
         last_7_day.setOnClickListener(v -> {
@@ -627,6 +639,27 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
     }
 
+    void CheckInternetAleart(){
+
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.reportsFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
+
+
 
     @Override
     public void OnClickItem(JSONObject jsonObject) {
@@ -710,6 +743,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
     }
+
 
 
     @Override
