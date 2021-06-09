@@ -126,7 +126,7 @@ public class OrderStatusFragment extends Fragment implements View.OnClickListene
 
                 .setPositiveButton("Yes", (dialogInterface, i) -> {
                     navController.popBackStack();
-                    navController.navigate(R.id.orderPlaceSuccessFragment);
+                    navController.navigate(R.id.orderStatusFragment);
                 })
                 .show();
         alertDialog.setCanceledOnTouchOutside(false);

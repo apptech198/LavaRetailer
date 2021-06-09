@@ -50,9 +50,6 @@ public class CategoryFilterBottomSheetFragment extends BottomSheetDialogFragment
         this.categoryInterface = categoryInterface;
     }
 
-    //    public static CategoryFilterBottomSheetFragment newInstance(List<ComodityLists> comodityLists) {
-//        return new CategoryFilterBottomSheetFragment(comodityLists);
-//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -78,6 +75,7 @@ public class CategoryFilterBottomSheetFragment extends BottomSheetDialogFragment
         }else {
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
+
         categoryItemClickInterface = category -> categoryInterface.OnItemCategoryClick(category);
         
     }

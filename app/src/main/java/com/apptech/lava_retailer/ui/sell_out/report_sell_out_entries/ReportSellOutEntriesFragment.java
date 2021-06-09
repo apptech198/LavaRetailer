@@ -2,12 +2,18 @@ package com.apptech.lava_retailer.ui.sell_out.report_sell_out_entries;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,15 +42,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class ReportSellOutEntriesFragment extends Fragment implements ScannerFragment.BackPress , BarCodeScannerFragment.BackPressBarCode {
 
@@ -55,7 +64,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     private static final String TAG = "ReportSellOutEntriesFra";
     int imeiCount = 0;
     View rowView;
-    TextView textView , Modal , ModalTitle;
+    TextView textView , Modal ;
     LinearLayout removeBtn;
     LavaInterface lavaInterface;
     SessionManage sessionManage;
@@ -64,13 +73,15 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
     ScannerFragment scannerFragment;
     boolean onetime = true;
-    private boolean NoData = true, Wrongdatra = true;
+    private boolean NoData = true ;
     JsonArray jsonElements = new JsonArray();
     JsonObject mainJsonObject = new JsonObject();
     LinearLayout mainLayout;
     BarCodeScannerFragment barCodeScannerFragment;
     String CHECK_STATUS =""  , STATUS = "";
     JSONObject jsonArray = new JSONObject();
+    public static final int REQUEST_CODE = 100;
+    private final String[] neededPermissions = new String[]{Manifest.permission.CAMERA};
 
 
 
@@ -82,8 +93,6 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Reports sell out entries");
 
         binding = ReportSellOutEntriesFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
@@ -133,10 +142,13 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         });
 
         binding.scanBtn.setOnClickListener(v -> {
-            onetime = true;
-            binding.ImeiEdittext.setError(null);
-//            loadfragment(scannerFragment);
-            loadfragment(barCodeScannerFragment);
+
+            if (checkPermission()){
+                onetime = true;
+                binding.ImeiEdittext.setError(null);
+                loadfragment(barCodeScannerFragment);
+            }
+
         });
 
 
@@ -240,6 +252,69 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     }
 
 
+    private boolean checkPermission() {
+
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            ArrayList<String> permissionsNotGranted = new ArrayList<>();
+            for (String permission : neededPermissions) {
+                if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                    permissionsNotGranted.add(permission);
+                }
+            }
+
+
+            if (permissionsNotGranted.size() > 0) {
+
+                boolean shouldShowAlert = false;
+                for (String permission : permissionsNotGranted) {
+                    shouldShowAlert = ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), permission);
+                }
+
+                if (shouldShowAlert) {
+                    showPermissionAlert(permissionsNotGranted.toArray(new String[permissionsNotGranted.size()]));
+                } else {
+                    Toast.makeText(requireContext(), "" + getString(R.string.permission_message), Toast.LENGTH_SHORT).show();
+                    requestPermissions(permissionsNotGranted.toArray(new String[permissionsNotGranted.size()]));
+                }
+
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void showPermissionAlert(final String[] permissions) {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(requireContext());
+        alertBuilder.setCancelable(true);
+        alertBuilder.setTitle(R.string.permission_required);
+        alertBuilder.setMessage(R.string.permission_message);
+        alertBuilder.setPositiveButton(android.R.string.yes, (dialog, which) -> requestPermissions(permissions));
+        AlertDialog alert = alertBuilder.create();
+        alert.show();
+    }
+
+    private void requestPermissions(String[] permissions) {
+        ActivityCompat.requestPermissions(requireActivity(), permissions, REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                for (int result : grantResults) {
+                    if (result == PackageManager.PERMISSION_DENIED) {
+                        Log.d(TAG, "onRequestPermissionsResult: if");
+                        return;
+                    }
+                }
+                Log.d(TAG, "onRequestPermissionsResult: id");
+                // All permissions are granted. So, do the appropriate work now.
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
 
     void submitImei() {
         Log.e(TAG, "submitImei: " + binding.startDatetime.getText().toString().trim());
@@ -259,10 +334,10 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         Call call = lavaInterface.SELL_OUT_IMEI(mainJsonObject);
         call.enqueue(new Callback() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(@NotNull Call call, @NotNull Response response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 try {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
                     String error = jsonObject.getString("error");
@@ -284,6 +359,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
                     binding.submitBtn.setEnabled(true);
                     binding.submitBtn.setClickable(true);
                     Toast.makeText(requireContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    return;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -294,7 +370,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(@NotNull Call call, @NotNull Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
                 binding.submitBtn.setClickable(true);
                 binding.submitBtn.setEnabled(true);
@@ -327,7 +403,6 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
             binding.addLayout.removeView((View) v.getParent().getParent().getParent());
             if (binding.addLayout.getChildCount() == 0) {
                 NoData = true;
-                Wrongdatra = true;
                 imeiCount = 0;
                 binding.msgShowWrongImei.setVisibility(View.GONE);
                 binding.submitBtn.setVisibility(View.GONE);
@@ -416,7 +491,6 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         removeView(imeis);
         binding.ImeiEdittext.setText(null);
         NoData = true;
-        Wrongdatra = true;
     }
 
     private boolean ImeiValid(String imei) {

@@ -1,5 +1,6 @@
 package com.apptech.lava_retailer.ui.message_centre;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.apptech.lava_retailer.R;
 
@@ -29,12 +31,14 @@ import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,16 +47,18 @@ import retrofit2.Response;
 
 public class MessageCentreFragment extends Fragment  {
 
-    private MessageCentreViewModel mViewModel;
     MessageCentreFragmentBinding binding;
     private static final String TAG = "MessageCentreFragment";
     SessionManage sessionManage;
     LavaInterface lavaInterface;
     PopupWindow mypopupWindow;
-    String StartDate ="" , End_Date = "" , TYPE = "";
+    String StartDate ="" , End_Date = "" ;
     MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
     String Country_id = "";
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd" , Locale.US);
+    NavController navController;
+
 
     public static MessageCentreFragment newInstance() {
         return new MessageCentreFragment();
@@ -64,7 +70,7 @@ public class MessageCentreFragment extends Fragment  {
                              @Nullable Bundle savedInstanceState) {
 
         TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText("Message Centre");
+        title.setText(getString(R.string.message_center));
 
         binding = MessageCentreFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -73,11 +79,6 @@ public class MessageCentreFragment extends Fragment  {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MessageCentreViewModel.class);
-        // TODO: Use the ViewModel
-
-
-
 
         sessionManage = SessionManage.getInstance(requireContext());
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
@@ -99,6 +100,7 @@ public class MessageCentreFragment extends Fragment  {
         }else {
             binding.progressbar.setVisibility(View.GONE);
             binding.noDatafound.setVisibility(View.VISIBLE);
+            CheckInternetAleart();
             Toast.makeText(requireContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
@@ -108,21 +110,42 @@ public class MessageCentreFragment extends Fragment  {
         builder.setTitleText("Select date");
 
         setPopUpWindow();
-        binding.datepicker.setOnClickListener(v -> {
-            mypopupWindow.showAsDropDown(v,-153,0);
-        });
+        binding.datepicker.setOnClickListener(v -> mypopupWindow.showAsDropDown(v,-153,0));
 
 
 
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
+    }
 
+    void CheckInternetAleart(){
 
+        androidx.appcompat.app.AlertDialog alertDialog = new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+
+                .setIcon(android.R.drawable.ic_dialog_alert)
+
+                .setTitle("No Internet")
+
+                .setMessage("Please Check Your Internet Connection!")
+
+                .setPositiveButton("Yes", (dialogInterface, i) -> {
+                    navController.popBackStack();
+                    navController.navigate(R.id.messageCentreFragment);
+                })
+                .show();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+
+    }
 
 
     private void setPopUpWindow() {
         LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.popup, null);
+        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.popup, null);
         TextView last_7_day = (TextView) view.findViewById(R.id.last_7_day);
         TextView this_month = (TextView) view.findViewById(R.id.this_month);
         TextView last_month = (TextView) view.findViewById(R.id.last_month);
@@ -161,7 +184,6 @@ public class MessageCentreFragment extends Fragment  {
 
     private String TodayDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         String endDateStr = df.format(calendar1.getTime());
@@ -170,7 +192,6 @@ public class MessageCentreFragment extends Fragment  {
 
     private String ThisWeekDate(){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(calendar.getTime());
         Calendar calendar1 = Calendar.getInstance();
         calendar1.add(Calendar.DAY_OF_WEEK , -7);
@@ -178,19 +199,6 @@ public class MessageCentreFragment extends Fragment  {
         return  startDateStr + "#" + endDateStr;
     }
 
-    public String FirstAndLastDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, 0);
-        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        Date monthFirstDay = calendar.getTime();
-        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        String startDateStr = df.format(monthFirstDay);
-        String endDateStr = df.format(monthLastDay);
-        Log.e("DateFirstLast",startDateStr+" "+endDateStr);
-        return  startDateStr + "#" + endDateStr;
-    }
 
     public String LastMonthdate(){
         Calendar calendar = Calendar.getInstance();
@@ -199,7 +207,6 @@ public class MessageCentreFragment extends Fragment  {
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -213,7 +220,6 @@ public class MessageCentreFragment extends Fragment  {
         Date monthFirstDay = calendar.getTime();
         calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         Date monthLastDay = calendar.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String startDateStr = df.format(monthFirstDay);
         String endDateStr = df.format(monthLastDay);
         Log.e("DateFirstLast",startDateStr+" "+endDateStr);
@@ -225,14 +231,9 @@ public class MessageCentreFragment extends Fragment  {
         binding.datepicker.setClickable(false);
         materialDatePicker.show(getChildFragmentManager(), "");
 
-        materialDatePicker.addOnCancelListener(dialog -> {
-            binding.datepicker.setClickable(true);
-        });
+        materialDatePicker.addOnCancelListener(dialog -> binding.datepicker.setClickable(true));
 
-
-        materialDatePicker.addOnDismissListener(dialog -> {
-            binding.datepicker.setClickable(true);
-        });
+        materialDatePicker.addOnDismissListener(dialog -> binding.datepicker.setClickable(true));
 
 
         materialDatePicker.addOnPositiveButtonClickListener(selection -> {
@@ -248,9 +249,8 @@ public class MessageCentreFragment extends Fragment  {
     }
 
     public String getTimeStamp(long timeinMillies) {
-        String date = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // modify format
-        date = formatter.format(new Date(timeinMillies));
+        String date;
+        date = df.format(new Date(timeinMillies));
         System.out.println("Today is " + date);
         return date;
     }
@@ -267,7 +267,7 @@ public class MessageCentreFragment extends Fragment  {
 
         lavaInterface.NotificationListBrandWise(sessionManage.getUserDetails().get("BRAND_ID") , Country_id ,StartDate ,End_Date , country_name).enqueue(new Callback<NotificationListBrandWise>() {
             @Override
-            public void onResponse(Call<NotificationListBrandWise> call, Response<NotificationListBrandWise> response) {
+            public void onResponse(@NotNull Call<NotificationListBrandWise> call, @NotNull Response<NotificationListBrandWise> response) {
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
                 if (response.isSuccessful()) {
 
@@ -297,7 +297,7 @@ public class MessageCentreFragment extends Fragment  {
                             binding.progressbar.setVisibility(View.GONE);
                             binding.messageRecyclerView.setVisibility(View.GONE);
                         }catch (NullPointerException e){
-
+                            e.printStackTrace();
                         }
                         return;
                     }
@@ -317,7 +317,7 @@ public class MessageCentreFragment extends Fragment  {
             }
 
             @Override
-            public void onFailure(Call<NotificationListBrandWise> call, Throwable t) {
+            public void onFailure(@NotNull Call<NotificationListBrandWise> call, @NotNull Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
                 binding.noDatafound.setVisibility(View.VISIBLE);
                 binding.countLayout.setVisibility(View.GONE);
@@ -351,11 +351,11 @@ public class MessageCentreFragment extends Fragment  {
         lavaInterface.PROFILE_DETAILS(sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID) , country_id , country_name).enqueue(new Callback<Object>() {
 
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
 
                 try {
 
-                    JSONObject jsonObject = null;
+                    JSONObject jsonObject;
                     try {
                         jsonObject = new JSONObject(new Gson().toJson(response.body()));
 
@@ -400,7 +400,7 @@ public class MessageCentreFragment extends Fragment  {
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
             }

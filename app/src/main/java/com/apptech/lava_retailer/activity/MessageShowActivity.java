@@ -26,6 +26,7 @@ import com.apptech.lava_retailer.service.LavaInterface;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,6 @@ public class MessageShowActivity extends AppCompatActivity {
     MessageShowAdapter.MessageShowInterface messageShowInterface;
     JSONObject mainJsonObject = new JSONObject();
     java.util.List<NotificationListShow> notificationListShows = new ArrayList<>();
-    int NEXTACTITIVY = 0;
     AlertDialog alertDialog1;
     private List<com.apptech.lava_retailer.list.notificationList.List> Newslist;
     private boolean isFirstBackPressed = false;
@@ -93,9 +93,7 @@ public class MessageShowActivity extends AppCompatActivity {
             finish();
         });
 
-        binding.nextScreenbutton.setOnClickListener(v -> {
-            OtpVerificationDialog();
-        });
+        binding.nextScreenbutton.setOnClickListener(v -> OtpVerificationDialog());
 
         messageShowInterface = new MessageShowAdapter.MessageShowInterface() {
             @Override
@@ -141,7 +139,7 @@ public class MessageShowActivity extends AppCompatActivity {
 
         lavaInterface.NotificationList1(country_id , country_name).enqueue(new Callback<NotificationModel>() {
             @Override
-            public void onResponse(Call<NotificationModel> call, Response<NotificationModel> response) {
+            public void onResponse(@NotNull Call<NotificationModel> call, @NotNull Response<NotificationModel> response) {
 
                 Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
 
@@ -230,9 +228,10 @@ public class MessageShowActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<NotificationModel> call, Throwable t) {
+            public void onFailure(@NotNull Call<NotificationModel> call, @NotNull Throwable t) {
                 binding.progressbar.setVisibility(View.GONE);
-                binding.nomsg.setVisibility(View.VISIBLE);
+                binding.nomsg.setVisibility(View.GONE);
+                binding.noproduct.setVisibility(View.VISIBLE);
                 Toast.makeText(MessageShowActivity.this, "Time out", Toast.LENGTH_SHORT).show();
             }
         });
@@ -244,23 +243,13 @@ public class MessageShowActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.row_news , null);
         LinearLayout close = view.findViewById(R.id.close);
-        LinearLayout submit = view.findViewById(R.id.submit);
 
         MaterialTextView msg = view.findViewById(R.id.msg);
 
-//        Log.e(TAG, "OtpVerificationDialog: " + Newslist.size());
-//        Log.e(TAG, "OtpVerificationDialog: " + mainJsonObject.length());
+        msg.setText("Please read all the latest news");
 
-//        if(Newslist.size() == mainJsonObject.length()){
-//            msg.setText("Read all your are latest news");
-//        }else {
-            msg.setText("Please read all the latest news");
-//        }
+        close.setOnClickListener(v -> alertDialog1.dismiss());
 
-        close.setOnClickListener(v -> {alertDialog1.dismiss();});
-        submit.setOnClickListener(v -> {
-
-        });
 
         if(Newslist.size() == mainJsonObject.length()){
             startActivity(new Intent(MessageShowActivity.this, BrandActivity.class));
@@ -278,8 +267,6 @@ public class MessageShowActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (isFirstBackPressed) {
 
-//            super.onBackPressed();
-
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
             homeIntent.addCategory( Intent.CATEGORY_HOME );
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -290,12 +277,7 @@ public class MessageShowActivity extends AppCompatActivity {
         } else {
             isFirstBackPressed = true;
             Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                    public void run() {
-                        isFirstBackPressed = false;
-                    }
-                }, 1500);
+            new Handler().postDelayed(() -> isFirstBackPressed = false, 1500);
         }
     }
 

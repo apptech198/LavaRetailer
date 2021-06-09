@@ -245,6 +245,9 @@
     <string name="profile_not_verify">Your Profile is not verified</string>
     <string name="pending_verification">Pending Verification</string>
 
+    <string name="permission_required">Permission Required</string>
+    <string name="permission_message">You must grant permission to access camera to run this application.</string>
+
 
 </resources>
 
