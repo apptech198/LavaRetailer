@@ -256,7 +256,6 @@ public class MessageCentreFragment extends Fragment  {
     }
 
 
-
     private void MessageCenter() {
 
 

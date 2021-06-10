@@ -149,10 +149,6 @@ public class ProductDetailsFragment extends Fragment {
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-//                binding.ProductAdd.setClickable(false);
-//                binding.ProductAdd.setEnabled(false);
-
-
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
                 string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -166,7 +162,6 @@ public class ProductDetailsFragment extends Fragment {
             }
 
 
-//sdfsdfdsgfdsgds
 
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
             binding.modelName.setText(list.getModel());
@@ -208,9 +203,6 @@ public class ProductDetailsFragment extends Fragment {
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-//                binding.ProductAdd.setClickable(false);
-//                binding.ProductAdd.setEnabled(false);
-
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
                 string.setSpan(new MaskFilterSpan(blurMask), 0, list.getActual_price().length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -241,8 +233,8 @@ public class ProductDetailsFragment extends Fragment {
             String Dis_price =  new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
-            binding.productAmt.setText(currency  + Dis_price);
-            binding.productAmtDic.setText(currency  + Actual_price);
+            binding.productAmt.setText(currency + Dis_price);
+            binding.productAmtDic.setText(currency + Actual_price);
 
 
             try {
@@ -259,9 +251,6 @@ public class ProductDetailsFragment extends Fragment {
 
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
-
-//                binding.ProductAdd.setClickable(false);
-//                binding.ProductAdd.setEnabled(false);
 
                 SpannableString string = new SpannableString(Actual_price);
                 MaskFilter blurMask = new BlurMaskFilter(9f, BlurMaskFilter.Blur.NORMAL);
@@ -290,11 +279,6 @@ public class ProductDetailsFragment extends Fragment {
 
 
         binding.productDic.setBackgroundColor(Color.TRANSPARENT);
-
-
-
-
-
 
         binding.plus.setOnClickListener(v -> {
             if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {

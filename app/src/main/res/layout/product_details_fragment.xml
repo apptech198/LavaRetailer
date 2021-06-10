@@ -87,7 +87,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/lato_semi_bold"
-                android:text="vdvdvds"
                 android:textColor="#6b6b6b"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -145,13 +144,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintTop_toTopOf="@+id/brandNameTitle"
                 app:layout_constraintBottom_toBottomOf="@+id/brandNameTitle"
-                app:layout_constraintStart_toEndOf="@+id/brandNameTitle"
-                />
-
-
-
-
-
+                app:layout_constraintStart_toEndOf="@+id/brandNameTitle" />
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -167,7 +160,6 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
                 app:layout_constraintTop_toBottomOf="@+id/brandNameTitle" />
-
 
 
             <com.google.android.material.textview.MaterialTextView
@@ -196,9 +188,6 @@
                 app:layout_constraintStart_toEndOf="@+id/productAmt"
                 app:layout_constraintTop_toTopOf="@+id/productAmt"
                 app:layout_constraintBottom_toBottomOf="@+id/productAmt"/>
-            
-            
-            
             
 
             <com.google.android.material.card.MaterialCardView
@@ -260,16 +249,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
             </com.google.android.material.card.MaterialCardView>
-
-
-
-
-
-
 
 
             <LinearLayout
