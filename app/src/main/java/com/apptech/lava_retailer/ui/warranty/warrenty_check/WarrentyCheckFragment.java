@@ -206,10 +206,10 @@ public class  WarrentyCheckFragment extends Fragment implements ScannerFragment.
 
 
 
-                        binding.des.setText( order_detail.optString("marketing_name"));
+                        binding.des.setText(order_detail.optString("marketing_name"));
                         binding.skuName.setText( order_detail.optString("sku"));
                         binding.modelName.setText( order_detail.optString("model"));
-                        binding.type.setText("Warrenty Type : "+ order_detail.optString("warranty_type"));
+                        binding.type.setText(order_detail.optString("warranty_type"));
                         binding.status.setVisibility(View.GONE);
                         binding.message.setText( message);
 

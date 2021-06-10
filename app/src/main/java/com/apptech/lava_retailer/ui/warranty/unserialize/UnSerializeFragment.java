@@ -371,7 +371,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                             String message = jsonObject.optString("message");
                             int error_code = jsonObject.getInt("error_code");
 
-
+                            Log.e(TAG, "onResponse: "+ error_code );
                             if(error.equalsIgnoreCase("false")){
                                 Replace_item.putOpt("1","MOBILE");
                                 Replace_Imei = NEW_IMEI;
@@ -597,6 +597,16 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         String Modelar= data.optString("model_ar");
 
 
+
+                        binding.des.setText(data.optString("marketing_name"));
+                        binding.skuName.setText( data.optString("sku"));
+                        binding.modelName.setText( data.optString("model"));
+                        binding.type.setText(data.optString("warranty_type"));
+                        binding.status.setVisibility(View.GONE);
+                        binding.message.setText( message);
+
+
+
 //                        binding.ProductLayout.setVisibility(View.VISIBLE);
 
                         binding.addLayout.removeAllViews();
@@ -689,7 +699,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         binding.ProductLayout.setVisibility(View.VISIBLE);
 
                         if(acce_mobile.equalsIgnoreCase("YES")){
-
+//                            binding.Mobile.setText(pName);
                             binding.MobLayout.setVisibility(View.VISIBLE);
                             binding.NoWaranty.setVisibility(View.GONE);
                             binding.submitBtn.setVisibility(View.VISIBLE);

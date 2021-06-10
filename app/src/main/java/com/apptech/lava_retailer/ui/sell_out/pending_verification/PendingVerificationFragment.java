@@ -89,15 +89,12 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         mViewModel = new ViewModelProvider(this).get(PendingVerificationViewModel.class);
         // TODO: Use the ViewModel
 
-
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         sessionManage = SessionManage.getInstance(requireContext());
         USER_ID = sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID);
 
-
         setPopUpWindow();
         binding.datetimefilter.setOnClickListener(v -> mypopupWindow.showAsDropDown(v,-153,0));
-
 
         String[] date = TodayDate().split("#");
         StartDate = date[0];
@@ -129,6 +126,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
             End_Date = last_7[0];
             submitData();
         });
+
         last_month.setOnClickListener(v -> {
             mypopupWindow.dismiss();
             String[] lastMonth = LastMonthdate().split("#");
@@ -177,8 +175,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         return  startDateStr + "#" + endDateStr;
     }
 
-
-
     public String LastMonthdate(){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1);
@@ -217,8 +213,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
 
         materialDatePicker.addOnPositiveButtonClickListener(selection -> {
-            Log.e(TAG, "datePicker: " + selection.first );
-            Log.e(TAG, "datePicker: " + selection.second );
             binding.datetimefilter.setClickable(true);
             StartDate = getTimeStamp(selection.first) ;
             End_Date = getTimeStamp(selection.second);
@@ -391,6 +385,8 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         }
 
     }
+
+
 
 }
 
