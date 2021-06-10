@@ -191,18 +191,17 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/edit_back_color_change"
             android:padding="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ImeiEdittext">
-
-
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                android:id="@+id/desview">
+                android:layout_marginTop="20dp"
+                android:id="@+id/desview"
+                tools:ignore="MissingConstraints">
 
 
                 <com.google.android.material.textview.MaterialTextView
@@ -607,11 +606,43 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                     android:textColor="@color/red"
                     android:textSize="12sp"
+                    android:layout_marginTop="10dp"
                     android:visibility="gone"
                     android:layout_marginEnd="4dp"
                     app:layout_constraintTop_toBottomOf="@+id/IssueDateMob"
                     app:layout_constraintStart_toStartOf="@+id/Mobile" />
 
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/datetitle"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/lato_semi_bold"
+                    android:text="Select Replacement Date"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@id/MobMessage"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+
+
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/selectDatePicker1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edit_back_color_change"
+                    android:fontFamily="@font/lato_regular"
+                    android:hint="@string/select_Date"
+                    android:padding="12dp"
+                    app:layout_constraintTop_toBottomOf="@id/datetitle"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/blacklight"
+                    android:textSize="12sp" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -810,10 +841,10 @@
             android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="0dp"
             android:paddingStart="16dp"
             android:paddingLeft="16dp"
-            android:paddingTop="16dp"
+            android:paddingTop="0dp"
             android:paddingEnd="16dp"
             android:paddingRight="16dp"
             android:paddingBottom="16dp"
@@ -823,11 +854,58 @@
 
 
 
+
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/selectDatePicker"
+                android:id="@+id/nametitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:paddingTop="18dp"
+                android:paddingBottom="8dp"
+                android:text="@string/ProductName"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <EditText
+                android:id="@+id/itemname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_back_color_change"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/ProductName"
+                android:padding="12dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/blacklight"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/nametitle"
+                tools:ignore="MissingConstraints" />
+
+
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/replaceatetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:paddingTop="18dp"
+                android:paddingBottom="8dp"
+                android:text="Select Replacement Date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/itemname"
+                tools:ignore="MissingConstraints" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ReplaceDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/edit_back_color_change"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/select_Date"
@@ -835,6 +913,42 @@
                 android:textColor="@color/white"
                 android:textColorHint="@color/blacklight"
                 android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/replaceatetitle"
+                tools:ignore="MissingConstraints" />
+
+
+
+
+
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/selldatetitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_regular"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp"
+                android:text="Select Sale Date"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/white"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ReplaceDatePicker"
+                tools:ignore="MissingConstraints" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/selectDatePicker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/edit_back_color_change"
+                android:fontFamily="@font/lato_regular"
+                android:hint="@string/select_Date"
+                android:padding="12dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/blacklight"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/selldatetitle"
                 tools:ignore="MissingConstraints" />
 
 
@@ -858,7 +972,7 @@
                 android:id="@+id/PhotoSelect"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/edit_back_color_change"
                 android:fontFamily="@font/lato_regular"
                 android:hint="@string/Photo"

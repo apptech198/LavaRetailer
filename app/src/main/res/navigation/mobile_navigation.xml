@@ -174,6 +174,13 @@
 
 
 
+    <fragment
+        android:id="@+id/pendingRequestAccesoriesFragment"
+        android:name="com.apptech.lava_retailer.ui.warranty.pending_request_accesories.PendingRequestAccesoriesFragment"
+        android:label="pending_request_accesories_fragment"
+        tools:layout="@layout/pending_request_accesories_fragment" />
+
+
 </navigation>
 
 

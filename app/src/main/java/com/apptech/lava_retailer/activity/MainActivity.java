@@ -627,6 +627,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         childModel = new MenuModel(getResources().getString(R.string.Replacement_process), false, false, "UN_SERIALIZE");
         childModelsList.add(childModel);
 
+        childModel = new MenuModel(getResources().getString(R.string.Pending_replace_process), false, false, "PENDING_REPLACEMENT_ACCESSORIE");
+        childModelsList.add(childModel);
+
 
 
 
@@ -853,6 +856,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                         case "PENDING_REPLACEMENT_REQUEST":
                             navController.navigate(R.id.pendingreplacementFragmnet);
+                            binding.expandableListView.setClickable(true);
+                            binding.expandableListView.setEnabled(true);
+                            binding.drawerLayout.closeDrawer(GravityCompat.START);
+                            break;
+                        case "PENDING_REPLACEMENT_ACCESSORIE":
+                            navController.navigate(R.id.pendingRequestAccesoriesFragment);
                             binding.expandableListView.setClickable(true);
                             binding.expandableListView.setEnabled(true);
                             binding.drawerLayout.closeDrawer(GravityCompat.START);

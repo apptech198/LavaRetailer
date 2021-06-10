@@ -82,6 +82,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 case 2:
                 case 3:
                 case 5:
+                case 6:
                     txtListChild.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                     down.setVisibility(View.GONE);
                     imageView.getLayoutParams().width=30;

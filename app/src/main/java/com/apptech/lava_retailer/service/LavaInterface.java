@@ -95,6 +95,11 @@ public interface LavaInterface{
     @FormUrlEncoded
     Call<PendingWarrentyList> WARRANTY_PENDING (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
 
+
+    @POST("accesories_warranty_list")
+    @FormUrlEncoded
+    Call<PendingWarrentyList> WARRANTY_PENDING_ACCESSORIES (@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
+
     @POST("sellout_imei_list_pending_block")
     @FormUrlEncoded
     Call<Object> SELL_OUT_IMEI_LIST(@Field("retailer_id") String retailer_id, @Field("start_date") String start_date, @Field("end_date") String end_date , @Field("country_id") String country_id ,  @Field("country_name") String country_name);
@@ -188,9 +193,19 @@ public interface LavaInterface{
 
     @POST("accesories_replacement_warranty")
     @Multipart
-    Call<Object> ACCESORIES_REPLACEMENT_WARRENTY (@Part MultipartBody.Part img_url , @Part("sell_date") RequestBody sell_date , @Part("type") RequestBody type
-        , @Part("srno") RequestBody srno, @Part("retailer_id") RequestBody retailer_id, @Part("retailer_name") RequestBody retailer_name
-            , @Part("locality_id") RequestBody locality_id, @Part("locality_name") RequestBody locality_name , @Part("country_id") RequestBody country_id , @Part("country_name") RequestBody country_name );
+    Call<Object> ACCESORIES_REPLACEMENT_WARRENTY (@Part MultipartBody.Part img_url
+            , @Part("retailer_id") RequestBody sell_date
+            , @Part("retailer_name") RequestBody type
+            , @Part("locality_id") RequestBody srno
+            , @Part("locality_name") RequestBody retailer_id
+            , @Part("srno") RequestBody retailer_name
+            , @Part("sell_date") RequestBody locality_id
+            , @Part("type") RequestBody locality_name
+            , @Part("replacment_date") RequestBody country_id
+            , @Part("original_srno") RequestBody country_name
+            , @Part("country_name") RequestBody country_named
+            , @Part("item_name") RequestBody item_name
+            , @Part("country_id") RequestBody country_idg );
 
     @POST("warranty_check_series")
     @FormUrlEncoded
@@ -205,7 +220,7 @@ public interface LavaInterface{
 
     @POST("accespries_warranty_exist_check")
     @FormUrlEncoded
-    Call<Object> IMEI_CHECK_SERIAL(@Field("srno") String imei , @Field("ret_id") String ret_id,@Field("country_name") String country_name,@Field("country_id") String country_id);
+    Call<Object> IMEI_CHECK_SERIAL(@Field("srno") String imei , @Field("retailer_id") String ret_id,@Field("country_name") String country_name,@Field("country_id") String country_id);
 
     @POST("price_drop_check_imei")
     @FormUrlEncoded

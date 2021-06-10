@@ -89,7 +89,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
     boolean WARRANTY_TYPE_MOB1 = false , WARRANTY_TYPE_EAR1 =false , WARRANTY_TYPE_CHAR1 = false;
     AlertDialog alertDialog1;
     JSONObject Replace_item;
-    String NEW_IMEI="", Replace_Imei="";
+   public String NEW_IMEI="", Replace_Imei="", Replacement_date="", Item_name="";
 
 
     public static UnSerializeFragment newInstance() {
@@ -119,9 +119,15 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         scannerFragment = new ScannerFragment(this);
         barCodeScannerFragment = new BarCodeScannerFragment(this);
         Replace_item= new JSONObject();
+        binding.selectDatePicker1.setText(getCurrentDate());
+        binding.ReplaceDatePicker.setText(getCurrentDate());
 
 
         binding.selectDatePicker.setOnClickListener(v -> DatePickerOpen());
+        binding.selectDatePicker1.setOnClickListener(v -> DatePickerOpen());
+        binding.ReplaceDatePicker.setOnClickListener(v -> DatePickerOpen());
+
+
         binding.PhotoSelect.setOnClickListener(v -> Photoselect());
 
         binding.submit.setOnClickListener(v -> {
@@ -129,28 +135,39 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 if(TYPE.equals("SERIALIZE")){
                     if(!binding.ImeiEdittext.getText().toString().isEmpty()){
                         if(!SELECT_DATE.isEmpty()){
-                            binding.submit.setCheckable(false);
-                            binding.submit.setFocusable(false);
-                            submit();
+                            if(!binding.MobCheckbox.isChecked()){
+                                binding.submit.setCheckable(false);
+                                binding.submit.setFocusable(false);
+                                submit();
+                            }else {
+                                Snackbar.make(binding.getRoot(),"No Item Selected",5000).show();
+                            }
+
                         }else {
                             Snackbar.make(binding.getRoot(),"Select Date",5000).show();
                         }
                     }else {Snackbar.make(binding.getRoot(),"Add Serial Number",5000).show();}
                 }else {
-                    if(!SELECT_DATE.isEmpty()){
-                        binding.selectDatePicker.setError(null);
-                        if(filePart!=null){
-                            binding.PhotoSelect.setError(null);
-                            binding.submit.setCheckable(false);
-                            binding.submit.setFocusable(false);
-                            submit();
-                        }else {
-                            binding.PhotoSelect.setError("Upload invoice");
-                            Snackbar.make(binding.getRoot(),"Upload Invoice",5000).show();
+                    if(!binding.itemname.getText().toString().isEmpty()) {
+                        if (!SELECT_DATE.isEmpty()) {
+                            binding.selectDatePicker.setError(null);
+                            if (filePart != null) {
+                                binding.PhotoSelect.setError(null);
+                                binding.submit.setCheckable(false);
+                                binding.submit.setFocusable(false);
+                                Item_name= binding.itemname.getText().toString();
+                                submit();
+                            } else {
+                                binding.PhotoSelect.setError("Upload invoice");
+                                Snackbar.make(binding.getRoot(), "Upload Invoice", 5000).show();
+                            }
+                        } else {
+                            binding.selectDatePicker.setError("Select Date");
+                            Snackbar.make(binding.getRoot(), "Select Date", 5000).show();
                         }
                     }else {
-                        binding.selectDatePicker.setError("Select Date");
-                        Snackbar.make(binding.getRoot(),"Select Date",5000).show();
+                        binding.itemname.setError("Enter Name");
+                        Snackbar.make(binding.getRoot(), "Enter Product name", 5000).show();
                     }
                 }
                 return;
@@ -219,9 +236,14 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         binding.submitBtn.setOnClickListener(v -> {
             if(!binding.ImeiEdittext.getText().toString().isEmpty()){
                 if(!SELECT_DATE.isEmpty()){
-                    binding.submit.setCheckable(false);
-                    binding.submit.setFocusable(false);
-                    submit();
+                    if(binding.MobCheckbox.isChecked()){
+                        binding.submit.setCheckable(false);
+                        binding.submit.setFocusable(false);
+                        submit();
+                    }else {
+                        Snackbar.make(binding.getRoot(),"No Item Selected",5000).show();
+                    }
+
                 }else {
                     Snackbar.make(binding.getRoot(),"Select Date",5000).show();
                 }
@@ -238,6 +260,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         });
 
     }
+
+
 
     private void loadfragment(Fragment fragment) {
         if (fragment != null)
@@ -300,12 +324,22 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 (view, year1, monthOfYear, dayOfMonth) -> {
                     SELECT_DATE = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
                     binding.selectDatePicker.setText(year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                    binding.selectDatePicker1.setText(year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth);
+                    Replacement_date = year1 + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+
                     Log.e(TAG, "onDateSet: " + dayOfMonth + "/" + (monthOfYear + 1) + "/" + year1);
                 }, year, month, day);
         picker.show();
 
     }
 
+    public  String getCurrentDate() {
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Replacement_date= df.format(c.getTime());
+        return Replacement_date;
+    }
 
     private void HandsetReturn(int i , String imei){
 
@@ -451,8 +485,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
     private void submit(){
 
         binding.progressbar.setVisibility(View.VISIBLE);
-
-
+        RequestBody replacement_date = RequestBody.create(MediaType.parse("multipart/form-data"),Replacement_date);
+        RequestBody item_name = RequestBody.create(MediaType.parse("multipart/form-data"),Item_name);
         RequestBody srno = RequestBody.create(MediaType.parse("multipart/form-data"),binding.ImeiEdittext.getText().toString());
         RequestBody sell_date = RequestBody.create(MediaType.parse("multipart/form-data"), SELECT_DATE);
         RequestBody type = RequestBody.create(MediaType.parse("multipart/form-data"), TYPE);
@@ -473,8 +507,24 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.NAME));
         Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
         Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        Log.e(TAG, "submit: "+  NEW_IMEI);
+        Log.e(TAG, "submit: "+  sessionManage.getUserDetails().get(SessionManage.LOCALITY));
 
-        lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart , sell_date ,type , srno,retailer_id, retailer_name,locality_id,locality_name , country_id , country_name).enqueue(new Callback<Object>() {
+//        lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart , sell_date ,type , srno,retailer_id, retailer_name,locality_id,locality_name , country_id , country_name).enqueue(new Callback<Object>() {
+        lavaInterface.ACCESORIES_REPLACEMENT_WARRENTY(filePart
+                , retailer_id
+                ,retailer_name
+                ,locality_id
+                ,locality_name
+                ,origional_srno
+                ,sell_date
+                ,type
+                ,replacement_date
+                ,srno
+                ,country_name
+                ,item_name
+                ,country_id)
+                .enqueue(new Callback<Object>() {
 
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -590,6 +640,7 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                     if (error.equalsIgnoreCase("false")) {
                         JSONObject data = jsonObject.getJSONObject("detail");
                         String pName= data.optString("marketing_name");
+                        Item_name = pName;
                         String psku= data.optString("sku");
                         String pModel= data.optString("model");
                         String pNamear= data.optString("marketing_name_fr");

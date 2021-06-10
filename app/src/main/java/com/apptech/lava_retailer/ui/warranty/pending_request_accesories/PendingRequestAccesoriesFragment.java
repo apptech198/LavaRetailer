@@ -122,7 +122,7 @@ public class PendingRequestAccesoriesFragment extends Fragment implements View.O
         String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
         String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-        lavaInterface.WARRANTY_PENDING(USER_ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<PendingWarrentyList>() {
+        lavaInterface.WARRANTY_PENDING_ACCESSORIES(USER_ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<PendingWarrentyList>() {
             @Override
             public void onResponse(Call<PendingWarrentyList> call, Response<PendingWarrentyList> response) {
 
