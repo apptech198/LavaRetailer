@@ -650,7 +650,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                     ,object.optString("currency_symbol")
                             ));
 
-
+                            sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
+                                    ,  countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
 
                             int id = Integer.parseInt(object.getString("id"));
                             switch (sessionManage.getUserDetails().get("LANGUAGE")){

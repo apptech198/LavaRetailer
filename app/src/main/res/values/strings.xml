@@ -247,6 +247,8 @@
 
     <string name="permission_required">Permission Required</string>
     <string name="permission_message">You must grant permission to access camera to run this application.</string>
+    <string name="Pending_replace_accesories">Pending Replacement Accesories</string>
+
 
 
 </resources>
