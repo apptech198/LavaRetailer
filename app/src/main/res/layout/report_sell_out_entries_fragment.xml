@@ -16,6 +16,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/DateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sellout Date"
+            android:layout_marginStart="10dp"
+            android:paddingTop="8dp"
+            android:fontFamily="@font/lato_bold"
+            android:paddingBottom="4dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <LinearLayout
             android:id="@+id/startDatetimeLayout"
             android:layout_width="0dp"
@@ -26,7 +40,7 @@
             android:padding="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/DateTitle"
             app:layout_goneMarginRight="10dp">
 
             <TextView

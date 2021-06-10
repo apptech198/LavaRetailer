@@ -163,13 +163,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                         sessionManage.setlanguage("fr");
                         break;
                 }
-//                if (item.getTitle().equals("English")) {
-//                    sessionManage.setlanguage("en");
-//                } else if (item.getTitle().equals("French")){
-//                    sessionManage.setlanguage("fr");
-//                }else {
-//                    sessionManage.setlanguage("ar");
-//                }
+
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;
@@ -502,14 +496,22 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                             }
 
 
+                            if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null) {
+                                String Country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+                                if(Country_name.trim().toUpperCase().equalsIgnoreCase(object.getString("name").trim().toUpperCase())){
+                                    sessionManage.LOGIN_COUNTRY( object.getString("id") ,  object.getString("name") ,  object.getString("currency")
+                                            , object.optString("currency_symbol") , object.getString("name_ar") );
+                                }
+                            }
+
                         }
 
 
-                        sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
-                                , countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
-
                         try {
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){
+
+                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
+                                        , countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
 
                                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                                     case "en":
@@ -520,7 +522,6 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                         binding.countryName.setText(countryLists.get(0).getName_fr());
                                         break;
                                 }
-
 
                             }
                         }catch (IndexOutOfBoundsException e){

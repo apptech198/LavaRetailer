@@ -101,6 +101,7 @@
         app:layout_constraintTop_toBottomOf="@+id/line1">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/Btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/Confirm"

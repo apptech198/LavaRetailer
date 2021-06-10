@@ -58,11 +58,7 @@ public class OtpActivity extends AppCompatActivity   {
         sessionManage = SessionManage.getInstance(this);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
-//        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-//            binding.OtpInputLayout.setGravity(Gravity.END);
-//        } else {
-//            binding.OtpInputLayout.setGravity(Gravity.START);
-//        }
+
 
         try {
             Intent intent = getIntent();
@@ -142,8 +138,8 @@ public class OtpActivity extends AppCompatActivity   {
 
                     if (error.equalsIgnoreCase("false")) {
                         JSONObject js = jsonObject.getJSONObject("user_info");
-                        Toast.makeText(OtpActivity.this, "" + js.getString("login_otp"), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(OtpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(OtpActivity.this, "" + js.getString("login_otp"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(OtpActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         binding.progressbar.setVisibility(View.GONE);
                         return;
                     }

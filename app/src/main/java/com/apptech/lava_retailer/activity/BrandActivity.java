@@ -121,6 +121,7 @@ public class BrandActivity extends AppCompatActivity {
                                     binding.BrandRecyclerView.setAdapter(new BrandsAdapter(brandlists , brandInterfaces));
                                     binding.progressbar.setVisibility(View.GONE);
                                     binding.noproduct.setVisibility(View.GONE);
+                                    return;
                                 }catch (NullPointerException e){
                                     e.printStackTrace();
                                     Log.e(TAG, "onResponse: " + e.getMessage() );

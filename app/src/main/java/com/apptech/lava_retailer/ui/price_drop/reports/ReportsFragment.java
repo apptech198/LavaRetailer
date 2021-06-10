@@ -892,6 +892,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                         ,"Qty"
                         ,"Value"
                         ,""
+                        ,true
                 ));
 
 
@@ -920,6 +921,7 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                                     ,MODELFetch.getString("qty")
                                     ,MODELFetch.getString("value")
                                     ,"MODELFetch.getString(Categor)"
+                                    ,false
                             ));
                         }catch (JSONException ex){
                             ex.printStackTrace();

@@ -245,8 +245,8 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     @Override
     public void onStart() {
         super.onStart();
-        TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getResources().getString(R.string.Report_sell_through));
+        TextView title = requireActivity().findViewById(R.id.Actiontitle);
+        title.setText(getResources().getString(R.string.Sell_Through));
     }
 
 

@@ -240,6 +240,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/filterCategory"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/order_status_design"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/FilterValueLayout">
@@ -275,6 +276,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/FilterQtyLayout"
                 android:background="@drawable/order_status_design"
                 app:layout_constraintHorizontal_weight="1"
+                android:visibility="gone"
                 app:layout_constraintStart_toEndOf="@+id/FilterQtyLayout"
                 app:layout_constraintEnd_toEndOf="parent">
 
@@ -334,7 +336,9 @@
                         android:fontFamily="@font/lato_semi_bold"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:layout_weight="3"/>
+                        android:layout_weight="3"
+                        app:fontFamily="@font/lato_bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/qty"
@@ -345,7 +349,9 @@
                         android:fontFamily="@font/lato_semi_bold"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:gravity="center" />
+                        android:gravity="center"
+                        app:fontFamily="@font/lato_bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/value"
@@ -356,7 +362,9 @@
                         android:fontFamily="@font/lato_semi_bold"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        app:fontFamily="@font/lato_bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
                 </TableRow>
 

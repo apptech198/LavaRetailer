@@ -149,15 +149,6 @@ public class SocialActivity extends AppCompatActivity {
 
                         startActivity(new Intent(SocialActivity.this , SignUpActivity.class).putExtra("TYPE" , "FACEBOOK").putExtra("UserId" , String.valueOf(accessToken.getUserId())));
 
-
-//                        Log.e(TAG, "onSuccess: " + profile.getId());
-//                        Log.e(TAG, "onSuccess: " + profile.getFirstName());
-//                        Log.e(TAG, "onSuccess: " + profile.getMiddleName());
-//                        Log.e(TAG, "onSuccess: " + profile.getLastName());
-//                        Log.e(TAG, "onSuccess: " + profile.getLinkUri());
-//                        Log.e(TAG, "onSuccess: " + profile.getName());
-
-
                     }
 
                     @Override
@@ -234,13 +225,9 @@ public class SocialActivity extends AppCompatActivity {
             popupMenu.setOnMenuItemClickListener(item -> {
 
                 int pos = item.getGroupId();
-                Log.d(TAG, "onCreate: " + countryLists);
-                Log.d(TAG, "onCreate: " + countryLists);
 
                 sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
                         , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
-
-                Log.d(TAG, "onCreate: " + countryLists.get(pos).getName_fr());
 
                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                     case "en":
@@ -313,8 +300,6 @@ public class SocialActivity extends AppCompatActivity {
 
                         }
 
-                        sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
-                                ,  countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
 
                         try {
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){

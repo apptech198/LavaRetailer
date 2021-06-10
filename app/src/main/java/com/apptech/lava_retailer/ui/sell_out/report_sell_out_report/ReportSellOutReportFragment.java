@@ -893,17 +893,10 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                         JSONObject issue = ModalJsonObject.getJSONObject(key);
                         String Modalname = issue.optString("name");
 
-                        Log.e(TAG, "filterModalloop: " + Modalname);
-                        Log.e(TAG, "filterModalloop: " + sellOutReportFilterLists.size());
-
                         String ModelCheck = "";
                         for (SellOutReportList sell : sellOutReportFilterLists) {
 
                             if (Modalname.trim().toUpperCase().contains(sell.getModel().trim().toUpperCase())) {
-
-
-                                Log.e(TAG, "filterModalloop: " + sell.getModel() );
-                                Log.e(TAG, "filterModalloop: " + sell.getModel() );
 
 
                                 JSONObject aa = SelloutReportObject.getJSONObject(sell.getCommodity());
@@ -925,12 +918,9 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                                 object.put(sell.getCommodity() + "_" + sell.getModel() , sell.getCommodity() + "_" + sell.getModel() );
                                 aa.put("Modal", object);
 
-
-
                                 JSONObject object1;
 
                                 try {
-
                                     object1 = SelloutReportObject.getJSONObject(sell.getCommodity()).getJSONObject(sell.getCommodity() + "_" + sell.getModel());
                                     if(ModelCheck.equalsIgnoreCase(sell.getCommodity())){
 
@@ -948,9 +938,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                                         object1.put("value" , addBothValue);
 
                                     }
-
                                     ModelCheck = sell.getCommodity();
-
 
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -1016,6 +1004,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                         ,"Qty"
                         ,"Value"
                         ,""
+                        ,true
                 ));
 
 
@@ -1040,6 +1029,7 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
                                     ,MODELFetch.getString("qty")
                                     ,MODELFetch.getString("value")
                                     ,MODELFetch.getString("category")
+                                    ,false
                             ));
                         }catch (JSONException ex){
                             ex.printStackTrace();

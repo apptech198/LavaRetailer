@@ -1,5 +1,6 @@
 package com.apptech.lava_retailer.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -9,7 +10,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apptech.lava_retailer.R;
@@ -169,8 +173,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
                     String message = jsonObject.getString("message");
 
                     if (error.equalsIgnoreCase("false")) {
-                        startActivity(new Intent(ConfirmPasswordActivity.this , LoginActivity.class));
-                        finish();
+                        AlertDialog(message);
                         binding.progressbar.setVisibility(View.GONE);
                         binding.changePsw.setClickable(true);
                         binding.changePsw.setEnabled(true);
@@ -257,7 +260,34 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         return true;
     }
 
+    private void AlertDialog(String msg){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View v = LayoutInflater.from(this).inflate(R.layout.row_custom_alert_dialog , null );
+        builder.setView(v);
+        TextView Title = v.findViewById(R.id.Title);
+        TextView des = v.findViewById(R.id.des);
+        TextView Btn = v.findViewById(R.id.Btn);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
 
+        Title.setText("Alert");
+        des.setText(msg);
+        Btn.setText("Okey");
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+
+            startActivity(new Intent(ConfirmPasswordActivity.this , LoginActivity.class));
+            finish();
+
+        });
+        no.setOnClickListener(view -> alertDialog.dismiss());
+
+    }
 
 
 

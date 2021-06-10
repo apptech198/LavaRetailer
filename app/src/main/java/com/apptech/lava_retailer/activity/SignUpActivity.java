@@ -94,6 +94,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         progressDialog.setMessage("");
         progressDialog.setCancelable(true);
 
+        CountryName =  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             Languages = "EN";
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
@@ -112,14 +114,13 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             if(intent != null){
                 signup_type = intent.getStringExtra("TYPE");
                 MOB = intent.getStringExtra("MOB");
-               binding.number.setText(MOB);
+                binding.number.setText(MOB);
 
                switch (signup_type){
                    case "OTP":
                        binding.number.setEnabled(false);
                        break;
                }
-//               Toast.makeText(this, ""+ signup_type, Toast.LENGTH_SHORT).show();
             }
         }catch (NullPointerException e){
             Log.e(TAG, "onCreate: " + e.getMessage() );
@@ -127,10 +128,10 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
 
         int[][] states = new int[][] {
-                new int[] { android.R.attr.state_focused}, // focused
-                new int[] { android.R.attr.state_hovered}, // hovered
-                new int[] { android.R.attr.state_enabled}, // enabled
-                new int[] {}  //
+                new int[] { android.R.attr.state_focused},
+                new int[] { android.R.attr.state_hovered},
+                new int[] { android.R.attr.state_enabled},
+                new int[] {}
         };
 
         int[] colors = new int[] {
@@ -156,7 +157,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                 String personId = acct.getId();
                 Uri personPhoto = acct.getPhotoUrl();
 
-
                 binding.name.setText(personGivenName);
                 binding.email.setText(personEmail);
                 binding.email.setEnabled(false);
@@ -175,12 +175,10 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             Toast.makeText(wrapper1, "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
         }
 
-
-
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
-//            binding.countryName.setText(sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME"));
-            CountryName = sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME");
+
             getGovernate();
+
             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                 case "en":
                 case "fr":
@@ -244,7 +242,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
                 int pos = item.getItemId();
 
-
                 sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , topconty.get(pos).getName() , topconty.get(pos).getCurrency()
                         , topconty.get(pos).getCurrency_symbol() , topconty.get(pos).getName_ar());
 
@@ -295,6 +292,12 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
             popupMenu1.show();
 
         });
+
+
+//        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID) );
+//        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) );
+//        Log.e(TAG, "onCreate: " + CountryName );
+
 
     }
 
@@ -434,23 +437,25 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
         Log.e(TAG, "SignUp: " + social_auth_token );
 
 
-        Log.e(TAG, "SignUp: " + binding.name.getText().toString().trim()  );
-        Log.e(TAG, "SignUp: " + binding.number.getText().toString().trim()  );
-        Log.e(TAG, "SignUp: " + binding.password.getEditText().getText().toString().trim()  );
-        Log.e(TAG, "SignUp: " + binding.email.getText().toString().trim()  );
-        Log.e(TAG, "SignUp: " + Locality  );
-        Log.e(TAG, "SignUp: " + GovernateSelect  );
-        Log.e(TAG, "SignUp: " + binding.address.getText().toString().trim()  );
-        Log.e(TAG, "SignUp: " + binding.outletName.getText().toString().trim()  );
-        Log.e(TAG, "SignUp: " + Locality_id  );
-        Log.e(TAG, "SignUp: " + Locality_ar  );
-        Log.e(TAG, "SignUp: " + signup_type  );
-        Log.e(TAG, "SignUp: " + social_auth_token  );
+//        Log.e(TAG, "SignUp: " + binding.name.getText().toString().trim()  );
+//        Log.e(TAG, "SignUp: " + binding.number.getText().toString().trim()  );
+//        Log.e(TAG, "SignUp: " + binding.password.getEditText().getText().toString().trim()  );
+//        Log.e(TAG, "SignUp: " + binding.email.getText().toString().trim()  );
+//        Log.e(TAG, "SignUp: " + Locality  );
+//        Log.e(TAG, "SignUp: " + GovernateSelect  );
+//        Log.e(TAG, "SignUp: " + binding.address.getText().toString().trim()  );
+//        Log.e(TAG, "SignUp: " + binding.outletName.getText().toString().trim()  );
+//        Log.e(TAG, "SignUp: " + Locality_id  );
+//        Log.e(TAG, "SignUp: " + Locality_ar  );
+//        Log.e(TAG, "SignUp: " + signup_type  );
+//        Log.e(TAG, "SignUp: " + social_auth_token  );
 
 
         String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
         String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
+        Log.e(TAG, "SignUp: " + country_id );
+         Log.e(TAG, "SignUp: " + country_name );
 
 
         Call call = lavaInterface.Signup(
@@ -649,8 +654,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                     ,object.optString("currency_symbol")
                             ));
 
-                            sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
-                                    ,  countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
 
                             int id = Integer.parseInt(object.getString("id"));
                             switch (sessionManage.getUserDetails().get("LANGUAGE")){

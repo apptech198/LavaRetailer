@@ -25,7 +25,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/language"
+            android:text="Language"
             android:textColor="@color/white"
             android:fontFamily="@font/lato_bold"
             android:textStyle="bold"

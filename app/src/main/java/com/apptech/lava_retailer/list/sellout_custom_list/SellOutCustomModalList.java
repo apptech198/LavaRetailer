@@ -10,14 +10,16 @@ public class SellOutCustomModalList {
     private String qty;
     private String value;
     private String count;
+    private boolean Line = false;
 
 
-    public SellOutCustomModalList(String model, String modelAr, String qty, String value, String count) {
+    public SellOutCustomModalList(String model, String modelAr, String qty, String value, String count, boolean line) {
         this.model = model;
         this.modelAr = modelAr;
         this.qty = qty;
         this.value = value;
         this.count = count;
+        Line = line;
     }
 
     public String getModel() {
@@ -59,4 +61,13 @@ public class SellOutCustomModalList {
     public void setCount(String count) {
         this.count = count;
     }
+
+    public boolean isLine() {
+        return Line;
+    }
+
+    public void setLine(boolean line) {
+        Line = line;
+    }
+
 }
