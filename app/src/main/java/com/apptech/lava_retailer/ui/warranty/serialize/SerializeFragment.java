@@ -581,7 +581,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         WARRANTY_PERIOD_EAR = acce_earphone_war;
 
 //                        time ="2019-05-29 00:00:00";
-                        if(tertiary_date==null) {
+                        if(tertiary_date!=null) {
                             Calendar ORDERDATE = Date_Convert_String_To_Calender(time);
                             Calendar TERTIARY = Date_Convert_String_To_Calender(tertiary_date);
                             if (ORDERDATE.after(TERTIARY)) {

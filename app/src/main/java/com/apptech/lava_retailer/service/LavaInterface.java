@@ -203,6 +203,10 @@ public interface LavaInterface{
     @FormUrlEncoded
     Call<Object> IMEI_CHECK(@Field("imei") String imei , @Field("ret_id") String ret_id,@Field("country_name") String country_name,@Field("country_id") String country_id);
 
+    @POST("check_imei")
+    @FormUrlEncoded
+    Call<Object> IMEI_CHECK_SERIAL(@Field("imei") String imei , @Field("ret_id") String ret_id,@Field("country_name") String country_name,@Field("country_id") String country_id);
+
     @POST("price_drop_check_imei")
     @FormUrlEncoded
     Call<Object> PROOCE_DROP_IMEI_CHECK(@Field("imei") String imei , @Field("ret_id") String ret_id , @Field("start_date") String start_date , @Field("end_date") String end_date , @Field("country_id") String country_id  , @Field("country_name") String country_name );

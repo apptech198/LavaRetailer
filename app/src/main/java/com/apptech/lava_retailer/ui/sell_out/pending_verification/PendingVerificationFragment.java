@@ -103,9 +103,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
 
         setPopUpWindow();
-        binding.datetimefilter.setOnClickListener(v -> {
-            mypopupWindow.showAsDropDown(v,-153,0);
-        });
+        binding.datetimefilter.setOnClickListener(v -> mypopupWindow.showAsDropDown(v,-153,0));
 
 
         String[] date = TodayDate().split("#");
@@ -156,7 +154,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
         CustomDate.setOnClickListener(v -> {
             mypopupWindow.dismiss();
-            submitData();
+            datePicker();
         });
 
     }

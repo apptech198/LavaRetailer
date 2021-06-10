@@ -319,6 +319,14 @@ public class PendingReplacementRequestFragment extends Fragment implements View.
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        TextView title = getActivity().findViewById(R.id.Actiontitle);
+        title.setText(getActivity().getString(R.string.Pending_replace_process));
+    }
+
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.DeliveredLayout:

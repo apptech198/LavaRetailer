@@ -7,9 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -97,7 +100,7 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
         }
 
         holder.binding.cancel.setOnClickListener(v -> {
-            CencelOrder(list.getId(), position);
+            AlertDialog(context , list.getId() , position);
         });
 
 
@@ -163,6 +166,30 @@ public class OrderStatusAdapter extends RecyclerView.Adapter<OrderStatusAdapter.
             }
         });
     }
-    
+
+
+    private void AlertDialog(Context context , String id , int position){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View v = LayoutInflater.from(context).inflate(R.layout.row_custom_alert_dialog , null );
+        builder.setView(v);
+
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        TextView des = v.findViewById(R.id.des);
+        des.setText("Please confirm to cancel");
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+            CencelOrder(id, position);
+        });
+        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+    }
     
 }

@@ -90,8 +90,6 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
         progressDialog.setCancelable(false);
 
 
-
-
         if (MainObject.length() > 0){
 
             binding.MaterialChecKall.setChecked(MainObject.length() == modalList.size());
@@ -122,11 +120,7 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
         sellOutReportModalFilterAdapter = new SellOutReportModalFilterAdapter(this , modalList);
         binding.ModalRecyclerView.setAdapter(sellOutReportModalFilterAdapter);
 
-
-        binding.Filterbtn.setOnClickListener(v -> {
-            onItemClickBackPress.Onitem(MainObject);
-        });
-
+        binding.Filterbtn.setOnClickListener(v -> onItemClickBackPress.Onitem(MainObject));
 
         binding.MaterialChecKall.setOnCheckedChangeListener((buttonView, isChecked) -> {
             binding.MaterialChecKall.setEnabled(false);
@@ -184,11 +178,9 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
 
     @NonNull @Override public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override public void onShow(DialogInterface dialogInterface) {
-                BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
-                setupFullHeight(bottomSheetDialog);
-            }
+        dialog.setOnShowListener(dialogInterface -> {
+            BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialogInterface;
+            setupFullHeight(bottomSheetDialog);
         });
         return  dialog;
     }

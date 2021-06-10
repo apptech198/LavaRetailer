@@ -667,6 +667,11 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
         sellOutReportCategoryFilter.dismiss();
         try {
             PriceDropReportReturnCategoryObject = new JSONObject(String.valueOf(jsonObject));
+
+            PriceDropReportReturnCategoryObject = new JSONObject();
+            sellOutReportCategoryFilter = new SellOutReportCategoryFilter(this , categoryLists , PriceDropReportReturnCategoryObject);
+            sellOutReportCategoryFilter.show(getChildFragmentManager(), "category filter");
+
         } catch (JSONException jsonException) {
             jsonException.printStackTrace();
         }
@@ -764,9 +769,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
             if (modalObject.length() > 0){
 
-                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
-                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
-
                 PriceDropReportModalObject = new JSONObject();
                 JSONObject object = new JSONObject();
                 try {
@@ -844,9 +846,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
                 }
 
 
-                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
-                Log.e(TAG, "PriceDropModalFilterObject: " + PriceDropReportCategoryObject.toString() );
-
                 if(PriceDropReportCategoryObject.length() > 0){
                     FilterMainObjec();
                 }
@@ -870,11 +869,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
     private void FilterMainObjec(){
-
-        Log.e(TAG, "FilterMainObjec: " + PriceDropReportCategoryObject.toString() );
-        Log.e(TAG, "FilterMainObjec: " + PriceDropReportCategoryObject.toString() );
-
-
 
         PriceDropCustomCategoryLists.clear();
         Grandtotal_Qty = 0;
@@ -964,10 +958,6 @@ public class ReportsFragment extends Fragment implements View.OnClickListener , 
 
 
         if(PriceDropCustomCategoryLists.size() > 0){
-
-
-            Log.e(TAG, "FilterMainObjec: " + PriceDropCustomCategoryLists.toString() );
-            Log.e(TAG, "FilterMainObjec: " + PriceDropCustomCategoryLists.toString() );
 
             binding.ReportselloutRecyclerView.setAdapter(new PriceDropReportAdapter(PriceDropCustomCategoryLists));
             binding.ReportselloutRecyclerView.setVisibility(View.VISIBLE);

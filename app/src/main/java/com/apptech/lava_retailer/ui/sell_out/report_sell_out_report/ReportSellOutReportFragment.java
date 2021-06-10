@@ -548,11 +548,13 @@ public class ReportSellOutReportFragment extends Fragment implements EasyPermiss
         sellOutReportCategoryFilter.dismiss();
         CategoryjJsonobject = new JSONObject();
         progressDialog.show();
-
         try {
             ReturnCategoryJsonObject = new JSONObject(o.toString());
             CategoryJsonObject = new JSONObject(String.valueOf(o));
             filterCategoryloop();
+            ReturnModelJsonObject = new JSONObject();
+            sellOutReportModalFilter = new SellOutReportModalFilter(this , modalList , ReturnModelJsonObject);
+            sellOutReportModalFilter.show(getChildFragmentManager(), "modal bottom sheet");
         } catch (JSONException e) {
             e.printStackTrace();
         }

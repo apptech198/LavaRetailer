@@ -597,8 +597,6 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
         LinearLayout submit = v.findViewById(R.id.submit);
         LinearLayout no = v.findViewById(R.id.close);
 
-
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         submit.setOnClickListener(view -> {
@@ -608,8 +606,6 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
             orderPlace();
         });
         no.setOnClickListener(view -> {alertDialog.dismiss();});
-
-
 
     }
 

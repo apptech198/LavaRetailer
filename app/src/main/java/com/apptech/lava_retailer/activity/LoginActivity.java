@@ -462,7 +462,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         lavaInterface.Country().enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 try {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
                     String error = jsonObject.getString("error");
@@ -505,12 +505,11 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                         }
 
 
+                        sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
+                                , countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
+
                         try {
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){
-
-                                sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
-                                        ,  countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
-
 
                                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                                     case "en":

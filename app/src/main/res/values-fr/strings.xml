@@ -217,7 +217,7 @@
     <string name="Price_l_h">Price -- Low to High</string>
     <string name="Price_h_l">Price -- High to Low</string>
     <string name="Dashboard">Dashboard</string>
-    <string name="Sell_Through">Sell Through</string>
+    <string name="Sell_Through">Sell out</string>
     <string name="Price_Protection">Price Protection</string>
     <string name="Claim_Statement">Claim Statement</string>
     <string name="Buy_Product">Buy Product</string>

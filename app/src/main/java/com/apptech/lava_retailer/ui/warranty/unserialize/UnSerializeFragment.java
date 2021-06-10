@@ -340,8 +340,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
             binding.IssueDateTitle.setOnClickListener(v1 -> {
                 HandsetReturn(i ,NEW_IMEI);
             });
-            alertDialog1.cancel();
-//            CheckIMei(addressEdittext.getEditText().getText().toString(), i ,alertDialog1, msg);
+//            alertDialog1.cancel();
+            CheckIMei(addressEdittext.getEditText().getText().toString(), i ,alertDialog1, msg);
         });
 
         builder.setView(view);
@@ -355,7 +355,8 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
 
     void CheckIMei(String imei , int i , Dialog dialog, TextView msg){
-        lavaInterface.IMEI_CHECK(imei, sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)
+
+        lavaInterface.IMEI_CHECK_SERIAL(imei, sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID)
                 ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)
                 ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID))
                 .enqueue(new Callback<Object>() {
@@ -656,11 +657,11 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                         String acce_mobile_war = order_detail.getString("pro_war_days");
 
 
-                        IMEI = order_detail.getString("imei");;
+                        IMEI = order_detail.optString("imei");;
                         WARRANTY_PERIOD_MOB = acce_mobile_war;
 
 //                        time ="2019-05-29 00:00:00";
-                        if(tertiary_date==null) {
+                        if(tertiary_date!=null) {
                             Calendar ORDERDATE = null;
                             try {
                                 ORDERDATE = Date_Convert_String_To_Calender(time);
@@ -872,10 +873,13 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
         mainLayout = rowView.findViewById(R.id.mainLayout);
         Modal = rowView.findViewById(R.id.Modal);
         TextView ModalTitle = rowView.findViewById(R.id.ModalTitle);
+        TextView imeiTitle = rowView.findViewById(R.id.imeiTitle);
         TextView imei = rowView.findViewById(R.id.imei);
         TextView distributorName = rowView.findViewById(R.id.distributorName);
         TextView msg = rowView.findViewById(R.id.msg);
         ImageView icon  = rowView.findViewById(R.id.icon);
+
+        imeiTitle.setText(getString(R.string.Serial_no));
 
         mainLayout.setBackground(drawable);
         textView.setText(binding.ImeiEdittext.getText().toString().trim());

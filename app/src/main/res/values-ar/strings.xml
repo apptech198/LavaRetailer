@@ -161,7 +161,7 @@
     <string name="Last_day">Last 7 day</string>
     <string name="This_month">This month</string>
     <string name="Last_month">Last month</string>
-    <string name="Custome_day">Custome day</string>
+    <string name="Custome_day">Custom date</string>
     <string name="Select_status">Select status</string>
     <string name="Price_List">Price List</string>
     <string name="Marketing_Name">Marketing Name</string>
@@ -212,7 +212,7 @@
     <string name="Price_h_l">Price -- High to Low</string>
     <string name="Profile">الملف الشخصي</string>
     <string name="Dashboard">لوحة البيانات</string>
-    <string name="Sell_Through">Sell Through</string>
+    <string name="Sell_Through">Sell out</string>
     <string name="Price_Protection">حماية السعر</string>
     <string name="Claim_Statement">بيان المطالبة</string>
     <string name="Buy_Product">شراء المنتج</string>

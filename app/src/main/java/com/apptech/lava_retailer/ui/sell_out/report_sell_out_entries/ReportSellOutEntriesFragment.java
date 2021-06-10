@@ -92,8 +92,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-
+        
         binding = ReportSellOutEntriesFragmentBinding.inflate(inflater , container , false);
         return binding.getRoot();
     }
@@ -162,8 +161,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
                     if(binding.addLayout.getChildCount() > 0){
 
-                        binding.progressbar.setVisibility(View.VISIBLE);
-
+//                        binding.progressbar.setVisibility(View.GONE);
                         AlertDialog();
 //                        binding.addLayout.removeAllViews();
                         return;
