@@ -4,6 +4,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.core.util.Pair;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -38,6 +39,7 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,27 +57,18 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
 
     private PendingVerificationViewModel mViewModel;
     PendingVerificationFragmentBinding binding;
-    AlertDialog alertDialog;
-    View view;
-    LinearLayout fromDatetitle, toDatetitle;
-    TextView fromTextView, toTextView;
-    ImageView closeImg;
-    DatePickerDialog picker;
     private static final String TAG = "SellOut_PendingVerifica";
     LavaInterface lavaInterface;
     SessionManage sessionManage;
     String USER_ID;
-//    String StartDate = null, EndDate = null;
-    Button searchBtn;
     java.util.List<List> lists = new ArrayList<>();
-    java.util.List<List> DuplicateList = new ArrayList<>();
 
     SellOutPendingVerificationAdapter sellOutPendingVerificationAdapter;
     PopupWindow mypopupWindow;
     String StartDate ="" , End_Date = "" , TYPE = "";
     MaterialDatePicker.Builder<Pair<Long, Long>> builder = MaterialDatePicker.Builder.dateRangePicker();
     MaterialDatePicker<Pair<Long, Long>> materialDatePicker = builder.build();
-    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy" );
 
     public static PendingVerificationFragment newInstance() {
         return new PendingVerificationFragment();
@@ -121,7 +114,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     }
 
     private void setPopUpWindow() {
-        LayoutInflater inflater = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.popup, null);
         TextView last_7_day = (TextView) view.findViewById(R.id.last_7_day);
         TextView this_month = (TextView) view.findViewById(R.id.this_month);
@@ -160,7 +153,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     }
 
     private void  submitData(){
-        if (new NetworkCheck().haveNetworkConnection(getActivity())){
+        if (new NetworkCheck().haveNetworkConnection(requireActivity())){
             StockList();
         }else {
             Toast.makeText(getContext(), "" + getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
@@ -184,18 +177,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         return  startDateStr + "#" + endDateStr;
     }
 
-    public String FirstAndLastDate() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, 0);
-        calendar.set(Calendar.DATE, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-        Date monthFirstDay = calendar.getTime();
-        calendar.set(Calendar.DATE, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-        Date monthLastDay = calendar.getTime();
-        String startDateStr = df.format(monthFirstDay);
-        String endDateStr = df.format(monthLastDay);
-        Log.e("DateFirstLast",startDateStr+" "+endDateStr);
-        return  startDateStr + "#" + endDateStr;
-    }
+
 
     public String LastMonthdate(){
         Calendar calendar = Calendar.getInstance();
@@ -228,14 +210,10 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
         binding.datetimefilter.setClickable(false);
         materialDatePicker.show(getChildFragmentManager(), "");
 
-        materialDatePicker.addOnCancelListener(dialog -> {
-            binding.datetimefilter.setClickable(true);
-        });
+        materialDatePicker.addOnCancelListener(dialog -> binding.datetimefilter.setClickable(true));
 
 
-        materialDatePicker.addOnDismissListener(dialog -> {
-            binding.datetimefilter.setClickable(true);
-        });
+        materialDatePicker.addOnDismissListener(dialog -> binding.datetimefilter.setClickable(true));
 
 
         materialDatePicker.addOnPositiveButtonClickListener(selection -> {
@@ -251,33 +229,23 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     }
 
     public String getTimeStamp(long timeinMillies) {
-        String date = null;
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // modify format
-        date = formatter.format(new Date(timeinMillies));
+        String date;
+        date = df.format(new Date(timeinMillies));
         System.out.println("Today is " + date);
         return date;
     }
 
     private void StockList() {
 
-
         try {
 
-
             binding.progressbar.setVisibility(View.VISIBLE);
-            Log.e(TAG, "StockList: " + TYPE );
-            Log.e(TAG, "StockList: " + USER_ID );
-            Log.e(TAG, "StockList: " + StartDate );
-            Log.e(TAG, "StockList: " + End_Date );
             String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
             String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
             lavaInterface.SELL_OUT_IMEI_LIST(USER_ID, StartDate, End_Date , country_id , country_name).enqueue(new Callback<Object>() {
                 @Override
-                public void onResponse(Call<Object> call, Response<Object> response) {
-
-                    Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
-
+                public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
 
                     try {
 
@@ -355,7 +323,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
                 }
 
                 @Override
-                public void onFailure(Call<Object> call, Throwable t) {
+                public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
                     Log.e(TAG, "onFailure: " + t.getMessage());
                     binding.progressbar.setVisibility(View.GONE);
                     binding.noStock.setVisibility(View.VISIBLE);
@@ -377,7 +345,7 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
     @Override
     public void onStart() {
         super.onStart();
-        TextView title = getActivity().findViewById(R.id.Actiontitle);
+        TextView title = requireActivity().findViewById(R.id.Actiontitle);
         title.setText(getString(R.string.pending_verification));
     }
 
@@ -406,8 +374,6 @@ public class PendingVerificationFragment extends Fragment implements View.OnClic
                 binding.RejectedLayout.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.blac_order_status , null));
                 break;
             case R.id.RejectedLayout:
-
-
 
                 binding.PendingLayout.setEnabled(true);
                 binding.PendingLayout.setClickable(true);

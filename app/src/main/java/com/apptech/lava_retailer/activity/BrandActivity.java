@@ -2,6 +2,7 @@ package com.apptech.lava_retailer.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class BrandActivity extends AppCompatActivity {
     LavaInterface lavaInterface;
     BrandsAdapter.BrandInterfaces brandInterfaces;
     List<Brandlist> brandlists = new ArrayList<>();
+    private boolean isFirstBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,6 @@ public class BrandActivity extends AppCompatActivity {
         sessionManage = SessionManage.getInstance(this);
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
 
-
-//        if (!sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-//            new LanguageChange(this, "ar");
-//        } else {
-//            new LanguageChange(this, "en");
-//        }
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             new LanguageChange(this, "en");
@@ -86,13 +82,11 @@ public class BrandActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         binding = null;
     }
-
 
     void brand() {
 
@@ -102,7 +96,7 @@ public class BrandActivity extends AppCompatActivity {
         lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME) , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                JSONObject jsonObject = null;
+                JSONObject jsonObject;
                 try {
                     jsonObject = new JSONObject(new Gson().toJson(response.body()));
                     String error = jsonObject.getString("error");
@@ -126,15 +120,18 @@ public class BrandActivity extends AppCompatActivity {
                                 try {
                                     binding.BrandRecyclerView.setAdapter(new BrandsAdapter(brandlists , brandInterfaces));
                                     binding.progressbar.setVisibility(View.GONE);
+                                    binding.noproduct.setVisibility(View.GONE);
                                 }catch (NullPointerException e){
                                     e.printStackTrace();
                                     Log.e(TAG, "onResponse: " + e.getMessage() );
                                 }
                             }
                             binding.progressbar.setVisibility(View.GONE);
+                            binding.noproduct.setVisibility(View.VISIBLE);
                             return;
                         }
                         binding.progressbar.setVisibility(View.GONE);
+                        binding.noproduct.setVisibility(View.VISIBLE);
                         return;
                     }
                     binding.progressbar.setVisibility(View.GONE);
@@ -148,7 +145,6 @@ public class BrandActivity extends AppCompatActivity {
                 binding.progressbar.setVisibility(View.GONE);
                 Toast.makeText(BrandActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
-
             }
 
             @Override
@@ -159,8 +155,6 @@ public class BrandActivity extends AppCompatActivity {
 
 
     }
-
-
 
     void CheckInternetAleart(){
 
@@ -182,8 +176,23 @@ public class BrandActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
 
+        if (isFirstBackPressed) {
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory( Intent.CATEGORY_HOME );
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+            finish();
+            System.exit(0);
+        } else {
+            isFirstBackPressed = true;
+            Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(() -> isFirstBackPressed = false, 1500);
+        }
 
+    }
 }
 
 

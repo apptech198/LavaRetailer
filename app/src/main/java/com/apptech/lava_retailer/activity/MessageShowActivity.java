@@ -153,8 +153,6 @@ public class MessageShowActivity extends AppCompatActivity {
 
                         if (mainJsonObject.length() > 0 || sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
 //
-
-
                             for (int i = 0; i < response.body().getList().size(); i++) {
 
                                 com.apptech.lava_retailer.list.notificationList.List l = response.body().getList().get(i);

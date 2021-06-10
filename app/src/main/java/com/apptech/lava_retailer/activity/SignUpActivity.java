@@ -44,6 +44,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,7 +57,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
     SessionManage sessionManage;
     private static final String TAG = "SignUpActivity";
     List<GovernateList> governatelist = new ArrayList<>();
-    List<String> citylist = new ArrayList<>();
     List<LocalityList> localityList = new ArrayList<>();
     String CountryName = "" , GovernateSelect = "", CitySelect = "", Locality = "" , Locality_id ="" , Locality_ar = "",Governate_name="";
     String Languages = "EN";
@@ -213,7 +213,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
             popupMenu.setOnMenuItemClickListener(item -> {
 
-
                 switch (item.getItemId()){
                     case R.id.one:
                         sessionManage.setlanguage("en");
@@ -226,13 +225,6 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                         break;
                 }
 
-//                if (item.getTitle().equals("English")) {
-//
-//                } else if (item.getTitle().equals("French")){
-//
-//                }else {
-//
-//                }
                 Intent intent = new Intent(new Intent(this, SignUpActivity.class));
                 intent.putExtra("MOB" , MOB);
                 intent.putExtra("TYPE" , getIntent().getStringExtra("TYPE"));
@@ -257,7 +249,7 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                         , topconty.get(pos).getCurrency_symbol() , topconty.get(pos).getName_ar());
 
 
-                switch (sessionManage.getUserDetails().get("LANGUAGE")){
+                switch (Objects.requireNonNull(sessionManage.getUserDetails().get("LANGUAGE"))){
                     case "en":
                     case "fr":
                         binding.countryName.setText(topconty.get(pos).getName());
@@ -270,6 +262,13 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                         break;
                 }
                 CountryName = topconty.get(pos).getName();
+                binding.SelectGovernate.setText("");
+                binding.SelectLocality.setText("");
+                GovernateSelect = "";
+                Locality = "";
+                Locality_id = "";
+                Locality_ar = "";
+
                 getGovernate();
 
 

@@ -576,7 +576,7 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
         lavaInterface.IMEI_CHECK(binding.ImeiEdittext.getText().toString().trim() , USER_ID
                 ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME)
                 ,sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID)).enqueue(new Callback<Object>() {
-//        lavaInterface.IMEI_CHECK(a , "13").enqueue(new Callback<Object>() {
+
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
@@ -619,27 +619,6 @@ public class ReportSellOutEntriesFragment extends Fragment implements ScannerFra
 
                         }
 
-//                        if(error_code == 200){
-//                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
-//                                case "en":
-//                                case "fr":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model") ,object.optString("imei") , "");
-//                                    break;
-//                                case "ar":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.green_background, null) , 200 , object.optString("model_ar") ,object.optString("imei"),"");
-//                                    break;
-//                            }
-//                        }else {
-//                            switch (sessionManage.getUserDetails().get("LANGUAGE")){
-//                                case "en":
-//                                case "fr":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model") ,object.optString("imei") , object.optString("distributor_name"));
-//                                    break;
-//                                case "ar":
-//                                    addView(ResourcesCompat.getDrawable(getResources(), R.drawable.yellow_background, null) , 301 , object.optString("model_ar"),object.optString("imei") , object.optString("distributor_name"));
-//                                    break;
-//                            }
-//                        }
                         binding.progressbar.setVisibility(View.GONE);
 
                     }else {

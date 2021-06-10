@@ -988,41 +988,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                     binding.expandableListView.setClickable(true);
                     binding.expandableListView.setEnabled(true);
-//                    binding.drawerLayout.closeDrawer(GravityCompat.START);
                 }
                 binding.expandableListView.setClickable(true);
                 binding.expandableListView.setEnabled(true);
-//                binding.drawerLayout.closeDrawer(GravityCompat.START);
             }
             binding.expandableListView.setClickable(true);
             binding.expandableListView.setEnabled(true);
-//            binding.drawerLayout.closeDrawer(GravityCompat.START);
             return false;
         });
-    }
-
-    private void loadfragment(Fragment fragment) {
-//        if (fragment != null)
-//            fragmentManager.beginTransaction().replace(R.id.framelayout, fragment).addToBackStack(null).commit();
     }
 
 
     @SuppressLint("RestrictedApi")
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-
-        Log.e(TAG, "onBackPressed: " + navController.getBackStack().size() );
-        Log.e(TAG, "onBackPressed: " + navController.getCurrentDestination().getId() );
-
 
         if (getSupportFragmentManager().getBackStackEntryCount() != 0){
             super.onBackPressed();
         }else{
             if (isFirstBackPressed) {
-                super.onBackPressed();
+//                super.onBackPressed();
+                Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(homeIntent);
+                finish();
+                finishAffinity();
+                System.exit(0);
             } else {
-
                 if(navController.getBackStack().size() == 2){
                     isFirstBackPressed = true;
                     Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
