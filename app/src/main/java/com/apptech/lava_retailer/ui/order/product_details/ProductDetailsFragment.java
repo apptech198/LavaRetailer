@@ -114,12 +114,14 @@ public class ProductDetailsFragment extends Fragment {
         binding.ProductAdd.setClickable(true);
         binding.ProductAdd.setEnabled(true);
 
+        binding.productAmtDic.setPaintFlags(binding.productAmtDic.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
 
             binding.productName.setText(list.getMarketing_name());
-            binding.modelName.setText("Model - "+list.getModel());
-            binding.brandName.setText("Brand - "+list.getBrand());
+            binding.modelName.setText(list.getModel());
+            binding.brandName.setText(list.getBrand());
 
 
 //            binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
@@ -167,9 +169,9 @@ public class ProductDetailsFragment extends Fragment {
 //sdfsdfdsgfdsgds
 
         }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
-            binding.modelName.setText("Model - "+list.getModel());
+            binding.modelName.setText(list.getModel());
 
-            binding.brandName.setText("Brand - "+list.getBrand());
+            binding.brandName.setText(list.getBrand());
 
 
             if(list.getMarketing_name_fr().isEmpty()){
@@ -222,8 +224,8 @@ public class ProductDetailsFragment extends Fragment {
 
 
         } else {
-            binding.brandName.setText("Brand - "+list.getBrand_ar());
-            binding.modelName.setText("Model - "+list.getModel_ar());
+            binding.brandName.setText(list.getBrand_ar());
+            binding.modelName.setText(list.getModel_ar());
             binding.productName.setText(list.getMarketing_name_ar());
 //            binding.productDic.loadData(list.getDes_ar(), "text/html", "UTF-8");
 

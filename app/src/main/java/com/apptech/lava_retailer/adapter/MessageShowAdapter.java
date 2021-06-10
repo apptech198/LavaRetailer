@@ -64,7 +64,7 @@ public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.
         if(list.getImg() != null && !list.getImg().isEmpty()){
             holder.binding.img.setVisibility(View.VISIBLE);
             Log.e(TAG, "onBindViewHolder: " +  ApiClient.Image_URL + list.getImg());
-            Glide.with(context).load(ApiClient.Image_URL + list.getImg()).placeholder(R.drawable.check_icon).into(holder.binding.img);
+            Glide.with(context).load(ApiClient.Image_URL + list.getImg()).into(holder.binding.img);
         }else {
             holder.binding.img.setVisibility(View.GONE);
         }

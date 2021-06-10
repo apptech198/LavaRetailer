@@ -65,6 +65,10 @@ public class MessageShowActivity extends AppCompatActivity {
         lavaInterface = ApiClient.getClient().create(LavaInterface.class);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
+
+        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) );
+        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) );
+
         if (sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE") != null) {
             try {
                 mainJsonObject = new JSONObject(sessionManage.getUserDetails().get("NOTIFICATION_LIST_STORE"));

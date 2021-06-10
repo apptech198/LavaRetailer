@@ -402,14 +402,23 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                     jsonObject1.optString("country_id")
                             );
 
+                            for (int i=0; i < countryLists.size(); i++){
+                                String Country_name =  jsonObject1.optString("country_name");
+                                if(Country_name.trim().toUpperCase().equalsIgnoreCase(countryLists.get(i).getName().trim().toUpperCase())){
+                                    sessionManage.LOGIN_COUNTRY( countryLists.get(i).getId() ,  countryLists.get(i).getName() ,  countryLists.get(i).getCurrency()
+                                            , countryLists.get(i).getCurrency_symbol() , countryLists.get(i).getName_ar());
+                                }
+                            }
+
                             if (REMEMBER_ME){
-                                sessionManage.RememberMe(binding.NumberInputLayout.getEditText().getText().toString().trim() , binding.PasswordInputLayout.getEditText().getText().toString().trim());
+                                sessionManage.RememberMe(binding.NumberInputLayout.getEditText().getText().toString().trim()
+                                        , binding.PasswordInputLayout.getEditText().getText().toString().trim());
                             }
 
 
                             if(
                                     jsonObject1.getString("backend_register").equalsIgnoreCase("YES") && jsonObject1.getString("backend_verify").equalsIgnoreCase("NO")
-//                                    || jsonObject1.getString("backend_register").equalsIgnoreCase("NO") && jsonObject1.getString("backend_verify").equalsIgnoreCase("NO")
+                                    || jsonObject1.getString("backend_register").equalsIgnoreCase("NO") && jsonObject1.getString("backend_verify").equalsIgnoreCase("NO")
                             ){
 //                                sessionManage.PROFILE_VERIFICATION("true");
                                 startActivity(new Intent(LoginActivity.this, ClientDatashowActivity.class));
@@ -497,7 +506,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
 
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null) {
-                                String Country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+                                String Country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
                                 if(Country_name.trim().toUpperCase().equalsIgnoreCase(object.getString("name").trim().toUpperCase())){
                                     sessionManage.LOGIN_COUNTRY( object.getString("id") ,  object.getString("name") ,  object.getString("currency")
                                             , object.optString("currency_symbol") , object.getString("name_ar") );

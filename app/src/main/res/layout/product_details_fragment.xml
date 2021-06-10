@@ -18,8 +18,8 @@
         android:scrollbarStyle="outsideOverlay">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
         <androidx.viewpager.widget.ViewPager
@@ -65,7 +65,6 @@
                     android:layout_marginStart="10dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
@@ -76,6 +75,7 @@
                 android:fontFamily="@font/lato_semi_bold"
                 android:text="Description"
                 android:textColor="#6b6b6b"
+                android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintHorizontal_bias="0.0"
                  app:layout_constraintTop_toBottomOf="@+id/Heading"
@@ -96,32 +96,56 @@
 
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/modelName"
+                android:id="@+id/modelNameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:fontFamily="@font/lato_semi_bold"
-                android:text="vdvdvds"
+                android:fontFamily="@font/lato_black"
+                android:text="Model - "
                 android:textColor="#6b6b6b"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintTop_toBottomOf="@id/productName"
+                app:layout_constraintStart_toStartOf="@+id/guidelineStart" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/modelName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_semi_bold"
+                android:textColor="#6b6b6b"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                app:layout_constraintTop_toTopOf="@+id/modelNameTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/modelNameTitle"
+                app:layout_constraintStart_toEndOf="@+id/modelNameTitle"/>
+
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/brandNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/lato_black"
+                android:text="Brand - "
+                android:textColor="#6b6b6b"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintTop_toBottomOf="@id/modelNameTitle"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-               />
+                />
 
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/brandName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:fontFamily="@font/lato_semi_bold"
-                android:text="vdvdvds"
                 android:textColor="#6b6b6b"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintTop_toBottomOf="@id/modelName"
-                app:layout_constraintStart_toStartOf="@+id/guidelineStart"
+                app:layout_constraintTop_toTopOf="@+id/brandNameTitle"
+                app:layout_constraintBottom_toBottomOf="@+id/brandNameTitle"
+                app:layout_constraintStart_toEndOf="@+id/brandNameTitle"
                 />
 
 
@@ -142,7 +166,7 @@
                 android:visibility="gone"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/guidelineStart"
-                app:layout_constraintTop_toBottomOf="@+id/brandName" />
+                app:layout_constraintTop_toBottomOf="@+id/brandNameTitle" />
 
 
 
