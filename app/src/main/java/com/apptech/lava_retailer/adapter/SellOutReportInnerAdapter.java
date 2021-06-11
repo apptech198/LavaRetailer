@@ -1,14 +1,17 @@
 package com.apptech.lava_retailer.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.RowSellOutReportBinding;
 import com.apptech.lava_retailer.databinding.RowSellOutReportInnerBinding;
 import com.apptech.lava_retailer.list.sell_out_report.SellOutReportList;
@@ -45,6 +48,28 @@ public class SellOutReportInnerAdapter extends RecyclerView.Adapter<SellOutRepor
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
 
         SellOutCustomModalList l = sellOutReportModalLists.get(position) ;
+
+
+        Log.e(TAG, "onBindViewHolder: " + l.getModel() );
+        if(l.isLine()){
+//            Typeface face = Typeface.createFromAsset(context.getAssets(), "fonts/epimodem.ttf");
+            Typeface typeface = ResourcesCompat.getFont(context, R.font.lato_bold);
+            holder.binding.modalname.setTextSize(16);
+            holder.binding.value.setTextSize(16);
+            holder.binding.qty.setTextSize(16);
+
+
+            holder.binding.modalname.setTypeface(typeface);
+            holder.binding.value.setTypeface(typeface);
+            holder.binding.qty.setTypeface(typeface);
+
+            holder.binding.TabMainlayout.setBackground(ResourcesCompat.getDrawable(context.getResources() , R.drawable.report_back , null));
+
+
+
+        }
+
+
             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                 case "en":
                     holder.binding.modalname.setText(l.getModel());

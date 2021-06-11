@@ -126,9 +126,14 @@ public class SellOutReportModalFilter extends BottomSheetDialogFragment implemen
             binding.MaterialChecKall.setEnabled(false);
             if(modalList.size() > 0){
                 for (int i=0; i< modalList.size(); i++){
-                    SellOutReportModalFilterAdapter.Viewholder  viewholder = (SellOutReportModalFilterAdapter.Viewholder) binding.ModalRecyclerView.findViewHolderForAdapterPosition(i);
-                    CheckBox checkBox = viewholder.itemView.findViewById(R.id.CheckBtn);
-                    checkBox.setChecked(isChecked);
+                    try {
+                        SellOutReportModalFilterAdapter.Viewholder  viewholder = (SellOutReportModalFilterAdapter.Viewholder) binding.ModalRecyclerView.findViewHolderForAdapterPosition(i);
+                        CheckBox checkBox = viewholder.itemView.findViewById(R.id.CheckBtn);
+                        checkBox.setChecked(isChecked);
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                    }
+
                     ModelList lists = modalList.get(i);
                     if(isChecked){
                         JSONObject jsonObject = new JSONObject();

@@ -33,6 +33,7 @@ import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.gson.Gson;
@@ -179,6 +180,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
             getGovernate();
 
+            Glide.with(this).load(ApiClient.Image_URL + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_FLAG)).into(binding.Flag);
+
             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                 case "en":
                 case "fr":
@@ -243,7 +246,10 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                 int pos = item.getItemId();
 
                 sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , topconty.get(pos).getName() , topconty.get(pos).getCurrency()
-                        , topconty.get(pos).getCurrency_symbol() , topconty.get(pos).getName_ar());
+                        , topconty.get(pos).getCurrency_symbol() , topconty.get(pos).getName_ar() , topconty.get(pos).getFlag());
+
+                Glide.with(this).load(ApiClient.Image_URL + topconty.get(pos).getFlag()).into(binding.Flag);
+
 
 
                 switch (Objects.requireNonNull(sessionManage.getUserDetails().get("LANGUAGE"))){
@@ -652,6 +658,8 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                                     ,object.optString("time")
                                     ,object.getString("currency")
                                     ,object.optString("currency_symbol")
+                                    ,object.optString("active")
+                                    ,object.optString("flag")
                             ));
 
 
@@ -1070,7 +1078,10 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
                     break;
             }
 
-            sessionManage.LOGIN_COUNTRY(list.getId() , list.getName() , list.getCurrency(), list.getCurrency_symbol() , list.getName_ar());
+            Glide.with(this).load(ApiClient.Image_URL + list.getFlag()).into(binding.Flag);
+
+
+            sessionManage.LOGIN_COUNTRY(list.getId() , list.getName() , list.getCurrency(), list.getCurrency_symbol() , list.getName_ar() , list.getFlag());
 
             governatelist.clear();
             localityList.clear();

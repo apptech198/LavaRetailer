@@ -108,6 +108,7 @@ public class SessionManage {
     public static final String LOGIN_COUNTRY_ID = "LOGIN_COUNTRY_ID";
     public static final String LOGIN_COUNTRY_NAME = "LOGIN_COUNTRY_NAME";
     public static final String LOGIN_COUNTRY_NAME_AR = "LOGIN_COUNTRY_NAME_AR";
+    public static final String LOGIN_COUNTRY_FLAG = "LOGIN_COUNTRY_FLAG";
     public static final String LOGIN_COUNTRY_CURRENCY = "LOGIN_COUNTRY_CURRENCY";
     public static final String LOGIN_COUNTRY_CURRENCY_SYMBOL = "LOGIN_COUNTRY_CURRENCY_SYMBOL";
 
@@ -189,6 +190,7 @@ public class SessionManage {
         user.put(LOGIN_COUNTRY_CURRENCY, pref.getString(LOGIN_COUNTRY_CURRENCY, null));
         user.put(LOGIN_COUNTRY_CURRENCY_SYMBOL, pref.getString(LOGIN_COUNTRY_CURRENCY_SYMBOL, null));
         user.put(LOGIN_COUNTRY_NAME_AR, pref.getString(LOGIN_COUNTRY_NAME_AR, null));
+        user.put(LOGIN_COUNTRY_FLAG, pref.getString(LOGIN_COUNTRY_FLAG, null));
 
 
         // return user
@@ -312,12 +314,13 @@ public class SessionManage {
         editor.commit();
     }
 
-    public void LOGIN_COUNTRY(String country_id , String country_name , String currency , String currency_symbol , String country_name_ar){
+    public void LOGIN_COUNTRY(String country_id , String country_name , String currency , String currency_symbol , String country_name_ar , String flag){
         editor.putString(LOGIN_COUNTRY_ID , country_id);
         editor.putString(LOGIN_COUNTRY_NAME , country_name);
         editor.putString(LOGIN_COUNTRY_CURRENCY , currency);
         editor.putString(LOGIN_COUNTRY_CURRENCY_SYMBOL , currency_symbol);
         editor.putString(LOGIN_COUNTRY_NAME_AR , country_name_ar);
+        editor.putString(LOGIN_COUNTRY_FLAG , flag);
         editor.commit();
     }
 

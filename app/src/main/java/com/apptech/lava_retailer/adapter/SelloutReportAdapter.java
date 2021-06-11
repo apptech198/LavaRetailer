@@ -11,6 +11,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.R;
@@ -62,6 +63,9 @@ public class SelloutReportAdapter extends RecyclerView.Adapter<SelloutReportAdap
 
         holder.binding.qty.setText(l.getQty());
         holder.binding.value.setText(l.getValue());
+
+        holder.binding.TabMainlayout.setBackground(ResourcesCompat.getDrawable(context.getResources() , R.drawable.report_back , null));
+
 
         holder.binding.InnerRecyclerView.setAdapter(new SellOutReportInnerAdapter(l.getSellOutCustomModalLists()));
 

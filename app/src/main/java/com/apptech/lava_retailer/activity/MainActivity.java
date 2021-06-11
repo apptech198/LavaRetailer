@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
@@ -40,6 +41,7 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.BrandsTopAdapter;
 import com.apptech.lava_retailer.databinding.ActivityMainBinding;
 import com.apptech.lava_retailer.list.brand.Brandlist;
+import com.apptech.lava_retailer.list.country.Country_list;
 import com.apptech.lava_retailer.ui.cart.CartFragment;
 import com.apptech.lava_retailer.ui.language.LanguageChangeFragment;
 import com.apptech.lava_retailer.service.ApiClient;
@@ -93,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     private ActivityMainBinding binding;
-    BottomSheetDialogFragment bottomSheetDialogFragment;
     ExpandableListAdapter expandableListAdapter;
     List<MenuModel> headerList = new ArrayList<>();
     HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
@@ -197,11 +198,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         brandInterfaces = (list , text  , text_ar) -> {
             sessionManage.brandSelect(list.getId() , text , text_ar,list.getName_fr());
 
-//            if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-//               binding.appBarMain.brandName.setText(list.getName());
-//            } else {
-//                binding.appBarMain.brandName.setText(list.getName_ar());
-//            }
 
             if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
                 binding.appBarMain.brandName.setText(list.getName());
@@ -233,6 +229,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.appBarMain.brandName.setOnClickListener(v -> {
             BrandSelect();
         });
+
+        versionControl();
+        getCountry();
 
 
 //        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK"));
@@ -942,7 +941,169 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    private void getCountry(){
 
+
+        lavaInterface.Country().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                    String error = jsonObject.getString("error");
+                    String message = jsonObject.getString("message");
+                    if (error.equalsIgnoreCase("false")) {
+
+                        JSONArray array = jsonObject.getJSONArray("country_list");
+
+                        String Countryname = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
+                        for (int i=0; i < array.length(); i++){
+                            JSONObject object = array.getJSONObject(i);
+
+                            if(Countryname.trim().equalsIgnoreCase(object.getString("name").trim())){
+
+                                String CountryActive = object.optString("active");
+
+                                if(CountryActive.trim().equalsIgnoreCase("NO")){
+                                    AlertDialog("We are not operating in this country right now");
+                                    break;
+                                }
+
+                            }
+                        }
+                        return;
+                    }
+                    Toast.makeText(MainActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(MainActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+
+    private void AlertDialog(String msg){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        View v = LayoutInflater.from(this).inflate(R.layout.row_custom_alert_dialog , null );
+        builder.setView(v);
+        TextView Title = v.findViewById(R.id.Title);
+        TextView des = v.findViewById(R.id.des);
+        TextView Btn = v.findViewById(R.id.Btn);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+
+        no.setVisibility(View.GONE);
+
+        Title.setText("Alert");
+        des.setText(msg);
+        Btn.setText("Okey");
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            submit.setEnabled(false);
+            submit.setClickable(false);
+            alertDialog.dismiss();
+
+            sessionManage.clearaddcard();;
+            sessionManage.BrandClear();
+            sessionManage.RemoveNotificationStore();
+            sessionManage.logout();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+
+        });
+        no.setOnClickListener(view -> alertDialog.dismiss());
+
+    }
+
+
+
+    private void versionControl() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            int Androidversion = pInfo.versionCode;
+            Log.e(TAG, "versionControl: " + Androidversion);
+
+            lavaInterface.fetch_version().enqueue(new Callback<Object>() {
+
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    if(response.isSuccessful()) {
+                        Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.body().toString());
+                            String error = jsonObject.getString("error");
+//                            String message = jsonObject.getString("message");
+
+                            if (error.equalsIgnoreCase("false")) {
+
+                                String data = jsonObject.getString("data");
+
+                                JSONArray jsonArray = new JSONArray(data);
+                                String version = jsonArray.getJSONObject(0).getString("current_version");
+                                String type = jsonArray.getJSONObject(0).getString("type");
+
+                                int ver = Integer.parseInt(version);
+
+                                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                                if (Androidversion < ver) {
+
+                                    if (type.equalsIgnoreCase("FORCE")) {
+                                        builder.setMessage("Your are using older version");
+                                        builder.setCancelable(false);
+                                        builder.setPositiveButton("Open Playstore",
+                                                (arg0, arg1) -> {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                                                    finish();
+                                                });
+
+                                    } else {
+                                        builder.setMessage("Newer version is available");
+                                        builder.setNegativeButton("Close", (dialog, which) -> {
+                                            builder.setMessage("Your are under Varification");
+                                            dialog.dismiss();
+                                        });
+                                    }
+
+                                    AlertDialog alertDialog = builder.create();
+                                    alertDialog.setCanceledOnTouchOutside(false);
+                                    alertDialog.show();
+
+                                }
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/order_status_design"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:id="@+id/TabMainlayout">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/modalname"
@@ -16,7 +17,8 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_weight="3"
             android:text="Modal"
-            android:textSize="12sp"/>
+            android:textSize="12sp"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/qty"

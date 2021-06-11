@@ -18,6 +18,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -284,6 +285,9 @@ public interface LavaInterface{
     @POST("email_check")
     @FormUrlEncoded
     Call<Object> EMAIL_CHECK(@Field("email") String email , @Field("country_id") String country_id  , @Field("country_name") String country_name );
+
+    @GET("version_control")
+    Call<Object> fetch_version();
 
 }
 

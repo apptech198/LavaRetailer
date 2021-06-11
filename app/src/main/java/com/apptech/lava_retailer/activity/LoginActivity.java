@@ -12,8 +12,11 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +33,7 @@ import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.bumptech.glide.Glide;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 
@@ -182,6 +186,9 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
         }
 
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
+
+            Glide.with(this).load(ApiClient.Image_URL + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_FLAG)).into(binding.Flag);
+
             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                 case "en":
                 case "fr":
@@ -199,11 +206,10 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
                 int pos = item.getGroupId();
 
-                Log.d(TAG, "onCreate: " + countryLists);
-                Log.d(TAG, "onCreate: " + countryLists);
+                Glide.with(this).load(ApiClient.Image_URL + countryLists.get(pos).getFlag()).into(binding.Flag);
 
                 sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
-                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
+                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar() , countryLists.get(pos).getFlag()  );
 
                 Log.d(TAG, "onCreate: " + countryLists.get(pos).getName_fr());
 
@@ -406,7 +412,7 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                 String Country_name =  jsonObject1.optString("country_name");
                                 if(Country_name.trim().toUpperCase().equalsIgnoreCase(countryLists.get(i).getName().trim().toUpperCase())){
                                     sessionManage.LOGIN_COUNTRY( countryLists.get(i).getId() ,  countryLists.get(i).getName() ,  countryLists.get(i).getCurrency()
-                                            , countryLists.get(i).getCurrency_symbol() , countryLists.get(i).getName_ar());
+                                            , countryLists.get(i).getCurrency_symbol() , countryLists.get(i).getName_ar() , countryLists.get(i).getFlag() );
                                 }
                             }
 
@@ -484,6 +490,8 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                                     ,object.getString("time")
                                     ,object.getString("currency")
                                     ,object.optString("currency_symbol")
+                                    ,object.optString("active")
+                                    ,object.optString("flag")
                             ));
 
                             int id = Integer.parseInt(object.getString("id"));
@@ -506,10 +514,16 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
 
 
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null) {
+
                                 String Country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+
                                 if(Country_name.trim().toUpperCase().equalsIgnoreCase(object.getString("name").trim().toUpperCase())){
+
+                                    Glide.with(LoginActivity.this).load(ApiClient.Image_URL + object.getString("flag")).into(binding.Flag);
+
                                     sessionManage.LOGIN_COUNTRY( object.getString("id") ,  object.getString("name") ,  object.getString("currency")
-                                            , object.optString("currency_symbol") , object.getString("name_ar") );
+                                            , object.optString("currency_symbol") , object.getString("name_ar")  , object.getString("flag") );
+
                                 }
                             }
 
@@ -520,7 +534,10 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
                             if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") == null){
 
                                 sessionManage.LOGIN_COUNTRY(countryLists.get(0).getId() , countryLists.get(0).getName() ,  countryLists.get(0).getCurrency()
-                                        , countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() );
+                                        , countryLists.get(0).getCurrency_symbol() , countryLists.get(0).getName_ar() , countryLists.get(0).getFlag() );
+
+                                Glide.with(LoginActivity.this).load(ApiClient.Image_URL + countryLists.get(0).getFlag()).into(binding.Flag);
+
 
                                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                                     case "en":
@@ -683,6 +700,11 @@ public class LoginActivity extends AppCompatActivity implements EasyPermissions.
          alertDialog.setCancelable(false);
 
     }
+
+
+
+
+
 
 }
 

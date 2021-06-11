@@ -9,9 +9,10 @@ public class Country_list {
     String time;
     String currency;
     String currency_symbol;
+    String active;
+    String flag;
 
-
-    public Country_list(String id, String name, String name_ar, String name_fr, String time, String currency, String currency_symbol) {
+    public Country_list(String id, String name, String name_ar, String name_fr, String time, String currency, String currency_symbol, String active, String flag) {
         this.id = id;
         this.name = name;
         this.name_ar = name_ar;
@@ -19,6 +20,8 @@ public class Country_list {
         this.time = time;
         this.currency = currency;
         this.currency_symbol = currency_symbol;
+        this.active = active;
+        this.flag = flag;
     }
 
     public String getId() {
@@ -49,6 +52,15 @@ public class Country_list {
         return currency_symbol;
     }
 
+    public String getActive() {
+        return active;
+    }
+
+    public String getFlag() {
+        return flag;
+    }
+
+
     @Override
     public String toString() {
         return "Country_list{" +
@@ -59,6 +71,8 @@ public class Country_list {
                 ", time='" + time + '\'' +
                 ", currency='" + currency + '\'' +
                 ", currency_symbol='" + currency_symbol + '\'' +
+                ", active='" + active + '\'' +
+                ", flag='" + flag + '\'' +
                 '}';
     }
 }

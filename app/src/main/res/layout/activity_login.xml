@@ -46,6 +46,13 @@
         android:layout_marginTop="8dp"
         android:padding="8dp">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/Flag"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_globe"
+            android:layout_marginEnd="4dp"/>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/countryName"
             android:layout_width="wrap_content"
@@ -55,8 +62,7 @@
             android:fontFamily="@font/lato_bold"
             android:textStyle="bold"
             android:textSize="14sp"
-            android:drawablePadding="4dp"
-            android:drawableStart="@drawable/ic_globe"/>
+            android:drawablePadding="4dp" />
 
     </LinearLayout>
 

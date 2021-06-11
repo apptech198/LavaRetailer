@@ -4,21 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/order_status_design"
+    android:background="@drawable/report_table_layout"
     android:layout_marginBottom="16dp"
     android:orientation="vertical">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:padding="8dp"
+            android:id="@+id/TabMainlayout"
+            >
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/commodity_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="G. Total"
-                    android:textColor="@color/white"
+                    android:textColor="@color/login_edit_text_back"
                     android:fontFamily="@font/lato_semi_bold"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +33,7 @@
                     android:text="60"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/login_edit_text_back"
                     android:fontFamily="@font/lato_semi_bold"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +46,7 @@
                     android:text="600"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/login_edit_text_back"
                     android:fontFamily="@font/lato_semi_bold"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

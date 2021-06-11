@@ -27,6 +27,7 @@ import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -98,6 +99,10 @@ public class SocialActivity extends AppCompatActivity {
 
 
         if (sessionManage.getUserDetails().get("LOGIN_COUNTRY_NAME") != null){
+
+            Glide.with(this).load(ApiClient.Image_URL + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_FLAG)).into(binding.Flag);
+
+
             switch (sessionManage.getUserDetails().get("LANGUAGE")){
                 case "en":
                 case "fr":
@@ -227,7 +232,10 @@ public class SocialActivity extends AppCompatActivity {
                 int pos = item.getGroupId();
 
                 sessionManage.LOGIN_COUNTRY(String.valueOf(item.getItemId()) , countryLists.get(pos).getName() , countryLists.get(pos).getCurrency()
-                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar());
+                        , countryLists.get(pos).getCurrency_symbol() , countryLists.get(pos).getName_ar() , countryLists.get(pos).getFlag() );
+
+                Glide.with(this).load(ApiClient.Image_URL + countryLists.get(pos).getFlag()).into(binding.Flag);
+
 
                 switch (sessionManage.getUserDetails().get("LANGUAGE")){
                     case "en":
@@ -277,6 +285,8 @@ public class SocialActivity extends AppCompatActivity {
                                     ,object.getString("time")
                                     ,object.getString("currency")
                                     ,object.optString("currency_symbol")
+                                    ,object.optString("active")
+                                    ,object.optString("flag")
                             ));
 
                             int id = Integer.parseInt(object.getString("id"));
