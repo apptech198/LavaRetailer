@@ -1,6 +1,7 @@
 package com.apptech.lava_retailer.ui.warranty.unserialize;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -90,6 +91,9 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
     AlertDialog alertDialog1;
     JSONObject Replace_item;
    public String NEW_IMEI="", Replace_Imei="", Replacement_date="", Item_name="";
+    ImageView imageView;
+    ConstraintLayout layout;
+    boolean selecttype=false;
 
 
     public static UnSerializeFragment newInstance() {
@@ -199,15 +203,19 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 case R.id.searilize:
                     binding.Searilizelayout.setVisibility(View.VISIBLE);
                     binding.note.setVisibility(View.GONE);
+                    binding.ProductLayout.setVisibility(View.GONE);
                     TYPE= "SERIALIZE";
+                    filePart= null;
                     binding.submit.setVisibility(View.GONE);
                     break;
                 case R.id.unsearilize:
+                    binding.ImageLayout.setVisibility(View.GONE);
                     binding.Searilizelayout.setVisibility(View.GONE);
                     binding.note.setVisibility(View.VISIBLE);
                     TYPE= "NONSERIALIZE";
                     binding.ImeiEdittext.setText("");
                     SELECT_DATE ="";
+                    filePart=null;
                     binding.selectDatePicker.setText("Select Date");
                     binding.submit.setVisibility(View.VISIBLE);
                     break;
@@ -285,11 +293,19 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
         if (resultCode == getActivity().RESULT_OK) {
 
-            binding.ImageLayout.setVisibility(View.VISIBLE);
+
             fileUri = data.getData();
-            binding.img.setImageURI(fileUri);
             File file =  ImagePicker.Companion.getFile(data);
             filePart = MultipartBody.Part.createFormData("invoice", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+            if(selecttype){
+                layout.setVisibility(View.VISIBLE);
+                imageView.setImageURI(fileUri);
+                selecttype= false;
+            }else {
+                binding.ImageLayout.setVisibility(View.VISIBLE);
+                binding.img.setImageURI(fileUri);
+            }
+
 
 
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -688,22 +704,25 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
 
                         if(order_detail.optString("sellout").equals("NO")){
                             binding.progressbar.setVisibility(View.GONE);
-                            AlertDialogfailure("Sell Out of this IMEI is not Reported!");
+//                            AlertDialogfailure("Sell Out of this IMEI is not Reported!");
+                            AlertInvoice();
                             return;
                         }
 
                         if(!order_detail.optString("warranty_type").equals("REPLACEMENT")){
                             binding.progressbar.setVisibility(View.GONE);
-                            AlertDialogfailure("This IMEI is not for Replacement only for Repair!");
+                            AlertDialogfailure("This Serial NO. is not for Replacement only for Repair!");
                             return;
                         }
 
                         if(order_detail.optString("sell_out_date").equals("")){
                             binding.progressbar.setVisibility(View.GONE);
                             AlertDialogfailure("Tertiary Date or Sell out Date Not found in our System Please Contact to Distributer!");
+                            AlertInvoice();
                             return;
                         }
 
+//                        AlertInvoice();
                         SELECT_DATE  = data.optString("sell_out_date").substring(0,10);
                         binding.IssueDateTitle.setVisibility(View.GONE);
                         binding.IssueDateMob.setVisibility(View.GONE);
@@ -978,6 +997,48 @@ public class UnSerializeFragment extends Fragment implements ScannerFragment.Bac
                 binding.msgShowWrongImei.setVisibility(View.GONE);
             }
         });
+    }
+
+
+
+    private void AlertInvoice(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.row_layout_invoice , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView textView =  v.findViewById(R.id.PhotoSelect);
+        TextView error = v.findViewById(R.id.invoicemsg);
+        layout = v.findViewById(R.id.ImageLayout);
+        imageView= v.findViewById(R.id.img);
+
+        textView.setOnClickListener(v1 -> {
+            selecttype= true;
+            error.setVisibility(View.GONE);
+            Photoselect();
+        });
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+             if(FileValidation()){
+                 alertDialog.dismiss();
+             }else {
+                 error.setVisibility(View.VISIBLE);
+             }
+
+        });
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+        no.setOnClickListener(view -> {alertDialog.dismiss();
+        binding.ProductLayout.setVisibility(View.GONE);});
+
+
+
+
     }
 
 }

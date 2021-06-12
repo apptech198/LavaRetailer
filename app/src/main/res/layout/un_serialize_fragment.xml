@@ -191,7 +191,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/edit_back_color_change"
             android:padding="8dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ImeiEdittext">
 

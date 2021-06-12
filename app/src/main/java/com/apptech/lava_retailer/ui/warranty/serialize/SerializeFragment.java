@@ -1,12 +1,15 @@
 package com.apptech.lava_retailer.ui.warranty.serialize;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -32,6 +35,7 @@ import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
@@ -41,6 +45,7 @@ import com.google.gson.JsonObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -49,6 +54,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +89,11 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     boolean WarrantyMob = false , WarrantyPhone = false , WarrantyEarPhone = false;
     JSONObject Replace_item;
     int k=0;
+    ImageView imageView;
+    ConstraintLayout layout;
+    boolean selecttype=false;
+    private Uri fileUri;
+    MultipartBody.Part filePart= null;
 
     public static SerializeFragment newInstance() {
         return new SerializeFragment();
@@ -513,7 +526,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         Log.e(TAG, "onResponse: "+ order_detail.optString("sellout") );
                         if(order_detail.optString("sellout").equals("NO")){
                             binding.progressbar.setVisibility(View.GONE);
-                            AlertDialogfailure("Sell Out of this IMEI is not Reported!");
+//                            AlertDialogfailure("Sell Out of this IMEI is not Reported!");
+                            AlertInvoice();
                             return;
                         }
 
@@ -530,10 +544,11 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 //                       sell out of this imei is not reported.
                         if(order_detail.optString("sell_out_date").equals("")){
                             binding.progressbar.setVisibility(View.GONE);
-                            AlertDialogfailure("Tertiary Date or Sell out Date Not found in our System Please Contact to Distributer!");
+                            AlertInvoice();
+//                            AlertDialogfailure("Tertiary Date or Sell out Date Not found in our System Please Contact to Distributer!");
                             return;
                         }
-
+//                        AlertInvoice();
                         binding.IssueDateTitle.setVisibility(View.GONE);
                         binding.IssueDateMob.setVisibility(View.GONE);
                         binding.MobCheckbox.setChecked(false);
@@ -581,7 +596,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         WARRANTY_PERIOD_EAR = acce_earphone_war;
 
 //                        time ="2019-05-29 00:00:00";
-                        if(tertiary_date!=null) {
+                        if(tertiary_date!=null && !tertiary_date.equals("")) {
                             Calendar ORDERDATE = Date_Convert_String_To_Calender(time);
                             Calendar TERTIARY = Date_Convert_String_To_Calender(tertiary_date);
                             if (ORDERDATE.after(TERTIARY)) {
@@ -1205,21 +1220,46 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     void Submit(int i,boolean alert){
 
+        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
+        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
+        RequestBody retailer_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        RequestBody retailer_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.NAME));
+        RequestBody locality_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        RequestBody locality_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        RequestBody imei = RequestBody.create(MediaType.parse("multipart/form-data"),Replace_Imei);
+        RequestBody sell_date = RequestBody.create(MediaType.parse("multipart/form-data"),SELL_DATE);
+        RequestBody handest_replace = RequestBody.create(MediaType.parse("multipart/form-data"),HANDSET_REPLACE);
+        RequestBody item_name = RequestBody.create(MediaType.parse("multipart/form-data"),REPLACE_ITEM);
+        RequestBody imei_original = RequestBody.create(MediaType.parse("multipart/form-data"),binding.ImeiEdittext.getText().toString());
+
+//        Map<String, String> map = new HashMap<>();
+//        map.put("country_name", sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
+//        map.put("country_id", sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
+//        map.put("retailer_id", sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+//        map.put("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
+//        map.put("locality_id", sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+//        map.put("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+//        map.put("imei", Replace_Imei);
+//        map.put("sell_date", SELL_DATE);
+//        map.put("handest_replace", HANDSET_REPLACE);
+//        map.put("item_name", REPLACE_ITEM);
+//        map.put("imei_original", binding.ImeiEdittext.getText().toString());
 
 
-        Map<String, String> map = new HashMap<>();
-        map.put("country_name", sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
-        map.put("country_id", sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
-        map.put("retailer_id", sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
-        map.put("retailer_name", sessionManage.getUserDetails().get(SessionManage.NAME));
-        map.put("locality_id", sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
-        map.put("locality_name", sessionManage.getUserDetails().get(SessionManage.LOCALITY));
-        map.put("imei", Replace_Imei);
-        map.put("sell_date", SELL_DATE);
-        map.put("handest_replace", HANDSET_REPLACE);
-        map.put("item_name", REPLACE_ITEM);
-        map.put("imei_original", binding.ImeiEdittext.getText().toString());
-        lavaInterface.REPLACEMENT_WARENTY(map).enqueue(new Callback<Object>() {
+//        lavaInterface.REPLACEMENT_WARENTY(map).enqueue(new Callback<Object>() {
+        lavaInterface.REPLACEMENT_WARENTY(filePart
+                ,country_name
+                ,country_id
+                ,retailer_id
+                ,retailer_name
+                ,locality_id
+                ,locality_name
+                ,imei
+                ,sell_date
+                ,handest_replace
+                ,item_name
+                ,imei_original
+        ).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 Log.e(TAG, "onResponse: " + response.body().toString());
@@ -1430,6 +1470,91 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 binding.progressbar.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void Photoselect() {
+        ImagePicker.Companion.with(requireActivity())
+                .crop()
+                .compress(64)
+                .maxResultSize(1080, 1080)
+                .start();
+    }
+
+    private void AlertInvoice(){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.row_layout_invoice , null );
+        builder.setView(v);
+        LinearLayout submit = v.findViewById(R.id.submit);
+        LinearLayout no = v.findViewById(R.id.close);
+        MaterialTextView textView =  v.findViewById(R.id.PhotoSelect);
+        TextView error = v.findViewById(R.id.invoicemsg);
+        layout = v.findViewById(R.id.ImageLayout);
+        imageView= v.findViewById(R.id.img);
+
+        textView.setOnClickListener(v1 -> {
+            selecttype= true;
+            error.setVisibility(View.GONE);
+            Photoselect();
+        });
+
+
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        submit.setOnClickListener(view -> {
+            if(FileValidation()){
+                alertDialog.dismiss();
+            }else {
+                error.setVisibility(View.VISIBLE);
+            }
+
+        });
+        alertDialog.setCancelable(false);
+        alertDialog.setCanceledOnTouchOutside(false);
+        no.setOnClickListener(view -> {alertDialog.dismiss();
+        binding.ProductLayout.setVisibility(View.GONE);});
+//        no.setVisibility(View.GONE);
+
+
+
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        TextView title = getActivity().findViewById(R.id.Actiontitle);
+        title.setText(getActivity().getString(R.string.Accessories));
+
+        if (resultCode == getActivity().RESULT_OK) {
+
+
+            fileUri = data.getData();
+            File file =  ImagePicker.Companion.getFile(data);
+            filePart = MultipartBody.Part.createFormData("invoice", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file));
+
+                layout.setVisibility(View.VISIBLE);
+                imageView.setImageURI(fileUri);
+                selecttype= false;
+
+
+
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(getContext(), ImagePicker.Companion.getError(data), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Task Cancelled", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    private boolean FileValidation(){
+        if (filePart == null) {
+            Toast.makeText(getContext(), "Upload Image", Toast.LENGTH_SHORT).show();
+            return  false;
+        }
+        return  true;
     }
 
 }

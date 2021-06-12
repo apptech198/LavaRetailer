@@ -252,8 +252,21 @@ public interface LavaInterface{
     Call<Object> GETTRADEDATALIST(@FieldMap Map<String,String> params);
 
     @POST("replacement_warranty")
-    @FormUrlEncoded
-    Call<Object> REPLACEMENT_WARENTY(@FieldMap Map<String,String> params);
+    @Multipart
+//    Call<Object> REPLACEMENT_WARENTY(@FieldMap Map<String,String> params);
+    Call<Object> REPLACEMENT_WARENTY(@Part MultipartBody.Part img_url
+            , @Part("country_name") RequestBody country_name
+            , @Part("country_id") RequestBody country_id
+            , @Part("retailer_id") RequestBody retailer_id
+            , @Part("retailer_name") RequestBody retailer_name
+            , @Part("locality_id") RequestBody locality_id
+            , @Part("locality_name") RequestBody locality_name
+            , @Part("imei") RequestBody imei
+            , @Part("sell_date") RequestBody sell_date
+            , @Part("handest_replace") RequestBody handest_replace
+            , @Part("item_name") RequestBody item_name
+            , @Part("imei_original") RequestBody imei_original
+    );
 
     @POST("comodity_list")
     @FormUrlEncoded
