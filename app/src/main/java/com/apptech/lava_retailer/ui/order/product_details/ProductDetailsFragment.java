@@ -75,9 +75,6 @@ public class ProductDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        TextView title = getActivity().findViewById(R.id.Actiontitle);
-        title.setText(getActivity().getString(R.string.Price_Details));
-
         binding = ProductDetailsFragmentBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -130,8 +127,8 @@ public class ProductDetailsFragment extends Fragment {
             binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
 //            binding.productDic.loadData(list.getDes(), "text/html", "UTF-8");
 
-            binding.productAmt.setText(currency + list.getDis_price());
-            binding.productAmtDic.setText(currency + list.getActual_price());
+            binding.productAmt.setText(currency + " " + list.getDis_price());
+            binding.productAmtDic.setText(currency + " " + list.getActual_price());
 
             try {
                 int Actual_price = Integer.parseInt(list.getActual_price());
@@ -184,8 +181,8 @@ public class ProductDetailsFragment extends Fragment {
             }
             binding.productDic.loadDataWithBaseURL(null, htmlData, "text/html", "UTF-8", null);
 
-            binding.productAmt.setText(currency + list.getDis_price());
-            binding.productAmtDic.setText(currency + list.getActual_price());
+            binding.productAmt.setText(currency + " " + list.getDis_price());
+            binding.productAmtDic.setText(currency + " " + list.getActual_price());
 
             try {
                 int Actual_price = Integer.parseInt(list.getActual_price());
@@ -233,8 +230,8 @@ public class ProductDetailsFragment extends Fragment {
             String Dis_price =  new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
-            binding.productAmt.setText(currency + Dis_price);
-            binding.productAmtDic.setText(currency + Actual_price);
+            binding.productAmt.setText(currency + " " + Dis_price);
+            binding.productAmtDic.setText(currency + " " + Actual_price);
 
 
             try {

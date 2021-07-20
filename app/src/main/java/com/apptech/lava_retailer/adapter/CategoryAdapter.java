@@ -1,6 +1,7 @@
 package com.apptech.lava_retailer.adapter;
 
 import android.content.Context;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -45,21 +46,30 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewBi
 
         ComodityLists list = categoryLists.get(position);
 
+        String string = "";
+
         switch (sessionManage.getUserDetails().get("LANGUAGE")){
             case "en":
-                holder.binding.categoryName.setText(list.getName());
+                 string = list.getName().substring(0, 1).toUpperCase() + list.getName().substring(1).toLowerCase();
+                holder.binding.categoryName.setText(string);
                 break;
             case "fr":
                 if(list.getName_fr().isEmpty()){
-                    holder.binding.categoryName.setText(list.getName());
+                    string = list.getName().substring(0, 1).toUpperCase() + list.getName().substring(1).toLowerCase();
+                    holder.binding.categoryName.setText(string);
                 }else {
-                    holder.binding.categoryName.setText(list.getName_fr());
+                    string = list.getName_fr().substring(0, 1).toUpperCase() + list.getName_fr().substring(1).toLowerCase();
+                    holder.binding.categoryName.setText(string);
                 }
                 break;
             case "ar":
-                holder.binding.categoryName.setText(list.getName_ar());
+                string = list.getName_ar().substring(0, 1).toUpperCase() + list.getName_ar().substring(1).toLowerCase();
+                holder.binding.categoryName.setText(string);
                 break;
         }
+
+
+
         holder.binding.CategoryLayout.setOnClickListener(v -> {
           categoryItemClickInterface.categoryItemClick(list);
         });

@@ -274,35 +274,12 @@ public class SignUpActivity extends AppCompatActivity implements TextWatcher {
 
                 getGovernate();
 
-
-////                sessionManage.LOGIN_COUNTRY(l.getId() , l.getName() , countryLists.get(pos).getCurrency()
-//                        , countryLists.get(pos).getCurrency_symbol() , l.getName_ar());
-
-//                CountryName = countryLists.get(pos).getName();
-//
-//                switch (sessionManage.getUserDetails().get("LANGUAGE")){
-//                    case "en":
-//                    case "fr":
-//                        binding.countryName.setText(countryLists.get(pos).getName());
-//                        binding.SelectCountry.setText(countryLists.get(pos).getName());
-//                        break;
-//                    case "ar":
-//                        binding.countryName.setText(countryLists.get(pos).getName_ar());
-//                        binding.SelectCountry.setText(countryLists.get(pos).getName_ar());
-//                        break;
-//                }
-
-
                 return false;
             });
             popupMenu1.show();
 
         });
 
-
-//        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID) );
-//        Log.e(TAG, "onCreate: " + sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME) );
-//        Log.e(TAG, "onCreate: " + CountryName );
 
 
     }

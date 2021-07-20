@@ -30,7 +30,7 @@ public class SmsBroadcastReceiver extends BroadcastReceiver {
         }
     }
 
-    public static interface SmsBroadcastReceiverListener {
+    public interface SmsBroadcastReceiverListener {
         void onSuccess(Intent intent);
         void onFailure();
     }

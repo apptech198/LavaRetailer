@@ -351,7 +351,7 @@ public class ProfileFragment extends Fragment {
                 }catch (NullPointerException e){
                     e.printStackTrace();
                     Log.e(TAG, "onResponse: " + e.getMessage() );
-                    binding.progressbar.setVisibility(View.GONE);
+//                    binding.progressbar.setVisibility(View.GONE);
                 }
 
             }
@@ -883,9 +883,7 @@ public class ProfileFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Error Message");
         builder.setMessage(errormsg);
-        builder.setPositiveButton("Close" , (dialog, which) -> {
-            dialog.dismiss();
-        });
+        builder.setPositiveButton("Close" , (dialog, which) -> dialog.dismiss());
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }

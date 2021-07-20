@@ -107,7 +107,7 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 //            e.printStackTrace();
 //        }
 
-        Log.e(TAG, "onBindViewHolder: " + currency);
+
 
 
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
@@ -115,8 +115,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             holder.productName.setText(list.getMarketing_name());
             holder.brandName.setText("Brand : " + list.getBrand());
             holder.modalName.setText("Modal : " +  list.getModel());
-            holder.productAmt.setText(currency + list.getDis_price());
-            holder.productAmtDic.setText(currency + list.getActual_price());
+            holder.productAmt.setText(currency + " " + list.getDis_price());
+            holder.productAmtDic.setText(currency + " " + list.getActual_price());
             holder.addBtnLayout1.setEnabled(true);
             holder.addBtnLayout1.setClickable(true);
 
@@ -136,8 +136,6 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 
             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
 
-//                holder.addBtnLayout1.setEnabled(false);
-//                holder.addBtnLayout1.setClickable(false);
 
                 SpannableString string = new SpannableString(list.getActual_price());
                 MaskFilter blurMask = new BlurMaskFilter(15f, BlurMaskFilter.Blur.NORMAL);
@@ -164,8 +162,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
             String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
 
-            holder.productAmt.setText(currency + Dis_price);
-            holder.productAmtDic.setText(currency +  Actual_price);
+            holder.productAmt.setText(currency + " " + Dis_price);
+            holder.productAmtDic.setText(currency + " " +  Actual_price);
             holder.addBtnLayout1.setEnabled(true);
             holder.addBtnLayout1.setClickable(true);
 
@@ -219,8 +217,8 @@ public class PurchaseNowAdapter extends RecyclerView.Adapter<PurchaseNowAdapter.
 //            String Dis_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getDis_price()));
 //            String Actual_price = new NumberConvertArabic().NumberConvertArabic(Integer.parseInt(list.getActual_price()));
 
-            holder.productAmt.setText(currency + list.getDis_price());
-            holder.productAmtDic.setText(currency + list.getActual_price());
+            holder.productAmt.setText(currency  + " " + list.getDis_price());
+            holder.productAmtDic.setText(currency + " " + list.getActual_price());
 
 
             try {

@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.Utils.MessageShowUtils;
 import com.apptech.lava_retailer.databinding.RowMessageShowBinding;
 import com.apptech.lava_retailer.modal.notification_list.NotificationListShow;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -121,14 +120,7 @@ public class MessageShowAdapter extends RecyclerView.Adapter<MessageShowAdapter.
     }
 
 
-    public void setData(List<NotificationListShow> newData) {
 
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new MessageShowUtils(newData, frontMsgShowLists));
-        diffResult.dispatchUpdatesTo(this);
-        frontMsgShowLists.clear();
-        this.frontMsgShowLists.addAll(newData);
-
-    }
 
     public class Viewholder extends RecyclerView.ViewHolder {
 

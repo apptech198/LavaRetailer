@@ -90,6 +90,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
     public static final int REQUEST_CODE = 100;
     private final String[] neededPermissions = new String[]{Manifest.permission.CAMERA};
 
+    String PRICE_DROP_ID ="" , PRICE_DROP_NAME ;
+
     public static PriceDropEntryFragment newInstance() {
         return new PriceDropEntryFragment();
     }
@@ -281,6 +283,8 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
         mainJsonObject.addProperty("country_id",  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
         mainJsonObject.addProperty("country_name",  sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
 
+        Log.e(TAG, "submitImei: " +  jsonElements.toString());
+
         mainJsonObject.add("imei_list", jsonElements);
 
         Log.e(TAG, "submitImei: " + mainJsonObject.toString());
@@ -440,15 +444,12 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                     int getid = i + 1;
 
                     TextView textView = binding.addLayout.findViewWithTag(String.valueOf(getid));
-
-
                     jsonObject.addProperty("imei", textView.getText().toString());
                     jsonObject.addProperty("drop_amount", announce_drop_amount);
                     jsonObject.addProperty("check_status", textView.getHint().toString());
                     jsonObject.addProperty("status",  textView.getHint().toString());
-                    jsonObject.addProperty("price_drop_id",  "");
-                    jsonObject.addProperty("price_drop_name",  "");
-
+                    jsonObject.addProperty("price_drop_id",  PRICE_DROP_ID);
+                    jsonObject.addProperty("price_drop_name",  PRICE_DROP_NAME);
 
                     jsonElements.add(jsonObject);
                 } catch (NullPointerException e) {
@@ -745,6 +746,10 @@ public class PriceDropEntryFragment extends Fragment implements ScannerFragment.
                                             announce_end_date = announcelist.get(position).getEndDate();
                                             announce_drop_amount = announcelist.get(position).getDrop_amount();
                                             announce_active = announcelist.get(position).getActive();
+                                            PRICE_DROP_ID = announcelist.get(position).getId();
+                                            PRICE_DROP_NAME = announcelist.get(position).getName();
+                                            Log.e(TAG, "onItemSelected: " +  PRICE_DROP_ID);
+                                            Log.e(TAG, "onItemSelected: " +  PRICE_DROP_NAME);
                                         }
 
                                         @Override

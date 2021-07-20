@@ -41,11 +41,13 @@ import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.adapter.BrandsTopAdapter;
 import com.apptech.lava_retailer.databinding.ActivityMainBinding;
 import com.apptech.lava_retailer.list.brand.Brandlist;
-import com.apptech.lava_retailer.list.country.Country_list;
-import com.apptech.lava_retailer.ui.cart.CartFragment;
-import com.apptech.lava_retailer.ui.language.LanguageChangeFragment;
+import com.apptech.lava_retailer.modal.MenuModel;
+import com.apptech.lava_retailer.other.LanguageChange;
+import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
+import com.apptech.lava_retailer.ui.cart.CartFragment;
+import com.apptech.lava_retailer.ui.language.LanguageChangeFragment;
 import com.apptech.lava_retailer.ui.message_centre.MessageCentreFragment;
 import com.apptech.lava_retailer.ui.order.order_status.OrderStatusFragment;
 import com.apptech.lava_retailer.ui.order.place_order.PlaceOrderFragment;
@@ -63,16 +65,11 @@ import com.apptech.lava_retailer.ui.trade_program.loyalty_scheme.LoyaltySchemeFr
 import com.apptech.lava_retailer.ui.trade_program.price_list.PricelistFragment;
 import com.apptech.lava_retailer.ui.trade_program.selling_program.SellingProgramFragment;
 import com.apptech.lava_retailer.ui.trade_program.sellout_program.SellOutProgramFragment;
-import com.apptech.lava_retailer.ui.warranty.ocr_warranty.OCR_WarrantyFragment;
-import com.apptech.lava_retailer.modal.MenuModel;
-import com.apptech.lava_retailer.other.LanguageChange;
-import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.ui.warranty.pending_replacement_request.PendingReplacementRequestFragment;
 import com.apptech.lava_retailer.ui.warranty.serialize.SerializeFragment;
 import com.apptech.lava_retailer.ui.warranty.unserialize.UnSerializeFragment;
 import com.apptech.lava_retailer.ui.warranty.warrenty_check.WarrentyCheckFragment;
 import com.bumptech.glide.Glide;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.gson.Gson;
@@ -91,14 +88,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
 
-    private ActivityMainBinding binding;
+    private static final String TAG = "MainActivity";
     ExpandableListAdapter expandableListAdapter;
     List<MenuModel> headerList = new ArrayList<>();
     HashMap<MenuModel, List<MenuModel>> childList = new HashMap<>();
-    private static final String TAG = "MainActivity";
     FragmentManager fragmentManager;
     SessionManage sessionManage;
     NavController navController;
@@ -108,9 +104,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Dialog dialog;
     List<Brandlist> brandlists = new ArrayList<>();
     BrandsTopAdapter brandsTopAdapter;
+    private ActivityMainBinding binding;
     private boolean isFirstBackPressed = false;
 
-
+    public static void printHashKey(Context pContext) {
+        try {
+            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String hashKey = new String(Base64.encode(md.digest(), 0));
+                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
+            }
+        } catch (NoSuchAlgorithmException e) {
+            Log.e(TAG, "printHashKey()", e);
+        } catch (Exception e) {
+            Log.e(TAG, "printHashKey()", e);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         sessionManage = SessionManage.getInstance(this);
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             new LanguageChange(this, "en");
-        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+        } else if (sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
             new LanguageChange(this, "fr");
         } else {
             new LanguageChange(this, "ar");
@@ -136,14 +147,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView brand_name = findViewById(R.id.brand_name);
         if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
             brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
-        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
-            if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR)!=null){
-                if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR).isEmpty()){
+        } else if (sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
+            if (sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR) != null) {
+                if (sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR).isEmpty()) {
                     brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
-                }else {
+                } else {
                     brand_name.setText(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR));
                 }
-            }else {
+            } else {
                 brand_name.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
             }
 
@@ -168,9 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mobile.setText(sessionManage.getUserDetails().get("MOBILE"));
         Email.setText(sessionManage.getUserDetails().get("EMAIL"));
 
-        if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
-              check.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_yellow));
-        }else {
+        if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")) {
+            check.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_yellow));
+        } else {
             check.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green));
         }
 
@@ -180,9 +191,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager = getSupportFragmentManager();
 
         binding.appBarMain.sideBarIcon.setOnClickListener(v -> {
-            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")){
+            if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("NO")) {
                 check.setImageDrawable(getResources().getDrawable(R.drawable.ic_circle_yellow));
-            }else {
+            } else {
                 check.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_green));
             }
             openDrawer();
@@ -195,30 +206,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        brandInterfaces = (list , text  , text_ar) -> {
-            sessionManage.brandSelect(list.getId() , text , text_ar,list.getName_fr());
+        brandInterfaces = (list, text, text_ar) -> {
+            sessionManage.brandSelect(list.getId(), text, text_ar, list.getName_fr());
 
 
             if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
                 binding.appBarMain.brandName.setText(list.getName());
-            }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+            } else if (sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
-                if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR)!=null){
-                    if(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR).isEmpty()){
+                if (sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR) != null) {
+                    if (sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR).isEmpty()) {
                         binding.appBarMain.brandName.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
-                    }else {
+                    } else {
                         binding.appBarMain.brandName.setText(sessionManage.getUserDetails().get(SessionManage.BRAND_NAME_FR));
                     }
-                }else {
+                } else {
                     binding.appBarMain.brandName.setText(sessionManage.getUserDetails().get("BRAND_NAME"));
                 }
 //                binding.appBarMain.brandName.setText(list.getName_fr());
             } else {
                 binding.appBarMain.brandName.setText(list.getName_ar());
             }
-
-
-
 
 
             getCurrentVisibleFragment();
@@ -242,31 +250,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        sessionManage.clearaddcard();
 
-        Log.e(TAG, "onCreate: " + "\u00a3" );
-        Log.e(TAG, "onCreate: " + "\u20B9" );
+        Log.e(TAG, "onCreate: " + "\u00a3");
+        Log.e(TAG, "onCreate: " + "\u20B9");
 
-    }
-
-
-     public static void printHashKey(Context pContext) {
-        try {
-            PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String hashKey = new String(Base64.encode(md.digest(), 0));
-                Log.i(TAG, "printHashKey() Hash Key: " + hashKey);
-            }
-        } catch (NoSuchAlgorithmException e) {
-            Log.e(TAG, "printHashKey()", e);
-        } catch (Exception e) {
-            Log.e(TAG, "printHashKey()", e);
-        }
     }
 
     private void getCurrentVisibleFragment() {
 
-        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().getPrimaryNavigationFragment();
         FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
         loadFragment = fragmentManager.getPrimaryNavigationFragment();
 
@@ -274,92 +265,90 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navController.popBackStack();
 
 
-
-
-        if(loadFragment instanceof  MessageCentreFragment){
+        if (loadFragment instanceof MessageCentreFragment) {
             navController.navigate(R.id.messageCentreFragment);
         }
 
-        if(loadFragment instanceof ProfileFragment){
+        if (loadFragment instanceof ProfileFragment) {
             navController.navigate(R.id.profileFragment);
         }
 
-        if(loadFragment instanceof LanguageChangeFragment){
+        if (loadFragment instanceof LanguageChangeFragment) {
             navController.navigate(R.id.languageChangeFragment);
         }
 
-        if(loadFragment instanceof ReportSellOutEntriesFragment){
+        if (loadFragment instanceof ReportSellOutEntriesFragment) {
             navController.navigate(R.id.reportSellOutEntriesFragment);
         }
 
-        if(loadFragment instanceof PendingVerificationFragment){
+        if (loadFragment instanceof PendingVerificationFragment) {
             navController.navigate(R.id.pendingVerificationFragment);
         }
 
 
-        if(loadFragment instanceof ReportSellOutReportFragment){
+        if (loadFragment instanceof ReportSellOutReportFragment) {
             navController.navigate(R.id.reportSellOutReportFragment);
         }
 
-        if(loadFragment instanceof PriceDropEntryFragment){
+        if (loadFragment instanceof PriceDropEntryFragment) {
             navController.navigate(R.id.priceDropEntryFragment);
         }
 
-        if(loadFragment instanceof EntryPendingVerificationFragment){
+        if (loadFragment instanceof EntryPendingVerificationFragment) {
             navController.navigate(R.id.entryPendingVerificationFragment);
         }
 
-        if(loadFragment instanceof ReportsFragment){
+        if (loadFragment instanceof ReportsFragment) {
             navController.navigate(R.id.reportsFragment);
         }
 
-        if(loadFragment instanceof PassbookFragment){
+        if (loadFragment instanceof PassbookFragment) {
             navController.navigate(R.id.passbookFragment);
         }
 
-        if(loadFragment instanceof PlaceOrderFragment){
+        if (loadFragment instanceof PlaceOrderFragment) {
             navController.navigate(R.id.placeOrderFragment);
         }
 
-        if(loadFragment instanceof OrderStatusFragment){
+        if (loadFragment instanceof OrderStatusFragment) {
             navController.navigate(R.id.orderStatusFragment);
         }
 
-        if(loadFragment instanceof PricelistFragment){
+        if (loadFragment instanceof PricelistFragment) {
             navController.navigate(R.id.pricelistFragment);
         }
 
-        if(loadFragment instanceof SellingProgramFragment){
+        if (loadFragment instanceof SellingProgramFragment) {
             navController.navigate(R.id.sellingProgramFragment);
         }
 
-        if(loadFragment instanceof SellOutProgramFragment){
+        if (loadFragment instanceof SellOutProgramFragment) {
             navController.navigate(R.id.sellOutProgramFragment);
         }
 
-        if(loadFragment instanceof LoyaltySchemeFragment){
+        if (loadFragment instanceof LoyaltySchemeFragment) {
             navController.navigate(R.id.loyaltySchemeFragment);
         }
 
-        if(loadFragment instanceof SerializeFragment){
+        if (loadFragment instanceof SerializeFragment) {
             navController.navigate(R.id.serializeFragment);
         }
-        if(loadFragment instanceof UnSerializeFragment){
+        if (loadFragment instanceof UnSerializeFragment) {
             navController.navigate(R.id.unSerializeFragment);
         }
 
-        if(loadFragment instanceof ProductDetailsFragment){
+        if (loadFragment instanceof ProductDetailsFragment) {
             navController.navigate(R.id.productDetailsFragment);
         }
 
-        if(loadFragment instanceof TradeProgramFragment){
+        if (loadFragment instanceof TradeProgramFragment) {
             navController.navigate(R.id.tradeProgramFragment);
         }
 
-        if(loadFragment instanceof CartFragment){
+        if (loadFragment instanceof CartFragment) {
             navController.navigate(R.id.cartFragment);
         }
-        if(loadFragment instanceof PendingReplacementRequestFragment){
+        if (loadFragment instanceof PendingReplacementRequestFragment) {
             navController.navigate(R.id.pendingreplacementFragmnet);
         }
 //        if(loadFragment instanceof SerializeFragment){
@@ -368,16 +357,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        if(loadFragment instanceof UnSerializeFragment){
 //            navController.navigate(R.id.unSerializeFragment);
 //        }
-        if(loadFragment instanceof WarrentyCheckFragment){
+        if (loadFragment instanceof WarrentyCheckFragment) {
             navController.navigate(R.id.warrentycheckFragment);
         }
 
 
-        Log.e(TAG, "getCurrentVisibleFragment: " + loadFragment.toString() );
+        Log.e(TAG, "getCurrentVisibleFragment: " + loadFragment.toString());
         dialog.dismiss();
-
-
-
 
 
     }
@@ -386,87 +372,89 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        Log.e(TAG, "onWindowFocusChanged: " + "sdcnsdjbcd" );
+        Log.e(TAG, "onWindowFocusChanged: " + "sdcnsdjbcd");
     }
 
-    private void BrandSelect(){
+    private void BrandSelect() {
         dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.brand_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        Typeface face = Typeface.createFromAsset(getAssets(), "font/lato_semi_bold.ttf");
 //        LinearLayout linearLayout= dialog.findViewById(R.id.mainview);
-        ImageView close= dialog.findViewById(R.id.close);
+        ImageView close = dialog.findViewById(R.id.close);
         RecyclerView BrandRecyclerView = dialog.findViewById(R.id.BrandRecyclerView);
 
 
-            if (!brandlists.isEmpty()){
-                brandsTopAdapter = new BrandsTopAdapter(brandlists , brandInterfaces);
-                BrandRecyclerView.setAdapter(brandsTopAdapter);
-                dialog.show();
-            }   else {
+        if (!brandlists.isEmpty()) {
+            brandsTopAdapter = new BrandsTopAdapter(brandlists, brandInterfaces);
+            BrandRecyclerView.setAdapter(brandsTopAdapter);
+            dialog.show();
+        } else {
 
-                String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
-                String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
+            String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
+            String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-                lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME) , country_id , country_name).enqueue(new Callback<Object>() {
+            lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME), country_id, country_name).enqueue(new Callback<Object>() {
 
-                    @Override
-                    public void onResponse(Call<Object> call, Response<Object> response) {
-                        JSONObject jsonObject = null;
-                        try {
-                            jsonObject = new JSONObject(new Gson().toJson(response.body()));
-                            String error = jsonObject.getString("error");
-                            String message = jsonObject.getString("message");
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(new Gson().toJson(response.body()));
+                        String error = jsonObject.getString("error");
+                        String message = jsonObject.getString("message");
 
-                            if(error.equalsIgnoreCase("false")){
+                        if (error.equalsIgnoreCase("false")) {
 
-                                JSONArray array = jsonObject.getJSONArray("list");
+                            JSONArray array = jsonObject.getJSONArray("list");
 
-                                brandlists.clear();
+                            brandlists.clear();
 
-                                for (int i=0 ; i < array.length(); i++){
-                                    JSONObject object = array.getJSONObject(i);
-                                    brandlists.add(new Brandlist(object.optString("id")
-                                            , object.optString("name")
-                                            ,object.optString("time")
-                                            ,object.optString("name_ar")
-                                            , object.optString("img")
-                                            , object.optString("name_fr")
-                                    ));
+                            for (int i = 0; i < array.length(); i++) {
+                                JSONObject object = array.getJSONObject(i);
+                                brandlists.add(new Brandlist(object.optString("id")
+                                        , object.optString("name")
+                                        , object.optString("time")
+                                        , object.optString("name_ar")
+                                        , object.optString("img")
+                                        , object.optString("name_fr")
+                                ));
 
-                                    try {
-                                        brandsTopAdapter = new BrandsTopAdapter(brandlists , brandInterfaces);
-                                        BrandRecyclerView.setAdapter(brandsTopAdapter);
-                                        dialog.show();
-                                    }catch (NullPointerException e){
-                                        e.printStackTrace();
-                                        Log.e(TAG, "onResponse: " + e.getMessage() );
-                                    }
-
+                                try {
+                                    brandsTopAdapter = new BrandsTopAdapter(brandlists, brandInterfaces);
+                                    BrandRecyclerView.setAdapter(brandsTopAdapter);
+                                    dialog.show();
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                    Log.e(TAG, "onResponse: " + e.getMessage());
                                 }
-                                return;
 
                             }
-                            Toast.makeText(MainActivity.this, "" + message, Toast.LENGTH_SHORT).show();
                             return;
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e(TAG, "onResponse: " + e.getMessage());
+
                         }
-                        Toast.makeText(MainActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(MainActivity.this, "" + message, Toast.LENGTH_SHORT).show();
+                        return;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Log.e(TAG, "onResponse: " + e.getMessage());
                     }
+                    Toast.makeText(MainActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onFailure(Call<Object> call, Throwable t) {
+                }
 
-                    }
-                });
-            }
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
+        }
 
 
-        close.setOnClickListener(v -> {dialog.cancel();});
+        close.setOnClickListener(v -> {
+            dialog.cancel();
+        });
 
 
     }
@@ -489,9 +477,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     private void prepareMenuData1() {
-
 
 
 //        profile
@@ -581,7 +567,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-
 //        menuModel = new MenuModel(getResources().getString(R.string.trade_program), true, true, "");  //SCHEMES
 //        headerList.add(menuModel);
 //
@@ -602,7 +587,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            childList.put(menuModel, childModelsList);
 //        }
 
- //        Warranty
+        //        Warranty
         menuModel = new MenuModel(getResources().getString(R.string.Warranty), true, true, "WARRANTY");  //SCHEMES
         headerList.add(menuModel);
 
@@ -630,8 +615,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         childModelsList.add(childModel);
 
 
-
-
         if (menuModel.hasChildren) {
             childList.put(menuModel, childModelsList);
         }
@@ -642,7 +625,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (!menuModel.hasChildren) {
             childList.put(menuModel, null);
         }
-
 
 
 //       LOGOUT
@@ -659,13 +641,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        NavHostFragment navHostFragment = (NavHostFragment)getSupportFragmentManager().getPrimaryNavigationFragment();
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().getPrimaryNavigationFragment();
         FragmentManager fragmentManager = navHostFragment.getChildFragmentManager();
         Fragment loginFragment = fragmentManager.getPrimaryNavigationFragment();
         loginFragment.onActivityResult(requestCode, resultCode, data);
 
     }
-
 
 
     private void populateExpandableList1() {
@@ -695,7 +676,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if (sessionManage.getUserDetails().get("PROFILE_VERIFY_CHECK").equalsIgnoreCase("YES")) {
                                 navController.navigate(R.id.tradeProgramFragment);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
-                            }else {
+                            } else {
                                 int msg = R.string.profile_not_verify;
                                 AlertDialogfailure(msg);
                             }
@@ -709,7 +690,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             binding.drawerLayout.closeDrawer(GravityCompat.START);
                             break;
                         case "LOGOUT":
-                            sessionManage.clearaddcard();;
+                            sessionManage.clearaddcard();
                             sessionManage.BrandClear();
                             sessionManage.RemoveNotificationStore();
                             sessionManage.logout();
@@ -796,7 +777,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
-                            }else {
+                            } else {
                                 int msg = R.string.profile_not_verify;
                                 AlertDialogfailure(msg);
 
@@ -808,7 +789,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
-                            }else {
+                            } else {
                                 int msg = R.string.profile_not_verify;
                                 AlertDialogfailure(msg);
                             }
@@ -819,7 +800,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
-                            }else {
+                            } else {
                                 int msg = R.string.profile_not_verify;
                                 AlertDialogfailure(msg);
                             }
@@ -830,7 +811,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 binding.expandableListView.setClickable(true);
                                 binding.expandableListView.setEnabled(true);
                                 binding.drawerLayout.closeDrawer(GravityCompat.START);
-                            }else {
+                            } else {
                                 int msg = R.string.profile_not_verify;
                                 AlertDialogfailure(msg);
                             }
@@ -883,9 +864,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-        if (getSupportFragmentManager().getBackStackEntryCount() != 0){
+        if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
             super.onBackPressed();
-        }else{
+        } else {
             if (isFirstBackPressed) {
 //                super.onBackPressed();
                 Intent homeIntent = new Intent(Intent.ACTION_MAIN);
@@ -896,7 +877,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 finishAffinity();
                 System.exit(0);
             } else {
-                if(navController.getBackStack().size() == 2){
+                if (navController.getBackStack().size() == 2) {
                     isFirstBackPressed = true;
                     Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(new Runnable() {
@@ -915,10 +896,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    private void AlertDialogfailure(int msg){
+    private void AlertDialogfailure(int msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View v = LayoutInflater.from(this).inflate(R.layout.dialog_imei_not_exits , null );
+        View v = LayoutInflater.from(this).inflate(R.layout.dialog_imei_not_exits, null);
         builder.setView(v);
 
         LinearLayout submit = v.findViewById(R.id.submit);
@@ -936,12 +917,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             submit.setClickable(false);
             alertDialog.dismiss();
         });
-        no.setOnClickListener(view -> {alertDialog.dismiss();});
+        no.setOnClickListener(view -> {
+            alertDialog.dismiss();
+        });
 
     }
 
 
-    private void getCountry(){
+    private void getCountry() {
 
 
         lavaInterface.Country().enqueue(new Callback<Object>() {
@@ -958,14 +941,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                         String Countryname = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
-                        for (int i=0; i < array.length(); i++){
+                        for (int i = 0; i < array.length(); i++) {
                             JSONObject object = array.getJSONObject(i);
 
-                            if(Countryname.trim().equalsIgnoreCase(object.getString("name").trim())){
+                            if (Countryname.trim().equalsIgnoreCase(object.getString("name").trim())) {
 
                                 String CountryActive = object.optString("active");
 
-                                if(CountryActive.trim().equalsIgnoreCase("NO")){
+                                if (CountryActive.trim().equalsIgnoreCase("NO")) {
                                     AlertDialog("We are not operating in this country right now");
                                     break;
                                 }
@@ -991,12 +974,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-    private void AlertDialog(String msg){
+    private void AlertDialog(String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        View v = LayoutInflater.from(this).inflate(R.layout.row_custom_alert_dialog , null );
+        View v = LayoutInflater.from(this).inflate(R.layout.row_custom_alert_dialog, null);
         builder.setView(v);
         TextView Title = v.findViewById(R.id.Title);
         TextView des = v.findViewById(R.id.des);
@@ -1017,7 +999,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             submit.setClickable(false);
             alertDialog.dismiss();
 
-            sessionManage.clearaddcard();;
+            sessionManage.clearaddcard();
             sessionManage.BrandClear();
             sessionManage.RemoveNotificationStore();
             sessionManage.logout();
@@ -1032,7 +1014,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     private void versionControl() {
         try {
             PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -1043,7 +1024,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
-                    if(response.isSuccessful()) {
+                    if (response.isSuccessful()) {
                         Log.e(TAG, "onResponse: " + new Gson().toJson(response.body()));
                         try {
                             JSONObject jsonObject = new JSONObject(response.body().toString());
@@ -1104,7 +1085,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
     }
-
 
 
 }

@@ -195,10 +195,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
                 if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
-                    binding.totalPrice.setText(currency + TotalproductAmt);
-                    binding.disamt.setText(currency + DisAmt);
-                    binding.totalAmt.setText(currency + DeliveryTotalAmt);
-                    binding.TotalAmount.setText(currency + DeliveryTotalAmt);
+                    binding.totalPrice.setText(currency + " " + TotalproductAmt);
+                    binding.disamt.setText(currency + " " + DisAmt);
+                    binding.totalAmt.setText(currency + " " + DeliveryTotalAmt);
+                    binding.TotalAmount.setText(currency + " " + DeliveryTotalAmt);
                     String itemnum = "Price (" + item + " Item)";
                     binding.ItemQty.setText(itemnum);
 
@@ -206,10 +206,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
                     try {
 
-                        binding.totalPrice.setText(currency + new NumberConvertArabic().NumberConvertArabic(TotalproductAmt));
-                        binding.disamt.setText(currency + new NumberConvertArabic().NumberConvertArabic(DisAmt));
-                        binding.totalAmt.setText(currency + new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt));
-                        binding.TotalAmount.setText(currency + new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt));
+                        binding.totalPrice.setText(currency + " " + new NumberConvertArabic().NumberConvertArabic(TotalproductAmt));
+                        binding.disamt.setText(currency + " " + new NumberConvertArabic().NumberConvertArabic(DisAmt));
+                        binding.totalAmt.setText(currency + " " + new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt));
+                        binding.TotalAmount.setText(currency + " " + new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt));
 
                         String itemnum = "Price (" + new NumberConvertArabic().NumberConvertArabic(item) + " Item)";
                         binding.ItemQty.setText(itemnum);
@@ -457,10 +457,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
 
                 if (sessionManage.getUserDetails().get("LANGUAGE").equals("en") || sessionManage.getUserDetails().get("LANGUAGE").equals("fr")) {
 
-                    binding.totalPrice.setText(String.valueOf(currency +  TotalproductAmt));
-                    binding.disamt.setText(String.valueOf(currency +  DisAmt));
-                    binding.totalAmt.setText(String.valueOf(currency +  DeliveryTotalAmt));
-                    binding.TotalAmount.setText(String.valueOf(currency +  DeliveryTotalAmt));
+                    binding.totalPrice.setText(String.valueOf(currency  + " " +  TotalproductAmt));
+                    binding.disamt.setText(String.valueOf(currency  + " " +  DisAmt));
+                    binding.totalAmt.setText(String.valueOf(currency + " " +  DeliveryTotalAmt));
+                    binding.TotalAmount.setText(String.valueOf(currency + " " +  DeliveryTotalAmt));
 
                     String itemnum = "Price (" + String.valueOf(item) + " Item)";
                     binding.ItemQty.setText(itemnum);
@@ -471,10 +471,10 @@ public class CartFragment extends Fragment implements CardAdapter.CardInterface 
                 }else {
                     try {
 
-                        binding.totalPrice.setText(String.valueOf(currency +  new NumberConvertArabic().NumberConvertArabic(TotalproductAmt)));
-                        binding.disamt.setText(String.valueOf(currency+  new NumberConvertArabic().NumberConvertArabic(DisAmt)));
-                        binding.totalAmt.setText(String.valueOf(currency +  new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt)));
-                        binding.TotalAmount.setText(String.valueOf(currency +  new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt)));
+                        binding.totalPrice.setText(String.valueOf(currency + " " +  new NumberConvertArabic().NumberConvertArabic(TotalproductAmt)));
+                        binding.disamt.setText(String.valueOf(currency + " " +  new NumberConvertArabic().NumberConvertArabic(DisAmt)));
+                        binding.totalAmt.setText(String.valueOf(currency + " " +  new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt)));
+                        binding.TotalAmount.setText(String.valueOf(currency + " " +  new NumberConvertArabic().NumberConvertArabic(DeliveryTotalAmt)));
 
                         String itemnum = "Price (" + new NumberConvertArabic().NumberConvertArabic(item) + " Item)";
                         binding.ItemQty.setText(itemnum);

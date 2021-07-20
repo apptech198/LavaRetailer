@@ -266,6 +266,8 @@ public interface LavaInterface{
             , @Part("handest_replace") RequestBody handest_replace
             , @Part("item_name") RequestBody item_name
             , @Part("imei_original") RequestBody imei_original
+            , @Part("additional_accessories") RequestBody additional_accessories
+            , @Part("warranty_end_date") RequestBody warranty_end_date
     );
 
     @POST("comodity_list")

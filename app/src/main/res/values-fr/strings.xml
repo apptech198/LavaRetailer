@@ -14,7 +14,7 @@
     <string name="sell_out">SELL-OUT</string>
     <string name="price_drop">PRICE DROP</string>
     <string name="pending">PENDING</string>
-    <string name="warranty">WARRANTY</string>
+    <string name="warranty">Garantie</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="forgot_password">Forgot Password?</string>
@@ -27,28 +27,28 @@
     <string name="psw_short">This password is too short</string>
     <string name="egp">\u00a3</string>
     <string name="rs_symbol">\u20B9</string>
-    <string name="or_scan">Scan</string>
+    <string name="or_scan">Scanner</string>
     <string name="verify">Verify</string>
-    <string name="mobile_number">Mobile Number/Login Id</string>
-    <string name="password">Password</string>
-    <string name="enter_otp">Enter OTP</string>
+    <string name="mobile_number">N° de téléphone</string>
+    <string name="password">Mot de passe</string>
+    <string name="enter_otp">Entrer OTP</string>
     <string name="submit">Submit</string>
     <string name="change_language">Change Language</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Déconnexion</string>
 
-    <string name="message_center">Message Centre</string>
+    <string name="message_center">Boite de messagerie</string>
     <string name="sell_outs">Sell Out</string>
     <string name="report_sell_out_entries">Report Sell Through</string>
     <string name="price_drop1">Price Drop</string>
     <string name="passbook">Passbook</string>
     <string name="order">Order</string>
-    <string name="trade_program">Trade Program</string>
+    <string name="trade_program">Programme commerciale</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="imei_allready_exists">Imei allready exists</string>
     <string name="remove_first_invalid_imei">Remove first invalid imei</string>
-    <string name="data_not_found">No data found</string>
+    <string name="data_not_found">Informations non Disponible</string>
     <string name="start_date">Start Date</string>
-    <string name="add">Add</string>
+    <string name="add">Ajouter</string>
     <string name="psw_not_match">Password not match</string>
     <string name="bobile_number">Mobile Number</string>
     <string name="name_fiels_missing">Name field is missing</string>
@@ -77,61 +77,61 @@
 
     <string-array name="language">
         <item>Select language</item>
-        <item>English</item>
-        <item>Arabic</item>
+        <item>Anglais</item>
+        <item>Arabe</item>
     </string-array>
 
     <string-array name="valid_Invalid_imei">
-        <item>APPROVED</item>
-        <item>REJECTED</item>
-        <item>PENDING</item>
+        <item>Approuver</item>
+        <item>Rejeter</item>
+        <item>En Attente</item>
     </string-array>
 
     <string name="facebook_app_id">4482161495132131</string>
     <string name="fb_login_protocol_scheme">fb4482161495132131</string>
 
 
-    <string name="language">Language</string>
-    <string name="country">Switch Country</string>
-    <string name="global_business_retail_partner">Global Business Retail Partner</string>
-    <string name="login">Login</string>
-    <string name="log_in">Log in</string>
-    <string name="rememberme">Remember me</string>
-    <string name="forgetpass">Forgot Password</string>
-    <string name="or">Or</string>
-    <string name="signup">Sign up</string>
-    <string name="signup_with_otp">Sign up with OTP</string>
+    <string name="language">Langue</string>
+    <string name="country">Changer du Pays</string>
+    <string name="global_business_retail_partner">Nom du PDV</string>
+    <string name="login">Identifiant</string>
+    <string name="log_in">S\'identifier</string>
+    <string name="rememberme">Souvenez de moi</string>
+    <string name="forgetpass">Mot de passe oublier</string>
+    <string name="or">ou</string>
+    <string name="signup">S\'enregistrer</string>
+    <string name="signup_with_otp">S\'enregistrer avec OTP</string>
     <string name="send_otp">Send Otp</string>
     <string name="gmail">Signup with Gmail</string>
-    <string name="full_name">Name</string>
-    <string name="email">email id</string>
-    <string name="outletname">Outlet Name</string>
-    <string name="address">Address</string>
-    <string name="select_country">Country </string>
-    <string name="Governate">Governate </string>
+    <string name="full_name">Nom</string>
+    <string name="email">Adresse E-mail</string>
+    <string name="outletname">Nom de Point de vente</string>
+    <string name="address">Adresse</string>
+    <string name="select_country">Pays</string>
+    <string name="Governate">Gouvernerat</string>
     <string name="Locality">Muncipal Division </string>
     <string name="resend_otp">Resend Otp </string>
-    <string name="latest_news">Latest News</string>
-    <string name="next">Next</string>
+    <string name="latest_news">Info</string>
+    <string name="next">suivant</string>
     <string name="brand">Brand</string>
-    <string name="choose_language">Choose Language</string>
-    <string name="english">English</string>
-    <string name="arabic">Arabic</string>
+    <string name="choose_language">Chosir une Langue</string>
+    <string name="english">Anglais</string>
+    <string name="arabic">Arabe</string>
     <string name="forgot">Forgot</string>
     <string name="change_password">Change password</string>
     <string name="otp">OTP</string>
     <string name="Send_otp_to_verify_your_profile">Send otp to verify your profile</string>
-    <string name="select_brand">Select Brand</string>
-    <string name="success_order_places">Congratulations!! You have sucessfully placed your order</string>
+    <string name="select_brand">Choisir une marque</string>
+    <string name="success_order_places">Félicitation vous avez placer votre commande avec succees</string>
     <string name="Success">Success</string>
     <string name="Request_amount">Request amount</string>
     <string name="DONE">DONE</string>
     <string name="No_Cart_Item">No Cart Item</string>
-    <string name="Payable_amount">Total Amount</string>
-    <string name="Place_Order">Place Order</string>
+    <string name="Payable_amount">Montant Totale</string>
+    <string name="Place_Order">Commander</string>
     <string name="Price_Details">Price Details</string>
     <string name="price_1_item">Price (1 Item)</string>
-    <string name="Total_Amount">Total Amount</string>
+    <string name="Total_Amount">Montant Totale</string>
     <string name="Category_By">Category By</string>
     <string name="Sell_Out">Sell-Out</string>
     <string name="Price_Drop">Price Drop</string>
@@ -140,19 +140,19 @@
     <string name="PENDING_VERIFICATION">PENDING VERIFICATION</string>
     <string name="Start_Date">Start Date</string>
     <string name="Add">Add</string>
-    <string name="Submit">Submit</string>
+    <string name="Submit">Soumettre</string>
     <string name="Pending_Verification">Pending Verification</string>
-    <string name="Approved">APPROVED</string>
-    <string name="Rejected">REJECTED</string>
-    <string name="French">French</string>
+    <string name="Approved">Approuver</string>
+    <string name="Rejected">Rejeter</string>
+    <string name="French">Français</string>
     <string name="Sort">Sort</string>
     <string name="price">Price</string>
     <string name="No_Barcode_Detected">No Barcode Detected</string>
     <string name="Loyalty_scheme">Loyalty scheme</string>
     <string name="My_Orders">My Orders</string>
     <string name="Processing">Processing</string>
-    <string name="Delivered">Delivered</string>
-    <string name="Cancelled">Cancelled</string>
+    <string name="Delivered">Livrer</string>
+    <string name="Cancelled">Annuler</string>
     <string name="Order_Status">Order Status</string>
     <string name="Buy_More">Buy More</string>
     <string name="Sr.No">Sr.No</string>
@@ -161,7 +161,7 @@
     <string name="imei">IMEI :</string>
     <string name="date">Date</string>
     <string name="Action">Action</string>
-    <string name="Category">Category</string>
+    <string name="Category">Catégorie</string>
     <string name="Local_search">Local search</string>
     <string name="Last_day">Last 7 day</string>
     <string name="This_month">This month</string>
@@ -173,16 +173,16 @@
     <string name="Product_Sepecification">Product Sepecification</string>
     <string name="Update">Update</string>
     <string name="Report_sell_out">Report sell out</string>
-    <string name="Model">Model</string>
+    <string name="Model">Modèle</string>
     <string name="Price_Drop_Report">Price Drop Report</string>
     <string name="Change_Address">Change Address</string>
     <string name="Remove">Remove</string>
     <string name="Please_confirm">Please confirm your order</string>
     <string name="Confirm">Confirm</string>
     <string name="Alert">Alert</string>
-    <string name="Status">Status</string>
-    <string name="Quantity">Quantity</string>
-    <string name="Value">Value</string>
+    <string name="Status">Statut</string>
+    <string name="Quantity">Quantité</string>
+    <string name="Value">Valeurs</string>
     <string name="Handset">Handset</string>
     <string name="Srno">Enter Replacement Serial no.</string>
     <string name="INVALID_SRNO">INVALID Serial no.</string>
@@ -190,42 +190,42 @@
     <string name="Return_Handset">Return_Handset</string>
     <string name="ProductName">ProductName</string>
     <string name="Distributor_Name">Distributor Name</string>
-    <string name="Model_colon">Model :</string>
+    <string name="Model_colon">Modèle :</string>
     <string name="Sku">SKU :</string>
     <string name="date_colon">Date :</string>
     <string name="Selling_Program">Selling Program</string>
     <string name="INVOICE">INVOICE</string>
-    <string name="Earphone">Earphone</string>
+    <string name="Earphone">Ecouteur</string>
     <string name="Battery">Battery</string>
     <string name="USB">USB</string>
-    <string name="Adaptor">Adaptor</string>
+    <string name="Adaptor">Adaptateur</string>
     <string name="Issue_Date">Issue Date</string>
-    <string name="Warranty_Date">Warranty Date</string>
-    <string name="Charger">Charger</string>
+    <string name="Warranty_Date">Date du Garantie</string>
+    <string name="Charger">Cable Chargeur</string>
     <string name="Mobile_Phone">Mobile Phone</string>
-    <string name="Replacement_process">Replacement process</string>
-    <string name="Pending_replace_process">Pending Replacement Request</string>
+    <string name="Replacement_process">Procedure de Remplacement</string>
+    <string name="Pending_replace_process">Demande de Remplacement en Attente</string>
     <string name="Sort_By">Sort By</string>
     <string name="Popularity">Popularity</string>
     <string name="Description">Description</string>
     <string name="Photo">Photo</string>
     <string name="Profile">Profile</string>
-    <string name="Forgot_Password">Forgot Password</string>
+    <string name="Forgot_Password">Mot de passe oublier</string>
     <string name="select_Date">select Date</string>
     <string name="Trade_Program">Trade Program</string>
     <string name="Newest_First">Newest First</string>
     <string name="Price_l_h">Price -- Low to High</string>
     <string name="Price_h_l">Price -- High to Low</string>
     <string name="Dashboard">Dashboard</string>
-    <string name="Sell_Through">Sell out</string>
-    <string name="Price_Protection">Price Protection</string>
-    <string name="Claim_Statement">Claim Statement</string>
-    <string name="Buy_Product">Buy Product</string>
-    <string name="Warranty">Warranty</string>
-    <string name="Serialized">Serialized</string>
-    <string name="Unserialized">Unserialized</string>
+    <string name="Sell_Through">Vente Finale</string>
+    <string name="Price_Protection">Protection des Prix</string>
+    <string name="Claim_Statement">Réclamations</string>
+    <string name="Buy_Product">Acheter un Produit</string>
+    <string name="Warranty">Garantie</string>
+    <string name="Serialized">Sérialisé</string>
+    <string name="Unserialized">Non Sérialisé</string>
     <string name="Report">Report</string>
-    <string name="Latest_News">Latest News</string>
+    <string name="Latest_News">Info</string>
     <string name="Price_Drop_Entry">Price Drop Entry</string>
     <string name="Entery_pending_verification">Entery pending verification</string>
     <string name="Serialize_Warranty">Serialize Warranty</string>
@@ -237,13 +237,13 @@
     <string name="Report_sell_through">Report Sell Through</string>
     <string name="n_a">N/A</string>
     <string name="handset_replacement">Handset Replacements</string>
-    <string name="dashboard">Dashboard</string>
+    <string name="dashboard">Tableaux de bord</string>
     <string name="report">Report</string>
     <string name="Cencel_order">Cancel Order</string>
     <string name="Already_exists">Email Already Exists</string>
     <string name="please_confirm_your_order">Please confirm your order</string>
     <string name="profile_not_verify">Your Profile is not verified</string>
-    <string name="pending_verification">Pending Verification</string>
+    <string name="pending_verification">En Attente de verification</string>
     <string name="permission_required">Permission Required</string>
     <string name="permission_message">You must grant permission to access camera to run this application.</string>
     <string name="Pending_replace_accesories">Pending Replacement Accesories</string>

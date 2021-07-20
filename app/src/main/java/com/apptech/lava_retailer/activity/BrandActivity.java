@@ -93,6 +93,9 @@ public class BrandActivity extends AppCompatActivity {
         String country_id = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID);
         String country_name = sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME);
 
+        Log.e(TAG, "brand: " + country_id );
+        Log.e(TAG, "brand: " + country_name );
+
         lavaInterface.Brand(sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME) , country_id , country_name).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -116,17 +119,21 @@ public class BrandActivity extends AppCompatActivity {
                                         , object.optString("img")
                                         , object.optString("name_fr")
                                 ));
-
-                                try {
-                                    binding.BrandRecyclerView.setAdapter(new BrandsAdapter(brandlists , brandInterfaces));
-                                    binding.progressbar.setVisibility(View.GONE);
-                                    binding.noproduct.setVisibility(View.GONE);
-                                    return;
-                                }catch (NullPointerException e){
-                                    e.printStackTrace();
-                                    Log.e(TAG, "onResponse: " + e.getMessage() );
-                                }
                             }
+
+                            try {
+
+                                Log.e(TAG, "onResponse: " + brandlists.size()  );
+
+                                binding.BrandRecyclerView.setAdapter(new BrandsAdapter(brandlists , brandInterfaces));
+                                binding.progressbar.setVisibility(View.GONE);
+                                binding.noproduct.setVisibility(View.GONE);
+                                return;
+                            }catch (NullPointerException e){
+                                e.printStackTrace();
+                                Log.e(TAG, "onResponse: " + e.getMessage() );
+                            }
+
                             binding.progressbar.setVisibility(View.GONE);
                             binding.noproduct.setVisibility(View.VISIBLE);
                             return;

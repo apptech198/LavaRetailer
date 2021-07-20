@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.apptech.lava_retailer.R;
-import com.apptech.lava_retailer.Utils.CartDiffUtils;
 import com.apptech.lava_retailer.modal.card.CardList;
 import com.apptech.lava_retailer.other.NumberConvertArabic;
 import com.apptech.lava_retailer.other.SessionManage;
@@ -135,12 +134,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         return cardLists.size();
     }
 
-    public void setData(List<CardList> newData) {
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new CartDiffUtils(newData, cardLists));
-        diffResult.dispatchUpdatesTo(this);
-        cardLists.clear();
-        this.cardLists.addAll(newData);
-    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 

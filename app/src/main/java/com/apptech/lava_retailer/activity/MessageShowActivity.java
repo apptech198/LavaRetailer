@@ -227,6 +227,7 @@ public class MessageShowActivity extends AppCompatActivity {
 
                 Toast.makeText(MessageShowActivity.this, "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
                 binding.progressbar.setVisibility(View.GONE);
+
             }
 
             @Override

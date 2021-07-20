@@ -1,23 +1,11 @@
 package com.apptech.lava_retailer.ui.warranty.serialize;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,14 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.apptech.lava_retailer.R;
 import com.apptech.lava_retailer.databinding.SerializeFragmentBinding;
-import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.apptech.lava_retailer.other.NetworkCheck;
 import com.apptech.lava_retailer.other.SessionManage;
 import com.apptech.lava_retailer.service.ApiClient;
 import com.apptech.lava_retailer.service.LavaInterface;
 import com.apptech.lava_retailer.ui.barcode_scanner.BarCodeScannerFragment;
+import com.apptech.lava_retailer.ui.qr.ScannerFragment;
 import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.android.material.textview.MaterialTextView;
@@ -42,6 +40,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,7 +80,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     TextView textView , Modal , ModalTitle;
     LinearLayout mainLayout;
     LinearLayout removeBtn;
-    String SELL_DATE="", HANDSET_REPLACE="", REPLACE_ITEM= "";
+    String SELL_DATE="", HANDSET_REPLACE="", REPLACE_ITEM= "" , HANDSET_REPLACE1 = "";
     private boolean NoData = true, Wrongdatra = true;
     String NEW_IMEI="", Replace_Imei="";
     String IMEI ="" , WARRANTY_TYPE_MOB = "", WARRANTY_TYPE_CHAR = "", WARRANTY_TYPE_EAR = "" , WARRANTY_PERIOD_MOB ="" , WARRANTY_PERIOD_CHAR ="" , WARRANTY_PERIOD_EAR ="" , ITEM_PURCHASE_DATE_date ="";
@@ -94,6 +94,11 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
     boolean selecttype=false;
     private Uri fileUri;
     MultipartBody.Part filePart= null;
+
+
+    String MOBILE_PHONE_END_DATE ="" , CHARGER_END_DATE ="", EARPHONE_END_DATE ="", BATTERY_END_DATE ="" , USB_END_DATE ="", ADAPTER_END_DATE =""  ;
+
+    JSONObject PassObject = new JSONObject();
 
     public static SerializeFragment newInstance() {
         return new SerializeFragment();
@@ -143,13 +148,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         binding.submitBtn.setOnClickListener(v -> {
             Log.e(TAG, "onActivityCreated: " +  Replace_item.length() );
             if(Replace_item.length()!=0){
-                if(binding.MobCheckbox.isChecked()){
-                    withouthandset();
-//                    CheckIMei(NEW_IMEI , 1);
-                }else {
-                    withouthandset();
-                }
-
+                binding.submitBtn.setEnabled(false);
+                binding.submitBtn.setClickable(false);
+                withouthandset();
             }else {
                 AlertDialogfailure("Select Item");
             }
@@ -160,7 +161,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             binding.ImeiEdittext.setError(null);
             loadfragment(barCodeScannerFragment);
         });
-
 
         binding.MobCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
@@ -206,6 +206,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 //            Toast.makeText(requireContext(), getResources().getString(R.string.check_internet), Toast.LENGTH_SHORT).show();
 //        });
 
+
         binding.MobCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if(isChecked){
                 HANDSET_REPLACE="YES";
@@ -215,17 +216,24 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 //               binding.MobCheckbox.setEnabled(false);
             }else {
                 Replace_item.remove("1");
+                MOBILE_PHONE_END_DATE = "";
             }
         });
 
         binding.BatteryCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            JSONObject jsonObject = new JSONObject();
+
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="BATTERY";
 //                NEW_IMEI ="";
 //                Submit(2);
                 try {
-                    Replace_item.putOpt("2","BATTERY");
+//                    Replace_item.putOpt("2","BATTERY");
+                    jsonObject.put("name" , "BATTERY");
+                    jsonObject.put("end_date" , binding.WarrantyDateBat.getText().toString().trim());
+                    Replace_item.put("2" ,jsonObject);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -237,70 +245,110 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         });
 
         binding.AdapterCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            JSONObject jsonObject = new JSONObject();
+
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="ADAPTER";
+                ADAPTER_END_DATE = binding.WarrantyDateAdapter.getText().toString().trim();
 //                NEW_IMEI ="";
 //                Submit(3);
                 try {
-                    Replace_item.putOpt("3","ADAPTER");
+//                    Replace_item.putOpt("3","ADAPTER");
+                    jsonObject.put("name" , "ADAPTER");
+                    jsonObject.put("end_date" , binding.WarrantyDateAdapter.getText().toString().trim());
+                    Replace_item.put("3" ,jsonObject);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.AdapterCheckbox.setEnabled(false);
             }else {
                 Replace_item.remove("3");
+                ADAPTER_END_DATE = "";
             }
         });
 
         binding.EarphoneCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            JSONObject jsonObject = new JSONObject();
+
+
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="EARPHONE";
+                EARPHONE_END_DATE = binding.WarrantyDateEar.getText().toString().trim();
 //                NEW_IMEI ="";
 //                Submit(4);
                 try {
-                    Replace_item.putOpt("4","EARPHONE");
+//                    Replace_item.putOpt("4","EARPHONE");
+                    jsonObject.put("name" , "EARPHONE");
+                    jsonObject.put("end_date" , binding.WarrantyDateEar.getText().toString().trim());
+                    Replace_item.put("4" ,jsonObject);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.EarphoneCheckbox.setEnabled(false);
             }else {
                 Replace_item.remove("4");
+                EARPHONE_END_DATE = "";
             }
         });
 
         binding.ChargerCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            JSONObject jsonObject = new JSONObject();
+
+
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="CHARGER";
+                CHARGER_END_DATE = binding.WarrantyDateChar.getText().toString().trim();
+
 //                NEW_IMEI ="";
 //                Submit(5);
                 try {
-                    Replace_item.putOpt("5","CHARGER");
+//                    Replace_item.putOpt("5","CHARGER");
+                    jsonObject.put("name" , "CHARGER");
+                    jsonObject.put("end_date" , binding.WarrantyDateChar.getText().toString().trim());
+                    Replace_item.put("5" ,jsonObject);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.ChargerCheckbox.setEnabled(false);
             }else {
                 Replace_item.remove("5");
+                CHARGER_END_DATE = "";
             }
         });
 
         binding.USBCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
+            JSONObject jsonObject = new JSONObject();
+
+
             if(isChecked){
                 HANDSET_REPLACE="NO";
                 REPLACE_ITEM="USB";
+                USB_END_DATE = binding.WarrantyDateUSB.getText().toString().trim();
 //                NEW_IMEI ="";
 //                Submit(6);
                 try {
-                    Replace_item.putOpt("6","USB");
+//                    Replace_item.putOpt("6","USB");
+                    jsonObject.put("name" , "USB");
+                    jsonObject.put("end_date" , binding.WarrantyDateUSB.getText().toString().trim());
+                    Replace_item.put("6" ,jsonObject);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 //                binding.ChargerCheckbox.setEnabled(false);
             }else {
                 Replace_item.remove("6");
+                USB_END_DATE = "";
             }
         });
 
@@ -315,7 +363,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         Toast.makeText(getActivity(), "Select accessories first", Toast.LENGTH_SHORT).show();
         return false ;
     }
-
 
     private void WarrantySubmit() {
 
@@ -605,7 +652,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                         }
 
 
-
+                        SELL_DATE = time;
                         ITEM_PURCHASE_DATE_date= time;
 
 
@@ -1027,9 +1074,11 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     @Override
     public void OnbackpressBarcode(String imei) {
+
         binding.ImeiEdittext.setText(imei);
+        getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
+
         if (onetime) {
-            getChildFragmentManager().beginTransaction().remove(barCodeScannerFragment).addToBackStack(null).commit();
             if(validation()){
                 binding.ImeiEdittext.setText(imei);
                 WarrantyCheck(imei);
@@ -1038,8 +1087,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         }
         onetime = false;
     }
-
-
 
     private void HandsetReturn(int i , String imei){
 
@@ -1168,6 +1215,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     private void AlertDialogfailure(String msg){
 //        AlertDialog.Builder builder = new AlertDialog.Builder(getContext() , R.style.CustomDialogstyple);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         View v = LayoutInflater.from(getContext()).inflate(R.layout.dialog_imei_not_exits , null );
         builder.setView(v);
@@ -1178,13 +1226,13 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         des.setText(msg);
 
 
-        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
-
-        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
-
-        } else {
-
-        }
+//        if (sessionManage.getUserDetails().get("LANGUAGE").equals("en")) {
+//
+//        }else if(sessionManage.getUserDetails().get("LANGUAGE").equals("fr")){
+//
+//        } else {
+//
+//        }
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
@@ -1193,7 +1241,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             submit.setClickable(false);
             alertDialog.dismiss();
         });
-        no.setOnClickListener(view -> {alertDialog.dismiss();});
+
+        no.setOnClickListener(view -> alertDialog.dismiss());
 
 
 
@@ -1220,8 +1269,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
     void Submit(int i,boolean alert){
 
-        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.COUNTRY_NAME));
-        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.COUNTRY_ID));
+        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
+        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
         RequestBody retailer_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
         RequestBody retailer_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.NAME));
         RequestBody locality_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
@@ -1245,9 +1294,10 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 //        map.put("item_name", REPLACE_ITEM);
 //        map.put("imei_original", binding.ImeiEdittext.getText().toString());
 
-
 //        lavaInterface.REPLACEMENT_WARENTY(map).enqueue(new Callback<Object>() {
-        lavaInterface.REPLACEMENT_WARENTY(filePart
+
+     /*   lavaInterface.REPLACEMENT_WARENTY(
+                filePart
                 ,country_name
                 ,country_id
                 ,retailer_id
@@ -1261,7 +1311,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 ,imei_original
         ).enqueue(new Callback<Object>() {
             @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
+            public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
+
                 Log.e(TAG, "onResponse: " + response.body().toString());
 
                 try {
@@ -1273,12 +1324,14 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                     if (error.equalsIgnoreCase("false")) {
+
                         if(alert){
                             AlertDialogfailure(message);
                             binding.submitBtn.setVisibility(View.GONE);
                             binding.ProductLayout.setVisibility(View.GONE);
                             binding.ImeiEdittext.setText("");
                         }
+
                         switch (i) {
                             case 1:
                                 binding.MobCheckbox.setChecked(true);
@@ -1304,7 +1357,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                                 binding.USBCheckbox.setChecked(true);
                                 binding.USBCheckbox.setEnabled(false);
                                 break;
-
                         }
                         return;
                     }
@@ -1313,6 +1365,7 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                     binding.submit.setEnabled(true);
                     binding.progressbar.setVisibility(View.GONE);
                     AlertDialogfailure(message);
+
                     switch (i) {
                         case 1:
                             binding.MobCheckbox.setChecked(false);
@@ -1338,8 +1391,8 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                             binding.USBCheckbox.setChecked(false);
                             binding.USBCheckbox.setEnabled(true);
                             break;
-
                     }
+
                     return;
 
                 } catch (JSONException e) {
@@ -1355,15 +1408,56 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             }
 
             @Override
-            public void onFailure(Call<Object> call, Throwable t) {
+            public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
                 Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
                 binding.submit.setEnabled(true);
                 binding.progressbar.setVisibility(View.GONE);
             }
-        });
+        });*/
+
+
     }
 
     void withouthandset(){
+
+
+        JSONArray passarray = new JSONArray();
+
+        Iterator<String> keys = Replace_item.keys();
+        while(keys.hasNext()) {
+            String key = keys.next();
+
+            JSONObject object = new JSONObject();
+
+            try {
+
+                if (key.equals("1")) {
+                    HANDSET_REPLACE1 = "YES";
+                }else {
+                    object.put("item_name" , Replace_item.getJSONObject(key).optString("name"));
+                    object.put("warranty_end_date" , Replace_item.getJSONObject(key).optString("end_date"));
+                    passarray.put(object);
+                }
+            } catch (JSONException jsonException) {
+                jsonException.printStackTrace();
+            }
+
+
+        }
+
+        try {
+            PassObject.put("handset",passarray);
+        } catch (JSONException jsonException) {
+            jsonException.printStackTrace();
+        }
+
+
+
+        Submit();
+
+
+
+/*
         Iterator<String> keys = Replace_item.keys();
         k=0;
         while(keys.hasNext()) {
@@ -1375,10 +1469,9 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             } else {
                 HANDSET_REPLACE = "NO";
                 Replace_Imei= "";
-
             }
-            Log.e(TAG, "withouthandset: "+ k+ "  ===  "+ Replace_item.length() );
-            if(Replace_item.length()==k){
+            Log.e(TAG, "withouthandset: "+ k + "  ===  " + Replace_item.length());
+            if(Replace_item.length() == k){
                 REPLACE_ITEM = Replace_item.optString(key);
                 Submit(Integer.parseInt(key),true);
             }else {
@@ -1386,6 +1479,97 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
                 Submit(Integer.parseInt(key),false);
             }
         }
+*/
+
+
+
+    }
+
+
+    void Submit(){
+
+        RequestBody retailer_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.USER_UNIQUE_ID));
+        RequestBody retailer_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.NAME));
+        RequestBody locality_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOCALITY_ID));
+        RequestBody locality_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOCALITY));
+        RequestBody imei = RequestBody.create(MediaType.parse("multipart/form-data"),Replace_Imei);
+        RequestBody sell_date = RequestBody.create(MediaType.parse("multipart/form-data"),SELL_DATE);
+        RequestBody handest_replace = RequestBody.create(MediaType.parse("multipart/form-data"),HANDSET_REPLACE1);
+        RequestBody item_name = RequestBody.create(MediaType.parse("multipart/form-data"), "HANDSET");
+        RequestBody imei_original = RequestBody.create(MediaType.parse("multipart/form-data"),binding.ImeiEdittext.getText().toString());
+        RequestBody additional_accessories = RequestBody.create(MediaType.parse("multipart/form-data"), PassObject.toString());
+        RequestBody country_id = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_ID));
+        RequestBody country_name = RequestBody.create(MediaType.parse("multipart/form-data"),sessionManage.getUserDetails().get(SessionManage.LOGIN_COUNTRY_NAME));
+        RequestBody warranty_end_date = RequestBody.create(MediaType.parse("multipart/form-data"), MOBILE_PHONE_END_DATE );
+
+        lavaInterface.REPLACEMENT_WARENTY(
+                filePart
+                ,country_name
+                ,country_id
+                ,retailer_id
+                ,retailer_name
+                ,locality_id
+                ,locality_name
+                ,imei
+                ,sell_date
+                ,handest_replace
+                ,item_name
+                ,imei_original
+                ,additional_accessories
+                ,warranty_end_date
+        ).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
+
+                Log.e(TAG, "onResponse: " + response.body().toString());
+
+                try {
+                    JSONObject jsonObject = new JSONObject(new Gson().toJson(response.body()));
+
+                    String error = jsonObject.optString("error");
+                    String message = jsonObject.optString("message");
+                    int error_code = jsonObject.getInt("error_code");
+
+                    if (error.equalsIgnoreCase("false")) {
+                        AlertDialogfailure(message);
+                        binding.submitBtn.setVisibility(View.GONE);
+                        binding.ProductLayout.setVisibility(View.GONE);
+                        binding.ImeiEdittext.setText("");
+
+                        binding.submitBtn.setEnabled(true);
+                        binding.submitBtn.setClickable(true);
+
+                        return;
+                    }
+
+                    Toast.makeText(requireContext(), "" + message, Toast.LENGTH_SHORT).show();
+                    binding.submitBtn.setEnabled(true);
+                    binding.submitBtn.setClickable(true);
+                    return;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "onResponse: " + e.getMessage());
+                }
+
+                Toast.makeText(getContext(), "" + getString(R.string.something_went_wrong), Toast.LENGTH_SHORT).show();
+                binding.submit.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+                binding.submitBtn.setEnabled(true);
+                binding.submitBtn.setClickable(true);
+
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
+                Toast.makeText(getContext(), "Time out", Toast.LENGTH_SHORT).show();
+                binding.submit.setEnabled(true);
+                binding.progressbar.setVisibility(View.GONE);
+                binding.submitBtn.setEnabled(true);
+                binding.submitBtn.setClickable(true);
+            }
+        });
+
+
     }
 
 
@@ -1407,7 +1591,15 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
 
 
                     if(error.equalsIgnoreCase("false")){
-                        Replace_item.putOpt("1","MOBILE");
+
+                        JSONObject jsonObject1 = new JSONObject();
+
+//                        Replace_item.putOpt("1","MOBILE");
+
+                        jsonObject1.put("name" , "MOBILE");
+                        jsonObject1.put("end_date" , binding.WarrantyDateMob.getText().toString().trim());
+                        Replace_item.put("1" ,jsonObject1);
+                        MOBILE_PHONE_END_DATE = binding.WarrantyDateMob.getText().toString().trim();
                         Replace_Imei = NEW_IMEI;
                         NEW_IMEI = imei;
 
@@ -1508,18 +1700,13 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
             }else {
                 error.setVisibility(View.VISIBLE);
             }
-
         });
         alertDialog.setCancelable(false);
         alertDialog.setCanceledOnTouchOutside(false);
         no.setOnClickListener(view -> {alertDialog.dismiss();
         binding.ProductLayout.setVisibility(View.GONE);});
-//        no.setVisibility(View.GONE);
-
-
 
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -1548,7 +1735,6 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         }
     }
 
-
     private boolean FileValidation(){
         if (filePart == null) {
             Toast.makeText(getContext(), "Upload Image", Toast.LENGTH_SHORT).show();
@@ -1556,6 +1742,11 @@ public class SerializeFragment extends Fragment implements ScannerFragment.BackP
         }
         return  true;
     }
+
+
+
+
+
 
 }
 
